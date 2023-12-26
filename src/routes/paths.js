@@ -93,6 +93,12 @@ export const paths = {
       root: `${ROOTS.DASHBOARD}/campaign`,
       new: `${ROOTS.DASHBOARD}/campaign/new`,
     },
+    station: {
+      root: `${ROOTS.DASHBOARD}/station`,
+      points: `${ROOTS.DASHBOARD}/station/points`,
+      hearts: `${ROOTS.DASHBOARD}/station/hearts`,
+      requests: `${ROOTS.DASHBOARD}/station/requests`
+    },
     user: {
       root: `${ROOTS.DASHBOARD}/user`,
       new: `${ROOTS.DASHBOARD}/user/new`,

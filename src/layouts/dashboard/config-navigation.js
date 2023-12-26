@@ -1,21 +1,15 @@
 import { useMemo } from 'react';
-
+// routes
 import { paths } from 'src/routes/paths';
-
+// locales
 import { useTranslate } from 'src/locales';
-
-import Label from 'src/components/label';
-import Iconify from 'src/components/iconify';
+// components
 import SvgColor from 'src/components/svg-color';
 
 // ----------------------------------------------------------------------
 
 const icon = (name) => (
   <SvgColor src={`/assets/icons/navbar/${name}.svg`} sx={{ width: 1, height: 1 }} />
-  // OR
-  // <Iconify icon="fluent:mail-24-filled" />
-  // https://icon-sets.iconify.design/solar/
-  // https://www.streamlinehq.com/icons
 );
 
 const ICONS = {
@@ -43,6 +37,8 @@ const ICONS = {
   ecommerce: icon('ic_ecommerce'),
   analytics: icon('ic_analytics'),
   dashboard: icon('ic_dashboard'),
+  campaign: icon('ic_campaign'),
+  station: icon('ic_station'),
 };
 
 // ----------------------------------------------------------------------
@@ -99,19 +95,31 @@ export function useNavData() {
           {
             title: t('campaigns'),
             path: paths.dashboard.campaign.root,
-            icon: ICONS.calendar
+            icon: ICONS.campaign
           },
 
           // PRODUCT
           {
-            title: t('product'),
+            title: t('products'),
             path: paths.dashboard.product.root,
             icon: ICONS.product
           },
 
+          // STATION
+          {
+            title: t('stations'),
+            path: paths.dashboard.station.root,
+            icon: ICONS.station,
+            children: [
+              { title: t('points'), path: paths.dashboard.station.points },
+              { title: t('hearts'), path: paths.dashboard.station.hearts },
+              { title: t('requests'), path: paths.dashboard.station.requests }
+            ]
+          },
+
           // POST
           {
-            title: t('post'),
+            title: t('posts'),
             path: paths.dashboard.post.root,
             icon: ICONS.blog
           },
