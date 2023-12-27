@@ -28,9 +28,9 @@ export const primary = {
 
 export const secondary = {
   // lighter: '#EFD6FF',
-  // light: '#C684FF',
+  light: '#C5DEFB',
   main: '#9FD2F5',
-  // dark: '#5119B7',
+  dark: '#4571A4',
   // darker: '#27097A',
   contrastText: '#FFFFFF',
 };

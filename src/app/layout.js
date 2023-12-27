@@ -71,7 +71,7 @@ export default function RootLayout({ children }) {
                 themeContrast: 'default', // 'default' | 'bold'
                 themeLayout: 'vertical', // 'vertical' | 'horizontal' | 'mini'
                 themeColorPresets: 'default', // 'default' | 'cyan' | 'purple' | 'blue' | 'orange' | 'red'
-                themeStretch: false,
+                themeStretch: true,
               }}
             >
               <ThemeProvider>
