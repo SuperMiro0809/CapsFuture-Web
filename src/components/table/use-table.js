@@ -1,4 +1,5 @@
 import { useState, useCallback } from 'react';
+import { useBoolean } from 'src/hooks/use-boolean';
 
 // ----------------------------------------------------------------------
 
@@ -14,6 +15,28 @@ export default function useTable(props) {
   const [order, setOrder] = useState(props?.defaultOrder || 'asc');
 
   const [selected, setSelected] = useState(props?.defaultSelected || []);
+
+  const [filters, setFilters] = useState(props?.filters ?
+    props.filters.map((filter) => ({
+      value: filter?.value || '',
+      id: filter?.id || filter.name,
+    })) : []
+  )
+
+  const checkboxOption = useBoolean(props?.options?.checkbox ?? true);
+
+  const addOption = useBoolean(props?.options?.add ?? true);
+
+  const deleteOption = useBoolean(props?.options?.delete ?? true);
+  
+  const editOption = useBoolean(props?.options?.edit ?? true);
+
+  const options = {
+    checkbox: checkboxOption,
+    add: addOption,
+    delete: deleteOption,
+    edit: editOption
+  }
 
   const onSort = useCallback(
     (id) => {
@@ -94,12 +117,30 @@ export default function useTable(props) {
     [page, rowsPerPage, selected.length]
   );
 
+  const onChangeFilters = useCallback((key, newValue) => {
+    const newFilters = filters.map((filter) => {
+      if (filter.id === key) {
+        return {
+          ...filter,
+          value: newValue
+        };
+      }
+
+      return filter;
+    });
+
+    setFilters(newFilters);
+    setPage(0);
+  }, [filters]);
+
   return {
     dense,
     order,
     page,
     orderBy,
     rowsPerPage,
+    //
+    options,
     //
     selected,
     onSelectRow,
@@ -119,5 +160,8 @@ export default function useTable(props) {
     setOrderBy,
     setSelected,
     setRowsPerPage,
+    //
+    filters,
+    onChangeFilters
   };
 }
