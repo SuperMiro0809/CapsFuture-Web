@@ -2,12 +2,51 @@
     "overview": "Общ преглед",
     "management": "Управление",
 
+    "create": "Добави",
+    "save": "Запази",
+    "edit": "Редактиране",
+    "delete": {
+        "word": "Изтриване",
+        "action": "Изтрий",
+        "single-modal": "Сигурни ли сте, че искате да изтриете този запис?",
+        "multiple-modal": "Сигурни ли сте, че искате да изтриете тези"
+    },
+
+    "dashboard": "Начало",
     "campaigns": "Кампании",
+    "new-campaign": "Нова кампания",
+    "create-new-campaign": "Създаване на нова кампания",
     "products": "Продукти",
     "posts": "Новини",
     "stations": "Локации",
     "points": "Пунктове",
     "hearts": "Сърца",
     "requests": "Заявки",
-    "users": "Потребители"
+    "users": "Потребители",
+    
+
+    "title": "Заглавие",
+    "short_description": "Кратко описание",
+    "description": "Oписание",
+    "date": "Дата",
+    "cities": "Градове",
+    "title-image": "Заглавна снимка",
+
+    "validation": {
+        "title": {
+            "required": "Заглавието е задължително"
+        },
+        "short_description": {
+            "required": "Краткото описание е задължително"
+        },
+        "description": {
+            "required": "Описанието е задължително"
+        },
+        "date": {
+            "required": "Датата е задължителна"
+        },
+        "cities": {
+            "required": "Градовете са задължителни"
+        }
+    }
 }
