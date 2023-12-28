@@ -29,13 +29,13 @@ export default function RHFLanguageField({ name, langs, fields }) {
           <Tabs
             value={value}
             onChange={handleChange}
-            sx={{
+            sx={(theme) => ({
               borderRight: 1,
               borderRight: 'none',
               borderColor: 'divider',
-              // '& .MuiTabs-indicator': { backgroundColor: '#96011c!important' },
+              '& .MuiTabs-indicator': { backgroundColor: theme.palette.primary.main },
               // '& .Mui-selected': { color: '#96011c!important' },
-            }}
+            })}
           >
             {langs.map((lang, index) => (
               <Tab label={lang.label} key={index} />
