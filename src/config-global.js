@@ -8,5 +8,7 @@ export const ASSETS_API = process.env.NEXT_PUBLIC_ASSETS_API;
 
 export const MAPBOX_API = process.env.NEXT_PUBLIC_MAPBOX_API;
 
+export const REST_API = process.env.NEXT_PUBLIC_REST_API;
+
 // ROOT PATH AFTER LOGIN SUCCESSFUL
 export const PATH_AFTER_LOGIN = paths.dashboard.root; // as '/dashboard'

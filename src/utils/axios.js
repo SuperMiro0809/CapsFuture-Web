@@ -1,10 +1,10 @@
 import axios from 'axios';
 
-import { HOST_API } from 'src/config-global';
+import { REST_API } from 'src/config-global';
 
 // ----------------------------------------------------------------------
 
-const axiosInstance = axios.create({ baseURL: HOST_API });
+const axiosInstance = axios.create({ baseURL: REST_API });
 
 axiosInstance.interceptors.response.use(
   (res) => res,
@@ -26,28 +26,21 @@ export const fetcher = async (args) => {
 // ----------------------------------------------------------------------
 
 export const endpoints = {
-  chat: '/api/chat',
-  kanban: '/api/kanban',
-  calendar: '/api/calendar',
   auth: {
-    me: '/api/auth/me',
-    login: '/api/auth/login',
-    register: '/api/auth/register',
-  },
-  mail: {
-    list: '/api/mail/list',
-    details: '/api/mail/details',
-    labels: '/api/mail/labels',
+    login: '/auth/login',
+    register: '/auth/register',
+    logout: '/auth/logout',
+    profile: '/auth/profile'
   },
   post: {
-    list: '/api/post/list',
-    details: '/api/post/details',
-    latest: '/api/post/latest',
-    search: '/api/post/search',
+    list: '/post/list',
+    details: '/post/details',
+    latest: '/post/latest',
+    search: '/post/search',
   },
   product: {
-    list: '/api/product/list',
-    details: '/api/product/details',
-    search: '/api/product/search',
+    list: '/product/list',
+    details: '/product/details',
+    search: '/product/search',
   },
 };
