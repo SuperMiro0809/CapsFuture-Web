@@ -4,6 +4,9 @@ import PropTypes from 'prop-types';
 import { useMemo, useEffect, useReducer, useCallback } from 'react';
 // utils
 import axios, { endpoints } from 'src/utils/axios';
+import { setTokenCookie, deleteTokenCookie } from 'src/utils/token-cookie';
+// api
+import { login as loginApi } from 'src/api/auth';
 //
 import { AuthContext } from './auth-context';
 import { setSession, isValidToken } from './utils';
@@ -61,6 +64,8 @@ export function AuthProvider({ children }) {
       const accessToken = sessionStorage.getItem(STORAGE_KEY);
 
       if (accessToken && isValidToken(accessToken)) {
+        await setTokenCookie(accessToken);
+
         setSession(accessToken);
 
         const response = await axios.get(endpoints.auth.profile);
@@ -106,9 +111,11 @@ export function AuthProvider({ children }) {
       password,
     };
 
-    const response = await axios.post(endpoints.auth.login, data);
+    const response = await loginApi(data);
 
     const { accessToken, user } = response.data;
+
+    await setTokenCookie(accessToken);
 
     setSession(accessToken);
 
@@ -151,6 +158,7 @@ export function AuthProvider({ children }) {
 
   // LOGOUT
   const logout = useCallback(async () => {
+    await deleteTokenCookie();
     setSession(null);
     dispatch({
       type: 'LOGOUT',
