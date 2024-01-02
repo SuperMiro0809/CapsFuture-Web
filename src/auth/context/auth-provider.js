@@ -6,7 +6,7 @@ import { useMemo, useEffect, useReducer, useCallback } from 'react';
 import axios, { endpoints } from 'src/utils/axios';
 import { setTokenCookie, deleteTokenCookie } from 'src/utils/token-cookie';
 // api
-import { login as loginApi } from 'src/api/auth';
+import { login as loginApi, getProfile } from 'src/api/auth';
 //
 import { AuthContext } from './auth-context';
 import { setSession, isValidToken } from './utils';
@@ -68,7 +68,7 @@ export function AuthProvider({ children }) {
 
         setSession(accessToken);
 
-        const response = await axios.get(endpoints.auth.profile);
+        const response = await getProfile();
 
         const user = response.data;
 

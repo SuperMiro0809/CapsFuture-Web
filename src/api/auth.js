@@ -25,7 +25,7 @@ export async function logout() {
     return { status: res.data, data: res.data };
 }
 
-export async function profile() {
+export async function getProfile() {
     const res = await axios.get(endpoints.auth.profile);
 
     return { status: res.data, data: res.data };
