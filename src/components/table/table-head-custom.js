@@ -32,6 +32,7 @@ export default function TableHeadCustom({
   onSort,
   onSelectAllRows,
   sx,
+  tableOptions = {}
 }) {
   return (
     <TableHead sx={sx}>
@@ -73,6 +74,14 @@ export default function TableHeadCustom({
             )}
           </TableCell>
         ))}
+
+        {tableOptions?.edit?.value && (
+          <TableCell />
+        )}
+
+        {tableOptions?.delete?.value && (
+          <TableCell />
+        )}
       </TableRow>
     </TableHead>
   );
