@@ -17,6 +17,8 @@ import { useResponsive } from 'src/hooks/use-responsive';
 // routes
 import { useRouter } from 'src/routes/hooks';
 import { paths } from 'src/routes/paths';
+// api
+import { createCampaign } from 'src/api/campaign';
 // components
 import { useSnackbar } from 'src/components/snackbar';
 import FormProvider, {
@@ -29,6 +31,8 @@ import FormProvider, {
 import { useTranslation } from 'react-i18next';
 // date-fns
 import { format, parseISO } from 'date-fns';
+// utils
+import constructFormData from 'src/utils/form-data';
 
 // ----------------------------------------------------------------------
 
@@ -107,7 +111,28 @@ export default function CampaignNewEditForm({ currentCampaign }) {
     }, [currentCampaign, defaultValues, reset]);
 
     const onSubmit = handleSubmit(async (data) => {
-        console.log(data);
+        const { date } = data;
+        const values = {
+            ...data,
+            date: format(date, 'yyyy-MM-dd'),
+        };
+
+        const formData = constructFormData(values);
+
+        try {
+            if(currentCampaign) {
+
+            }else {
+                await createCampaign(formData);
+
+                enqueueSnackbar(t('create-success'));
+
+                router.push(paths.dashboard.campaign.root);
+                router.refresh();
+            }
+        } catch (error) {
+            enqueueSnackbar(error.message, { variant: 'error' });
+        }
     });
 
     const handleDropSingleFile = useCallback(
@@ -119,7 +144,7 @@ export default function CampaignNewEditForm({ currentCampaign }) {
             });
 
             if (newFile) {
-                setValue('singleUpload', newFile, { shouldValidate: true });
+                setValue('title_image', newFile, { shouldValidate: true });
             }
         },
         [setValue]
@@ -132,10 +157,10 @@ export default function CampaignNewEditForm({ currentCampaign }) {
                     <Stack spacing={1.5}>
                         <Typography variant="subtitle2">{t('title-image')}</Typography>
                         <RHFUpload
-                            name="singleUpload"
+                            name="title_image"
                             maxSize={3145728}
                             onDrop={handleDropSingleFile}
-                            onDelete={() => setValue('singleUpload', null, { shouldValidate: true })}
+                            onDelete={() => setValue('title_image', null, { shouldValidate: true })}
                         />
                     </Stack>
 
