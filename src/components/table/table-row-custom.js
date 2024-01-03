@@ -5,6 +5,8 @@ import TableCell from '@mui/material/TableCell';
 import Checkbox from '@mui/material/Checkbox';
 import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
+import Grid from '@mui/material/Grid';
+import Chip from '@mui/material/Chip';
 // components
 import Iconify from 'src/components/iconify';
 import { RouterLink } from 'src/routes/components';
@@ -29,28 +31,30 @@ export default function TableRowCustom({
 
             {tableHead.map((heading) => {
                 const value = row[heading.id];
-                // const { type = 'text' } = heading;
+                const { type = 'text' } = heading;
 
-                // if (type === 'array') {
-                //     return (
-                //         <TableCell key={heading.id} align={heading.align} style={{ maxHeight: "20px", overflow: "hidden" }}>
-                //             <Grid container spacing={1}>
+                if (type === 'array') {
+                    return (
+                        <TableCell key={heading.id} align={heading.align} style={{ maxHeight: "20px", overflow: "hidden" }}>
+                            <Grid container spacing={1}>
 
-                //                 {value.map((element, index) => {
-                //                     const name = element[heading.arrayId][heading.selector];
+                                {value.map((element, index) => {
+                                    console.log(element);
+                                    const name = typeof element === 'string' ? element : element[heading.selector];
 
-                //                     return (
-                //                         <Grid item key={index}>
-                //                             <Tooltip title={name}>
-                //                                 <Chip label={name} sx={{ maxWidth: '150px' }} />
-                //                             </Tooltip>
-                //                         </Grid>
-                //                     );
-                //                 })}
+                                    return (
+                                        <Grid item key={index}>
+                                            <Tooltip title={name}>
+                                                <Chip label={name} sx={{ maxWidth: '150px' }} />
+                                            </Tooltip>
+                                        </Grid>
+                                    );
+                                })}
 
-                //             </Grid>
-                //         </TableCell>
-                //     );
+                            </Grid>
+                        </TableCell>
+                    );
+                }
                 // } else if (type === 'switch') {
                 //     const handler = heading.handler;
 
