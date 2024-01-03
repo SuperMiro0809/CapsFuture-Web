@@ -68,21 +68,35 @@ export default function CampaignNewEditForm({ currentCampaign }) {
 
     const defaultValues = useMemo(
         () => {
+            const citiesValues = currentCampaign?.cities ? currentCampaign.cities.map((el) => el.city) : [];
+
+            const translations = {
+                bg: {
+                    title: '',
+                    short_description: '',
+                    description: ''
+                },
+                en: {
+                    title: '',
+                    short_description: '',
+                    description: ''
+                }
+            };
+
+            if(currentCampaign?.translations) {
+                currentCampaign.translations.forEach((el) => {
+                    translations[el.language] = {
+                        title: el.title,
+                        short_description: el.short_description,
+                        description: el.description
+                    };
+                })
+            }
+
             return {
                 date: currentCampaign?.date ? parseISO(currentCampaign.date) : null,
-                cities: currentCampaign?.cities || [],
-                information: {
-                    bg: {
-                        title: '',
-                        short_description: '',
-                        description: ''
-                    },
-                    en: {
-                        title: '',
-                        short_description: '',
-                        description: ''
-                    }
-                }
+                cities: citiesValues,
+                information: translations
             }
         },
         [currentCampaign]
@@ -101,8 +115,6 @@ export default function CampaignNewEditForm({ currentCampaign }) {
         handleSubmit,
         formState: { isSubmitting },
     } = methods;
-
-    const values = watch();
 
     useEffect(() => {
         if (currentCampaign) {

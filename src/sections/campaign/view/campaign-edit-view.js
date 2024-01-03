@@ -33,7 +33,7 @@ export default function CampaignEditView({ campaign }) {
             name: t('campaigns'),
             href: paths.dashboard.campaign.root,
           },
-          { name: campaign && campaign.name },
+          { name: campaign && campaign.title },
         ]}
         sx={{
           mb: { xs: 3, md: 5 },

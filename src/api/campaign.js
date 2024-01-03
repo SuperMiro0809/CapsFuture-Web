@@ -1,12 +1,18 @@
 'use server'
 
-import { cookies } from 'next/headers';
-
 import axios from 'src/utils/axios';
 import { REST_API } from 'src/config-global';
 
 export async function getCampaigns(pagination) {
     const URL = `${REST_API}/campaigns?page=${pagination.page}&limit=${pagination.limit}`;
+
+    const res = await axios.get(URL);
+
+    return { status: res.status, data: res.data };
+}
+
+export async function getCampaignById(id) {
+    const URL = `${REST_API}/campaigns/${id}`;
 
     const res = await axios.get(URL);
 
