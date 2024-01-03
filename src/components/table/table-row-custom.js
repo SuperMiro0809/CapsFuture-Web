@@ -39,7 +39,6 @@ export default function TableRowCustom({
                             <Grid container spacing={1}>
 
                                 {value.map((element, index) => {
-                                    console.log(element);
                                     const name = typeof element === 'string' ? element : element[heading.selector];
 
                                     return (
