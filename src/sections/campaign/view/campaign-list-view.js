@@ -10,8 +10,8 @@ import Container from '@mui/material/Container';
 import { paths } from 'src/routes/paths';
 import { RouterLink } from 'src/routes/components';
 import { useRouter, useSearchParams, usePathname } from 'src/routes/hooks';
-// // api
-// import { deleteCampaign } from 'src/api/campaign';
+// api
+import { deleteCampaign, deleteCampaigns } from 'src/api/campaign';
 // components
 import Iconify from 'src/components/iconify';
 import { useSettingsContext } from 'src/components/settings';
@@ -84,7 +84,7 @@ export default function CampaignListView({ campaigns = [], campaignsCount = 0 })
 
         current.set('direction', table.order);
 
-        if(table.filters.length) {
+        if (table.filters.length) {
             table.filters.forEach(filter => {
                 current.set(filter.id, filter.value);
             });
@@ -106,12 +106,19 @@ export default function CampaignListView({ campaigns = [], campaignsCount = 0 })
 
     const handleDelete = async (ids) => {
         startTransition(async () => {
-            const res = await deleteCampaign(ids);
+            try {
+                if (ids.length === 1) {
+                    const id = ids[0];
 
-            if (res.status === 200) {
+                    await deleteCampaign(id);
+                } else {
+                    await deleteCampaigns(ids);
+                }
+
                 enqueueSnackbar(t('delete-success'));
-
                 router.refresh();
+            } catch (error) {
+                enqueueSnackbar(error.message, { variant: 'error' });
             }
         });
     }

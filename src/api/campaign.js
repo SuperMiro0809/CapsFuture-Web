@@ -29,3 +29,31 @@ export async function createCampaign(data) {
         throw message;
     }
 }
+
+export async function deleteCampaign(id) {
+    try {
+        const URL = `${REST_API}/campaigns/${id}`;
+
+        const res = await axios.delete(URL);
+
+        return { status: res.status, data: res.data };
+    } catch (error) {
+        const message = typeof error === 'string' ? error : error.message;
+        throw message;
+    }
+}
+
+export async function deleteCampaigns(ids) {
+    try {
+        const URL = `${REST_API}/campaigns/deleteMany`;
+
+        const res = await axios.delete(URL, {
+            data: { ids }
+        });
+
+        return { status: res.status, data: res.data };
+    } catch (error) {
+        const message = typeof error === 'string' ? error : error.message;
+        throw message;
+    }
+}
