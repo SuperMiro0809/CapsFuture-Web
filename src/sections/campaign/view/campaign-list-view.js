@@ -69,8 +69,8 @@ export default function CampaignListView({ campaigns = [], campaignsCount = 0 })
         id: campaign.id,
         title: campaign.title,
         description: campaign.description,
-        city: campaign.city,
-        date: format(parseISO(campaign.finish_at), 'dd/MM/yyyy')
+        cities: campaign.cities,
+        date: format(parseISO(campaign.date), 'dd/MM/yyyy')
     }))
 
     useEffect(() => {
@@ -100,8 +100,8 @@ export default function CampaignListView({ campaigns = [], campaignsCount = 0 })
     const TABLE_HEAD = [
         { id: 'title', label: t('title') },
         { id: 'description', label: t('description'), width: 180 },
-        { id: 'city', label: t('city'), width: 220 },
-        { id: 'date', label: t('date'), width: 180 }
+        { id: 'cities', type: 'array', selector: 'city', label: t('cities'), width: 400 },
+        { id: 'date', label: t('date'), width: 100 }
     ];
 
     const handleDelete = async (ids) => {

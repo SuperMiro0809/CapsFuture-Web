@@ -1,4 +1,6 @@
 import { CampaignListView } from "src/sections/campaign/view";
+// api
+import { getCampaigns } from 'src/api/campaign';
 
 // ----------------------------------------------------------------------
 
@@ -6,6 +8,32 @@ export const metadata = {
   title: 'Dashboard: Campaigns',
 };
 
-export default function CampaignPage() {
-  return <CampaignListView />;
+async function getData(pagination, order, filters) {
+  try {
+    const res = await getCampaigns(pagination);
+
+    const result = res.data;
+
+    return { campaigns: result.data, campaignsCount: result.total };
+  } catch (error) {
+    return { error };
+  }
+}
+
+export default async function CampaignPage({ searchParams }) {
+  const { page, limit, orderBy, direction, name, description } = searchParams;
+
+  const pagination = { page: Number(page) || 1, limit: Number(limit) || 5 };
+
+  const order = { orderBy, direction };
+
+  const filters = [{ id: 'name', value: name }, { id: 'description', value: description }];
+
+  const { campaigns, campaignsCount, error } = await getData(pagination, order, filters);
+
+  if(error) {
+    return <div>{JSON.stringify(error)}</div>
+  }
+
+  return <CampaignListView campaigns={campaigns} campaignsCount={campaignsCount} />;
 }
