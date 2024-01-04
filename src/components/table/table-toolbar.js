@@ -8,7 +8,7 @@ import Chip from '@mui/material/Chip';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 // date-fns
-import { format } from 'date-fns';
+import { format, isValid } from 'date-fns';
 import bg from 'date-fns/locale/bg';
 // components
 import Iconify from 'src/components/iconify';
@@ -26,7 +26,11 @@ export default function TableToolbar({ table, filters }) {
   }
 
   const handleDateFilterChange = (key) => (newValue) => {
-    table.onChangeFilters(key, format(newValue, 'yyyy-MM-dd'));
+    if (isValid(newValue)) {
+      table.onChangeFilters(key, format(newValue, 'yyyy-MM-dd'));
+    } else {
+      table.onChangeFilters(key, null);
+    }
   }
 
   const getFilterValue = (key) => {
@@ -105,6 +109,9 @@ export default function TableToolbar({ table, filters }) {
                         fullWidth: true,
                         placeholder: filter?.placeholder
                       },
+                      field: {
+                        clearable: true
+                      }
                     }}
                   />
                 </LocalizationProvider>
