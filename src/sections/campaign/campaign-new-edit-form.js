@@ -33,12 +33,8 @@ import { useTranslation } from 'react-i18next';
 import { format, parseISO } from 'date-fns';
 // utils
 import constructFormData from 'src/utils/form-data';
-
-// ----------------------------------------------------------------------
-
-const CITIES = ['Благоевград', 'Бургас', 'Варна', 'Велко Търново', 'Видин', 'Враца', 'Габрово', 'Добрич', 'Кърджали', 'Кюстендил', 'Ловеч', 'Монтана', 'Пазарджик', 'Перник', 'Плевен', 'Пловдив', 'Разград', 'Русе', 'Силистра', 'Сливен', 'Смолян', 'София', 'Стара Загора', 'Търговище', 'Хасково', 'Шумен', 'Ямбол'];
-
-// ----------------------------------------------------------------------
+// data
+import CITIES from 'src/data/cities';
 
 export default function CampaignNewEditForm({ currentCampaign }) {
     const router = useRouter();
