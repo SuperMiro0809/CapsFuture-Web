@@ -123,13 +123,15 @@ export default function CampaignNewEditForm({ currentCampaign }) {
     }, [currentCampaign, defaultValues, reset]);
 
     const onSubmit = handleSubmit(async (data) => {
-        const { date } = data;
+        const { title_image, date } = data;
         const values = {
             ...data,
             date: format(date, 'yyyy-MM-dd'),
         };
 
         const formData = constructFormData(values);
+
+        formData.append('title_image', title_image);
 
         try {
             if(currentCampaign) {
