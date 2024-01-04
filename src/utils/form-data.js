@@ -1,4 +1,4 @@
-export default function formData(values, files = [], fileSelectors = []) {
+export default function constructFormData(values, files = [], fileSelectors = []) {
     const data = new FormData();
 
     // files.forEach((file) => {
