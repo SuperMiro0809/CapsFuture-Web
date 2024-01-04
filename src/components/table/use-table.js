@@ -17,10 +17,21 @@ export default function useTable(props) {
   const [selected, setSelected] = useState(props?.defaultSelected || []);
 
   const [filters, setFilters] = useState(props?.filters ?
-    props.filters.map((filter) => ({
-      value: filter?.value || '',
-      id: filter?.id || filter.name,
-    })) : []
+    props.filters.map((filter) => {
+      const filterObj = {
+        id: filter?.id || filter.name
+      }
+
+      if (filter?.type === 'select' && filter?.multiple) {
+        filterObj.value = filter?.value || [];
+      } else if (filter?.type === 'date') {
+        filterObj.value = filter?.value || null;
+      } else {
+        filterObj.value = filter?.value || '';
+      }
+
+      return filterObj;
+    }) : []
   )
 
   const checkboxOption = useBoolean(props?.options?.checkbox ?? true);
@@ -28,7 +39,7 @@ export default function useTable(props) {
   const addOption = useBoolean(props?.options?.add ?? true);
 
   const deleteOption = useBoolean(props?.options?.delete ?? true);
-  
+
   const editOption = useBoolean(props?.options?.edit ?? true);
 
   const options = {

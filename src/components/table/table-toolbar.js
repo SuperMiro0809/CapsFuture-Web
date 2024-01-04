@@ -3,6 +3,12 @@ import PropTypes from 'prop-types';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
+import Autocomplete from '@mui/material/Autocomplete';
+import Chip from '@mui/material/Chip';
+import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+// date-fns
+import bg from 'date-fns/locale/bg';
 // components
 import Iconify from 'src/components/iconify';
 
@@ -10,167 +16,104 @@ import Iconify from 'src/components/iconify';
 
 export default function TableToolbar({ table, filters }) {
 
-    const handleFilterChange = (key) => (event) => {
-        table.onChangeFilters(key, event.target.value);
-    }
+  const handleFilterChange = (key) => (event) => {
+    table.onChangeFilters(key, event.target.value);
+  }
 
-    const getFilterValue = (key) => {
-        const filter = table.filters.find(item => item.id === key);
+  const handleSelectFilterChange = (key) => (event, newValue) => {
+    table.onChangeFilters(key, newValue);
+  }
 
-        return filter?.value || '';
-    }
+  const handleDateFilterChange = (key) => (newValue) => {
+    table.onChangeFilters(key, newValue);
+  }
 
-    return (
-        <>
-            <Stack
-                spacing={2}
-                alignItems={{ xs: 'flex-end', md: 'center' }}
-                direction={{
-                    xs: 'column',
-                    md: 'row',
-                }}
-                sx={{
-                    p: 2.5,
-                    pr: { xs: 2.5, md: 1 },
-                }}
-            >
-                {filters.map((filter, index) => {
-                    const value = getFilterValue(filter?.id || filter.name);
+  const getFilterValue = (key) => {
+    const filter = table.filters.find(item => item.id === key);
 
-                    return (
-                        <Stack direction="row" alignItems="center" spacing={2} flexGrow={1} sx={{ width: 1 }} key={index}>
-                            {filter.type === 'search' && (
-                                <TextField
-                                    fullWidth
-                                    value={value}
-                                    onChange={handleFilterChange(filter?.id || filter.name)}
-                                    placeholder={filter?.placeholder || ''}
-                                    InputProps={{
-                                        startAdornment: (
-                                            <InputAdornment position="start">
-                                                <Iconify icon="eva:search-fill" sx={{ color: 'text.disabled' }} />
-                                            </InputAdornment>
-                                        ),
-                                    }}
-                                />
-                            )}
-                        </Stack>
-                    )
-                })}
-                {/* <FormControl
-              sx={{
-                flexShrink: 0,
-                width: { xs: 1, md: 200 },
-              }}
-            >
-              <InputLabel>Stock</InputLabel>
-    
-              <Select
-                multiple
-                value={filters.stock}
-                onChange={handleFilterStock}
-                input={<OutlinedInput label="Stock" />}
-                renderValue={(selected) => selected.map((value) => value).join(', ')}
-                sx={{ textTransform: 'capitalize' }}
-              >
-                {stockOptions.map((option) => (
-                  <MenuItem key={option.value} value={option.value}>
-                    <Checkbox
-                      disableRipple
-                      size="small"
-                      checked={filters.stock.includes(option.value)}
+    return filter?.value || '';
+  }
+
+  return (
+    <>
+      <Stack
+        spacing={2}
+        alignItems={{ xs: 'flex-end', md: 'center' }}
+        direction={{
+          xs: 'column',
+          md: 'row',
+        }}
+        sx={{
+          p: 2.5,
+          pr: { xs: 2.5, md: 1 },
+        }}
+      >
+        {filters.map((filter, index) => {
+          const value = getFilterValue(filter?.id || filter.name);
+
+          return (
+            <Stack direction="row" alignItems="center" spacing={2} flexGrow={1} sx={{ width: 1 }} key={index}>
+              {filter.type === 'search' && (
+                <TextField
+                  fullWidth
+                  value={value}
+                  onChange={handleFilterChange(filter?.id || filter.name)}
+                  placeholder={filter?.placeholder || ''}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <Iconify icon="eva:search-fill" sx={{ color: 'text.disabled' }} />
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+              )}
+
+              {filter.type === 'select' && (
+                <Autocomplete
+                  fullWidth
+                  multiple={filter?.multiple}
+                  value={value || null}
+                  placeholder={filter?.placeholder}
+                  options={filter.options}
+                  onChange={handleSelectFilterChange(filter?.id || filter.name)}
+                  renderOption={(props, option) => (
+                    <li {...props} key={option?.value || option}>
+                      {option?.label || option}
+                    </li>
+                  )}
+                  renderTags={(tagValue, getTagProps) => tagValue.map((option, index) => (
+                    <Chip {...getTagProps({ index })} key={option?.value || option} label={option?.label || option} />
+                  ))}
+                  renderInput={(params) => (
+                    <TextField
+                      placeholder={filter?.placeholder}
+                      {...params}
                     />
-                    {option.label}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl> */}
+                  )}
+                  {...filter}
+                />
+              )}
 
-                {/* <FormControl
-              sx={{
-                flexShrink: 0,
-                width: { xs: 1, md: 200 },
-              }}
-            >
-              <InputLabel>Publish</InputLabel>
-    
-              <Select
-                multiple
-                value={filters.publish}
-                onChange={handleFilterPublish}
-                input={<OutlinedInput label="Publish" />}
-                renderValue={(selected) => selected.map((value) => value).join(', ')}
-                sx={{ textTransform: 'capitalize' }}
-              >
-                {publishOptions.map((option) => (
-                  <MenuItem key={option.value} value={option.value}>
-                    <Checkbox
-                      disableRipple
-                      size="small"
-                      checked={filters.publish.includes(option.value)}
-                    />
-                    {option.label}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl> */}
-
-                {/* <Stack direction="row" alignItems="center" spacing={2} flexGrow={1} sx={{ width: 1 }}>
-              <TextField
-                fullWidth
-                value={filters.name}
-                onChange={handleFilterName}
-                placeholder="Search..."
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <Iconify icon="eva:search-fill" sx={{ color: 'text.disabled' }} />
-                    </InputAdornment>
-                  ),
-                }}
-              />
-    
-              <IconButton >
-                <Iconify icon="eva:more-vertical-fill" />
-              </IconButton>
-            </Stack> */}
+              {filter.type === 'date' && (
+                <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={bg}>
+                  <DatePicker
+                    onChange={handleDateFilterChange(filter?.id || filter.name)}
+                    slotProps={{
+                      textField: {
+                        fullWidth: true,
+                        placeholder: filter?.placeholder
+                      },
+                    }}
+                  />
+                </LocalizationProvider>
+              )}
             </Stack>
-            {/*     
-          <CustomPopover
-            open={popover.open}
-            onClose={popover.onClose}
-            arrow="right-top"
-            sx={{ width: 140 }}
-          >
-            <MenuItem
-              onClick={() => {
-                popover.onClose();
-              }}
-            >
-              <Iconify icon="solar:printer-minimalistic-bold" />
-              Print
-            </MenuItem>
-    
-            <MenuItem
-              onClick={() => {
-                popover.onClose();
-              }}
-            >
-              <Iconify icon="solar:import-bold" />
-              Import
-            </MenuItem>
-    
-            <MenuItem
-              onClick={() => {
-                popover.onClose();
-              }}
-            >
-              <Iconify icon="solar:export-bold" />
-              Export
-            </MenuItem>
-          </CustomPopover> */}
-        </>
-    );
+          )
+        })}
+      </Stack>
+    </>
+  );
 }
 
 TableToolbar.propTypes = {
