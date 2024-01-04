@@ -21,13 +21,13 @@ async function getData(pagination, order, filters) {
 }
 
 export default async function CampaignPage({ searchParams }) {
-  const { page, limit, orderBy, direction, name, description } = searchParams;
+  const { page, limit, orderBy, direction, title } = searchParams;
 
   const pagination = { page: Number(page) || 1, limit: Number(limit) || 5 };
 
   const order = { orderBy, direction };
 
-  const filters = [{ id: 'title', value: name }, { id: 'description', value: description }];
+  const filters = [{ id: 'title', value: title }];
 
   const { campaigns, campaignsCount, error } = await getData(pagination, order, filters);
 
