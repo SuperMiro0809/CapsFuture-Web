@@ -7,6 +7,9 @@ import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
 import Grid from '@mui/material/Grid';
 import Chip from '@mui/material/Chip';
+import Avatar from '@mui/material/Avatar';
+import ListItemText from '@mui/material/ListItemText';
+import Link from '@mui/material/Link';
 // components
 import Iconify from 'src/components/iconify';
 import { RouterLink } from 'src/routes/components';
@@ -53,6 +56,28 @@ export default function TableRowCustom({
                             </Grid>
                         </TableCell>
                     );
+                } else if (type === 'text-with-image') {
+                    return (
+                        <TableCell key={heading.id} align={heading.align} sx={{ overflow: 'hidden', display: 'flex', alignItems: 'center' }} >
+                            <Avatar
+                                src='https://assets.porsche.com/bg/sofia/-/media/Project/DealerWebsites/Bulgaria/Sofia/Stage/Home-Page/Desktop/Porsche-Centre-Sofia/Untitled_Panorama-1-mod-4-DESKTOP-v2-WEB/porsche-normal-slide-3.jpg?rev=3ecab9ec3e65405faad7290d32136d8d'
+                                variant='rounded'
+                                sx={{ width: 64, height: 64, mr: 2 }}
+                            />
+
+                            <ListItemText
+                                primary={
+                                    <Link
+                                        noWrap
+                                        color="inherit"
+                                        variant="subtitle2"
+                                    >
+                                        {value}
+                                    </Link>
+                                }
+                            />
+                        </TableCell>
+                    )
                 }
                 // } else if (type === 'switch') {
                 //     const handler = heading.handler;
