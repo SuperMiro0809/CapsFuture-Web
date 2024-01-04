@@ -47,11 +47,10 @@ export default function CampaignListView({ campaigns = [], campaignsCount = 0 })
     }
 
     const defaultRowsPerPage = Number(searchParams.get('limit')) || 5;
-    const defaultOrderBy = searchParams.get('orderBy') || 'name';
+    const defaultOrderBy = searchParams.get('orderBy') || 'title';
     const defaultOrder = searchParams.get('direction') || 'asc';
 
     const table = useTable({
-        options: { checkbox: true },
         filters: tableFilters,
         defaultCurrentPage,
         defaultRowsPerPage,

@@ -3,12 +3,27 @@
 import axios from 'src/utils/axios';
 import { REST_API } from 'src/config-global';
 
-export async function getCampaigns(pagination) {
-    const URL = `${REST_API}/campaigns?page=${pagination.page}&limit=${pagination.limit}`;
+export async function getCampaigns(pagination, order, filters) {
+    try {
+        let URL = `${REST_API}/campaigns?page=${pagination.page}&limit=${pagination.limit}`;
 
-    const res = await axios.get(URL);
+        if(filters.length > 0) {
+            filters.forEach((filter) => {
+                URL += `&${filter.id}=${filter.value}`
+            })
+        }
+    
+        if(order?.field && order?.direction) {
+            URL += `&field=${order.field}&direction=${order.direction}`;
+        }
 
-    return { status: res.status, data: res.data };
+        const res = await axios.get(URL);
+    
+        return { status: res.status, data: res.data };
+    } catch (error) {
+        const message = error.message || 'Възникна грешка';
+        throw message;
+    }
 }
 
 export async function getCampaignById(id) {

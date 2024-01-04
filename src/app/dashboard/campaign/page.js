@@ -10,7 +10,7 @@ export const metadata = {
 
 async function getData(pagination, order, filters) {
   try {
-    const res = await getCampaigns(pagination);
+    const res = await getCampaigns(pagination, order, filters);
 
     const result = res.data;
 
@@ -27,7 +27,7 @@ export default async function CampaignPage({ searchParams }) {
 
   const order = { orderBy, direction };
 
-  const filters = [{ id: 'name', value: name }, { id: 'description', value: description }];
+  const filters = [{ id: 'title', value: name }, { id: 'description', value: description }];
 
   const { campaigns, campaignsCount, error } = await getData(pagination, order, filters);
 
