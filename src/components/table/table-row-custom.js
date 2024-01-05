@@ -13,6 +13,8 @@ import Link from '@mui/material/Link';
 // components
 import Iconify from 'src/components/iconify';
 import { RouterLink } from 'src/routes/components';
+//
+import { ASSETS } from 'src/config-global';
 
 export default function TableRowCustom({
     row,
@@ -60,7 +62,7 @@ export default function TableRowCustom({
                     return (
                         <TableCell key={heading.id} align={heading.align} sx={{ overflow: 'hidden', display: 'flex', alignItems: 'center' }} >
                             <Avatar
-                                src='https://assets.porsche.com/bg/sofia/-/media/Project/DealerWebsites/Bulgaria/Sofia/Stage/Home-Page/Desktop/Porsche-Centre-Sofia/Untitled_Panorama-1-mod-4-DESKTOP-v2-WEB/porsche-normal-slide-3.jpg?rev=3ecab9ec3e65405faad7290d32136d8d'
+                                src={`${ASSETS}/${row[heading.imageSelector]}`}
                                 variant='rounded'
                                 sx={{ width: 64, height: 64, mr: 2 }}
                             />
