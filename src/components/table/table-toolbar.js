@@ -25,7 +25,7 @@ export default function TableToolbar({ table, filters }) {
     if(Array.isArray(newValue)) {
       // handle array
     }else {
-      table.onChangeFilters(key, typeof newValue === 'object' ? newValue.value : newValue);
+      table.onChangeFilters(key, typeof newValue === 'object' ? newValue?.value : newValue);
     }
   }
 
