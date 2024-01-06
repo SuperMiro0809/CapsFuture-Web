@@ -14,6 +14,7 @@ import Box from '@mui/material/Box'
 import { useResponsive } from 'src/hooks/use-responsive';
 // routes
 import { useRouter } from 'src/routes/hooks';
+import { paths } from 'src/routes/paths';
 // api
 import { createCampaign, editCampaign } from 'src/api/campaign';
 // components
