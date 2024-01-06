@@ -22,7 +22,11 @@ import { useSnackbar } from 'src/components/snackbar';
 // i18
 import { useTranslation } from 'react-i18next';
 // date-fns
-import { format, parseISO } from 'date-fns';
+import { format, parseISO, isValid } from 'date-fns';
+// utils
+import { makeQuery } from 'src/utils/url-query';
+// data
+import CITIES from 'src/data/cities';
 
 export default function CampaignListView({ campaigns = [], campaignsCount = 0 }) {
     const { t } = useTranslation();
@@ -34,11 +38,13 @@ export default function CampaignListView({ campaigns = [], campaignsCount = 0 })
     const searchParams = useSearchParams();
 
     const nameFilterValue = searchParams.get('name');
-    const descriptionFilterValue = searchParams.get('description');
+    const cityFilterValue = searchParams.get('city') || null;
+    const dateFilterValue = !isNaN(parseISO(searchParams.get('date'))) ? parseISO(searchParams.get('date')) : null;
 
     const tableFilters = [
-        { type: 'search', name: 'name', placeholder: 'Търси по Име', value: nameFilterValue },
-        { type: 'search', name: 'description', placeholder: 'Търси по Описание', value: descriptionFilterValue }
+       { type: 'search', name: 'title', placeholder: 'Търси по Заглавие', value: nameFilterValue },
+       { type: 'select', name: 'city', placeholder: 'Град', options: CITIES, value: cityFilterValue },
+       { type: 'date', name: 'date', placeholder: 'Дата', value: dateFilterValue }
     ];
 
     let defaultCurrentPage = 0;
@@ -67,38 +73,31 @@ export default function CampaignListView({ campaigns = [], campaignsCount = 0 })
     const campaignsList = campaigns.map((campaign) => ({
         id: campaign.id,
         title: campaign.title,
-        description: campaign.description,
+        title_image_path: campaign.title_image_path,
+        short_description: campaign.short_description,
         cities: campaign.cities,
         date: format(parseISO(campaign.date), 'dd/MM/yyyy')
     }))
 
     useEffect(() => {
-        const current = new URLSearchParams(Array.from(searchParams.entries()));
-
-        current.set('page', table.page + 1);
-
-        current.set('limit', table.rowsPerPage);
-
-        current.set('orderBy', table.orderBy);
-
-        current.set('direction', table.order);
-
-        if (table.filters.length) {
-            table.filters.forEach(filter => {
-                current.set(filter.id, filter.value);
-            });
+        const pagination = {
+            page: table.page + 1,
+            limit: table.rowsPerPage
         }
 
-        const search = current.toString();
+        const order = {
+            orderBy: table.orderBy,
+            direction: table.order
+        }
 
-        const query = search ? `?${search}` : '';
+        const query = makeQuery(searchParams, pagination, order, table.filters);
 
         router.push(`${pathname}${query}`);
     }, [pathname, router, searchParams, table.page, table.rowsPerPage, table.orderBy, table.order, table.filters])
 
     const TABLE_HEAD = [
-        { id: 'title', label: t('title') },
-        { id: 'description', label: t('description'), width: 180 },
+        { id: 'title', type: 'text-with-image', label: t('title'), imageSelector: 'title_image_path' },
+        { id: 'short_description', label: t('short_description'), width: 180 },
         { id: 'cities', type: 'array', selector: 'city', label: t('cities'), width: 400 },
         { id: 'date', label: t('date'), width: 100 }
     ];
