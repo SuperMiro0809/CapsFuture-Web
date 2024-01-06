@@ -51,6 +51,23 @@ export async function createCampaign(data) {
     }
 }
 
+export async function editCampaign(id, data) {
+    try {
+        const URL = `${REST_API}/campaigns/${id}?_method=PUT`;
+
+        const res = await axios.post(URL, data, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        });
+
+        return { status: res.status, data: res.data };
+    } catch (error) {
+        const message = typeof error === 'string' ? error : error.message;
+        throw message;
+    }
+}
+
 export async function deleteCampaign(id) {
     try {
         const URL = `${REST_API}/campaigns/${id}`;

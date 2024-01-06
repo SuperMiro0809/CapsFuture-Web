@@ -9,16 +9,13 @@ import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
 import Grid from '@mui/material/Unstable_Grid2';
 import Typography from '@mui/material/Typography';
-import MenuItem from '@mui/material/MenuItem';
-import Divider from '@mui/material/Divider';
 import Box from '@mui/material/Box'
 // hooks
 import { useResponsive } from 'src/hooks/use-responsive';
 // routes
 import { useRouter } from 'src/routes/hooks';
-import { paths } from 'src/routes/paths';
 // api
-import { createCampaign } from 'src/api/campaign';
+import { createCampaign, editCampaign } from 'src/api/campaign';
 // components
 import { useSnackbar } from 'src/components/snackbar';
 import FormProvider, {
@@ -35,6 +32,7 @@ import { format, parseISO } from 'date-fns';
 import constructFormData from 'src/utils/form-data';
 // data
 import CITIES from 'src/data/cities';
+import { ASSETS } from 'src/config-global';
 
 export default function CampaignNewEditForm({ currentCampaign }) {
     const router = useRouter();
@@ -46,6 +44,7 @@ export default function CampaignNewEditForm({ currentCampaign }) {
     const { t } = useTranslation();
 
     const NewCampaignSchema = Yup.object().shape({
+        //title_image: Yup.object().required(t('validation.title_image.required')),
         date: Yup.date().required(t('validation.date.required')),
         cities: Yup.array().min(1, t('validation.cities.required')),
         information: Yup.object().shape({
@@ -82,6 +81,7 @@ export default function CampaignNewEditForm({ currentCampaign }) {
             if(currentCampaign?.translations) {
                 currentCampaign.translations.forEach((el) => {
                     translations[el.language] = {
+                        id: el.id,
                         title: el.title,
                         short_description: el.short_description,
                         description: el.description
@@ -90,6 +90,7 @@ export default function CampaignNewEditForm({ currentCampaign }) {
             }
 
             return {
+                title_image: currentCampaign?.title_image_path && { preview: `${ASSETS}/${currentCampaign.title_image_path}` },
                 date: currentCampaign?.date ? parseISO(currentCampaign.date) : null,
                 cities: citiesValues,
                 information: translations
@@ -127,19 +128,23 @@ export default function CampaignNewEditForm({ currentCampaign }) {
 
         const formData = constructFormData(values);
 
-        formData.append('title_image', title_image);
+        if(title_image instanceof File) {
+            formData.append('title_image', title_image);
+        }
 
         try {
             if(currentCampaign) {
+                await editCampaign(currentCampaign.id, formData);
 
+                enqueueSnackbar(t('edit-success'));
             }else {
                 await createCampaign(formData);
 
                 enqueueSnackbar(t('create-success'));
-
-                router.push(paths.dashboard.campaign.root);
-                router.refresh();
             }
+
+            router.push(paths.dashboard.campaign.root);
+            router.refresh();
         } catch (error) {
             enqueueSnackbar(error.message, { variant: 'error' });
         }
