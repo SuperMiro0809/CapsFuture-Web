@@ -22,12 +22,16 @@ export default function TableToolbar({ table, filters }) {
   }
 
   const handleSelectFilterChange = (key) => (event, newValue) => {
-    table.onChangeFilters(key, newValue);
+    if(Array.isArray(newValue)) {
+      // handle array
+    }else {
+      table.onChangeFilters(key, typeof newValue === 'object' ? newValue.value : newValue);
+    }
   }
 
   const handleDateFilterChange = (key) => (newValue) => {
     if (isValid(newValue)) {
-      table.onChangeFilters(key, format(newValue, 'yyyy-MM-dd'));
+      table.onChangeFilters(key, newValue);
     } else {
       table.onChangeFilters(key, null);
     }
@@ -36,7 +40,7 @@ export default function TableToolbar({ table, filters }) {
   const getFilterValue = (key) => {
     const filter = table.filters.find(item => item.id === key);
 
-    return filter?.value || '';
+    return filter?.value;
   }
 
   return (
@@ -104,6 +108,7 @@ export default function TableToolbar({ table, filters }) {
                 <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={bg}>
                   <DatePicker
                     onChange={handleDateFilterChange(filter?.id || filter.name)}
+                    value={value}
                     slotProps={{
                       textField: {
                         fullWidth: true,
