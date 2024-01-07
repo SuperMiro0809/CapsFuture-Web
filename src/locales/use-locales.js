@@ -3,7 +3,7 @@
 import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { localStorageGetItem } from 'src/utils/storage-available';
+import { documentGetCookie } from 'src/utils/document-avaiable';
 
 import { useSettingsContext } from 'src/components/settings';
 
@@ -12,9 +12,9 @@ import { allLangs, defaultLang } from './config-lang';
 // ----------------------------------------------------------------------
 
 export function useLocales() {
-  const langStorage = localStorageGetItem('i18nextLng');
+  const langCookie = documentGetCookie('NEXT_LOCALE');
 
-  const currentLang = allLangs.find((lang) => lang.value === langStorage) || defaultLang;
+  const currentLang = allLangs.find((lang) => lang.value === langCookie) || defaultLang;
 
   return {
     allLangs,

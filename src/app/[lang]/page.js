@@ -6,6 +6,6 @@ export const metadata = {
   title: 'Minimal: The starting point for your next project',
 };
 
-export default function HomePage() {
+export default function HomePage({ params }) {
   return <HomeView />;
 }

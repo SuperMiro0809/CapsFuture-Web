@@ -1,14 +1,15 @@
 /* eslint-disable perfectionist/sort-imports */
 import 'src/global.css';
 
-// i18n
-import 'src/locales/i18n';
+// // i18n
+// import 'src/locales/i18n';
 
 // ----------------------------------------------------------------------
 
 import PropTypes from 'prop-types';
 
 import { LocalizationProvider } from 'src/locales';
+import TranslationsProvider from 'src/locales/translations-provider';
 
 import ThemeProvider from 'src/theme';
 import { primaryFont } from 'src/theme/typography';
@@ -58,34 +59,38 @@ export const viewport = {
   themeColor: '#000000'
 }
 
-export default function RootLayout({ children }) {
+export default function RootLayout({ children, params }) {
+  const { lang } = params;
+
   return (
-    <html lang="en" className={primaryFont.className}>
+    <html lang={lang} className={primaryFont.className}>
       <body>
         <AuthProvider>
           <LocalizationProvider>
-            <SettingsProvider
-              defaultSettings={{
-                themeMode: 'light', // 'light' | 'dark'
-                themeDirection: 'ltr', //  'rtl' | 'ltr'
-                themeContrast: 'default', // 'default' | 'bold'
-                themeLayout: 'vertical', // 'vertical' | 'horizontal' | 'mini'
-                themeColorPresets: 'default', // 'default' | 'cyan' | 'purple' | 'blue' | 'orange' | 'red'
-                themeStretch: true,
-              }}
-            >
-              <ThemeProvider>
-                <MotionLazy>
-                  <SnackbarProvider>
-                    <CheckoutProvider>
-                      <SettingsDrawer />
-                      <ProgressBar />
-                      {children}
-                    </CheckoutProvider>
-                  </SnackbarProvider>
-                </MotionLazy>
-              </ThemeProvider>
-            </SettingsProvider>
+            <TranslationsProvider locale={lang}>
+              <SettingsProvider
+                defaultSettings={{
+                  themeMode: 'light', // 'light' | 'dark'
+                  themeDirection: 'ltr', //  'rtl' | 'ltr'
+                  themeContrast: 'default', // 'default' | 'bold'
+                  themeLayout: 'vertical', // 'vertical' | 'horizontal' | 'mini'
+                  themeColorPresets: 'default', // 'default' | 'cyan' | 'purple' | 'blue' | 'orange' | 'red'
+                  themeStretch: true,
+                }}
+              >
+                <ThemeProvider>
+                  <MotionLazy>
+                    <SnackbarProvider>
+                      <CheckoutProvider>
+                        <SettingsDrawer />
+                        <ProgressBar />
+                        {children}
+                      </CheckoutProvider>
+                    </SnackbarProvider>
+                  </MotionLazy>
+                </ThemeProvider>
+              </SettingsProvider>
+            </TranslationsProvider>
           </LocalizationProvider>
         </AuthProvider>
       </body>

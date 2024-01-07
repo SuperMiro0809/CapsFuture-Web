@@ -12,18 +12,18 @@ import translationBg from './langs/bg.json';
 
 // ----------------------------------------------------------------------
 
-const lng = localStorageGetItem('i18nextLng', defaultLang.value);
+export default async function initTranslations(locale, i18nInstance) {
+  i18nInstance = i18nInstance || i18n.createInstance();
 
-i18n
-  .use(LanguageDetector)
-  .use(initReactI18next)
-  .init({
+  i18nInstance.use(initReactI18next);
+
+  await i18nInstance.init({
+    lng: locale,
     resources: {
       en: { translations: translationEn },
       bg: { translations: translationBg }
     },
-    lng,
-    fallbackLng: lng,
+    fallbackLng: locale,
     debug: false,
     ns: ['translations'],
     defaultNS: 'translations',
@@ -32,4 +32,30 @@ i18n
     },
   });
 
-export default i18n;
+  return {
+    i18n: i18nInstance,
+    t: i18nInstance.t
+  }
+}
+
+// const lng = localStorageGetItem('i18nextLng', defaultLang.value);
+
+// i18n
+//   .use(LanguageDetector)
+//   .use(initReactI18next)
+//   .init({
+//     resources: {
+//       en: { translations: translationEn },
+//       bg: { translations: translationBg }
+//     },
+//     lng,
+//     fallbackLng: lng,
+//     debug: false,
+//     ns: ['translations'],
+//     defaultNS: 'translations',
+//     interpolation: {
+//       escapeValue: false,
+//     },
+//   });
+
+// export default i18n;
