@@ -45,7 +45,7 @@ export default function CampaignNewEditForm({ currentCampaign }) {
     const { t } = useTranslation();
 
     const NewCampaignSchema = Yup.object().shape({
-        //title_image: Yup.object().required(t('validation.title_image.required')),
+        title_image: Yup.mixed().required(t('validation.title_image.required')),
         date: Yup.date().required(t('validation.date.required')),
         cities: Yup.array().min(1, t('validation.cities.required')),
         information: Yup.object().shape({
