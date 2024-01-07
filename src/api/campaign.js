@@ -3,9 +3,9 @@
 import axios from 'src/utils/axios';
 import { REST_API } from 'src/config-global';
 
-export async function getCampaigns(pagination, order, filters) {
+export async function getCampaigns(pagination, order, filters, lang) {
     try {
-        let URL = `${REST_API}/campaigns?page=${pagination.page}&limit=${pagination.limit}`;
+        let URL = `${REST_API}/campaigns?page=${pagination.page}&limit=${pagination.limit}&lang=${lang}`;
 
         if(filters.length > 0) {
             filters.forEach((filter) => {
@@ -26,8 +26,8 @@ export async function getCampaigns(pagination, order, filters) {
     }
 }
 
-export async function getCampaignById(id) {
-    const URL = `${REST_API}/campaigns/${id}`;
+export async function getCampaignById(id, lang) {
+    const URL = `${REST_API}/campaigns/${id}?lang=${lang}`;
 
     const res = await axios.get(URL);
 

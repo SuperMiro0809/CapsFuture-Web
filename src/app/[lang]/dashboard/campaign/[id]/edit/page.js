@@ -8,9 +8,9 @@ export const metadata = {
   title: 'Dashboard: New Campaign',
 };
 
-async function getData(id) {
+async function getData(id, lang) {
   try {
-    const res = await getCampaignById(id);
+    const res = await getCampaignById(id, lang);
 
     return { campaign: res.data };
   } catch (error) {
@@ -19,9 +19,9 @@ async function getData(id) {
 }
 
 export default async function CampaignEditPage({ params }) {
-  const { id } = params;
+  const { id, lang } = params;
 
-  const { campaign, error } = await getData(id);
+  const { campaign, error } = await getData(id, lang);
 
   if(error) {
     return <div>{JSON.stringify(error)}</div>

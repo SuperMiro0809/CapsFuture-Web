@@ -8,9 +8,9 @@ export const metadata = {
   title: 'Dashboard: Campaigns',
 };
 
-async function getData(pagination, order, filters) {
+async function getData(pagination, order, filters, lang) {
   try {
-    const res = await getCampaigns(pagination, order, filters);
+    const res = await getCampaigns(pagination, order, filters, lang);
 
     const result = res.data;
 
@@ -20,7 +20,9 @@ async function getData(pagination, order, filters) {
   }
 }
 
-export default async function CampaignPage({ searchParams }) {
+export default async function CampaignPage({ searchParams, params }) {
+  const { lang } = params;
+
   const { page, limit, orderBy, direction, title, city, date } = searchParams;
 
   const pagination = { page: Number(page) || 1, limit: Number(limit) || 5 };
@@ -29,7 +31,7 @@ export default async function CampaignPage({ searchParams }) {
 
   const filters = [{ id: 'title', value: title }, { id: 'city', value: city }, { id: 'date', value: date }];
 
-  const { campaigns, campaignsCount, error } = await getData(pagination, order, filters);
+  const { campaigns, campaignsCount, error } = await getData(pagination, order, filters, lang);
 
   if(error) {
     return <div>{JSON.stringify(error)}</div>
