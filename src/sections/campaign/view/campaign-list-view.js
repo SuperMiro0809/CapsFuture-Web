@@ -22,7 +22,7 @@ import { useSnackbar } from 'src/components/snackbar';
 // i18
 import { useTranslation } from 'react-i18next';
 // date-fns
-import { format, parseISO, isValid } from 'date-fns';
+import { format, parseISO } from 'date-fns';
 // utils
 import { makeQuery } from 'src/utils/url-query';
 // data
