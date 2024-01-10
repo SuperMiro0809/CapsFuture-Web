@@ -18,7 +18,7 @@ import { RouterLink } from 'src/routes/components';
 // hooks
 import { useBoolean } from 'src/hooks/use-boolean';
 // api
-import { deleteProduct, deleteProducts } from 'src/api/product';
+import { deleteProduct, deleteProducts, editProduct } from 'src/api/product';
 // components
 import Iconify from 'src/components/iconify';
 import { useSettingsContext } from 'src/components/settings';
@@ -92,12 +92,23 @@ export default function ProductListView({ products = [], productsCount = 0 }) {
     router.push(`${pathname}${query}`);
   }, [pathname, router, searchParams, table.page, table.rowsPerPage, table.orderBy, table.order, table.filters])
 
-  const TABLE_HEAD = [
-    { id: 'title', type: 'text-with-image', label: t('title'), imageSelector: 'title_image_path' },
-    { id: 'short_description', label: t('short_description'), width: 180 },
-    { id: 'price', label: t('price'), width: 140 },
-    { id: 'active', label: t('active'), width: 110 },
-  ];
+  const handleEditActive = async (event, id) => {
+    const data = new FormData();
+    data.append('active', Number(event.target.checked));
+    // :)
+    // <3
+    
+    startTransition(async () => {
+      try {
+        await editProduct(id, data);
+
+        enqueueSnackbar(t('edit-success'));
+        router.refresh();
+      } catch (error) {
+        enqueueSnackbar(error.message, { variant: 'error' });
+      }
+    });
+  }
 
   const handleDelete = async (ids) => {
     startTransition(async () => {
@@ -117,6 +128,13 @@ export default function ProductListView({ products = [], productsCount = 0 }) {
       }
     });
   }
+
+  const TABLE_HEAD = [
+    { id: 'title', type: 'text-with-image', label: t('title'), imageSelector: 'title_image_path' },
+    { id: 'short_description', label: t('short_description'), width: 180 },
+    { id: 'price', label: t('price'), width: 140 },
+    { id: 'active', type: 'switch', label: t('active'), width: 100, handler: handleEditActive },
+  ];
 
   return (
     <>

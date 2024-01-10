@@ -31,6 +31,9 @@
     "date": "Дата",
     "cities": "Градове",
     "title-image": "Заглавна снимка",
+    "images": "Снимки",
+    "price": "Цена",
+    "active": "Активен",
 
     "validation": {
         "title": {
