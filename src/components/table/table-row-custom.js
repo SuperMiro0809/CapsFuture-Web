@@ -10,6 +10,7 @@ import Chip from '@mui/material/Chip';
 import Avatar from '@mui/material/Avatar';
 import ListItemText from '@mui/material/ListItemText';
 import Link from '@mui/material/Link';
+import Switch from '@mui/material/Switch';
 // components
 import Iconify from 'src/components/iconify';
 import { RouterLink } from 'src/routes/components';
@@ -80,22 +81,21 @@ export default function TableRowCustom({
                             />
                         </TableCell>
                     )
-                }
-                // } else if (type === 'switch') {
-                //     const handler = heading.handler;
+                } else if (type === 'switch') {
+                    const handler = heading.handler;
 
-                //     return (
-                //         <TableCell key={heading.id} align={heading.align} style={{ maxHeight: "20px", overflow: "hidden" }}>
-                //             <CustomSwitch
-                //                 checked={!!value}
-                //                 onChange={(event) => {
-                //                     handler(event, row.id);
-                //                     newRequest();
-                //                 }}
-                //             />
-                //         </TableCell>
-                //     );
-                // } else if (type === 'chip') {
+                    return (
+                        <TableCell key={heading.id} align={heading.align} style={{ maxHeight: "20px", overflow: "hidden" }}>
+                            <Switch
+                                checked={!!value}
+                                onChange={(event) => {
+                                    handler(event, row.id);
+                                }}
+                            />
+                        </TableCell>
+                    );
+                }
+                //  else if (type === 'chip') {
                 //     return (
                 //         <TableCell key={heading.id} align={heading.align} style={{ maxHeight: "20px", overflow: "hidden" }}>
                 //             <ChipColumn
