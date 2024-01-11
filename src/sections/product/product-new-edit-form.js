@@ -128,6 +128,9 @@ export default function ProductNewEditForm({ currentProduct }) {
   }, [currentProduct, defaultValues, reset]);
 
   const onSubmit = handleSubmit(async (data) => {
+    const { active } = data;
+    data.active = Number(active);
+
     const formData = constructFormData(data, [], ['images']);
 
     try {
