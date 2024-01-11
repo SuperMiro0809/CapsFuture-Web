@@ -23,13 +23,13 @@ async function getData(pagination, order, filters, lang) {
 export default async function ProductListPage({ params, searchParams }) {
   const { lang } = params;
 
-  const { page, limit, orderBy, direction } = searchParams;
+  const { page, limit, orderBy, direction, title } = searchParams;
 
   const pagination = { page: Number(page) || 1, limit: Number(limit) || 5 };
 
   const order = { orderBy, direction };
 
-  const filters = [];
+  const filters = [{ id: 'title', value: title }];
 
   const { products, productsCount, error } = await getData(pagination, order, filters, lang);
 

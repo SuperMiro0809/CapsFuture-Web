@@ -46,8 +46,12 @@ export default function ProductListView({ products = [], productsCount = 0 }) {
 
   const [isPending, startTransition] = useTransition();
 
-  const tableFilters = [
+  const titleFilterValue = searchParams.get('title');
 
+  const tableFilters = [
+    { type: 'search', name: 'title', placeholder: 'Търси по Заглавие', value: titleFilterValue },
+    // { type: 'select', name: 'city', placeholder: 'Град', options: CITIES, value: cityFilterValue },
+    // { type: 'date', name: 'date', placeholder: 'Дата', value: dateFilterValue }
   ];
 
   let defaultCurrentPage = 0;
