@@ -2,7 +2,7 @@ import * as Yup from 'yup';
 import PropTypes from 'prop-types';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useMemo, useState, useEffect, useCallback } from 'react';
+import { useMemo, useEffect, useState, useCallback } from 'react';
 // @mui
 import Box from '@mui/material/Box';
 import Chip from '@mui/material/Chip';
@@ -22,13 +22,6 @@ import { useRouter } from 'src/routes/hooks';
 // hooks
 import { useResponsive } from 'src/hooks/use-responsive';
 // api
-import {
-  _tags,
-  PRODUCT_SIZE_OPTIONS,
-  PRODUCT_GENDER_OPTIONS,
-  PRODUCT_COLOR_NAME_OPTIONS,
-  PRODUCT_CATEGORY_GROUP_OPTIONS,
-} from 'src/_mock';
 import { createProduct, editProduct } from 'src/api/product';
 // locales
 import { useTranslate } from 'src/locales';
@@ -37,10 +30,13 @@ import { useSnackbar } from 'src/components/snackbar';
 import FormProvider, {
   RHFUpload,
   RHFTextField,
-  RHFLanguageField
+  RHFLanguageField,
+  RHFSwitch
 } from 'src/components/hook-form';
 // utils
 import constructFormData from 'src/utils/form-data';
+//
+import { ASSETS } from 'src/config-global';
 
 // ----------------------------------------------------------------------
 
@@ -56,29 +52,23 @@ export default function ProductNewEditForm({ currentProduct }) {
   const NewProductSchema = Yup.object().shape({
     images: Yup.array().min(1, t('validation.images.required')),
     price: Yup.number().moreThan(0, t('validation.price.not_zero')),
+    information: Yup.object().shape({
+      bg: Yup.object().shape({
+        title: Yup.string().required(t('validation.title.required')),
+        short_description: Yup.string().required(t('validation.short_description.required')),
+        description: Yup.string().required(t('validation.description.required'))
+      }),
+      en: Yup.object().shape({
+        title: Yup.string().required(t('validation.title.required')),
+        short_description: Yup.string().required(t('validation.short_description.required')),
+        description: Yup.string().required(t('validation.description.required'))
+      })
+    })
   });
 
   const defaultValues = useMemo(
-    () => ({
-      // name: currentProduct?.name || '',
-      // description: currentProduct?.description || '',
-      // subDescription: currentProduct?.subDescription || '',
-      images: currentProduct?.images || [],
-      //
-      // code: currentProduct?.code || '',
-      // sku: currentProduct?.sku || '',
-      // price: currentProduct?.price || 0,
-      // quantity: currentProduct?.quantity || 0,
-      // priceSale: currentProduct?.priceSale || 0,
-      // tags: currentProduct?.tags || [],
-      // taxes: currentProduct?.taxes || 0,
-      // gender: currentProduct?.gender || '',
-      // category: currentProduct?.category || '',
-      // colors: currentProduct?.colors || [],
-      // sizes: currentProduct?.sizes || [],
-      // newLabel: currentProduct?.newLabel || { enabled: false, content: '' },
-      // saleLabel: currentProduct?.saleLabel || { enabled: false, content: '' },
-      information: {
+    () => {
+      const translations = {
         bg: {
           title: '',
           short_description: '',
@@ -89,10 +79,32 @@ export default function ProductNewEditForm({ currentProduct }) {
           short_description: '',
           description: ''
         }
+      };
+
+      if (currentProduct?.translations) {
+        currentProduct.translations.forEach((el) => {
+          translations[el.language] = {
+            id: el.id,
+            title: el.title,
+            short_description: el.short_description,
+            description: el.description
+          };
+        })
       }
-    }),
+
+      const imagesValues = currentProduct?.files ? currentProduct.files.map((file) => ({ id: file.id, preview: `${ASSETS}/${file.filepath}` })) : [];
+
+      return {
+        images: imagesValues,
+        price: currentProduct?.price || 0,
+        information: translations,
+        active: !!currentProduct?.active
+      }
+    },
     [currentProduct]
   );
+
+  const [deleteImagesIds, setDeleteImagesIds] = useState([]);
 
   const methods = useForm({
     resolver: yupResolver(NewProductSchema),
@@ -119,11 +131,12 @@ export default function ProductNewEditForm({ currentProduct }) {
     const formData = constructFormData(data, [], ['images']);
 
     try {
-      if(currentProduct) {
+      if (currentProduct) {
+        formData.append('deleteImagesIds', JSON.stringify(deleteImagesIds));
         await editProduct(currentProduct.id, formData);
 
         enqueueSnackbar(t('edit-success'));
-      }else {
+      } else {
         await createProduct(formData);
 
         enqueueSnackbar(t('create-success'));
@@ -153,15 +166,20 @@ export default function ProductNewEditForm({ currentProduct }) {
 
   const handleRemoveFile = useCallback(
     (inputFile) => {
-      const filtered = values.images && values.images?.filter((file) => file !== inputFile);
+      if(inputFile?.id) {
+        setDeleteImagesIds((prevState) => [...(prevState || []), inputFile.id]);
+      }
+
+      const filtered = values.images && values.images?.filter((file) => JSON.stringify(file) !== JSON.stringify(inputFile));
       setValue('images', filtered);
     },
     [setValue, values.images]
   );
 
   const handleRemoveAllFiles = useCallback(() => {
+    values.images.every((file) => file?.id && setDeleteImagesIds((prevState) => [...(prevState || []), inputFile.id]));
     setValue('images', []);
-  }, [setValue]);
+  }, [setValue, values.images]);
 
   const renderDetails = (
     <>
@@ -424,8 +442,8 @@ export default function ProductNewEditForm({ currentProduct }) {
     <>
       {mdUp && <Grid md={4} />}
       <Grid xs={12} md={8} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}>
-        <FormControlLabel
-          control={<Switch defaultChecked />}
+        <RHFSwitch
+          name='active'
           label={t('active')}
           sx={{ pl: 3 }}
         />

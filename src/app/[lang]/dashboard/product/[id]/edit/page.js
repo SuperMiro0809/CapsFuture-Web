@@ -1,8 +1,6 @@
-import PropTypes from 'prop-types';
-
-import axios, { endpoints } from 'src/utils/axios';
-
 import { ProductEditView } from 'src/sections/product/view';
+// api
+import { getProductById } from 'src/api/product';
 
 // ----------------------------------------------------------------------
 
@@ -10,22 +8,24 @@ export const metadata = {
   title: 'Dashboard: Product Edit',
 };
 
-export default function ProductEditPage({ params }) {
-  const { id } = params;
+async function getData(id, lang) {
+  try {
+    const res = await getProductById(id);
 
-  return <ProductEditView id={id} />;
+    return { product: res.data };
+  } catch (error) {
+    return { error };
+  }
 }
 
-export async function generateStaticParams() {
-  const res = await axios.get(endpoints.product.list);
+export default async function ProductEditPage({ params }) {
+  const { id, lang } = params;
 
-  return res.data.products.map((product) => ({
-    id: product.id,
-  }));
+  const { product, error } = await getData(id, lang);
+
+  if(error) {
+    return <div>{JSON.stringify(error)}</div>
+  }
+
+  return <ProductEditView product={product} />;
 }
-
-ProductEditPage.propTypes = {
-  params: PropTypes.shape({
-    id: PropTypes.string,
-  }),
-};

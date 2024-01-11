@@ -1,47 +1,47 @@
 'use client';
 
 import PropTypes from 'prop-types';
-
+// @mui
 import Container from '@mui/material/Container';
-
+// routes
 import { paths } from 'src/routes/paths';
-
-import { useGetProduct } from 'src/api/product';
-
+// locale
+import { useTranslate } from 'src/locales';
+// components
 import { useSettingsContext } from 'src/components/settings';
 import CustomBreadcrumbs from 'src/components/custom-breadcrumbs';
-
+//
 import ProductNewEditForm from '../product-new-edit-form';
 
 // ----------------------------------------------------------------------
 
-export default function ProductEditView({ id }) {
-  const settings = useSettingsContext();
+export default function ProductEditView({ product }) {
+  const { t } = useTranslate();
 
-  const { product: currentProduct } = useGetProduct(id);
+  const settings = useSettingsContext();
 
   return (
     <Container maxWidth={settings.themeStretch ? false : 'lg'}>
       <CustomBreadcrumbs
-        heading="Edit"
+        heading={t('edit')}
         links={[
-          { name: 'Dashboard', href: paths.dashboard.root },
+          { name: t('dashboard'), href: paths.dashboard.root },
           {
-            name: 'Product',
+            name: t('products'),
             href: paths.dashboard.product.root,
           },
-          { name: currentProduct?.name },
+          { name: product?.title },
         ]}
         sx={{
           mb: { xs: 3, md: 5 },
         }}
       />
 
-      <ProductNewEditForm currentProduct={currentProduct} />
+      <ProductNewEditForm currentProduct={product} />
     </Container>
   );
 }
 
 ProductEditView.propTypes = {
-  id: PropTypes.string,
+  product: PropTypes.object,
 };
