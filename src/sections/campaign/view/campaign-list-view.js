@@ -37,12 +37,12 @@ export default function CampaignListView({ campaigns = [], campaignsCount = 0 })
 
     const searchParams = useSearchParams();
 
-    const nameFilterValue = searchParams.get('name');
+    const titleFilterValue = searchParams.get('title');
     const cityFilterValue = searchParams.get('city') || null;
     const dateFilterValue = !isNaN(parseISO(searchParams.get('date'))) ? parseISO(searchParams.get('date')) : null;
 
     const tableFilters = [
-       { type: 'search', name: 'title', placeholder: 'Търси по Заглавие', value: nameFilterValue },
+       { type: 'search', name: 'title', placeholder: 'Търси по Заглавие', value: titleFilterValue },
        { type: 'select', name: 'city', placeholder: 'Град', options: CITIES, value: cityFilterValue },
        { type: 'date', name: 'date', placeholder: 'Дата', value: dateFilterValue }
     ];
