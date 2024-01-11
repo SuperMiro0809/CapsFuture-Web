@@ -74,7 +74,7 @@ export default function ProductListView({ products = [], productsCount = 0 }) {
   const productsList = products.map((product) => ({
     id: product.id,
     title: product.title,
-    title_image_path: product.files[0].filepath,
+    files: product.files,
     short_description: product.short_description,
     price: `${product.price} ${t('lv.')}`,
     active: product.active
@@ -134,7 +134,7 @@ export default function ProductListView({ products = [], productsCount = 0 }) {
   }
 
   const TABLE_HEAD = [
-    { id: 'title', type: 'text-with-image', label: t('title'), imageSelector: 'title_image_path' },
+    { id: 'title', type: 'text-with-image', label: t('title'), imageSelector: 'files' },
     { id: 'short_description', label: t('short_description'), width: 180 },
     { id: 'price', label: t('price'), width: 140 },
     { id: 'active', type: 'switch', label: t('active'), width: 100, handler: handleEditActive },

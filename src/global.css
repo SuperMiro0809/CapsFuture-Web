@@ -18,3 +18,29 @@
 @import 'yet-another-react-lightbox/styles.css';
 @import 'yet-another-react-lightbox/plugins/captions.css';
 @import 'yet-another-react-lightbox/plugins/thumbnails.css';
+
+/* swiper */
+@import 'swiper/css';
+@import 'swiper/css/navigation';
+
+.table-column-swiper {
+    width: 150px;
+    height: 100%;
+}
+
+.table-column-swiper .swiper-slide {
+    text-align: center;
+    font-size: 18px;
+
+    /* Center slide text vertically */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.table-column-swiper .swiper-slide img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}

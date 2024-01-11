@@ -11,6 +11,9 @@ import Avatar from '@mui/material/Avatar';
 import ListItemText from '@mui/material/ListItemText';
 import Link from '@mui/material/Link';
 import Switch from '@mui/material/Switch';
+// swiper
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation } from 'swiper/modules';
 // components
 import Iconify from 'src/components/iconify';
 import { RouterLink } from 'src/routes/components';
@@ -62,11 +65,32 @@ export default function TableRowCustom({
                 } else if (type === 'text-with-image') {
                     return (
                         <TableCell key={heading.id} align={heading.align} sx={{ overflow: 'hidden', display: 'flex', alignItems: 'center' }} >
-                            <Avatar
-                                src={`${ASSETS}/${row[heading.imageSelector]}`}
-                                variant='rounded'
-                                sx={{ width: 64, height: 64, mr: 2 }}
-                            />
+                            {Array.isArray(row[heading.imageSelector]) ? (
+                                <Swiper
+                                    style={{
+                                        '--swiper-navigation-size': '20px',
+                                    }}
+                                    navigation={true}
+                                    modules={[Navigation]}
+                                    className='table-column-swiper'
+                                >
+                                    {row[heading.imageSelector].map((file, index) => (
+                                        <SwiperSlide key={index}>
+                                            <Avatar
+                                                src={`${ASSETS}/${file.filepath}`}
+                                                variant='rounded'
+                                                sx={{ width: 64, height: 64, mr: 2 }}
+                                            />
+                                        </SwiperSlide>
+                                    ))}
+                                </Swiper>
+                            ) : (
+                                <Avatar
+                                    src={`${ASSETS}/${row[heading.imageSelector]}`}
+                                    variant='rounded'
+                                    sx={{ width: 64, height: 64, mr: 2 }}
+                                />
+                            )}
 
                             <ListItemText
                                 primary={
