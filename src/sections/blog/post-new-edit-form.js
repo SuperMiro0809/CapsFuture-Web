@@ -3,39 +3,47 @@ import PropTypes from 'prop-types';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useMemo, useEffect, useCallback } from 'react';
-
+// @mui
+import Box from '@mui/material/Box';
 import Chip from '@mui/material/Chip';
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
-import Switch from '@mui/material/Switch';
 import Grid from '@mui/material/Unstable_Grid2';
 import CardHeader from '@mui/material/CardHeader';
 import Typography from '@mui/material/Typography';
 import LoadingButton from '@mui/lab/LoadingButton';
-import FormControlLabel from '@mui/material/FormControlLabel';
-
+// rotes
 import { paths } from 'src/routes/paths';
 import { useRouter } from 'src/routes/hooks';
-
+// hooks
 import { useBoolean } from 'src/hooks/use-boolean';
 import { useResponsive } from 'src/hooks/use-responsive';
-
+// locales
+import { useTranslate } from 'src/locales';
+// api
+import { createPost, editPost } from 'src/api/blog';
 import { _tags } from 'src/_mock';
-
+// components
 import { useSnackbar } from 'src/components/snackbar';
 import FormProvider, {
-  RHFEditor,
   RHFUpload,
+  RHFLanguageField,
   RHFTextField,
   RHFAutocomplete,
+  RHFSwitch
 } from 'src/components/hook-form';
-
+// utils
+import constructFormData from 'src/utils/form-data';
+//
 import PostDetailsPreview from './post-details-preview';
+import { ASSETS } from 'src/config-global';
 
 // ----------------------------------------------------------------------
 
 export default function PostNewEditForm({ currentPost }) {
+  const { t } = useTranslate();
+
   const router = useRouter();
 
   const mdUp = useResponsive('up', 'md');
@@ -45,28 +53,62 @@ export default function PostNewEditForm({ currentPost }) {
   const preview = useBoolean();
 
   const NewBlogSchema = Yup.object().shape({
-    title: Yup.string().required('Title is required'),
-    description: Yup.string().required('Description is required'),
-    content: Yup.string().required('Content is required'),
-    coverUrl: Yup.mixed().nullable().required('Cover is required'),
-    tags: Yup.array().min(2, 'Must have at least 2 tags'),
-    metaKeywords: Yup.array().min(1, 'Meta keywords is required'),
+    title_image: Yup.mixed().nullable().required('Cover is required'),
+    information: Yup.object().shape({
+      bg: Yup.object().shape({
+        title: Yup.string().required(t('validation.title.required')),
+        short_description: Yup.string().required(t('validation.short_description.required')),
+        description: Yup.string().required(t('validation.description.required'))
+      }),
+      en: Yup.object().shape({
+        title: Yup.string().required(t('validation.title.required')),
+        short_description: Yup.string().required(t('validation.short_description.required')),
+        description: Yup.string().required(t('validation.description.required'))
+      })
+    }),
+    // metaKeywords: Yup.array().min(1, 'Meta keywords is required'),
     // not required
     metaTitle: Yup.string(),
     metaDescription: Yup.string(),
   });
 
   const defaultValues = useMemo(
-    () => ({
-      title: currentPost?.title || '',
-      description: currentPost?.description || '',
-      content: currentPost?.content || '',
-      coverUrl: currentPost?.coverUrl || null,
-      tags: currentPost?.tags || [],
-      metaKeywords: currentPost?.metaKeywords || [],
-      metaTitle: currentPost?.metaTitle || '',
-      metaDescription: currentPost?.metaDescription || '',
-    }),
+    () => {
+
+      const translations = {
+        bg: {
+          title: '',
+          short_description: '',
+          description: ''
+        },
+        en: {
+          title: '',
+          short_description: '',
+          description: ''
+        }
+      };
+
+      if (currentPost?.translations) {
+        currentPost.translations.forEach((el) => {
+          translations[el.language] = {
+            id: el.id,
+            title: el.title,
+            short_description: el.short_description,
+            description: el.description
+          };
+        })
+      }
+
+      return {
+        title_image: currentPost?.title_image_path && { preview: `${ASSETS}/${currentPost.title_image_path}` },
+        metaKeywords: currentPost?.metaKeywords || [],
+        metaTitle: currentPost?.metaTitle || '',
+        metaDescription: currentPost?.metaDescription || '',
+        information: translations,
+        active: currentPost?.active || false,
+        enable_comments: currentPost?.enable_comments || false
+      }
+    },
     [currentPost]
   );
 
@@ -92,15 +134,33 @@ export default function PostNewEditForm({ currentPost }) {
   }, [currentPost, defaultValues, reset]);
 
   const onSubmit = handleSubmit(async (data) => {
+    const { title_image, active, enable_comments } = data;
+    data.active = Number(active);
+    console.log(data.active)
+    data.enable_comments = Number(enable_comments);
+
+    const formData = constructFormData(data);
+
+    if (title_image instanceof File) {
+      formData.append('title_image', title_image);
+    }
+
     try {
-      await new Promise((resolve) => setTimeout(resolve, 500));
-      reset();
-      preview.onFalse();
-      enqueueSnackbar(currentPost ? 'Update success!' : 'Create success!');
+      if (currentPost) {
+        await editPost(currentPost.id, formData);
+
+        enqueueSnackbar(t('edit-success'));
+      } else {
+        await createPost(formData);
+
+        enqueueSnackbar(t('create-success'));
+      }
+
       router.push(paths.dashboard.post.root);
-      console.info('DATA', data);
+      router.refresh();
     } catch (error) {
       console.error(error);
+      enqueueSnackbar(error.message, { variant: 'error' });
     }
   });
 
@@ -113,14 +173,14 @@ export default function PostNewEditForm({ currentPost }) {
       });
 
       if (file) {
-        setValue('coverUrl', newFile, { shouldValidate: true });
+        setValue('title_image', newFile, { shouldValidate: true });
       }
     },
     [setValue]
   );
 
   const handleRemoveFile = useCallback(() => {
-    setValue('coverUrl', null);
+    setValue('title_image', null);
   }, [setValue]);
 
   const renderDetails = (
@@ -128,10 +188,10 @@ export default function PostNewEditForm({ currentPost }) {
       {mdUp && (
         <Grid md={4}>
           <Typography variant="h6" sx={{ mb: 0.5 }}>
-            Details
+            {t('details')}
           </Typography>
           <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-            Title, short description, image...
+            {t('details-subtext')}
           </Typography>
         </Grid>
       )}
@@ -141,24 +201,28 @@ export default function PostNewEditForm({ currentPost }) {
           {!mdUp && <CardHeader title="Details" />}
 
           <Stack spacing={3} sx={{ p: 3 }}>
-            <RHFTextField name="title" label="Post Title" />
-
-            <RHFTextField name="description" label="Description" multiline rows={3} />
-
             <Stack spacing={1.5}>
-              <Typography variant="subtitle2">Content</Typography>
-              <RHFEditor simple name="content" />
-            </Stack>
-
-            <Stack spacing={1.5}>
-              <Typography variant="subtitle2">Cover</Typography>
+              <Typography variant="subtitle2">{t('title-image')}</Typography>
               <RHFUpload
-                name="coverUrl"
+                name="title_image"
                 maxSize={3145728}
                 onDrop={handleDrop}
                 onDelete={handleRemoveFile}
               />
             </Stack>
+
+            <RHFLanguageField
+              name='information'
+              langs={[
+                { label: 'Български', slug: 'bg' },
+                { label: 'English', slug: 'en' },
+              ]}
+              fields={[
+                { type: 'text', name: 'title', label: t('title') },
+                { type: 'text', name: 'short_description', label: t('short_description'), multiline: true, rows: 4 },
+                { type: 'editor', name: 'description', label: t('description') }
+              ]}
+            />
           </Stack>
         </Card>
       </Grid>
@@ -170,10 +234,10 @@ export default function PostNewEditForm({ currentPost }) {
       {mdUp && (
         <Grid md={4}>
           <Typography variant="h6" sx={{ mb: 0.5 }}>
-            Properties
+            {t('properties')}
           </Typography>
           <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-            Additional functions and attributes...
+            {t('properties-subtext')}
           </Typography>
         </Grid>
       )}
@@ -183,7 +247,7 @@ export default function PostNewEditForm({ currentPost }) {
           {!mdUp && <CardHeader title="Properties" />}
 
           <Stack spacing={3} sx={{ p: 3 }}>
-            <RHFAutocomplete
+            {/* <RHFAutocomplete
               name="tags"
               label="Tags"
               placeholder="+ Tags"
@@ -208,7 +272,7 @@ export default function PostNewEditForm({ currentPost }) {
                   />
                 ))
               }
-            />
+            /> */}
 
             <RHFTextField name="metaTitle" label="Meta title" />
 
@@ -248,7 +312,10 @@ export default function PostNewEditForm({ currentPost }) {
               }
             />
 
-            <FormControlLabel control={<Switch defaultChecked />} label="Enable comments" />
+            <RHFSwitch
+              name='enable_comments'
+              label={t('enable-comments')}
+            />
           </Stack>
         </Card>
       </Grid>
@@ -259,14 +326,16 @@ export default function PostNewEditForm({ currentPost }) {
     <>
       {mdUp && <Grid md={4} />}
       <Grid xs={12} md={8} sx={{ display: 'flex', alignItems: 'center' }}>
-        <FormControlLabel
-          control={<Switch defaultChecked />}
-          label="Publish"
-          sx={{ flexGrow: 1, pl: 3 }}
-        />
+        <Box sx={{ flexGrow: 1 }}>
+          <RHFSwitch
+            name='active'
+            label={t('active')}
+            sx={{ pl: 3 }}
+          />
+        </Box>
 
         <Button color="inherit" variant="outlined" size="large" onClick={preview.onTrue}>
-          Preview
+          {t('preview')}
         </Button>
 
         <LoadingButton
@@ -276,7 +345,7 @@ export default function PostNewEditForm({ currentPost }) {
           loading={isSubmitting}
           sx={{ ml: 2 }}
         >
-          {!currentPost ? 'Create Post' : 'Save Changes'}
+          {!currentPost ? t('create') : t('save')}
         </LoadingButton>
       </Grid>
     </>

@@ -1,34 +1,38 @@
 'use client';
 
+// @mui
 import Container from '@mui/material/Container';
-
+// routes
 import { paths } from 'src/routes/paths';
-
+// locales
+import { useTranslate } from 'src/locales';
+// components
 import { useSettingsContext } from 'src/components/settings';
 import CustomBreadcrumbs from 'src/components/custom-breadcrumbs';
-
+//
 import PostNewEditForm from '../post-new-edit-form';
 
 // ----------------------------------------------------------------------
 
 export default function PostCreateView() {
+  const { t } = useTranslate();
   const settings = useSettingsContext();
 
   return (
     <Container maxWidth={settings.themeStretch ? false : 'lg'}>
       <CustomBreadcrumbs
-        heading="Create a new post"
+        heading={t('create-new-post')}
         links={[
           {
-            name: 'Dashboard',
+            name: t('dashboard'),
             href: paths.dashboard.root,
           },
           {
-            name: 'Blog',
+            name: t('posts'),
             href: paths.dashboard.post.root,
           },
           {
-            name: 'Create',
+            name: t('create'),
           },
         ]}
         sx={{
