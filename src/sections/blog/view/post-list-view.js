@@ -8,12 +8,12 @@ import Tabs from '@mui/material/Tabs';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
+import TextField from '@mui/material/TextField';
+import InputAdornment from '@mui/material/InputAdornment';
 // routes
 import { paths } from 'src/routes/paths';
 import { RouterLink } from 'src/routes/components';
 import { useRouter, usePathname, useSearchParams } from 'src/routes/hooks';
-// hooks
-import { useDebounce } from 'src/hooks/use-debounce';
 // locales
 import { useTranslate } from 'src/locales';
 // utils
@@ -25,7 +25,6 @@ import { useSettingsContext } from 'src/components/settings';
 import CustomBreadcrumbs from 'src/components/custom-breadcrumbs';
 //
 import PostSort from '../post-sort';
-import PostSearch from '../post-search';
 import PostListHorizontal from '../post-list-horizontal';
 
 // ----------------------------------------------------------------------
@@ -47,22 +46,27 @@ export default function PostListView({ posts, postsCount }) {
 
   const settings = useSettingsContext();
 
-  const [page, setPage] = useState(1);
+  let defaultPageValue = 1;
+  if(Number(searchParams.get('page'))) {
+    defaultPageValue = Number(searchParams.get('page')) <= 0 ? 1 : Number(searchParams.get('page'));
+  }
+
+  const [page, setPage] = useState(defaultPageValue);
 
   const perPage = 2;
 
-  const [sortBy, setSortBy] = useState('latest');
+  const sortByDefaultValue = searchParams.get('direction') === 'desc' ? 'oldest' : 'latest';
+  const [sortBy, setSortBy] = useState(sortByDefaultValue);
 
   const [filters, setFilters] = useState(defaultFilters);
 
-  const [searchQuery, setSearchQuery] = useState('');
+  const searchValueFilterValue = searchParams.get('title');
+  const [searchValue, setSearchValue] = useState(searchValueFilterValue);
 
   const dataFiltered = applyFilter({
     inputData: posts,
     filters,
   });
-  
-  const debouncedQuery = useDebounce(searchQuery);
 
   const handlePageChange = useCallback((event, newPage) => {
     setPage(newPage);
@@ -80,7 +84,7 @@ export default function PostListView({ posts, postsCount }) {
   }, []);
 
   const handleSearch = useCallback((inputValue) => {
-    setSearchQuery(inputValue);
+    setSearchValue(inputValue);
   }, []);
 
   const handleFilterPublish = useCallback(
@@ -101,21 +105,12 @@ export default function PostListView({ posts, postsCount }) {
       direction: sortBy === 'latest' ? 'asc' : 'desc'
     };
 
-    const query = makeQuery(searchParams, pagination, order, []);
+    const filters = [{ id: 'title', value: searchValue }];
+
+    const query = makeQuery(searchParams, pagination, order, filters);
 
     router.push(`${pathname}${query}`);
-  }, [page, sortBy])
-
-  // useEffect(() => {
-  //   const { active } = filters;
-    
-  //   if (active !== 'all') {
-  //     const inputData = posts.filter((post) => post.active === (active === 'published' ? 1 : 0));
-  //     setPostsData(inputData);
-  //   }else {
-  //     setPostsData(posts);
-  //   }
-  // }, [filters])
+  }, [page, sortBy, searchValue]);
 
   return (
     <Container maxWidth={settings.themeStretch ? false : 'lg'}>
@@ -155,13 +150,19 @@ export default function PostListView({ posts, postsCount }) {
           mb: { xs: 3, md: 5 },
         }}
       >
-        {/* <PostSearch
-          query={debouncedQuery}
-          results={[]}
-          onSearch={handleSearch}
-          loading={searchLoading}
-          hrefItem={(title) => paths.dashboard.post.details(title)}
-        /> */}
+
+        <TextField
+          value={searchValue}
+          onChange={(event) => handleSearch(event.target.value)}
+          placeholder={t('search.title')}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <Iconify icon="eva:search-fill" sx={{ color: 'text.disabled' }} />
+              </InputAdornment>
+            ),
+          }}
+        />
 
         <PostSort sort={sortBy} onSort={handleSortBy} sortOptions={[
           { value: 'latest', label: t('latest') },
