@@ -111,8 +111,7 @@ export function useNavData() {
             path: paths.dashboard.station.root,
             icon: ICONS.station,
             children: [
-              { title: t('points'), path: paths.dashboard.station.points },
-              { title: t('hearts'), path: paths.dashboard.station.hearts },
+              { title: t('list'), path: paths.dashboard.station.points },
               { title: t('requests'), path: paths.dashboard.station.requests }
             ]
           },
@@ -127,7 +126,7 @@ export function useNavData() {
           // USER
           {
             title: t('users'),
-            path: paths.dashboard.user.root,
+            path: paths.dashboard.user.list,
             icon: ICONS.user
           }
         ],
