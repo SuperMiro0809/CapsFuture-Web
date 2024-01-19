@@ -13,8 +13,8 @@ export async function getPosts(pagination, order, filters, lang) {
       })
     }
 
-    if (order?.field && order?.direction) {
-      URL += `&field=${order.field}&direction=${order.direction}`;
+    if (order?.orderBy && order?.direction) {
+      URL += `&field=${order.orderBy}&direction=${order.direction}`;
     }
 
     const res = await axios.get(URL);
