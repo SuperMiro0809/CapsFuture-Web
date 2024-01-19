@@ -1,27 +1,29 @@
 'use client';
 
-import orderBy from 'lodash/orderBy';
-import { useState, useCallback } from 'react';
-
+import PropTypes from 'prop-types';
+import { useState, useEffect, useCallback } from 'react';
+// @mui
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
-
+// routes
 import { paths } from 'src/routes/paths';
 import { RouterLink } from 'src/routes/components';
-
+import { useRouter, usePathname, useSearchParams } from 'src/routes/hooks';
+// hooks
 import { useDebounce } from 'src/hooks/use-debounce';
-
-import { POST_SORT_OPTIONS } from 'src/_mock';
-import { useGetPosts, useSearchPosts } from 'src/api/blog';
-
+// locales
+import { useTranslate } from 'src/locales';
+// utils
+import { makeQuery } from 'src/utils/url-query';
+// components
 import Label from 'src/components/label';
 import Iconify from 'src/components/iconify';
 import { useSettingsContext } from 'src/components/settings';
 import CustomBreadcrumbs from 'src/components/custom-breadcrumbs';
-
+//
 import PostSort from '../post-sort';
 import PostSearch from '../post-search';
 import PostListHorizontal from '../post-list-horizontal';
@@ -29,13 +31,25 @@ import PostListHorizontal from '../post-list-horizontal';
 // ----------------------------------------------------------------------
 
 const defaultFilters = {
-  publish: 'all',
+  active: 'all',
 };
 
 // ----------------------------------------------------------------------
 
-export default function PostListView() {
+export default function PostListView({ posts, postsCount }) {
+  const { t } = useTranslate();
+
+  const router = useRouter();
+
+  const pathname = usePathname();
+
+  const searchParams = useSearchParams();
+
   const settings = useSettingsContext();
+
+  const [page, setPage] = useState(1);
+
+  const perPage = 2;
 
   const [sortBy, setSortBy] = useState('latest');
 
@@ -43,17 +57,16 @@ export default function PostListView() {
 
   const [searchQuery, setSearchQuery] = useState('');
 
-  const debouncedQuery = useDebounce(searchQuery);
-
-  const { posts, postsLoading } = useGetPosts();
-
-  const { searchResults, searchLoading } = useSearchPosts(debouncedQuery);
-
   const dataFiltered = applyFilter({
     inputData: posts,
     filters,
-    sortBy,
   });
+  
+  const debouncedQuery = useDebounce(searchQuery);
+
+  const handlePageChange = useCallback((event, newPage) => {
+    setPage(newPage);
+  }, []);
 
   const handleSortBy = useCallback((newValue) => {
     setSortBy(newValue);
@@ -72,27 +85,50 @@ export default function PostListView() {
 
   const handleFilterPublish = useCallback(
     (event, newValue) => {
-      handleFilters('publish', newValue);
+      handleFilters('active', newValue);
     },
     [handleFilters]
   );
 
+  useEffect(() => {
+    const pagination = {
+      page: page,
+      limit: perPage
+    };
+
+    const order = {
+      orderBy: 'created_at',
+      direction: sortBy === 'latest' ? 'asc' : 'desc'
+    };
+
+    const query = makeQuery(searchParams, pagination, order, []);
+
+    router.push(`${pathname}${query}`);
+  }, [page, sortBy])
+
+  // useEffect(() => {
+  //   const { active } = filters;
+    
+  //   if (active !== 'all') {
+  //     const inputData = posts.filter((post) => post.active === (active === 'published' ? 1 : 0));
+  //     setPostsData(inputData);
+  //   }else {
+  //     setPostsData(posts);
+  //   }
+  // }, [filters])
+
   return (
     <Container maxWidth={settings.themeStretch ? false : 'lg'}>
       <CustomBreadcrumbs
-        heading="List"
+        heading={t('posts')}
         links={[
           {
-            name: 'Dashboard',
+            name: t('dashboard'),
             href: paths.dashboard.root,
           },
           {
-            name: 'Blog',
-            href: paths.dashboard.post.root,
-          },
-          {
-            name: 'List',
-          },
+            name: t('posts')
+          }
         ]}
         action={
           <Button
@@ -100,8 +136,9 @@ export default function PostListView() {
             href={paths.dashboard.post.new}
             variant="contained"
             startIcon={<Iconify icon="mingcute:add-line" />}
+            color='secondary'
           >
-            New Post
+            {t('new-post')}
           </Button>
         }
         sx={{
@@ -118,19 +155,22 @@ export default function PostListView() {
           mb: { xs: 3, md: 5 },
         }}
       >
-        <PostSearch
+        {/* <PostSearch
           query={debouncedQuery}
-          results={searchResults}
+          results={[]}
           onSearch={handleSearch}
           loading={searchLoading}
           hrefItem={(title) => paths.dashboard.post.details(title)}
-        />
+        /> */}
 
-        <PostSort sort={sortBy} onSort={handleSortBy} sortOptions={POST_SORT_OPTIONS} />
+        <PostSort sort={sortBy} onSort={handleSortBy} sortOptions={[
+          { value: 'latest', label: t('latest') },
+          { value: 'oldest', label: t('oldest') },
+        ]} />
       </Stack>
 
       <Tabs
-        value={filters.publish}
+        value={filters.active}
         onChange={handleFilterPublish}
         sx={{
           mb: { xs: 3, md: 5 },
@@ -141,17 +181,17 @@ export default function PostListView() {
             key={tab}
             iconPosition="end"
             value={tab}
-            label={tab}
+            label={t(tab)}
             icon={
               <Label
                 variant={((tab === 'all' || tab === filters.publish) && 'filled') || 'soft'}
-                color={(tab === 'published' && 'info') || 'default'}
+                color={(tab === 'published' && 'primary') || (tab === 'draft' && 'secondary') || 'default'}
               >
                 {tab === 'all' && posts.length}
 
-                {tab === 'published' && posts.filter((post) => post.publish === 'published').length}
+                {tab === 'published' && posts.filter((post) => post.active).length}
 
-                {tab === 'draft' && posts.filter((post) => post.publish === 'draft').length}
+                {tab === 'draft' && posts.filter((post) => !post.active).length}
               </Label>
             }
             sx={{ textTransform: 'capitalize' }}
@@ -159,30 +199,30 @@ export default function PostListView() {
         ))}
       </Tabs>
 
-      <PostListHorizontal posts={dataFiltered} loading={postsLoading} />
+      <PostListHorizontal
+        posts={dataFiltered}
+        postsCount={postsCount}
+        page={page}
+        handlePageChange={handlePageChange}
+        perPage={perPage}
+        loading={false}
+      />
     </Container>
   );
 }
 
+PostListView.propTypes = {
+  posts: PropTypes.array,
+  postsCount: PropTypes.number
+}
+
 // ----------------------------------------------------------------------
 
-const applyFilter = ({ inputData, filters, sortBy }) => {
-  const { publish } = filters;
+const applyFilter = ({ inputData, filters }) => {
+  const { active } = filters;
 
-  if (sortBy === 'latest') {
-    inputData = orderBy(inputData, ['createdAt'], ['desc']);
-  }
-
-  if (sortBy === 'oldest') {
-    inputData = orderBy(inputData, ['createdAt'], ['asc']);
-  }
-
-  if (sortBy === 'popular') {
-    inputData = orderBy(inputData, ['totalViews'], ['desc']);
-  }
-
-  if (publish !== 'all') {
-    inputData = inputData.filter((post) => post.publish === publish);
+  if (active !== 'all') {
+    inputData = inputData.filter((post) => post.active === (active === 'published' ? 1 : 0));
   }
 
   return inputData;

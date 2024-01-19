@@ -1,14 +1,21 @@
 import PropTypes from 'prop-types';
-
+// @mui
 import Box from '@mui/material/Box';
 import Pagination, { paginationClasses } from '@mui/material/Pagination';
-
+//
 import { PostItemSkeleton } from './post-skeleton';
 import PostItemHorizontal from './post-item-horizontal';
 
 // ----------------------------------------------------------------------
 
-export default function PostListHorizontal({ posts, loading }) {
+export default function PostListHorizontal({
+  posts,
+  postsCount,
+  page,
+  handlePageChange,
+  perPage,
+  loading
+}) {
   const renderSkeleton = (
     <>
       {[...Array(16)].map((_, index) => (
@@ -38,9 +45,11 @@ export default function PostListHorizontal({ posts, loading }) {
         {loading ? renderSkeleton : renderList}
       </Box>
 
-      {posts.length > 8 && (
+      {postsCount > perPage && (
         <Pagination
-          count={8}
+          count={Math.ceil(postsCount / perPage)}
+          page={page}
+          onChange={handlePageChange}
           sx={{
             mt: 8,
             [`& .${paginationClasses.ul}`]: {
@@ -54,6 +63,10 @@ export default function PostListHorizontal({ posts, loading }) {
 }
 
 PostListHorizontal.propTypes = {
-  loading: PropTypes.bool,
   posts: PropTypes.array,
+  postsCount: PropTypes.number,
+  page: PropTypes.number,
+  handlePageChange: PropTypes.func,
+  perPage: PropTypes.number,
+  loading: PropTypes.bool
 };

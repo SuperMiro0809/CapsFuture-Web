@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-
+// @mui
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
 import Card from '@mui/material/Card';
@@ -7,42 +7,68 @@ import Stack from '@mui/material/Stack';
 import Avatar from '@mui/material/Avatar';
 import MenuItem from '@mui/material/MenuItem';
 import IconButton from '@mui/material/IconButton';
-
+// routes
 import { paths } from 'src/routes/paths';
 import { useRouter } from 'src/routes/hooks';
 import { RouterLink } from 'src/routes/components';
-
+// hooks
 import { useResponsive } from 'src/hooks/use-responsive';
-
+// locales
+import { useTranslate } from 'src/locales';
+// utils
 import { fDate } from 'src/utils/format-time';
 import { fShortenNumber } from 'src/utils/format-number';
-
+// api
+import { deletePost } from 'src/api/blog';
+// components
+import { useSnackbar } from 'src/components/snackbar';
 import Label from 'src/components/label';
 import Image from 'src/components/image';
 import Iconify from 'src/components/iconify';
 import TextMaxLine from 'src/components/text-max-line';
 import CustomPopover, { usePopover } from 'src/components/custom-popover';
+//
+import { ASSETS } from 'src/config-global';
 
 // ----------------------------------------------------------------------
 
 export default function PostItemHorizontal({ post }) {
+  const { t } = useTranslate();
+
   const popover = usePopover();
 
   const router = useRouter();
 
   const smUp = useResponsive('up', 'sm');
 
+  const { enqueueSnackbar } = useSnackbar();
+
   const {
+    id,
+    slug,
     title,
+    title_image_path,
+    short_description,
+    description,
     author,
-    publish,
+    active,
     coverUrl,
-    createdAt,
+    created_at,
     totalViews,
     totalShares,
     totalComments,
-    description,
   } = post;
+
+  const handleDelete = async () => {
+    try {
+      await deletePost(id);
+
+      enqueueSnackbar(t('detele-success'));
+      router.refresh();
+    } catch (error) {
+      enqueueSnackbar(error.message, { variant: 'error' });
+    }
+  }
 
   return (
     <>
@@ -50,27 +76,28 @@ export default function PostItemHorizontal({ post }) {
         <Stack
           sx={{
             p: (theme) => theme.spacing(3, 3, 2, 3),
+            flexGrow: 1
           }}
         >
           <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ mb: 2 }}>
-            <Label variant="soft" color={(publish === 'published' && 'info') || 'default'}>
-              {publish}
+            <Label variant="soft" color={(active ? 'primary' : 'secondary') || 'default'}>
+              {active ? t('published') : t('draft')}
             </Label>
 
             <Box component="span" sx={{ typography: 'caption', color: 'text.disabled' }}>
-              {fDate(createdAt)}
+              {fDate(created_at)}
             </Box>
           </Stack>
 
           <Stack spacing={1} flexGrow={1}>
-            <Link color="inherit" component={RouterLink} href={paths.dashboard.post.details(title)}>
+            <Link color="inherit" component={RouterLink} href={paths.dashboard.post.details(slug)}>
               <TextMaxLine variant="subtitle2" line={2}>
                 {title}
               </TextMaxLine>
             </Link>
 
             <TextMaxLine variant="body2" sx={{ color: 'text.secondary' }}>
-              {description}
+              {short_description}
             </TextMaxLine>
           </Stack>
 
@@ -92,17 +119,17 @@ export default function PostItemHorizontal({ post }) {
             >
               <Stack direction="row" alignItems="center">
                 <Iconify icon="eva:message-circle-fill" width={16} sx={{ mr: 0.5 }} />
-                {fShortenNumber(totalComments)}
+                {fShortenNumber(20)}
               </Stack>
 
               <Stack direction="row" alignItems="center">
                 <Iconify icon="solar:eye-bold" width={16} sx={{ mr: 0.5 }} />
-                {fShortenNumber(totalViews)}
+                {fShortenNumber(20)}
               </Stack>
 
               <Stack direction="row" alignItems="center">
                 <Iconify icon="solar:share-bold" width={16} sx={{ mr: 0.5 }} />
-                {fShortenNumber(totalShares)}
+                {fShortenNumber(20)}
               </Stack>
             </Stack>
           </Stack>
@@ -119,11 +146,11 @@ export default function PostItemHorizontal({ post }) {
             }}
           >
             <Avatar
-              alt={author.name}
-              src={author.avatarUrl}
+              alt={'author.name'}
+              src={'author.avatarUrl'}
               sx={{ position: 'absolute', top: 16, right: 16, zIndex: 9 }}
             />
-            <Image alt={title} src={coverUrl} sx={{ height: 1, borderRadius: 1.5 }} />
+            <Image alt={title} src={`${ASSETS}/${title_image_path}`} sx={{ height: 1, borderRadius: 1.5 }} />
           </Box>
         )}
       </Stack>
@@ -132,36 +159,34 @@ export default function PostItemHorizontal({ post }) {
         open={popover.open}
         onClose={popover.onClose}
         arrow="bottom-center"
-        sx={{ width: 140 }}
+        sx={{ width: 180 }}
       >
         <MenuItem
           onClick={() => {
             popover.onClose();
-            router.push(paths.dashboard.post.details(title));
+            router.push(paths.dashboard.post.details(slug));
           }}
         >
           <Iconify icon="solar:eye-bold" />
-          View
+          {t('preview')}
         </MenuItem>
 
         <MenuItem
           onClick={() => {
             popover.onClose();
-            router.push(paths.dashboard.post.edit(title));
+            router.push(paths.dashboard.post.edit(slug));
           }}
         >
           <Iconify icon="solar:pen-bold" />
-          Edit
+          {t('edit')}
         </MenuItem>
 
         <MenuItem
-          onClick={() => {
-            popover.onClose();
-          }}
+          onClick={handleDelete}
           sx={{ color: 'error.main' }}
         >
           <Iconify icon="solar:trash-bin-trash-bold" />
-          Delete
+          {t('delete.action')}
         </MenuItem>
       </CustomPopover>
     </>
@@ -172,7 +197,7 @@ PostItemHorizontal.propTypes = {
   post: PropTypes.shape({
     author: PropTypes.object,
     coverUrl: PropTypes.string,
-    createdAt: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(Date)]),
+    created_at: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(Date)]),
     description: PropTypes.string,
     publish: PropTypes.string,
     title: PropTypes.string,

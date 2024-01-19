@@ -25,9 +25,11 @@ export function makeQuery(searchParams, pagination, order, filters) {
 
   current.set('limit', pagination.limit);
 
-  current.set('orderBy', order.orderBy);
+  if(order.orderBy && order.direction) {
+    current.set('orderBy', order.orderBy);
 
-  current.set('direction', order.direction);
+    current.set('direction', order.direction);
+  }
 
   if (filters.length) {
     filters.forEach(filter => {

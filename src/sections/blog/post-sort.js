@@ -1,15 +1,19 @@
 import PropTypes from 'prop-types';
-
+// @mui
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
-
+// locales
+import { useTranslate } from 'src/locales';
+// components
 import Iconify from 'src/components/iconify';
 import CustomPopover, { usePopover } from 'src/components/custom-popover';
 
 // ----------------------------------------------------------------------
 
 export default function PostSort({ sort, sortOptions, onSort }) {
+  const { t } = useTranslate();
+
   const popover = usePopover();
 
   return (
@@ -23,11 +27,11 @@ export default function PostSort({ sort, sortOptions, onSort }) {
             icon={popover.open ? 'eva:arrow-ios-upward-fill' : 'eva:arrow-ios-downward-fill'}
           />
         }
-        sx={{ fontWeight: 'fontWeightSemiBold', textTransform: 'capitalize' }}
+        sx={{ fontWeight: 'fontWeightSemiBold' }}
       >
-        Sort By:
+        {t('sort-by')}:
         <Box component="span" sx={{ ml: 0.5, fontWeight: 'fontWeightBold' }}>
-          {sort}
+          {t(sort)}
         </Box>
       </Button>
 
