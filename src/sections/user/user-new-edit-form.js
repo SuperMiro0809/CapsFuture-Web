@@ -3,24 +3,30 @@ import PropTypes from 'prop-types';
 import { useMemo, useCallback } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-
+// @mui
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
 import Switch from '@mui/material/Switch';
 import Grid from '@mui/material/Unstable_Grid2';
 import Typography from '@mui/material/Typography';
 import LoadingButton from '@mui/lab/LoadingButton';
 import FormControlLabel from '@mui/material/FormControlLabel';
-
+import InputAdornment from '@mui/material/InputAdornment';
+import IconButton from '@mui/material/IconButton';
+// hooks
+import { useBoolean } from 'src/hooks/use-boolean';
+// routes
 import { paths } from 'src/routes/paths';
 import { useRouter } from 'src/routes/hooks';
-
+// locales
+import { useTranslate } from 'src/locales';
+// utils
 import { fData } from 'src/utils/format-number';
-
-import { countries } from 'src/assets/data';
-
+import constructFormData from 'src/utils/form-data';
+// api
+import { createUser, editUser } from 'src/api/user';
+// components
 import Label from 'src/components/label';
 import Iconify from 'src/components/iconify';
 import { useSnackbar } from 'src/components/snackbar';
@@ -30,47 +36,56 @@ import FormProvider, {
   RHFUploadAvatar,
   RHFAutocomplete,
 } from 'src/components/hook-form';
+//
+import { ASSETS } from 'src/config-global';
 
 // ----------------------------------------------------------------------
 
-export default function UserNewEditForm({ currentUser }) {
+export default function UserNewEditForm({ roles, currentUser }) {
+  const { t } = useTranslate();
+
   const router = useRouter();
 
   const { enqueueSnackbar } = useSnackbar();
 
+  const password = useBoolean();
+
   const NewUserSchema = Yup.object().shape({
-    name: Yup.string().required('Name is required'),
-    email: Yup.string().required('Email is required').email('Email must be a valid email address'),
-    phoneNumber: Yup.string().required('Phone number is required'),
-    address: Yup.string().required('Address is required'),
-    country: Yup.string().required('Country is required'),
-    company: Yup.string().required('Company is required'),
-    state: Yup.string().required('State is required'),
-    city: Yup.string().required('City is required'),
-    role: Yup.string().required('Role is required'),
-    zipCode: Yup.string().required('Zip code is required'),
-    avatarUrl: Yup.mixed().nullable().required('Avatar is required'),
+    first_name: Yup.string().required(t('validation.first_name.required')),
+    last_name: Yup.string().required(t('validation.last_name.required')),
+    email: Yup.string().required(t('validation.email.required')).email(t('validation.email.valid')),
+    password: Yup.string().required(t('validation.password.required')),
+    // phoneNumber: Yup.string().required('Phone number is required'),
+    // address: Yup.string().required('Address is required'),
+    // country: Yup.string().required('Country is required'),
+    // state: Yup.string().required('State is required'),
+    // city: Yup.string().required('City is required'),
+    role: Yup.object().required('Role is required'),
+    avatar_photo: Yup.mixed().nullable(),
     // not required
-    status: Yup.string(),
-    isVerified: Yup.boolean(),
+    // status: Yup.string(),
+    // isVerified: Yup.boolean(),
   });
 
+  const rolesOptions = roles.map((role) => ({ label: role.name, value: role.id }));
+
   const defaultValues = useMemo(
-    () => ({
-      name: currentUser?.name || '',
-      city: currentUser?.city || '',
-      role: currentUser?.role || '',
-      email: currentUser?.email || '',
-      state: currentUser?.state || '',
-      status: currentUser?.status || '',
-      address: currentUser?.address || '',
-      country: currentUser?.country || '',
-      zipCode: currentUser?.zipCode || '',
-      company: currentUser?.company || '',
-      avatarUrl: currentUser?.avatarUrl || null,
-      phoneNumber: currentUser?.phoneNumber || '',
-      isVerified: currentUser?.isVerified || true,
-    }),
+    () => {
+
+      let roleValue = null;
+      if(currentUser?.role_id) {
+        roleValue = rolesOptions.find((role) => role.value === currentUser.role_id);
+      }
+
+      return {
+        first_name: currentUser?.first_name || '',
+        last_name: currentUser?.last_name || '',
+        email: currentUser?.email || '',
+        password: currentUser?.password ? 'password' : '',
+        role: roleValue,
+        avatar_photo: currentUser?.avatar_photo_path ? { preview: `${ASSETS}/${currentUser.avatar_photo_path}` } : null,
+      }
+    },
     [currentUser]
   );
 
@@ -91,14 +106,24 @@ export default function UserNewEditForm({ currentUser }) {
   const values = watch();
 
   const onSubmit = handleSubmit(async (data) => {
+    const { avatar_photo } = data;
+    const values = constructFormData(data);
+
+    values.append('avatar_photo', avatar_photo);
+
     try {
-      await new Promise((resolve) => setTimeout(resolve, 500));
+      if(currentUser) {
+        await editUser(currentUser.id, values);
+      }else {
+        await createUser(values);
+      }
+      
       reset();
-      enqueueSnackbar(currentUser ? 'Update success!' : 'Create success!');
-      router.push(paths.dashboard.user.list);
-      console.info('DATA', data);
+      enqueueSnackbar(currentUser ? t('edit-success') : t('create-success'));
+      router.push(paths.dashboard.user.root);
     } catch (error) {
       console.error(error);
+      enqueueSnackbar(error.message, { variant: 'error' });
     }
   });
 
@@ -111,7 +136,7 @@ export default function UserNewEditForm({ currentUser }) {
       });
 
       if (file) {
-        setValue('avatarUrl', newFile, { shouldValidate: true });
+        setValue('avatar_photo', newFile, { shouldValidate: true });
       }
     },
     [setValue]
@@ -122,7 +147,7 @@ export default function UserNewEditForm({ currentUser }) {
       <Grid container spacing={3}>
         <Grid xs={12} md={4}>
           <Card sx={{ pt: 10, pb: 5, px: 3 }}>
-            {currentUser && (
+            {/* {currentUser && (
               <Label
                 color={
                   (values.status === 'active' && 'success') ||
@@ -133,16 +158,16 @@ export default function UserNewEditForm({ currentUser }) {
               >
                 {values.status}
               </Label>
-            )}
+            )} */}
 
             <Box sx={{ mb: 5 }}>
               <RHFUploadAvatar
-                name="avatarUrl"
+                name='avatar_photo'
                 maxSize={3145728}
                 onDrop={handleDrop}
                 helperText={
                   <Typography
-                    variant="caption"
+                    variant='caption'
                     sx={{
                       mt: 3,
                       mx: 'auto',
@@ -160,10 +185,10 @@ export default function UserNewEditForm({ currentUser }) {
 
             {currentUser && (
               <FormControlLabel
-                labelPlacement="start"
+                labelPlacement='start'
                 control={
                   <Controller
-                    name="status"
+                    name='status'
                     control={control}
                     render={({ field }) => (
                       <Switch
@@ -190,7 +215,7 @@ export default function UserNewEditForm({ currentUser }) {
               />
             )}
 
-            <RHFSwitch
+            {/* <RHFSwitch
               name="isVerified"
               labelPlacement="start"
               label={
@@ -204,15 +229,15 @@ export default function UserNewEditForm({ currentUser }) {
                 </>
               }
               sx={{ mx: 0, width: 1, justifyContent: 'space-between' }}
-            />
+            /> */}
 
-            {currentUser && (
+            {/* {currentUser && (
               <Stack justifyContent="center" alignItems="center" sx={{ mt: 3 }}>
                 <Button variant="soft" color="error">
                   Delete User
                 </Button>
               </Stack>
-            )}
+            )} */}
           </Card>
         </Grid>
 
@@ -227,50 +252,42 @@ export default function UserNewEditForm({ currentUser }) {
                 sm: 'repeat(2, 1fr)',
               }}
             >
-              <RHFTextField name="name" label="Full Name" />
-              <RHFTextField name="email" label="Email Address" />
-              <RHFTextField name="phoneNumber" label="Phone Number" />
+              <RHFTextField name="first_name" label={t('first-name')} />
+
+              <RHFTextField name="last_name" label={t('last-name')} />
+
+              <RHFTextField name="email" label={t('email')} />
+
+              {!currentUser && (
+                <RHFTextField
+                  name='password'
+                  type={password.value ? 'text' : 'password'}
+                  label={t('password')}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position='end'>
+                        <IconButton onClick={password.onToggle} edge='end'>
+                          <Iconify icon={password.value ? 'solar:eye-bold' : 'solar:eye-closed-bold'} />
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+              )}
 
               <RHFAutocomplete
-                name="country"
-                label="Country"
-                options={countries.map((country) => country.label)}
-                getOptionLabel={(option) => option}
-                isOptionEqualToValue={(option, value) => option === value}
-                renderOption={(props, option) => {
-                  const { code, label, phone } = countries.filter(
-                    (country) => country.label === option
-                  )[0];
-
-                  if (!label) {
-                    return null;
-                  }
-
-                  return (
-                    <li {...props} key={label}>
-                      <Iconify
-                        key={label}
-                        icon={`circle-flags:${code.toLowerCase()}`}
-                        width={28}
-                        sx={{ mr: 1 }}
-                      />
-                      {label} ({code}) +{phone}
-                    </li>
-                  );
-                }}
+                name='role'
+                label={t('role')}
+                options={roles.map((role) => ({ label: role.name, value: role.id }))}
+                getOptionLabel={(option) => option.label}
+                isOptionEqualToValue={(option, value) => option.value === value.value}
               />
-
-              <RHFTextField name="state" label="State/Region" />
-              <RHFTextField name="city" label="City" />
-              <RHFTextField name="address" label="Address" />
-              <RHFTextField name="zipCode" label="Zip/Code" />
-              <RHFTextField name="company" label="Company" />
-              <RHFTextField name="role" label="Role" />
             </Box>
+
 
             <Stack alignItems="flex-end" sx={{ mt: 3 }}>
               <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-                {!currentUser ? 'Create User' : 'Save Changes'}
+                {!currentUser ? t('create') : t('save')}
               </LoadingButton>
             </Stack>
           </Card>
@@ -281,5 +298,6 @@ export default function UserNewEditForm({ currentUser }) {
 }
 
 UserNewEditForm.propTypes = {
+  roles: PropTypes.array,
   currentUser: PropTypes.object,
 };

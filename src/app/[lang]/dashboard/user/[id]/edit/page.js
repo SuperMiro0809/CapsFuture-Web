@@ -1,8 +1,7 @@
-import PropTypes from 'prop-types';
-
-import { _userList } from 'src/_mock/_user';
-
 import { UserEditView } from 'src/sections/user/view';
+// api
+import { getUserById } from 'src/api/user';
+import { getRoles } from 'src/api/role';
 
 // ----------------------------------------------------------------------
 
@@ -10,20 +9,25 @@ export const metadata = {
   title: 'Dashboard: User Edit',
 };
 
-export default function UserEditPage({ params }) {
+async function getData(id) {
+  try {
+    const userRes = await getUserById(id);
+    const rolesRes = await getRoles();
+
+    return { user: userRes.data, roles: rolesRes.data };
+  } catch (error) {
+    return { error };
+  }
+}
+
+export default async function UserEditPage({ params }) {
   const { id } = params;
 
-  return <UserEditView id={id} />;
-}
+  const { user, roles, error } = await getData(id);
 
-export async function generateStaticParams() {
-  return _userList.map((user) => ({
-    id: user.id,
-  }));
-}
+  if (error) {
+    return <div>{JSON.stringify(errpr)}</div>
+  }
 
-UserEditPage.propTypes = {
-  params: PropTypes.shape({
-    id: PropTypes.string,
-  }),
-};
+  return <UserEditView user={user} roles={roles} />;
+}
