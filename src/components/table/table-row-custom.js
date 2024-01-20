@@ -119,19 +119,17 @@ export default function TableRowCustom({
                         </TableCell>
                     );
                 }
-                //  else if (type === 'chip') {
-                //     return (
-                //         <TableCell key={heading.id} align={heading.align} style={{ maxHeight: "20px", overflow: "hidden" }}>
-                //             <ChipColumn
-                //                 value={value}
-                //                 select={heading.select}
-                //                 options={heading.options}
-                //                 handler={heading.handler}
-                //                 newRequest={newRequest}
-                //                 row={row}
-                //             />
-                //         </TableCell>
-                //     );
+                else if (type === 'chip') {
+                    return (
+                        <TableCell key={heading.id} align={heading.align} style={{ maxHeight: "20px", overflow: "hidden" }}>
+                            <Chip
+                                color={heading?.getColor ? heading.getColor(value) : 'default'}
+                                label={value}
+                                sx={{ maxWidth: '150px' }}
+                            />
+                        </TableCell>
+                    );
+                }
                 // } else if (type === 'button') {
                 //     const handler = heading.handler;
 

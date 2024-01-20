@@ -77,7 +77,7 @@ export default function UserListView({ users, usersCount, roles }) {
     { id: 'full_name', type: 'text-with-image', label: t('full-name'), imageSelector: 'avatar_photo_path', imageVariant: 'circular' },
     { id: 'email', label: t('email'), width: 180 },
     { id: 'phone', label: t('phone'), width: 400 },
-    { id: 'role_name', label: t('role'), width: 100 }
+    { id: 'role_name', type: 'chip', label: t('role'), getColor: (value) => value === 'Admin' ? 'primary' : 'secondary', width: 100 }
   ];
 
   const handleDelete = async (ids) => {
