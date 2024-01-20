@@ -87,7 +87,7 @@ export default function TableRowCustom({
                             ) : (
                                 <Avatar
                                     src={`${ASSETS}/${row[heading.imageSelector]}`}
-                                    variant='rounded'
+                                    variant={heading?.imageVariant || 'rounded'}
                                     sx={{ width: 64, height: 64, mr: 2 }}
                                 />
                             )}

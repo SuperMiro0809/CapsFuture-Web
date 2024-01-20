@@ -35,7 +35,7 @@ export function makeQuery(searchParams, pagination, order, filters) {
     filters.forEach(filter => {
       if (Array.isArray(filter.value)) {
         // handle array
-      } else if (isValid(filter.value)) {
+      } else if (typeof filter.value === 'object' && isValid(filter.value)) {
         current.set(filter.id, format(filter.value, 'yyyy-MM-dd'))
       } else {
         current.set(filter.id, filter.value || '');

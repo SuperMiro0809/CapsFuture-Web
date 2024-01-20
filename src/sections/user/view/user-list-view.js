@@ -1,369 +1,157 @@
 'use client';
 
-import isEqual from 'lodash/isEqual';
-import { useState, useCallback } from 'react';
-
-import Tab from '@mui/material/Tab';
-import Tabs from '@mui/material/Tabs';
+import PropTypes from 'prop-types';
+import { useEffect } from 'react';
+// @mui
 import Card from '@mui/material/Card';
-import Table from '@mui/material/Table';
 import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
-import { alpha } from '@mui/material/styles';
 import Container from '@mui/material/Container';
-import TableBody from '@mui/material/TableBody';
-import IconButton from '@mui/material/IconButton';
-import TableContainer from '@mui/material/TableContainer';
-
+// routes
 import { paths } from 'src/routes/paths';
-import { useRouter } from 'src/routes/hooks';
+import { useRouter, useSearchParams, usePathname } from 'src/routes/hooks';
 import { RouterLink } from 'src/routes/components';
-
-import { useBoolean } from 'src/hooks/use-boolean';
-
-import { _roles, _userList, USER_STATUS_OPTIONS } from 'src/_mock';
-
-import Label from 'src/components/label';
+// api
+import { deleteUser, deleteUsers } from 'src/api/user';
+// components
 import Iconify from 'src/components/iconify';
-import Scrollbar from 'src/components/scrollbar';
-import { ConfirmDialog } from 'src/components/custom-dialog';
 import { useSettingsContext } from 'src/components/settings';
 import CustomBreadcrumbs from 'src/components/custom-breadcrumbs';
-import {
-  useTable,
-  emptyRows,
-  TableNoData,
-  getComparator,
-  TableEmptyRows,
-  TableHeadCustom,
-  TableSelectedAction,
-  TablePaginationCustom,
-} from 'src/components/table';
+import { useTable } from 'src/components/table';
+import TableBuilder from 'src/components/table-builder';
+import { useSnackbar } from 'src/components/snackbar';
+// utils
+import { makeQuery } from 'src/utils/url-query';
+// i18n
+import { useTranslate } from 'src/locales';
 
-import UserTableRow from '../user-table-row';
-import UserTableToolbar from '../user-table-toolbar';
-import UserTableFiltersResult from '../user-table-filters-result';
-
-// ----------------------------------------------------------------------
-
-const STATUS_OPTIONS = [{ value: 'all', label: 'All' }, ...USER_STATUS_OPTIONS];
-
-const TABLE_HEAD = [
-  { id: 'name', label: 'Name' },
-  { id: 'phoneNumber', label: 'Phone Number', width: 180 },
-  { id: 'company', label: 'Company', width: 220 },
-  { id: 'role', label: 'Role', width: 180 },
-  { id: 'status', label: 'Status', width: 100 },
-  { id: '', width: 88 },
-];
-
-const defaultFilters = {
-  name: '',
-  role: [],
-  status: 'all',
-};
-
-// ----------------------------------------------------------------------
-
-export default function UserListView() {
-  const table = useTable();
-
-  const settings = useSettingsContext();
+export default function UserListView({ users, usersCount, roles }) {
+  const { t } = useTranslate();
 
   const router = useRouter();
 
-  const confirm = useBoolean();
+  const pathname = usePathname();
 
-  const [tableData, setTableData] = useState(_userList);
+  const searchParams = useSearchParams();
 
-  const [filters, setFilters] = useState(defaultFilters);
+  const rolesOptions = roles.map((role) => ({ label: role.name, value: role.id }));
 
-  const dataFiltered = applyFilter({
-    inputData: tableData,
-    comparator: getComparator(table.order, table.orderBy),
-    filters,
+  const fullNameFilterValue = searchParams.get('full_name');
+  const emailFilterValue = searchParams.get('email');
+  const roleFilterValue = Number(searchParams.get('role')) || null;
+  const tableFilters = [
+    { type: 'search', name: 'full_name', placeholder: 'Търси по Име', value: fullNameFilterValue },
+    { type: 'search', name: 'email', placeholder: 'Tърси по Имейл', value: emailFilterValue },
+    { 
+      type: 'select',
+      name: 'role',
+      placeholder: t('role'),
+      options: rolesOptions,
+      getOptionLabel: (option) => option?.label || rolesOptions.find((role) => role.value === option)?.label,
+      isOptionEqualToValue: (option, value) => option.value === value,
+      value: roleFilterValue
+    },
+  ];
+
+  let defaultCurrentPage = 0;
+  if (Number(searchParams.get('page'))) {
+    defaultCurrentPage = Number(searchParams.get('page')) === 0 ? Number(searchParams.get('page')) : Number(searchParams.get('page')) - 1;
+  }
+
+  const defaultRowsPerPage = Number(searchParams.get('limit')) || 5;
+  const defaultOrderBy = searchParams.get('orderBy') || 'full_name';
+  const defaultOrder = searchParams.get('direction') || 'asc';
+
+  const table = useTable({
+    filters: tableFilters,
+    defaultCurrentPage,
+    defaultRowsPerPage,
+    defaultOrderBy,
+    defaultOrder
   });
 
-  const dataInPage = dataFiltered.slice(
-    table.page * table.rowsPerPage,
-    table.page * table.rowsPerPage + table.rowsPerPage
-  );
+  const settings = useSettingsContext();
 
-  const denseHeight = table.dense ? 52 : 72;
+  const { enqueueSnackbar } = useSnackbar();
 
-  const canReset = !isEqual(defaultFilters, filters);
+  const TABLE_HEAD = [
+    { id: 'full_name', type: 'text-with-image', label: t('full-name'), imageSelector: 'avatar_photo_path', imageVariant: 'circular' },
+    { id: 'email', label: t('email'), width: 180 },
+    { id: 'phone', label: t('phone'), width: 400 },
+    { id: 'role_name', label: t('role'), width: 100 }
+  ];
 
-  const notFound = (!dataFiltered.length && canReset) || !dataFiltered.length;
+  const handleDelete = async (ids) => {
+    try {
+      if (ids.length === 1) {
+        const id = ids[0];
 
-  const handleFilters = useCallback(
-    (name, value) => {
-      table.onResetPage();
-      setFilters((prevState) => ({
-        ...prevState,
-        [name]: value,
-      }));
-    },
-    [table]
-  );
+        await deleteUser(id);
+      } else {
+        await deleteUsers(ids);
+      }
 
-  const handleDeleteRow = useCallback(
-    (id) => {
-      const deleteRow = tableData.filter((row) => row.id !== id);
-      setTableData(deleteRow);
+      enqueueSnackbar(t('delete-success'));
+      router.refresh();
+    } catch (error) {
+      enqueueSnackbar(error.message, { variant: 'error' });
+    }
+  }
 
-      table.onUpdatePageDeleteRow(dataInPage.length);
-    },
-    [dataInPage.length, table, tableData]
-  );
+  useEffect(() => {
+    const pagination = {
+      page: table.page + 1,
+      limit: table.rowsPerPage
+    }
 
-  const handleDeleteRows = useCallback(() => {
-    const deleteRows = tableData.filter((row) => !table.selected.includes(row.id));
-    setTableData(deleteRows);
+    const order = {
+      orderBy: table.orderBy,
+      direction: table.order
+    }
 
-    table.onUpdatePageDeleteRows({
-      totalRows: tableData.length,
-      totalRowsInPage: dataInPage.length,
-      totalRowsFiltered: dataFiltered.length,
-    });
-  }, [dataFiltered.length, dataInPage.length, table, tableData]);
+    const query = makeQuery(searchParams, pagination, order, table.filters);
 
-  const handleEditRow = useCallback(
-    (id) => {
-      router.push(paths.dashboard.user.edit(id));
-    },
-    [router]
-  );
-
-  const handleFilterStatus = useCallback(
-    (event, newValue) => {
-      handleFilters('status', newValue);
-    },
-    [handleFilters]
-  );
-
-  const handleResetFilters = useCallback(() => {
-    setFilters(defaultFilters);
-  }, []);
+    router.push(`${pathname}${query}`);
+  }, [pathname, router, searchParams, table.page, table.rowsPerPage, table.orderBy, table.order, table.filters])
 
   return (
-    <>
-      <Container maxWidth={settings.themeStretch ? false : 'lg'}>
-        <CustomBreadcrumbs
-          heading="List"
-          links={[
-            { name: 'Dashboard', href: paths.dashboard.root },
-            { name: 'User', href: paths.dashboard.user.root },
-            { name: 'List' },
-          ]}
-          action={
-            <Button
-              component={RouterLink}
-              href={paths.dashboard.user.new}
-              variant="contained"
-              startIcon={<Iconify icon="mingcute:add-line" />}
-            >
-              New User
-            </Button>
-          }
-          sx={{
-            mb: { xs: 3, md: 5 },
-          }}
-        />
-
-        <Card>
-          <Tabs
-            value={filters.status}
-            onChange={handleFilterStatus}
-            sx={{
-              px: 2.5,
-              boxShadow: (theme) => `inset 0 -2px 0 0 ${alpha(theme.palette.grey[500], 0.08)}`,
-            }}
-          >
-            {STATUS_OPTIONS.map((tab) => (
-              <Tab
-                key={tab.value}
-                iconPosition="end"
-                value={tab.value}
-                label={tab.label}
-                icon={
-                  <Label
-                    variant={
-                      ((tab.value === 'all' || tab.value === filters.status) && 'filled') || 'soft'
-                    }
-                    color={
-                      (tab.value === 'active' && 'success') ||
-                      (tab.value === 'pending' && 'warning') ||
-                      (tab.value === 'banned' && 'error') ||
-                      'default'
-                    }
-                  >
-                    {tab.value === 'all' && _userList.length}
-                    {tab.value === 'active' &&
-                      _userList.filter((user) => user.status === 'active').length}
-
-                    {tab.value === 'pending' &&
-                      _userList.filter((user) => user.status === 'pending').length}
-                    {tab.value === 'banned' &&
-                      _userList.filter((user) => user.status === 'banned').length}
-                    {tab.value === 'rejected' &&
-                      _userList.filter((user) => user.status === 'rejected').length}
-                  </Label>
-                }
-              />
-            ))}
-          </Tabs>
-
-          <UserTableToolbar
-            filters={filters}
-            onFilters={handleFilters}
-            //
-            roleOptions={_roles}
-          />
-
-          {canReset && (
-            <UserTableFiltersResult
-              filters={filters}
-              onFilters={handleFilters}
-              //
-              onResetFilters={handleResetFilters}
-              //
-              results={dataFiltered.length}
-              sx={{ p: 2.5, pt: 0 }}
-            />
-          )}
-
-          <TableContainer sx={{ position: 'relative', overflow: 'unset' }}>
-            <TableSelectedAction
-              dense={table.dense}
-              numSelected={table.selected.length}
-              rowCount={tableData.length}
-              onSelectAllRows={(checked) =>
-                table.onSelectAllRows(
-                  checked,
-                  tableData.map((row) => row.id)
-                )
-              }
-              action={
-                <Tooltip title="Delete">
-                  <IconButton color="primary" onClick={confirm.onTrue}>
-                    <Iconify icon="solar:trash-bin-trash-bold" />
-                  </IconButton>
-                </Tooltip>
-              }
-            />
-
-            <Scrollbar>
-              <Table size={table.dense ? 'small' : 'medium'} sx={{ minWidth: 960 }}>
-                <TableHeadCustom
-                  order={table.order}
-                  orderBy={table.orderBy}
-                  headLabel={TABLE_HEAD}
-                  rowCount={tableData.length}
-                  numSelected={table.selected.length}
-                  onSort={table.onSort}
-                  onSelectAllRows={(checked) =>
-                    table.onSelectAllRows(
-                      checked,
-                      tableData.map((row) => row.id)
-                    )
-                  }
-                />
-
-                <TableBody>
-                  {dataFiltered
-                    .slice(
-                      table.page * table.rowsPerPage,
-                      table.page * table.rowsPerPage + table.rowsPerPage
-                    )
-                    .map((row) => (
-                      <UserTableRow
-                        key={row.id}
-                        row={row}
-                        selected={table.selected.includes(row.id)}
-                        onSelectRow={() => table.onSelectRow(row.id)}
-                        onDeleteRow={() => handleDeleteRow(row.id)}
-                        onEditRow={() => handleEditRow(row.id)}
-                      />
-                    ))}
-
-                  <TableEmptyRows
-                    height={denseHeight}
-                    emptyRows={emptyRows(table.page, table.rowsPerPage, tableData.length)}
-                  />
-
-                  <TableNoData notFound={notFound} />
-                </TableBody>
-              </Table>
-            </Scrollbar>
-          </TableContainer>
-
-          <TablePaginationCustom
-            count={dataFiltered.length}
-            page={table.page}
-            rowsPerPage={table.rowsPerPage}
-            onPageChange={table.onChangePage}
-            onRowsPerPageChange={table.onChangeRowsPerPage}
-            //
-            dense={table.dense}
-            onChangeDense={table.onChangeDense}
-          />
-        </Card>
-      </Container>
-
-      <ConfirmDialog
-        open={confirm.value}
-        onClose={confirm.onFalse}
-        title="Delete"
-        content={
-          <>
-            Are you sure want to delete <strong> {table.selected.length} </strong> items?
-          </>
-        }
+    <Container maxWidth={settings.themeStretch ? false : 'lg'}>
+      <CustomBreadcrumbs
+        heading={t('users')}
+        links={[
+          { name: t('dashboard'), href: paths.dashboard.root },
+          { name: t('users') }
+        ]}
         action={
           <Button
+            component={RouterLink}
+            href={paths.dashboard.user.new}
             variant="contained"
-            color="error"
-            onClick={() => {
-              handleDeleteRows();
-              confirm.onFalse();
-            }}
+            startIcon={<Iconify icon="mingcute:add-line" />}
+            color='secondary'
           >
-            Delete
+            {t('new-user')}
           </Button>
         }
+        sx={{
+          mb: { xs: 3, md: 5 },
+        }}
       />
-    </>
+
+      <Card>
+        <TableBuilder
+          table={table}
+          tableHead={TABLE_HEAD}
+          tableData={users}
+          tableTotal={usersCount}
+          tableFilters={tableFilters}
+          deleteHandler={handleDelete}
+        />
+      </Card>
+    </Container>
   );
 }
 
-// ----------------------------------------------------------------------
-
-function applyFilter({ inputData, comparator, filters }) {
-  const { name, status, role } = filters;
-
-  const stabilizedThis = inputData.map((el, index) => [el, index]);
-
-  stabilizedThis.sort((a, b) => {
-    const order = comparator(a[0], b[0]);
-    if (order !== 0) return order;
-    return a[1] - b[1];
-  });
-
-  inputData = stabilizedThis.map((el) => el[0]);
-
-  if (name) {
-    inputData = inputData.filter(
-      (user) => user.name.toLowerCase().indexOf(name.toLowerCase()) !== -1
-    );
-  }
-
-  if (status !== 'all') {
-    inputData = inputData.filter((user) => user.status === status);
-  }
-
-  if (role.length) {
-    inputData = inputData.filter((user) => role.includes(user.role));
-  }
-
-  return inputData;
+UserListView.propTypes = {
+  users: PropTypes.array,
+  usersCount: PropTypes.number
 }

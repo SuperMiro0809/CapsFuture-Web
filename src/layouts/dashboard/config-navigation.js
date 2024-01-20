@@ -126,7 +126,7 @@ export function useNavData() {
           // USER
           {
             title: t('users'),
-            path: paths.dashboard.user.list,
+            path: paths.dashboard.user.root,
             icon: ICONS.user
           }
         ],

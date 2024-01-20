@@ -47,6 +47,12 @@
     "price": "Цена",
     "active": "Активен",
     "enable-comments": "Включи коментари",
+    "email": "Имейл",
+    "password": "Парола",
+    "first-name": "Първо име",
+    "last-name": "Фамилия",
+    "role": "Роля",
+    "full-name": "Пълно име",
 
     "validation": {
         "title": {
