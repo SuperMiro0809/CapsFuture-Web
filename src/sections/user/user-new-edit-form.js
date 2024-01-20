@@ -81,7 +81,7 @@ export default function UserNewEditForm({ roles, currentUser }) {
         first_name: currentUser?.first_name || '',
         last_name: currentUser?.last_name || '',
         email: currentUser?.email || '',
-        password: currentUser?.password ? 'password' : '',
+        password: currentUser ? 'password' : '',
         role: roleValue,
         avatar_photo: currentUser?.avatar_photo_path ? { preview: `${ASSETS}/${currentUser.avatar_photo_path}` } : null,
       }
@@ -117,8 +117,7 @@ export default function UserNewEditForm({ roles, currentUser }) {
       }else {
         await createUser(values);
       }
-      
-      reset();
+
       enqueueSnackbar(currentUser ? t('edit-success') : t('create-success'));
       router.push(paths.dashboard.user.root);
     } catch (error) {
