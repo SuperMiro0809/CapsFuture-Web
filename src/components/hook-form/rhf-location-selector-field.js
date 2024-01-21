@@ -31,9 +31,10 @@ function SelectableMap({ center, zoom, markerPosition, onLocationSelect }) {
 };
 
 SelectableMap.propTypes = {
-  onLocationSelect: PropTypes.func,
   center: PropTypes.object,
-  zoom: PropTypes.number
+  zoom: PropTypes.number,
+  markerPosition: PropTypes.object,
+  onLocationSelect: PropTypes.func
 };
 
 // ----------------------------------------------------------------------
@@ -85,5 +86,6 @@ export default function RHFLocationSelectorField({ name, helperText, ...other })
 }
 
 RHFLocationSelectorField.propTypes = {
-  name: PropTypes.string
+  name: PropTypes.string,
+  helperText: PropTypes.string
 };
