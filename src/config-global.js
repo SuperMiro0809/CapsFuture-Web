@@ -10,6 +10,11 @@ export const MAPBOX_API = process.env.NEXT_PUBLIC_MAPBOX_API;
 
 export const REST_API = process.env.NEXT_PUBLIC_REST_API;
 
+export const GOOGLE_MAPS = {
+    url: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API,
+    key: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY
+};
+
 export const ASSETS = process.env.NEXT_PUBLIC_ASSETS;
 
 // ROOT PATH AFTER LOGIN SUCCESSFUL

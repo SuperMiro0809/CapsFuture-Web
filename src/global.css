@@ -44,3 +44,6 @@
     height: 100%;
     object-fit: cover;
 }
+
+/* leafler */
+@import 'leaflet/dist/leaflet.css'

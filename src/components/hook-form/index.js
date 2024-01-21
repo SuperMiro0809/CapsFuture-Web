@@ -13,3 +13,4 @@ export { default as RHFLanguageField } from './rhf-language-field';
 export { default as RHFDatePicker } from './rhf-date-picker';
 
 export { default as RHFAutocomplete } from './rhf-autocomplete';
+export { default as RHFLocationSelectorField } from './rhf-location-selector-field';
