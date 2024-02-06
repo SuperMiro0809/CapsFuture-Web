@@ -32,6 +32,19 @@ export async function getUserById(id) {
   }
 }
 
+export async function getAllUsers() {
+  try {
+    const URL = `${REST_API}/users/all`;
+
+    const res = await axios.get(URL);
+
+    return { status: res.status, data: res.data };
+  } catch (error) {
+    const message = typeof error === 'string' ? error : error.message;
+    return { error: message };
+  }
+}
+
 export async function createUser(data) {
   try {
     const URL = `${REST_API}/users`;

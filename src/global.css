@@ -46,4 +46,13 @@
 }
 
 /* leafler */
-@import 'leaflet/dist/leaflet.css'
+@import 'leaflet/dist/leaflet.css';
+
+.leaflet-popup {
+    bottom: -45px !important;
+    left: -170px !important;
+}
+
+.leaflet-popup-content {
+    width: 300px !important;
+}

@@ -111,7 +111,7 @@ export function useNavData() {
             path: paths.dashboard.station.root,
             icon: ICONS.station,
             children: [
-              { title: t('list'), path: paths.dashboard.station.points },
+              { title: t('locations'), path: paths.dashboard.station.locations.root },
               { title: t('requests'), path: paths.dashboard.station.requests }
             ]
           },

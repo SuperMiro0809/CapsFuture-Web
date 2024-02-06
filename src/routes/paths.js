@@ -95,8 +95,11 @@ export const paths = {
     },
     station: {
       root: `${ROOTS.DASHBOARD}/station`,
-      points: `${ROOTS.DASHBOARD}/station/points`,
-      hearts: `${ROOTS.DASHBOARD}/station/hearts`,
+      locations: {
+        root: `${ROOTS.DASHBOARD}/station/locations`,
+        new: `${ROOTS.DASHBOARD}/station/locations/new`,
+        edit: (id) => `${ROOTS.DASHBOARD}/station/locations/${id}/edit`,
+      },
       requests: `${ROOTS.DASHBOARD}/station/requests`
     },
     user: {

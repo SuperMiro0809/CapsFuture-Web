@@ -25,18 +25,38 @@
     
 
     "dashboard": "Начало",
+
     "campaigns": "Кампании",
     "new-campaign": "Нова кампания",
     "create-new-campaign": "Създаване на нова кампания",
+
     "products": "Продукти",
     "posts": "Новини",
-    "stations": "Локации",
-    "points": "Пунктове",
+
+    "locations": "Локации",
+    "location": "Локация",
+    "location-subtext": "Изберете локация от картата",
+    "create-new-location": "Добавяне на нова локация",
+    "new-location": "Нова локация",
+    "stations": "Пунктове",
+    "station": "Пункт",
     "hearts": "Сърца",
+    "heart": "Сърце",
     "requests": "Заявки",
+    "caps": "Kапачки",
+    "bottles": "Бутилки",
+    "cans": "Кенчета",
+    "enter-address": "Въведете адрес",
+    "enter-address-or-choose-on-map": "Въведете адрес или изберете от картата",
+    "address": "Адрес",
+    "manager": "Oтговорник",
+    "manager-subtext": "Изберете регистриран потребител или въведете ръчно",
+
     "users": "Потребители",
     "new-user": "Нов потребител",
+    "registered-user": "Регистриран потребител",
     "create-new-user": "Създаване на нов потребител",
+    "user": "Потребител",
     
 
     "title": "Заглавие",
@@ -55,6 +75,11 @@
     "last-name": "Фамилия",
     "role": "Роля",
     "full-name": "Пълно име",
+    "type": "Tип",
+    "name": "Име",
+    "working-time": "Работно време",
+    "collects": "Събира",
+    "phone": "Tелефонен номер",
 
     "validation": {
         "title": {
@@ -71,6 +96,36 @@
         },
         "cities": {
             "required": "Градовете са задължителни"
+        },
+        "type": {
+            "required": "Типът е задължителен"
+        },
+        "name": {
+            "required": "Името е задължително"
+        },
+        "working-time": {
+            "required": "Работното време е задължително"
+        },
+        "collects": {
+            "required": "Събира е задължително"
+        },
+        "phone": {
+            "required": "Телефонният номер е задължителен",
+            "valid": "Телефонният номер не е валиден"
+        },
+        "location": {
+            "required": "Локацията е задълбителна"
+        },
+        "email": {
+            "required": "Имейлът е задължителен",
+            "valid": "Имейлът не е валиден"
+        },
+        "first-name": {
+            "required": "Първото име е задължително"
+        },
+        "last-name": {
+            "required": "Фамилията е задължителна"
         }
+
     }
 }
