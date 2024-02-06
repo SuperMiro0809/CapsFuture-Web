@@ -8,5 +8,5 @@ export function middleware(request) {
 
 export const config = {
     // Matcher ignoring `/_next/`, `/api/`, `favicon`, `assets` and `manifest`
-    matcher: ['/((?!api|_next/static|_next/image|favicon|assets|manifest).*)']
+    matcher: ['/((?!api|_next/static|_next/image|favicon|assets|manifest|logo).*)']
 }
