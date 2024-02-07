@@ -1,3 +1,5 @@
+'use client'
+
 import { m } from 'framer-motion';
 import { usePathname } from 'next/navigation';
 import { useRouter } from 'src/routes/hooks';
@@ -42,6 +44,8 @@ export default function LanguagePopover() {
     }else {
       router.push(pathName.replace(`/${currentLang.value}`, `/${locale}`));
     }
+
+    // router.push(pathName.replace(`/${currentLang.value}`, `/${locale}`));
 
     // const pathnameIsMissingLocale = i18nConfig.locales.every(
     //   locale => !pathName.startsWith(`/${locale}/`) && pathName !== `/${locale}`

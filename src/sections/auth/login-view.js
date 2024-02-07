@@ -17,6 +17,8 @@ import { paths } from 'src/routes/paths';
 import { RouterLink } from 'src/routes/components';
 import { useRouter, useSearchParams } from 'src/routes/hooks';
 
+import { useTranslate } from 'src/locales';
+
 import { useBoolean } from 'src/hooks/use-boolean';
 
 import { useAuthContext } from 'src/auth/hooks';
@@ -28,6 +30,8 @@ import FormProvider, { RHFTextField } from 'src/components/hook-form';
 // ----------------------------------------------------------------------
 
 export default function LoginView() {
+  const { t } = useTranslate();
+
   const { login } = useAuthContext();
 
   const router = useRouter();
@@ -75,13 +79,13 @@ export default function LoginView() {
 
   const renderHead = (
     <Stack spacing={2} sx={{ mb: 5 }}>
-      <Typography variant="h4">Sign in to Minimal</Typography>
+      <Typography variant="h3">{t('login')}</Typography>
 
       <Stack direction="row" spacing={0.5}>
-        <Typography variant="body2">New user?</Typography>
+        <Typography variant="body2">{t('new-user')}?</Typography>
 
         <Link component={RouterLink} href={paths.auth.register} variant="subtitle2">
-          Create an account
+          {t('create-account')}
         </Link>
       </Stack>
     </Stack>
@@ -91,11 +95,11 @@ export default function LoginView() {
     <Stack spacing={2.5}>
       {!!errorMsg && <Alert severity="error">{errorMsg}</Alert>}
 
-      <RHFTextField name="email" label="Email address" />
+      <RHFTextField name="email" label={t('email')} />
 
       <RHFTextField
         name="password"
-        label="Password"
+        label={t('password')}
         type={password.value ? 'text' : 'password'}
         InputProps={{
           endAdornment: (
@@ -108,19 +112,26 @@ export default function LoginView() {
         }}
       />
 
-      <Link variant="body2" color="inherit" underline="always" sx={{ alignSelf: 'flex-end' }}>
-        Forgot password?
+      <Link
+        component={RouterLink}
+        href={paths.auth.forgotPassword}
+        variant="body2"
+        color="inherit"
+        underline="always"
+        sx={{ alignSelf: 'flex-end' }}
+      >
+        {t('forgot-password')}?
       </Link>
 
       <LoadingButton
         fullWidth
-        color="inherit"
+        color="secondary"
         size="large"
         type="submit"
         variant="contained"
         loading={isSubmitting}
       >
-        Login
+        {t('login')}
       </LoadingButton>
     </Stack>
   );

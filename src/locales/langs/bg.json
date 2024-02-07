@@ -1,4 +1,16 @@
 {
+    "home": "Начало",
+    "store": "Магазин",
+    "map": "Карта",
+    "about-us": "За нас",
+
+    "login": "Вход",
+    "forgot-password": "Забравили сте паролата си",
+    "create-account": "Създайте акаунт",
+
+    "register": "Регистрация",
+    "already-have-account": "Вече имате акаунт",
+
     "overview": "Общ преглед",
     "management": "Управление",
 

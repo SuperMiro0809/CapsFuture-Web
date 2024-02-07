@@ -13,6 +13,8 @@ import Typography from '@mui/material/Typography';
 import LoadingButton from '@mui/lab/LoadingButton';
 import InputAdornment from '@mui/material/InputAdornment';
 
+import { useTranslate } from 'src/locales';
+
 import { paths } from 'src/routes/paths';
 import { RouterLink } from 'src/routes/components';
 import { useRouter, useSearchParams } from 'src/routes/hooks';
@@ -28,6 +30,8 @@ import FormProvider, { RHFTextField } from 'src/components/hook-form';
 // ----------------------------------------------------------------------
 
 export default function RegisterView() {
+  const { t } = useTranslate();
+
   const { register } = useAuthContext();
 
   const router = useRouter();
@@ -79,13 +83,13 @@ export default function RegisterView() {
 
   const renderHead = (
     <Stack spacing={2} sx={{ mb: 5, position: 'relative' }}>
-      <Typography variant="h4">Get started absolutely free</Typography>
+      <Typography variant="h3">{t('register')}</Typography>
 
       <Stack direction="row" spacing={0.5}>
-        <Typography variant="body2"> Already have an account? </Typography>
+        <Typography variant="body2"> {t('already-have-account')}? </Typography>
 
         <Link href={paths.auth.login} component={RouterLink} variant="subtitle2">
-          Sign in
+          {t('login')}
         </Link>
       </Stack>
     </Stack>
@@ -119,15 +123,15 @@ export default function RegisterView() {
         {!!errorMsg && <Alert severity="error">{errorMsg}</Alert>}
 
         <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
-          <RHFTextField name="firstName" label="First name" />
-          <RHFTextField name="lastName" label="Last name" />
+          <RHFTextField name="firstName" label={t('first-name')} />
+          <RHFTextField name="lastName" label={t('last-name')} />
         </Stack>
 
-        <RHFTextField name="email" label="Email address" />
+        <RHFTextField name="email" label={t('email')} />
 
         <RHFTextField
           name="password"
-          label="Password"
+          label={t('password')}
           type={password.value ? 'text' : 'password'}
           InputProps={{
             endAdornment: (
@@ -142,13 +146,13 @@ export default function RegisterView() {
 
         <LoadingButton
           fullWidth
-          color="inherit"
+          color="secondary"
           size="large"
           type="submit"
           variant="contained"
           loading={isSubmitting}
         >
-          Create account
+          {t('register')}
         </LoadingButton>
       </Stack>
     </FormProvider>

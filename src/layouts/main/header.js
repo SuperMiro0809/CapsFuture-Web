@@ -25,10 +25,21 @@ import { navConfig } from './config-navigation';
 import LoginButton from '../common/login-button';
 import HeaderShadow from '../common/header-shadow';
 import SettingsButton from '../common/settings-button';
+import CartButton from '../common/cart-button';
+
+import LanguagePopover from '../common/language-popover';
+
+import { useTranslations } from 'next-intl';
+import { useTranslate } from 'src/locales';
 
 // ----------------------------------------------------------------------
 
 export default function Header() {
+  const { t } = useTranslate();
+
+  const navConfigTranslated = navConfig.map((list) => ({ ...list, title: t(list.title) }));
+  // const t = useTranslations('Common');
+
   const theme = useTheme();
 
   const mdUp = useResponsive('up', 'md');
@@ -58,8 +69,17 @@ export default function Header() {
           }),
         }}
       >
-        <Container sx={{ height: 1, display: 'flex', alignItems: 'center' }}>
-          <Badge
+        <Container
+          sx={{
+            height: 1,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            maxWidth: {
+              md: 1400
+            }
+          }}>
+          {/* <Badge
             sx={{
               [`& .${badgeClasses.badge}`]: {
                 top: 8,
@@ -81,25 +101,29 @@ export default function Header() {
             }
           >
             <Logo />
-          </Badge>
+          </Badge> */}
 
-          <Box sx={{ flexGrow: 1 }} />
+          <Logo />
 
-          {mdUp && <NavDesktop data={navConfig} />}
+          {mdUp && <NavDesktop data={navConfigTranslated} />}
 
           <Stack alignItems="center" direction={{ xs: 'row', md: 'row-reverse' }}>
-            <Button variant="contained" target="_blank" rel="noopener" href={paths.minimalUI}>
-              Purchase Now
-            </Button>
-
             {mdUp && <LoginButton />}
 
-            <SettingsButton
+            <Button variant="contained" target="_blank" rel="noopener" color='secondary' href={paths.minimalUI}>
+              Donate
+            </Button>
+
+            <Box
               sx={{
                 ml: { xs: 1, md: 0 },
                 mr: { md: 2 },
               }}
-            />
+            >
+              <LanguagePopover />
+            </Box>
+
+            <CartButton />
 
             {!mdUp && <NavMobile data={navConfig} />}
           </Stack>
