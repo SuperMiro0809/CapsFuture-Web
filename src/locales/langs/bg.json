@@ -5,6 +5,7 @@
     "about-us": "За нас",
 
     "login": "Вход",
+    "donate": "Дари",
     "forgot-password": "Забравили сте паролата си",
     "create-account": "Създайте акаунт",
 
@@ -41,6 +42,7 @@
     "campaigns": "Кампании",
     "new-campaign": "Нова кампания",
     "create-new-campaign": "Създаване на нова кампания",
+    "upcoming-campaigns": "Предстоящи кампании",
 
     "products": "Продукти",
     "posts": "Новини",

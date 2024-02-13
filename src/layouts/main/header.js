@@ -111,7 +111,7 @@ export default function Header() {
             {mdUp && <LoginButton />}
 
             <Button variant="contained" target="_blank" rel="noopener" color='secondary' href={paths.minimalUI}>
-              Donate
+              {t('donate')}
             </Button>
 
             <Box

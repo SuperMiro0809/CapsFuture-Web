@@ -22,12 +22,16 @@ import { bgBlur, bgGradient, textGradient } from 'src/theme/css';
 import Iconify from 'src/components/iconify';
 import { varFade, MotionContainer } from 'src/components/animate';
 
+import HomeCampaignsSwiper from './home-campaigns-swiper';
+
+import { useTranslate } from 'src/locales';
+
 // ----------------------------------------------------------------------
 
 const StyledRoot = styled('div')(({ theme }) => ({
   ...bgGradient({
-    color: alpha(theme.palette.background.default, theme.palette.mode === 'light' ? 0.9 : 0.94),
-    imgUrl: '/assets/background/overlay_3.jpg',
+    // color: alpha(theme.palette.background.default, theme.palette.mode === 'light' ? 0.9 : 0.94),
+    // imgUrl: '/assets/background/overlay_3.jpg',
   }),
   width: '100%',
   height: '100vh',
@@ -43,6 +47,15 @@ const StyledWrapper = styled('div')(({ theme }) => ({
   height: '100%',
   overflow: 'hidden',
   position: 'relative',
+  display: 'flex',
+  flexDirection: 'column',
+  gap: 10,
+  // ...bgGradient({
+  //   // color: alpha(theme.palette.gradient.pink, theme.palette.mode === 'light' ? 0.9 : 0.94),
+  //   color: theme.palette.gradient.pink
+  //   // imgUrl: '/assets/background/overlay_3.jpg',
+  // }),
+  background: theme.palette.gradient.pink,
   [theme.breakpoints.up('md')]: {
     marginTop: HEADER.H_DESKTOP_OFFSET,
   },
@@ -50,7 +63,7 @@ const StyledWrapper = styled('div')(({ theme }) => ({
 
 const StyledTextGradient = styled(m.h1)(({ theme }) => ({
   ...textGradient(
-    `300deg, ${theme.palette.primary.main} 0%, ${theme.palette.warning.main} 25%, ${theme.palette.primary.main} 50%, ${theme.palette.warning.main} 75%, ${theme.palette.primary.main} 100%`
+    `300deg, ${theme.palette.primary.main} 0%, ${theme.palette.secondary.light} 25%, ${theme.palette.primary.main} 50%, ${theme.palette.secondary.light} 75%, ${theme.palette.primary.main} 100%`
   ),
   padding: 0,
   marginTop: 8,
@@ -63,7 +76,7 @@ const StyledTextGradient = styled(m.h1)(({ theme }) => ({
   fontSize: `${64 / 16}rem`,
   fontFamily: theme.typography.fontSecondaryFamily,
   [theme.breakpoints.up('md')]: {
-    fontSize: `${96 / 16}rem`,
+    fontSize: `${80 / 16}rem`,
   },
 }));
 
@@ -76,7 +89,7 @@ const StyledEllipseTop = styled('div')(({ theme }) => ({
   position: 'absolute',
   filter: 'blur(100px)',
   WebkitFilter: 'blur(100px)',
-  backgroundColor: alpha(theme.palette.primary.darker, 0.12),
+  // backgroundColor: alpha(theme.palette.primary.main, 0.12),
 }));
 
 const StyledEllipseBottom = styled('div')(({ theme }) => ({
@@ -88,13 +101,13 @@ const StyledEllipseBottom = styled('div')(({ theme }) => ({
   position: 'absolute',
   filter: 'blur(100px)',
   WebkitFilter: 'blur(100px)',
-  backgroundColor: alpha(theme.palette.primary.darker, 0.12),
+  // backgroundColor: alpha(theme.palette.primary.main, 0.12),
 }));
 
 const StyledPolygon = styled('div')(({ opacity = 1, anchor = 'left', theme }) => ({
   ...bgBlur({
     opacity,
-    color: theme.palette.background.default,
+    color: theme.palette.secondary.main,
   }),
   zIndex: 9,
   bottom: 0,
@@ -120,6 +133,8 @@ const StyledPolygon = styled('div')(({ opacity = 1, anchor = 'left', theme }) =>
 // ----------------------------------------------------------------------
 
 export default function HomeHero() {
+  const { t } = useTranslate();
+
   const mdUp = useResponsive('up', 'md');
 
   const theme = useTheme();
@@ -164,18 +179,18 @@ export default function HomeHero() {
   const renderDescription = (
     <Stack
       alignItems="center"
-      justifyContent="center"
+      justifyContent="flex-start"
       sx={{
-        height: 1,
+        // height: 1,
         mx: 'auto',
-        maxWidth: 480,
+        maxWidth: 1400,
         opacity: opacity > 0 ? opacity : 0,
         mt: {
-          md: `-${HEADER.H_DESKTOP + percent * 2.5}px`,
+          md: `${80 + percent * 2.5}px`,
         },
       }}
     >
-      <m.div variants={varFade().in}>
+      {/* <m.div variants={varFade().in}>
         <Typography
           variant="h2"
           sx={{
@@ -185,7 +200,7 @@ export default function HomeHero() {
           Start a <br />
           New Project with
         </Typography>
-      </m.div>
+      </m.div> */}
 
       <m.div variants={varFade().in}>
         <StyledTextGradient
@@ -197,18 +212,18 @@ export default function HomeHero() {
             repeat: Infinity,
           }}
         >
-          Minimal
+          {t('upcoming-campaigns')}
         </StyledTextGradient>
       </m.div>
 
-      <m.div variants={varFade().in}>
+      {/* <m.div variants={varFade().in}>
         <Typography variant="body2" sx={{ textAlign: 'center' }}>
           The starting point for your next project is based on MUI.Easy customization Helps you
           build apps faster and better.
         </Typography>
-      </m.div>
+      </m.div> */}
 
-      <m.div variants={varFade().in}>
+      {/* <m.div variants={varFade().in}>
         <Stack
           spacing={0.75}
           direction="row"
@@ -224,9 +239,9 @@ export default function HomeHero() {
             (99+ reviews)
           </Typography>
         </Stack>
-      </m.div>
+      </m.div> */}
 
-      <m.div variants={varFade().in}>
+      {/* <m.div variants={varFade().in}>
         <Stack spacing={1.5} direction={{ xs: 'column-reverse', sm: 'row' }} sx={{ mb: 5 }}>
           <Stack alignItems="center" spacing={2}>
             <Button
@@ -270,9 +285,9 @@ export default function HomeHero() {
             Design Preview
           </Button>
         </Stack>
-      </m.div>
+      </m.div> */}
 
-      <Stack spacing={3} sx={{ textAlign: 'center' }}>
+      {/* <Stack spacing={3} sx={{ textAlign: 'center' }}>
         <m.div variants={varFade().in}>
           <Typography variant="overline" sx={{ opacity: 0.48 }}>
             Available For
@@ -291,7 +306,26 @@ export default function HomeHero() {
             </m.div>
           ))}
         </Stack>
-      </Stack>
+      </Stack> */}
+    </Stack>
+  );
+
+  const renderSwiper = (
+    <Stack
+      sx={{
+        height: 1,
+        mx: 'auto',
+        maxWidth: 1600,
+        width: '100%',
+        opacity: opacity > 0 ? opacity : 0,
+        mt: {
+          md: `${2 * HEADER.H_DESKTOP + 75 + percent * 2.5}px`,
+        },
+      }}
+    >
+
+    <HomeCampaignsSwiper />
+
     </Stack>
   );
 
@@ -403,7 +437,13 @@ export default function HomeHero() {
         }}
       >
         <StyledWrapper>
-          <Container component={MotionContainer} sx={{ height: 1 }}>
+
+          {renderDescription}
+
+          {renderSwiper}
+
+          {/* <Container component={MotionContainer} sx={{ height: 1 }}>
+            {renderDescription}
             <Grid container columnSpacing={{ md: 10 }} sx={{ height: 1 }}>
               <Grid xs={12} md={6}>
                 {renderDescription}
@@ -411,13 +451,17 @@ export default function HomeHero() {
 
               {mdUp && <Grid md={6}>{renderSlides}</Grid>}
             </Grid>
-          </Container>
+          </Container> */}
 
           {renderEllipses}
+
+
         </StyledWrapper>
+        {/* <HomeCampaignsSwiper /> */}
       </StyledRoot>
 
       {mdUp && renderPolygons}
+
 
       <Box sx={{ height: { md: '100vh' } }} />
     </>

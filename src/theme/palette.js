@@ -115,6 +115,9 @@ export function palette(mode) {
       default: '#FFFFFF',
       neutral: grey[200],
     },
+    gradient: {
+      pink: 'linear-gradient(-180deg, #FFFFFF 50%, #FDE8FD 100%)'
+    },
     action: {
       ...base.action,
       active: grey[600],
