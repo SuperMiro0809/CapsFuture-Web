@@ -14,7 +14,9 @@ export function documentGetCookie(name) {
 
     const cookieString = cookies.find((cookie) => cookie.split('=')[0] === name);
 
-    value = cookieString.split('=')[1];
+    if (cookieString) {
+      value = cookieString.split('=')[1];
+    }
   }
 
   return value;
