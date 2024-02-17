@@ -40,7 +40,8 @@ export default function LocationMarker({
   last_name,
   email,
   phone,
-  deleteHandler
+  deleteHandler,
+  actions = true
 }) {
   const { t } = useTranslate();
 
@@ -148,23 +149,25 @@ export default function LocationMarker({
 
         <Divider sx={{ my: 1 }} />
 
-        <Box gap={2} display='grid' gridTemplateColumns='repeat(2, 1fr)'>
-          <Button
-            component={RouterLink}
-            color='secondary'
-            startIcon={<Iconify icon="solar:pen-bold" />}
-            href={paths.dashboard.station.locations.edit(id)}
-          >
-            {t('edit')}
-          </Button>
-          <Button
-            color='error'
-            startIcon={<Iconify icon="solar:trash-bin-trash-bold" />}
-            onClick={() => deleteHandler(id)}
-          >
-            {t('delete.word')}
-          </Button>
-        </Box>
+        {actions && (
+          <Box gap={2} display='grid' gridTemplateColumns='repeat(2, 1fr)'>
+            <Button
+              component={RouterLink}
+              color='secondary'
+              startIcon={<Iconify icon="solar:pen-bold" />}
+              href={paths.dashboard.station.locations.edit(id)}
+            >
+              {t('edit')}
+            </Button>
+            <Button
+              color='error'
+              startIcon={<Iconify icon="solar:trash-bin-trash-bold" />}
+              onClick={() => deleteHandler(id)}
+            >
+              {t('delete.word')}
+            </Button>
+          </Box>
+        )}
       </Popup>
     </Marker>
   );

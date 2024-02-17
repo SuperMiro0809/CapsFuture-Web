@@ -2,6 +2,7 @@ import { HomeView } from 'src/sections/home/view';
 // api
 import { getUpcomingCampaigns } from 'src/api/campaign';
 import { getLatestProducts } from 'src/api/product';
+import { getLocations } from 'src/api/location';
 
 // ----------------------------------------------------------------------
 
@@ -19,7 +20,11 @@ async function getData(lang) {
 
     if (productsError) throw productsError;
 
-    return { campaigns, products };
+    const { data: locations, error: locationsError } = await getLocations([]);
+
+    if (locationsError) throw locationsError;
+
+    return { campaigns, products, locations };
   } catch (error) {
     return { error };
   }
@@ -28,11 +33,11 @@ async function getData(lang) {
 export default async function HomePage({ params }) {
   const { lang } = params;
 
-  const { campaigns, products, error } = await getData(lang);
+  const { campaigns, products, locations, error } = await getData(lang);
 
   if (error) {
     return <div>{JSON.stringify(error)}</div>
   }
 
-  return <HomeView campaigns={campaigns} products={products} />;
+  return <HomeView campaigns={campaigns} products={products} locations={locations} />;
 }

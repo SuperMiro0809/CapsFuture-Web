@@ -22,7 +22,7 @@ export const primary = {
   light: '#FAC3F9',
   main: '#EA409A',
   dark: '#C42B7C',
-  darker: '#004B50',
+  darker: '#912f62',
   contrastText: '#FFFFFF',
 };
 
@@ -31,7 +31,7 @@ export const secondary = {
   light: '#C5DEFB',
   main: '#9FD2F5',
   dark: '#4571A4',
-  // darker: '#27097A',
+  darker: '#3F5B7C',
   contrastText: '#FFFFFF',
 };
 
