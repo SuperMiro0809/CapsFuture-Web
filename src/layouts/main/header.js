@@ -29,7 +29,6 @@ import CartButton from '../common/cart-button';
 
 import LanguagePopover from '../common/language-popover';
 
-import { useTranslations } from 'next-intl';
 import { useTranslate } from 'src/locales';
 
 // ----------------------------------------------------------------------
