@@ -10,29 +10,27 @@ import Chip from '@mui/material/Chip';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 
-export default function CampaignCard({ title, shortDescription, imageSrc }) {
+export default function CampaignCard({ title, shortDescription, cities, imageSrc }) {
   return (
     <Card sx={{ width: '100%', height: '100%' }}>
       <CardMedia
-        sx={{ height: 300, objectFit: 'cover' }}
+        sx={{ height: 350, objectFit: 'cover' }}
         image={imageSrc}
-        title="test"
+        title={title}
       />
 
       <CardContent>
         <Box sx={{ mb: 2 }}>
           <Typography variant="h4" component="div">
-            Test
+            {title}
           </Typography>
           <Stack direction='row' spacing={1}>
-            <Chip label='test' color='primary' />
-            <Chip label='test' />
+            {cities.map((city) => <Chip label={city.city} color='primary' key={city.id} />)}
           </Stack>
         </Box>
 
         <Typography variant="body2" color="text.secondary">
-          Lizards are a widespread group of squamate reptiles, with over 6,000
-          species, ranging across all continents except Antarctica
+          {shortDescription}
         </Typography>
       </CardContent>
 
@@ -47,5 +45,6 @@ export default function CampaignCard({ title, shortDescription, imageSrc }) {
 CampaignCard.propTypes = {
   title: PropTypes.string,
   shortDescription: PropTypes.string,
+  cities: PropTypes.array,
   imageSrc: PropTypes.string
 };

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 // Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react';
 
@@ -12,7 +13,9 @@ import { CampaignCard } from 'src/components/campaigns';
 
 import Stack from '@mui/material/Stack';
 
-export default function HomeCampaignsSwiper() {
+import { ASSETS } from 'src/config-global';
+
+export default function HomeCampaignsSwiper({ campaigns }) {
   return (
     <>
       <Swiper
@@ -29,10 +32,10 @@ export default function HomeCampaignsSwiper() {
           scale: 1,
           slideShadows: true
         }}
-        // autoplay={{
-        //   delay: 3000,
-        //   disableOnInteraction: false,
-        // }}
+        autoplay={{
+          delay: 3000,
+          disableOnInteraction: false,
+        }}
         pagination={{
           el: '.campaign-swiper-pagination',
           clickable: true
@@ -45,33 +48,16 @@ export default function HomeCampaignsSwiper() {
         className="campaign-swiper"
         style={{ marginTop: 30 }}
       >
-        <SwiperSlide>
-          <CampaignCard imageSrc="https://swiperjs.com/demos/images/nature-2.jpg" />
-        </SwiperSlide>
-        <SwiperSlide>
-          <CampaignCard imageSrc="https://swiperjs.com/demos/images/nature-2.jpg" />
-        </SwiperSlide>
-        <SwiperSlide>
-          <CampaignCard imageSrc="https://swiperjs.com/demos/images/nature-3.jpg" />
-        </SwiperSlide>
-        <SwiperSlide>
-          <CampaignCard imageSrc="https://swiperjs.com/demos/images/nature-4.jpg" />
-        </SwiperSlide>
-        <SwiperSlide>
-          <CampaignCard imageSrc="https://swiperjs.com/demos/images/nature-5.jpg" />
-        </SwiperSlide>
-        <SwiperSlide>
-          <CampaignCard imageSrc="https://swiperjs.com/demos/images/nature-6.jpg" />
-        </SwiperSlide>
-        <SwiperSlide>
-          <CampaignCard imageSrc="https://swiperjs.com/demos/images/nature-7.jpg" />
-        </SwiperSlide>
-        <SwiperSlide>
-          <CampaignCard imageSrc="https://swiperjs.com/demos/images/nature-8.jpg" />
-        </SwiperSlide>
-        <SwiperSlide>
-          <CampaignCard imageSrc="https://swiperjs.com/demos/images/nature-9.jpg" />
-        </SwiperSlide>
+        {campaigns.map((campaign) => (
+          <SwiperSlide key={campaign.id}>
+            <CampaignCard
+              title={campaign.title}
+              shortDescription={campaign.short_description}
+              cities={campaign.cities}
+              imageSrc={`${ASSETS}/${campaign.title_image_path}`}
+            />
+          </SwiperSlide>
+        ))}
       </Swiper>
 
 
@@ -109,6 +95,10 @@ export default function HomeCampaignsSwiper() {
     </>
   );
 }
+
+HomeCampaignsSwiper.propTypes = {
+  campaigns: PropTypes.array
+};
 
 // import PropTypes from 'prop-types';
 
