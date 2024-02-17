@@ -21,13 +21,13 @@ export const primary = {
   lighter: '#F2DFF2',
   light: '#FAC3F9',
   main: '#EA409A',
-  dark: '#EA409A',
+  dark: '#C42B7C',
   darker: '#004B50',
   contrastText: '#FFFFFF',
 };
 
 export const secondary = {
-  // lighter: '#EFD6FF',
+  lighter: '#CBEEFF',
   light: '#C5DEFB',
   main: '#9FD2F5',
   dark: '#4571A4',
@@ -114,6 +114,7 @@ export function palette(mode) {
       paper: '#FFFFFF',
       default: '#FFFFFF',
       neutral: grey[200],
+      pink: '#FFFDFF'
     },
     gradient: {
       pink: 'linear-gradient(-180deg, #FFFFFF 50%, #FDE8FD 100%)'
