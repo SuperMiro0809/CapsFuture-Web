@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types';
+
 import { m, useScroll } from 'framer-motion';
 import { useRef, useState, useEffect, useCallback } from 'react';
 
@@ -107,7 +109,7 @@ const StyledEllipseBottom = styled('div')(({ theme }) => ({
 const StyledPolygon = styled('div')(({ opacity = 1, anchor = 'left', theme }) => ({
   ...bgBlur({
     opacity,
-    color: theme.palette.secondary.main,
+    color: theme.palette.secondary.lighter,
   }),
   zIndex: 9,
   bottom: 0,
@@ -132,7 +134,7 @@ const StyledPolygon = styled('div')(({ opacity = 1, anchor = 'left', theme }) =>
 
 // ----------------------------------------------------------------------
 
-export default function HomeHero() {
+export default function HomeHero({ campaigns }) {
   const { t } = useTranslate();
 
   const mdUp = useResponsive('up', 'md');
@@ -324,7 +326,7 @@ export default function HomeHero() {
       }}
     >
 
-    <HomeCampaignsSwiper />
+    <HomeCampaignsSwiper campaigns={campaigns} />
 
     </Stack>
   );
@@ -467,3 +469,7 @@ export default function HomeHero() {
     </>
   );
 }
+
+HomeHero.propTypes = {
+  campaigns: PropTypes.array
+};
