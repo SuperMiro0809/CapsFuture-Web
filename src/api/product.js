@@ -39,6 +39,19 @@ export async function getProductById(id) {
   }
 }
 
+export async function getLatestProducts(lang) {
+  const URL = `${REST_API}/products/latest?lang=${lang}`;
+
+  try {
+    const res = await axios.get(URL);
+
+    return { status: res.status, data: res.data };
+  } catch (error) {
+    const message = typeof error === 'string' ? error : error.message;
+    return { error: message };
+  }
+}
+
 export async function createProduct(data) {
   const URL = `${REST_API}/products`;
   

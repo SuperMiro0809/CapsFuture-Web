@@ -26,6 +26,19 @@ export async function getCampaigns(pagination, order, filters, lang) {
     }
 }
 
+export async function getUpcomingCampaigns(lang) {
+    try {
+        const URL = `${REST_API}/campaigns/upcoming?lang=${lang}`;
+
+        const res = await axios.get(URL);
+    
+        return { status: res.status, data: res.data };
+    } catch (error) {
+        const message = typeof error === 'object' ? error.message : error;
+        return { error: message };
+    }
+}
+
 export async function getCampaignById(id, lang) {
     const URL = `${REST_API}/campaigns/${id}?lang=${lang}`;
 
