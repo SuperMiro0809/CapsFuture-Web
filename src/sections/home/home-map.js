@@ -32,7 +32,7 @@ const StyledTextGradient = styled(m.h2)(({ theme }) => ({
   letterSpacing: 8,
   textAlign: 'center',
   backgroundSize: '400%',
-  fontSize: `${64 / 16}rem`,
+  fontSize: `${40 / 16}rem`,
   fontFamily: theme.typography.fontSecondaryFamily,
   [theme.breakpoints.up('md')]: {
     fontSize: `${64 / 16}rem`,
@@ -96,9 +96,9 @@ export default function HomeMap({ locations }) {
           </m.div>
         </Grid>
         <Grid xs={12} md={7}>
-          <m.div variants={varFade().inRight}>
+          {/* <m.div variants={varFade().inRight}> */}
             <LeafletMap center={position} zoom={zoom} style={{ height: '600px', width: '100%', borderRadius: 16 }}>
-              {locations.map((location, index) => (
+              {locations.splice(1, 100).map((location, index) => (
                   <LocationMarker
                     id={location.id}
                     latitude={location.latitude}
@@ -121,7 +121,7 @@ export default function HomeMap({ locations }) {
                   />
               ))}
             </LeafletMap>
-          </m.div>
+          {/* </m.div> */}
         </Grid>
       </Grid>
 
