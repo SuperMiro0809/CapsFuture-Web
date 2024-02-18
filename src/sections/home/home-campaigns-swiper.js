@@ -1,18 +1,17 @@
 import PropTypes from 'prop-types';
 // Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react';
-
-import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
-import NavigateNextIcon from '@mui/icons-material/NavigateNext';
-
 // import required modules
 import { EffectCoverflow, Pagination, Autoplay, Navigation } from 'swiper/modules';
-
+// @mui
+import Stack from '@mui/material/Stack';
+import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
+import NavigateNextIcon from '@mui/icons-material/NavigateNext';
+// 
+import { format, parseISO } from 'date-fns';
 // components
 import { CampaignCard } from 'src/components/campaigns';
-
-import Stack from '@mui/material/Stack';
-
+//
 import { ASSETS } from 'src/config-global';
 
 export default function HomeCampaignsSwiper({ campaigns }) {
@@ -53,6 +52,7 @@ export default function HomeCampaignsSwiper({ campaigns }) {
             <CampaignCard
               title={campaign.title}
               shortDescription={campaign.short_description}
+              date={format(parseISO(campaign.date), 'dd.MM.yyyy')}
               cities={campaign.cities}
               imageSrc={`${ASSETS}/${campaign.title_image_path}`}
             />
@@ -80,18 +80,6 @@ export default function HomeCampaignsSwiper({ campaigns }) {
           />
         </div>
       </Stack>
-      {/* <div style={{
-          // position: 'absolute',
-          // top: '63%',
-          // left: '50%',
-          display: 'flex',
-          alignItems: 'center',
-          width: '100%',
-          height: '50px',
-        }}
-      >
-       
-      </div> */}
     </>
   );
 }
@@ -99,49 +87,3 @@ export default function HomeCampaignsSwiper({ campaigns }) {
 HomeCampaignsSwiper.propTypes = {
   campaigns: PropTypes.array
 };
-
-// import PropTypes from 'prop-types';
-
-// import Card from '@mui/material/Card';
-
-// import Image from 'src/components/image';
-// import Carousel, { useCarousel, CarouselArrowIndex } from 'src/components/carousel';
-
-// import { _mock } from 'src/_mock';
-
-
-// // ----------------------------------------------------------------------
-
-// export default function CarouselBasic1({ data }) {
-//   const carousel = useCarousel({
-//     autoplay: true,
-//   });
-
-//   const _carouselsExample = [...Array(20)].map((_, index) => ({
-//     id: _mock.id(index),
-//     title: _mock.postTitle(index),
-//     coverUrl: _mock.image.cover(index),
-//     description: _mock.description(index),
-//   }));
-
-//   return (
-//     <Card>
-//       <Carousel ref={carousel.carouselRef} {...carousel.carouselSettings}>
-//         {_carouselsExample.slice(0, 4).map((item) => (
-//           <Image key={item.id} alt={item.title} src={item.coverUrl} ratio="1/1" />
-//         ))}
-//       </Carousel>
-
-//       <CarouselArrowIndex
-//         index={carousel.currentIndex}
-//         total={_carouselsExample.slice(0, 4).length}
-//         onNext={carousel.onNext}
-//         onPrev={carousel.onPrev}
-//       />
-//     </Card>
-//   );
-// }
-
-// CarouselBasic1.propTypes = {
-//   data: PropTypes.array,
-// };
