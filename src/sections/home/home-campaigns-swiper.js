@@ -46,6 +46,16 @@ export default function HomeCampaignsSwiper({ campaigns }) {
         modules={[EffectCoverflow, Pagination, Autoplay, Navigation]}
         className="campaign-swiper"
         style={{ marginTop: 30 }}
+        breakpoints={{
+          // when window width is >= 320px
+          320: {
+            slidesPerView: 1
+          },
+          // when window width is >= 640px
+          640: {
+            slidesPerView: 2
+          }
+        }}
       >
         {campaigns.map((campaign) => (
           <SwiperSlide key={campaign.id}>

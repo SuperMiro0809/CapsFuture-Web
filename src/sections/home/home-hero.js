@@ -52,6 +52,7 @@ const StyledWrapper = styled('div')(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
   gap: 10,
+  marginTop: 100,
   // ...bgGradient({
   //   // color: alpha(theme.palette.gradient.pink, theme.palette.mode === 'light' ? 0.9 : 0.94),
   //   color: theme.palette.gradient.pink
@@ -188,7 +189,6 @@ export default function HomeHero({ campaigns }) {
         maxWidth: 1400,
         opacity: opacity > 0 ? opacity : 0,
         mt: {
-          xs: 10,
           md: `${80 + percent * 2.5}px`,
         },
       }}
@@ -216,8 +216,11 @@ export default function HomeHero({ campaigns }) {
         mx: 'auto',
         maxWidth: 1600,
         width: '100%',
-        opacity: opacity > 0 ? opacity : 0,
+        opacity: {
+          md: opacity > 0 ? opacity : 0
+        },
         mt: {
+          xs: 30,
           md: `${2 * HEADER.H_DESKTOP + 75 + percent * 2.5}px`,
         },
       }}
