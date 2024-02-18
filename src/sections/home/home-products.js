@@ -79,8 +79,8 @@ export default function HomeProducts({ products }) {
       </Stack>
 
       <Grid container spacing={5}>
-        {values.map((product) => (
-          <Grid item lg={3} sx={{ width: '100%' }}>
+        {values.map((product, index) => (
+          <Grid item lg={3} sx={{ width: '100%' }} key={index}>
             <m.div variants={varFade().inUp} key={'test'} style={{ width: '100%' }}>
               <ProductCard
                 title={product.title}

@@ -54,8 +54,8 @@ export default function HomePartners() {
             </Typography>
             
             <Carousel ref={carousel.carouselRef} {...carousel.carouselSettings}>
-              {[...Array(10).keys()].map((campaign) => (
-                <Paper sx={{ backgroundColor: 'transparent' }}>
+              {[...Array(10).keys()].map((campaign, index) => (
+                <Paper sx={{ backgroundColor: 'transparent' }} key={index}>
                   <Box
                     sx={{
                       display: 'flex',

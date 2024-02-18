@@ -87,11 +87,12 @@ export default function ProductCard({ title, price, images }) {
       >
         <Box sx={{ height: 350 }}>
           <Carousel ref={carousel.carouselRef} {...carousel.carouselSettings}>
-            {images.map((item) => (
+            {images.map((item, index) => (
               <CardMedia
                 sx={{ height: 350, objectFit: 'cover' }}
                 image={`${ASSETS}/${item.filepath}`}
                 title={title}
+                key={index}
               />
             ))}
           </Carousel>
