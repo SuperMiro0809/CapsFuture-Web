@@ -25,7 +25,7 @@ const StyledTextGradient = styled(m.h2)(({ theme }) => ({
   ),
   padding: 0,
   marginTop: 8,
-  lineHeight: 1,
+  lineHeight: 1.15,
   fontWeight: 900,
   marginBottom: 24,
   letterSpacing: 8,
@@ -80,7 +80,7 @@ export default function HomeProducts({ products }) {
 
       <Grid container spacing={5}>
         {values.map((product, index) => (
-          <Grid item lg={3} sx={{ width: '100%' }} key={index}>
+          <Grid item md={6} lg={3} sx={{ width: '100%' }} key={index}>
             <m.div variants={varFade().inUp} key={'test'} style={{ width: '100%' }}>
               <ProductCard
                 title={product.title}

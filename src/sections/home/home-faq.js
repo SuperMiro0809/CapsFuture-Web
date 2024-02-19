@@ -24,7 +24,7 @@ const StyledTextGradient = styled(m.h2)(({ theme }) => ({
   ),
   padding: 0,
   marginTop: 8,
-  lineHeight: 1,
+  lineHeight: 1.15,
   fontWeight: 900,
   marginBottom: 24,
   letterSpacing: 8,
