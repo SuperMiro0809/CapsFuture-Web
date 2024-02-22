@@ -60,6 +60,7 @@ export default function HomeCampaignsSwiper({ campaigns }) {
         {campaigns.map((campaign) => (
           <SwiperSlide key={campaign.id}>
             <CampaignCard
+              slug={campaign.id}
               title={campaign.title}
               shortDescription={campaign.short_description}
               date={format(parseISO(campaign.date), 'dd.MM.yyyy')}

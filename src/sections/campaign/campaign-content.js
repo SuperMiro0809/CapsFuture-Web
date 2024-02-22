@@ -161,6 +161,7 @@ export default function CampaignContent({ campaigns, campaignsCount }) {
           {campaigns.map((campaign) => (
             <Grid xs={12} md={6} lg={4} key={campaign.id}>
               <CampaignCard
+                slug={campaign.id}
                 title={campaign.title}
                 shortDescription={campaign.short_description}
                 date={format(parseISO(campaign.date), 'dd.MM.yyyy')}
@@ -173,7 +174,7 @@ export default function CampaignContent({ campaigns, campaignsCount }) {
 
         {true && (
           <Pagination
-            count={8}
+            count={Math.ceil(campaignsCount / 8)}
             color='primary'
             sx={{
               mt: 8,

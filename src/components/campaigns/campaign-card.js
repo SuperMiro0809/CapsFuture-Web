@@ -9,10 +9,12 @@ import Button from '@mui/material/Button';
 import Chip from '@mui/material/Chip';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
+// routes
+import { RouterLink } from 'src/routes/components';
 // locales
 import { useTranslate } from 'src/locales';
 
-export default function CampaignCard({ title, shortDescription, date, cities, imageSrc }) {
+export default function CampaignCard({ slug, title, shortDescription, date, cities, imageSrc }) {
   const { t } = useTranslate();
 
   return (
@@ -59,14 +61,31 @@ export default function CampaignCard({ title, shortDescription, date, cities, im
           py: 2
         }}
       >
-        <Button sx={{ flexGrow: 1 }} color='primary' variant='contained'>{t('participate')}!</Button>
-        <Button sx={{ flexGrow: 1 }} color='secondary' variant='outlined'>{t('read-more')}</Button>
+        <Button
+          component={RouterLink}
+          href={`/campaigns/${slug}/participate`}
+          sx={{ flexGrow: 1 }}
+          color='primary'
+          variant='contained'
+        >
+            {t('participate')}!
+        </Button>
+        <Button
+          component={RouterLink}
+          href={`/campaigns/${slug}`}
+          sx={{ flexGrow: 1 }}
+          color='secondary'
+          variant='outlined'
+        >
+          {t('read-more')}
+        </Button>
       </CardActions>
     </Card>
   );
 }
 
 CampaignCard.propTypes = {
+  slug: PropTypes.string,
   title: PropTypes.string,
   shortDescription: PropTypes.string,
   date: PropTypes.string,
