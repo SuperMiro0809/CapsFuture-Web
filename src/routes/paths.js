@@ -50,10 +50,14 @@ export const paths = {
       details: `/post/${paramCase(MOCK_TITLE)}`,
     },
   },
+  campaign: {
+    root: '/campaigns',
+  },
   // AUTH
   auth: {
     login: `${ROOTS.AUTH}/login`,
     register: `${ROOTS.AUTH}/register`,
+    forgotPassword: `${ROOTS.AUTH}/forgot-password`
   },
   authDemo: {
     classic: {
