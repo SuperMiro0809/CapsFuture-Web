@@ -1,6 +1,4 @@
-import pick from 'lodash/pick';
 import { LoginView } from 'src/sections/auth';
-import { useTranslations, useMessages } from 'next-intl';
 
 // ----------------------------------------------------------------------
 
