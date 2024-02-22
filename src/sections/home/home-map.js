@@ -41,17 +41,18 @@ const StyledTextGradient = styled(m.h2)(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
+const LeafletMap = dynamic(
+  () => import('src/components/leaflet-map').then(module => module.LeafletMap),
+  { ssr: false },
+);
+
+const LocationMarker = dynamic(
+  () => import('src/components/leaflet-map').then(module => module.LocationMarker),
+  { ssr: false },
+);
+
+
 export default function HomeMap({ locations }) {
-  const LeafletMap = dynamic(
-    () => import('src/components/leaflet-map').then(module => module.LeafletMap),
-    { ssr: false },
-  );
-
-  const LocationMarker = dynamic(
-    () => import('src/components/leaflet-map').then(module => module.LocationMarker),
-    { ssr: false },
-  );
-
   const { t } = useTranslate();
 
   const position = [42.7249925, 25.4833039];
