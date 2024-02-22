@@ -54,7 +54,7 @@ export default function CampaignCard({ title, shortDescription, date, cities, im
       <CardActions
         sx={{
           width: '100%',
-          position: 'absolute',
+          position: 'relative',
           bottom: 0,
           py: 2
         }}

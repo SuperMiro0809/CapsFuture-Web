@@ -21,8 +21,8 @@ export async function getCampaigns(pagination, order, filters, lang) {
     
         return { status: res.status, data: res.data };
     } catch (error) {
-        const message = error.message || 'Възникна грешка';
-        throw message;
+        const message = typeof error === 'object' ? error.message : error;
+        return { error: message };
     }
 }
 

@@ -20,22 +20,22 @@ export const navConfig = [
   {
     title: 'posts',
     icon: <Iconify icon="solar:home-2-bold-duotone" />,
-    path: '/campaigns',
+    path: '/posts',
   },
   {
     title: 'map',
     icon: <Iconify icon="solar:home-2-bold-duotone" />,
-    path: '/campaigns',
+    path: '/map',
   },
   {
     title: 'store',
     icon: <Iconify icon="solar:home-2-bold-duotone" />,
-    path: '/campaigns',
+    path: '/store',
   },
   {
     title: 'about-us',
     icon: <Iconify icon="solar:home-2-bold-duotone" />,
-    path: '/campaigns',
+    path: '/about-us',
   },
   // {
   //   title: 'Components',

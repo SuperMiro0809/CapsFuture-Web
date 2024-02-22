@@ -37,6 +37,7 @@
     "all": "Всички",
     "read-more": "Прочети повече",
     "participate": "Участвай",
+    "search": "Tърси",
 
     "our-achievements": "Нашите постижения",
     "ambulances": "Линейки",
@@ -93,6 +94,7 @@
     "description": "Oписание",
     "date": "Дата",
     "cities": "Градове",
+    "city": "Град",
     "title-image": "Заглавна снимка",
     "images": "Снимки",
     "price": "Цена",
