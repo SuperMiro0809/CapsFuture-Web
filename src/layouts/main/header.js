@@ -1,3 +1,4 @@
+// @mui
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
@@ -7,17 +8,21 @@ import Toolbar from '@mui/material/Toolbar';
 import { useTheme } from '@mui/material/styles';
 import Container from '@mui/material/Container';
 import Badge, { badgeClasses } from '@mui/material/Badge';
-
+// routes
 import { paths } from 'src/routes/paths';
-
+// hooks
 import { useOffSetTop } from 'src/hooks/use-off-set-top';
 import { useResponsive } from 'src/hooks/use-responsive';
-
+// auth
+import { useAuthContext } from 'src/auth/hooks/use-auth-context';
+// locales
+import { useTranslate } from 'src/locales';
+// theme
 import { bgBlur } from 'src/theme/css';
-
+// components
 import Logo from 'src/components/logo';
 import Label from 'src/components/label';
-
+//
 import NavMobile from './nav/mobile';
 import NavDesktop from './nav/desktop';
 import { HEADER } from '../config-layout';
@@ -26,15 +31,15 @@ import LoginButton from '../common/login-button';
 import HeaderShadow from '../common/header-shadow';
 import SettingsButton from '../common/settings-button';
 import CartButton from '../common/cart-button';
-
 import LanguagePopover from '../common/language-popover';
-
-import { useTranslate } from 'src/locales';
+import AccountPopover from '../common/account-popover';
 
 // ----------------------------------------------------------------------
 
 export default function Header() {
   const { t } = useTranslate();
+
+  const { user } = useAuthContext();
 
   const navConfigTranslated = navConfig.map((list) => ({ ...list, title: t(list.title) }));
   // const t = useTranslations('Common');
@@ -107,7 +112,13 @@ export default function Header() {
           {mdUp && <NavDesktop data={navConfigTranslated} />}
 
           <Stack alignItems="center" direction={{ xs: 'row', md: 'row-reverse' }}>
-            {mdUp && <LoginButton />}
+            {user ?
+              <Box sx={{ ml: 1 }}>
+                <AccountPopover />
+              </Box>
+              :
+              <LoginButton />
+            }
 
             <Button variant="contained" target="_blank" rel="noopener" color='secondary' href={paths.minimalUI}>
               {t('donate')}
