@@ -17,6 +17,8 @@ import { paths } from "src/routes/paths";
 import { RouterLink } from "src/routes/components";
 // locales
 import { useTranslate } from 'src/locales';
+// date-fns
+import { format, parseISO } from 'date-fns';
 // components
 import Iconify from "src/components/iconify";
 import Markdown from "src/components/markdown";
@@ -57,9 +59,9 @@ export default function CampaignDetailsHomeView({ campaign, error }) {
     <>
       <CampaignDetailsHero
         title={campaign.title}
-        // author={post.author}
+        cities={campaign.cities}
+        date={format(parseISO(campaign.date), 'dd.MM.yyyy')}
         coverUrl={`${ASSETS}/${campaign.title_image_path}`}
-        // createdAt={post.createdAt}
       />
 
       <Container

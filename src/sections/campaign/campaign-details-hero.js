@@ -8,26 +8,31 @@ import SpeedDial from '@mui/material/SpeedDial';
 import Typography from '@mui/material/Typography';
 import { alpha, useTheme } from '@mui/material/styles';
 import SpeedDialAction from '@mui/material/SpeedDialAction';
+import Chip from '@mui/material/Chip';
+// react-share
+import { FacebookShareButton } from 'react-share';
+// routes
+import { usePathname } from 'src/routes/hooks';
 // hooks
 import { useResponsive } from 'src/hooks/use-responsive';
 // locales
 import { useTranslate } from 'src/locales';
-
-import { fDate } from 'src/utils/format-time';
+// components
+import Iconify from 'src/components/iconify';
 //
 import { _socials } from 'src/_mock';
 import { bgGradient } from 'src/theme/css';
 
-import Iconify from 'src/components/iconify';
-
 // ----------------------------------------------------------------------
 
-export default function CampaignDetailsHero({ title, coverUrl, createdAt }) {
+export default function CampaignDetailsHero({ title, date, cities, coverUrl }) {
   const { t } = useTranslate();
 
   const theme = useTheme();
 
   const smUp = useResponsive('up', 'sm');
+
+  const pathname = usePathname();
 
   return (
     <Box
@@ -36,65 +41,120 @@ export default function CampaignDetailsHero({ title, coverUrl, createdAt }) {
         overflow: 'hidden',
         ...bgGradient({
           imgUrl: coverUrl,
-          startColor: `${alpha(theme.palette.grey[900], 0.64)} 0%`,
-          endColor: `${alpha(theme.palette.grey[900], 0.64)} 100%`,
+          startColor: `${alpha(theme.palette.grey[900], 0.54)} 0%`,
+          endColor: `${alpha(theme.palette.grey[900], 0.54)} 100%`,
         }),
       }}
     >
-      <Container sx={{ height: 1, position: 'relative' }}>
-        <Typography
-          variant="h3"
-          component="h1"
-          sx={{
-            zIndex: 9,
-            color: 'common.white',
-            position: 'absolute',
-            maxWidth: 480,
-            pt: { xs: 2, md: 8 },
-          }}
-        >
-          {title}
-        </Typography>
-
+      <Container
+        sx={{
+          height: 1,
+          position: 'relative',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'flex-end'
+        }}
+      >
         <Stack
-          direction='row'
+          direction={{ xs: 'column', md: 'row' }}
+          gap={{ xs: 3, md: 0 }}
           justifyContent='space-between'
-          sx={{
-            left: 0,
-            width: 1,
-            bottom: 0,
-            position: 'absolute',
-          }}
+          alignItems={{ xs: 'center', md: 'flex-end' }}
+          sx={{ py: 5 }}
         >
-          <Box
-            sx={{
-              px: { xs: 2, md: 3 },
-              pb: { xs: 3, md: 8 },
-            }}
+          <Stack
+            gap={1}
           >
-            <Button variant='contained' color='primary'>{t('participate')}!</Button>
-          </Box>
+            <Typography
+              variant="h3"
+              component="h1"
+              sx={{
+                zIndex: 9,
+                color: 'common.white',
+              }}
+            >
+              {title}
+            </Typography>
 
-          <SpeedDial
-            direction={smUp ? 'left' : 'up'}
-            ariaLabel="Share post"
-            icon={<Iconify icon="solar:share-bold" />}
-            FabProps={{ size: 'medium' }}
+            <Stack direction='row' spacing={1}>
+              {cities.map((city) => (
+                <Chip
+                  sx={{ borderRadius: 6 }}
+                  color='primary'
+                  label={city.city}
+                  key={city.id}
+                />
+              ))}
+            </Stack>
+          </Stack>
+
+          <Stack
+            direction='row'
+            alignItems='flex-end'
+            gap={2}
             sx={{
-              px: { xs: 2, md: 3 },
-              pb: { xs: 3, md: 8 },
+              maxWidth: 400,
+              width: '100%'
             }}
           >
-            {_socials.map((action) => (
-              <SpeedDialAction
-                key={action.name}
-                icon={<Iconify icon={action.icon} sx={{ color: action.color }} />}
-                tooltipTitle={action.name}
-                tooltipPlacement="top"
-                FabProps={{ color: 'default' }}
-              />
-            ))}
-          </SpeedDial>
+            <Stack
+              gap={1}
+              alignItems='center'
+              sx={{ width: '100%' }}
+            >
+              <Button
+                variant='contained'
+                color='primary'
+                sx={{
+                  width: '100%',
+                  height: 48,
+                  fontSize: 15
+                }}
+              >
+                {t('participate')}!
+              </Button>
+
+              <Typography
+                sx={{
+                  color: 'common.white',
+                }}
+              >
+                {t('will-take-place-on')}:
+
+                <Box
+                  component='span'
+                  sx={{
+                    color: 'primary.light',
+                    fontWeight: 600,
+                    pl: 0.5
+                  }}
+                >
+                  {date}
+                  {/* 19.02.2024 */}
+                </Box>
+              </Typography>
+            </Stack>
+            
+            <SpeedDial
+              direction={smUp ? 'up' : 'up'}
+              ariaLabel="Share post"
+              icon={<Iconify icon="solar:share-bold" />}
+              FabProps={{ size: 'medium', color: 'secondary' }}
+              color='secondary'
+              sx={{ mb: 4 }}
+            >
+              {_socials.map((action) => (
+                <SpeedDialAction
+                  // component={FacebookShareButton}
+                  key={action.name}
+                  icon={<Iconify icon={action.icon} sx={{ color: action.color }} />}
+                  tooltipTitle={action.name}
+                  tooltipPlacement="top"
+                  FabProps={{ color: 'default' }}
+                />
+              ))}
+            </SpeedDial>
+          </Stack>
         </Stack>
       </Container>
     </Box>
@@ -104,6 +164,6 @@ export default function CampaignDetailsHero({ title, coverUrl, createdAt }) {
 CampaignDetailsHero.propTypes = {
   author: PropTypes.object,
   coverUrl: PropTypes.string,
-  createdAt: PropTypes.string,
+  date: PropTypes.string,
   title: PropTypes.string,
 };
