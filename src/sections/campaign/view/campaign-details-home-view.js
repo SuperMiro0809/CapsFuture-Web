@@ -43,11 +43,11 @@ export default function CampaignDetailsHomeView({ campaign, error }) {
         action={
           <Button
             component={RouterLink}
-            href={paths.post.root}
+            href={paths.campaign.root}
             startIcon={<Iconify icon="eva:arrow-ios-back-fill" width={16} />}
             sx={{ mt: 3 }}
           >
-            Back to List
+            {t('back')}
           </Button>
         }
         sx={{ py: 10 }}
