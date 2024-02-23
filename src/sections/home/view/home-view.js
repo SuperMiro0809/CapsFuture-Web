@@ -1,6 +1,9 @@
 'use client';
 
-import { useScroll } from 'framer-motion';
+import PropTypes from 'prop-types';
+import { useRef } from 'react';
+
+import { useScroll, useTransform, m } from 'framer-motion';
 
 import Box from '@mui/material/Box';
 import { styled } from '@mui/material/styles';
@@ -10,15 +13,13 @@ import MainLayout from 'src/layouts/main';
 import ScrollProgress from 'src/components/scroll-progress';
 
 import HomeHero from '../home-hero';
-import HomeMinimal from '../home-minimal';
-import HomePricing from '../home-pricing';
-import HomeDarkMode from '../home-dark-mode';
-import HomeLookingFor from '../home-looking-for';
-import HomeForDesigner from '../home-for-designer';
-import HomeColorPresets from '../home-color-presets';
-import HomeAdvertisement from '../home-advertisement';
-import HomeCleanInterfaces from '../home-clean-interfaces';
-import HomeHugePackElements from '../home-hugepack-elements';
+import HomePartners from '../home-partners';
+import HomeAboutUs from '../home-about-us';
+import HomeMap from '../home-map';
+import HomeProducts from '../home-products';
+import HomeAchievements from '../home-achievements';
+import HomeFAQ from '../home-faq';
+import HomeContacts from '../home-contacts';
 
 // ----------------------------------------------------------------------
 
@@ -44,44 +45,88 @@ const StyledPolygon = styled('div')(({ anchor = 'top', theme }) => ({
 
 // ----------------------------------------------------------------------
 
-export default function HomeView() {
+function useParallax(value, distance) {
+  return useTransform(value, [0, 1], [-100, distance]);
+}
+
+function useParallaxCap(value, distance) {
+  return useTransform(value, [0, 1], [0, distance]);
+}
+
+export default function HomeView({ campaigns, products, locations }) {
   const { scrollYProgress } = useScroll();
+
+  const contentRef = useRef(null);
+
+  const { scrollYProgress: scrollContentY } = useScroll({ target: contentRef });
+
+  const yBlue = useParallax(scrollContentY, 2000);
+
+  const yPeach = useParallax(scrollContentY, 1200);
+
+  const yGreen = useParallax(scrollContentY, 1200);
+
+  const rotate = useParallaxCap(scrollYProgress, 360);
 
   return (
     <MainLayout>
       <ScrollProgress scrollYProgress={scrollYProgress} />
 
-      <HomeHero />
+      <HomeHero campaigns={campaigns} />
 
       <Box
         sx={{
           overflow: 'hidden',
           position: 'relative',
-          bgcolor: 'background.default',
+          backgroundColor: (theme) => theme.palette.background.pink
         }}
+        ref={contentRef}
       >
-        <HomeMinimal />
+        <HomePartners />
 
-        <HomeHugePackElements />
+        <m.div style={{ y: yBlue, position: 'absolute', left: '20%', top: '15%' }}>
+          <m.img style={{ rotate }} src='/assets/images/home/bottle_cap_blue.svg' />
+        </m.div>
 
-        <Box sx={{ position: 'relative' }}>
-          <StyledPolygon />
-          <HomeForDesigner />
-          <StyledPolygon anchor="bottom" />
-        </Box>
+        <m.div style={{ y: yPeach, position: 'absolute', left: '35%', top: '20%' }}>
+          <m.img style={{ rotate }} src='/assets/images/home/bottle_cap_peach.svg' />
+        </m.div>
 
-        <HomeDarkMode />
+        <m.div style={{ y: yGreen, position: 'absolute', right: '20%', top: '20%' }}>
+          <m.img style={{ rotate }} src='/assets/images/home/bottle_cap_green.svg' />
+        </m.div>
 
-        <HomeColorPresets />
+        <HomeAboutUs />
 
-        <HomeCleanInterfaces />
+        <HomeMap locations={locations} />
 
-        <HomePricing />
+        <m.div style={{ y: yBlue, position: 'absolute', left: '18%', top: '33%' }}>
+          <m.img style={{ rotate }} src='/assets/images/home/bottle_cap_blue.svg' />
+        </m.div>
 
-        <HomeLookingFor />
+        <m.div style={{ y: yGreen, position: 'absolute', right: '18%', top: '35%' }}>
+          <m.img style={{ rotate }} src='/assets/images/home/bottle_cap_yellow.svg' />
+        </m.div>
 
-        <HomeAdvertisement />
+        <m.div style={{ y: yGreen, position: 'absolute', right: '20%', top: '38%' }}>
+          <m.img style={{ rotate }} src='/assets/images/home/bottle_cap_pink.svg' />
+        </m.div>
+
+        <HomeProducts products={products} />
+
+        <HomeAchievements />
+
+        <HomeFAQ />
+
+        <HomeContacts />
       </Box>
     </MainLayout>
   );
+}
+
+
+HomeView.propTypes = {
+  campaigns: PropTypes.array,
+  products: PropTypes.array,
+  locations: PropTypes.array
 }
