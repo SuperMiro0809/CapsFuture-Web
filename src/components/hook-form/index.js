@@ -1,3 +1,5 @@
+import dynamic from 'next/dynamic';
+
 export * from './rhf-upload';
 export * from './rhf-select';
 export * from './rhf-checkbox';
@@ -13,4 +15,7 @@ export { default as RHFLanguageField } from './rhf-language-field';
 export { default as RHFDatePicker } from './rhf-date-picker';
 
 export { default as RHFAutocomplete } from './rhf-autocomplete';
-export { default as RHFLocationSelectorField } from './rhf-location-selector-field';
+
+export const RHFLocationSelectorField = dynamic(() => import('./rhf-location-selector-field'), {
+    ssr: false,
+});

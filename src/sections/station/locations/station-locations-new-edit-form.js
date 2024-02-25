@@ -120,7 +120,7 @@ export default function StationLocationsNewEditForm({ currentLocation, locationT
         last_name: currentLocation?.last_name || '',
         email: currentLocation?.email || '',
         user: userValue,
-        user_type: currentLocation.information.user ? 0 : 1,
+        user_type: currentLocation?.information.user ? 0 : 1,
         active: currentLocation?.active || false,
       }
     },
