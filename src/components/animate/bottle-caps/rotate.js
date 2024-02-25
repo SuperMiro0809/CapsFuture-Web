@@ -48,6 +48,7 @@ export function RotatingBottleCap({ children, style, delay, rotationDuration }) 
         top: move.y.to(y => `${y}vh`),
         willChange: 'transform',
         transform: rotate.rotateZ.to(rotateZ => `rotate(${rotateZ}deg)`),
+        zIndex: 0,
         ...style
       }}
     >

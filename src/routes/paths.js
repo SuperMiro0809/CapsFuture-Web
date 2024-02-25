@@ -52,6 +52,7 @@ export const paths = {
   },
   campaign: {
     root: '/campaigns',
+    details: (slug) => `/campaigns/${slug}`,
   },
   // AUTH
   auth: {
