@@ -363,7 +363,7 @@ export default function HomeHero({ campaigns }) {
       {mdUp && renderPolygons}
 
 
-      <Box sx={{ height: { md: '100vh' } }} />
+      <Box sx={{ height: { md: '100vh' }, backgroundColor: 'white' }} />
     </>
   );
 }

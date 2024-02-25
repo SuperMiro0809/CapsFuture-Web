@@ -25,6 +25,7 @@ export default function MainLayout({ children }) {
           ...(!homePage && {
             pt: { xs: 8, md: 10 },
           }),
+          backgroundColor: (theme) => theme.palette.background.pink
         }}
       >
         {children}
