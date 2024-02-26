@@ -25,7 +25,7 @@ import { bgGradient } from 'src/theme/css';
 
 // ----------------------------------------------------------------------
 
-export default function CampaignDetailsHero({ title, date, cities, coverUrl, onParticipate }) {
+export default function CampaignDetailsHero({ title, date, cities, coverUrl, isSubscribed, onParticipate, onUnsubscribe }) {
   const { t } = useTranslate();
 
   const theme = useTheme();
@@ -102,18 +102,33 @@ export default function CampaignDetailsHero({ title, date, cities, coverUrl, onP
               alignItems='center'
               sx={{ width: '100%' }}
             >
-              <Button
-                variant='contained'
-                color='primary'
-                sx={{
-                  width: '100%',
-                  height: 48,
-                  fontSize: 15
-                }}
-                onClick={onParticipate}
-              >
-                {t('participate')}!
-              </Button>
+              {isSubscribed ? (
+                <Button
+                  variant='contained'
+                  color='warning'
+                  sx={{
+                    width: '100%',
+                    height: 48,
+                    fontSize: 15
+                  }}
+                  onClick={onUnsubscribe}
+                >
+                  {t('unsubscribe')}
+                </Button>
+              ) : (
+                <Button
+                  variant='contained'
+                  color='primary'
+                  sx={{
+                    width: '100%',
+                    height: 48,
+                    fontSize: 15
+                  }}
+                  onClick={onParticipate}
+                >
+                  {t('participate')}!
+                </Button>
+              )}
 
               <Typography
                 sx={{
@@ -135,7 +150,7 @@ export default function CampaignDetailsHero({ title, date, cities, coverUrl, onP
                 </Box>
               </Typography>
             </Stack>
-            
+
             <SpeedDial
               direction={smUp ? 'up' : 'up'}
               ariaLabel="Share post"
@@ -167,4 +182,7 @@ CampaignDetailsHero.propTypes = {
   coverUrl: PropTypes.string,
   date: PropTypes.string,
   title: PropTypes.string,
+  isSubscribed: PropTypes.bool,
+  onParticipate: PropTypes.func,
+  onUnsubscribe: PropTypes.func
 };

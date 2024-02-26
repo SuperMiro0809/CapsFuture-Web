@@ -3,16 +3,10 @@
 import PropTypes from "prop-types";
 import { useTransition } from 'react';
 // @mui
-import Chip from "@mui/material/Chip";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
-import Avatar from "@mui/material/Avatar";
-import Divider from "@mui/material/Divider";
-import Checkbox from "@mui/material/Checkbox";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
-import AvatarGroup from "@mui/material/AvatarGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
 // date-fns
 import { format, parseISO } from 'date-fns';
 // routes
@@ -26,7 +20,7 @@ import { useAuthContext } from 'src/auth/hooks';
 // locales
 import { useTranslate } from 'src/locales';
 // api
-import { participate } from "src/api/campaign";
+import { participate, unsubscribe } from "src/api/campaign";
 // components
 import Iconify from "src/components/iconify";
 import Markdown from "src/components/markdown";
@@ -49,6 +43,8 @@ export default function CampaignDetailsHomeView({ campaign, error }) {
 
   const confirm = useBoolean();
 
+  const unsubscribeModal = useBoolean();
+
   const { enqueueSnackbar } = useSnackbar();
 
   const [isPending, startTransition] = useTransition();
@@ -60,6 +56,10 @@ export default function CampaignDetailsHomeView({ campaign, error }) {
       router.push(paths.campaign.participate(campaign.id));
     }
   }
+
+  const onUnsubscribe = () => unsubscribeModal.onTrue();
+
+  const isSubscribed = !!campaign.attendances.find((u) => u.user_id === user?.id);
 
   // const renderSkeleton = <PostDetailsSkeleton />;
 
@@ -91,6 +91,8 @@ export default function CampaignDetailsHomeView({ campaign, error }) {
         date={format(parseISO(campaign.date), 'dd.MM.yyyy')}
         coverUrl={`${ASSETS}/${campaign.title_image_path}`}
         onParticipate={onParticipate}
+        onUnsubscribe={onUnsubscribe}
+        isSubscribed={isSubscribed}
       />
 
       <Container
@@ -162,9 +164,41 @@ export default function CampaignDetailsHomeView({ campaign, error }) {
               });
 
               confirm.onFalse();
+              router.refresh();
             }}
           >
             {t('participate')}
+          </Button>
+        }
+      />
+
+      <ConfirmDialog
+        open={unsubscribeModal.value}
+        onClose={() => {
+          unsubscribeModal.onFalse();
+        }}
+        title={t('unsubscribe-modal.title')}
+        content={t('unsubscribe-modal.text')}
+        action={
+          <Button
+            variant="contained"
+            color="error"
+            onClick={() => {
+              startTransition(async () => {
+                const { error } = await unsubscribe(campaign.id, user.id);
+
+                if (error) {
+                  enqueueSnackbar(error, { variant: 'error' });
+                } else {
+                  enqueueSnackbar(t('unsubscribe-success-message'))
+                }
+              });
+
+              unsubscribeModal.onFalse();
+              router.refresh()
+            }}
+          >
+            {t('unsubscribe')}
           </Button>
         }
       />

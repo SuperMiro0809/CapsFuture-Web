@@ -121,3 +121,16 @@ export async function participate(data) {
         return { error: message };
     }
 }
+
+export async function unsubscribe(campaignId, userId) {
+    try {
+        const URL = `${REST_API}/campaigns/unsubscribe/${campaignId}/${userId}`;
+
+        const res = await axios.delete(URL);
+
+        return { status: res.status, data: res.data };
+    } catch (error) {
+        const message = typeof error === 'string' ? error : error.message;
+        return { error: message };
+    }
+}
