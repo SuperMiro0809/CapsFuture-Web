@@ -86,7 +86,7 @@ export default function CampaignContent({ campaigns, campaignsCount }) {
         }}
       >
         <Stack
-          direction='row'
+          direction={{ xs: 'column', md: 'row' }}
           spacing={1}
           sx={{
             mb: { xs: 1, md: 2 },
