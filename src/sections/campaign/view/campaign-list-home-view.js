@@ -6,7 +6,7 @@ import CampaignHero from '../campaign-hero';
 
 import CampaignContent from '../campaign-content';
 
-export default function CampaignSitePageView({ campaigns, campaignsCount }) {
+export default function CampaignListHomeView({ campaigns, campaignsCount }) {
   return (
     <>
       <CampaignHero />
@@ -16,7 +16,7 @@ export default function CampaignSitePageView({ campaigns, campaignsCount }) {
   );
 }
 
-CampaignSitePageView.propTypes = {
+CampaignListHomeView.propTypes = {
   campaigns: PropTypes.array,
   campaignsCount: PropTypes.number
 }

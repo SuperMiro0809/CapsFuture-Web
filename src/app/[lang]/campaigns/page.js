@@ -1,4 +1,4 @@
-import { CampaignSitePageView } from 'src/sections/campaign/view';
+import { CampaignListHomeView } from 'src/sections/campaign/view';
 import { getCampaigns } from 'src/api/campaign';
 
 // ----------------------------------------------------------------------
@@ -26,5 +26,5 @@ export default async function CampaignsPage({ params, searchParams }) {
     return <div>{JSON.stringify(error)}</div>
   }
 
-  return <CampaignSitePageView campaigns={campaigns} campaignsCount={campaignsCount} />;
+  return <CampaignListHomeView campaigns={campaigns} campaignsCount={campaignsCount} />;
 }
