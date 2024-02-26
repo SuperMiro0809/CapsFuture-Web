@@ -65,7 +65,7 @@ export default function CampaignParticipateView({ slug }) {
             <li>{t('campaign-benefits.feedback-opportunity')}</li>
             <li>{t('campaign-benefits.unsubscribe-anytime')}</li>
           </ul>
-          <LoginButton />
+          <LoginButton returnTo={`/campaigns/${slug}`} />
         </Stack>
       </Box>
 
