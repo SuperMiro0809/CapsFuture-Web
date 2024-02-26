@@ -25,7 +25,7 @@ import { bgGradient } from 'src/theme/css';
 
 // ----------------------------------------------------------------------
 
-export default function CampaignDetailsHero({ title, date, cities, coverUrl }) {
+export default function CampaignDetailsHero({ title, date, cities, coverUrl, onParticipate }) {
   const { t } = useTranslate();
 
   const theme = useTheme();
@@ -110,6 +110,7 @@ export default function CampaignDetailsHero({ title, date, cities, coverUrl }) {
                   height: 48,
                   fontSize: 15
                 }}
+                onClick={onParticipate}
               >
                 {t('participate')}!
               </Button>

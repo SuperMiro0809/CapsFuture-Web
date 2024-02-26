@@ -108,3 +108,16 @@ export async function deleteCampaigns(ids) {
         throw message;
     }
 }
+
+export async function participate(data) {
+    try {
+        const URL = `${REST_API}/campaigns/participate`;
+
+        const res = await axios.post(URL, data);
+
+        return { status: res.status, data: res.data };
+    } catch (error) {
+        const message = typeof error === 'string' ? error : error.message;
+        return { error: message };
+    }
+}

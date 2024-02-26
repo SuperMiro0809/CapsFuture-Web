@@ -1,33 +1,33 @@
 'use client'
 
+import PropTypes from 'prop-types';
 import * as Yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useState } from 'react';
 // @mui
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Link from '@mui/material/Link';
 import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
-import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import LoadingButton from '@mui/lab/LoadingButton';
 // routes
-import { paths } from 'src/routes/paths';
-import { RouterLink } from 'src/routes/components';
 import { useRouter } from 'src/routes/hooks';
 // locales
 import { useTranslate } from 'src/locales';
+// api
+import { participate } from 'src/api/campaign';
 // components
-import Iconify from 'src/components/iconify';
 import FormProvider, { RHFTextField } from 'src/components/hook-form';
 
 // ----------------------------------------------------------------------
 
-export default function CampaignParticipateForm() {
+export default function CampaignParticipateForm({ slug }) {
   const { t } = useTranslate();
 
-  const router = useRouter();
+  const [successMsg, setSuccessMsg] = useState('');
+
+  const [errorMsg, setErrorMsg] = useState('');
 
   const phoneRegex = /^\+?(\d{1,3})?[-.\s]?\(?(?:\d{1,3})?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,4}$/;
 
@@ -57,7 +57,19 @@ export default function CampaignParticipateForm() {
   } = methods;
 
   const onSubmit = handleSubmit(async (data) => {
+    const values = { campaign_id: slug, ...data };
 
+    try {
+      const { error } = await participate(values);
+
+      if (error) throw error;
+
+      setErrorMsg('');
+      setSuccessMsg(t('participate-success-message'));
+    } catch (error) {
+      setErrorMsg(t(error));
+      setSuccessMsg('');
+    }
   });
 
   const renderHead = (
@@ -68,8 +80,11 @@ export default function CampaignParticipateForm() {
 
   const renderForm = (
     <Stack spacing={2.5}>
-      {/* {!!errorMsg && <Alert severity="error">{errorMsg}</Alert>} */}
       <Alert severity='warning'>{t('participate-warning-message')}</Alert>
+
+      {!!errorMsg && <Alert severity="error">{errorMsg}</Alert>}
+
+      {!!successMsg && <Alert severity="success">{successMsg}</Alert>}
 
       <Box gap={2} display="grid" gridTemplateColumns="repeat(2, 1fr)">
         <RHFTextField
@@ -118,3 +133,7 @@ export default function CampaignParticipateForm() {
     </FormProvider>
   );
 }
+
+CampaignParticipateForm.propTypes = {
+  slug: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
+};

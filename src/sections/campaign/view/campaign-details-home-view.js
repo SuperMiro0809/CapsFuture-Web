@@ -1,6 +1,7 @@
 "use client";
 
 import PropTypes from "prop-types";
+import { useTransition } from 'react';
 // @mui
 import Chip from "@mui/material/Chip";
 import Stack from "@mui/material/Stack";
@@ -12,18 +13,27 @@ import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import AvatarGroup from "@mui/material/AvatarGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
-// routes
-import { paths } from "src/routes/paths";
-import { RouterLink } from "src/routes/components";
-// locales
-import { useTranslate } from 'src/locales';
 // date-fns
 import { format, parseISO } from 'date-fns';
+// routes
+import { paths } from "src/routes/paths";
+import { useRouter } from "src/routes/hooks";
+import { RouterLink } from "src/routes/components";
+// hooks
+import { useBoolean } from "src/hooks/use-boolean";
+// auth
+import { useAuthContext } from 'src/auth/hooks';
+// locales
+import { useTranslate } from 'src/locales';
+// api
+import { participate } from "src/api/campaign";
 // components
 import Iconify from "src/components/iconify";
 import Markdown from "src/components/markdown";
 import EmptyContent from "src/components/empty-content";
 import CustomBreadcrumbs from "src/components/custom-breadcrumbs";
+import { ConfirmDialog } from 'src/components/custom-dialog';
+import { useSnackbar } from 'src/components/snackbar';
 //
 import CampaignDetailsHero from "../campaign-details-hero";
 import { ASSETS } from "src/config-global";
@@ -32,6 +42,24 @@ import { ASSETS } from "src/config-global";
 
 export default function CampaignDetailsHomeView({ campaign, error }) {
   const { t } = useTranslate();
+
+  const router = useRouter();
+
+  const { user } = useAuthContext();
+
+  const confirm = useBoolean();
+
+  const { enqueueSnackbar } = useSnackbar();
+
+  const [isPending, startTransition] = useTransition();
+
+  const onParticipate = () => {
+    if (user) {
+      confirm.onTrue();
+    } else {
+      router.push(paths.campaign.participate(campaign.id));
+    }
+  }
 
   // const renderSkeleton = <PostDetailsSkeleton />;
 
@@ -62,6 +90,7 @@ export default function CampaignDetailsHomeView({ campaign, error }) {
         cities={campaign.cities}
         date={format(parseISO(campaign.date), 'dd.MM.yyyy')}
         coverUrl={`${ASSETS}/${campaign.title_image_path}`}
+        onParticipate={onParticipate}
       />
 
       <Container
@@ -102,79 +131,45 @@ export default function CampaignDetailsHomeView({ campaign, error }) {
           </Typography>
 
           <Markdown children={campaign.description} />
-
-          {/* <Stack
-            spacing={3}
-            sx={{
-              py: 3,
-              borderTop: (theme) => `dashed 1px ${theme.palette.divider}`,
-              borderBottom: (theme) => `dashed 1px ${theme.palette.divider}`,
-            }}
-          >
-            <Stack direction="row" flexWrap="wrap" spacing={1}>
-              {post.tags.map((tag) => (
-                <Chip key={tag} label={tag} variant="soft" />
-              ))}
-            </Stack>
-
-            <Stack direction="row" alignItems="center">
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    defaultChecked
-                    size="small"
-                    color="error"
-                    icon={<Iconify icon="solar:heart-bold" />}
-                    checkedIcon={<Iconify icon="solar:heart-bold" />}
-                  />
-                }
-                label={fShortenNumber(post.totalFavorites)}
-                sx={{ mr: 1 }}
-              />
-
-              <AvatarGroup>
-                {post.favoritePerson.map((person) => (
-                  <Avatar
-                    key={person.name}
-                    alt={person.name}
-                    src={person.avatarUrl}
-                  />
-                ))}
-              </AvatarGroup>
-            </Stack>
-          </Stack> */}
-
-          {/* <Stack direction="row" sx={{ mb: 3, mt: 5 }}>
-            <Typography variant="h4">Comments</Typography>
-
-            <Typography variant="subtitle2" sx={{ color: "text.disabled" }}>
-              ({post.comments.length})
-            </Typography>
-          </Stack> */}
-
-          {/* <PostCommentForm /> */}
-
-          {/* <Divider sx={{ mt: 5, mb: 2 }} /> */}
-
-          {/* <PostCommentList comments={post.comments} /> */}
         </Stack>
       </Container>
+
+      <ConfirmDialog
+        open={confirm.value}
+        onClose={() => {
+          confirm.onFalse();
+        }}
+        title={t('participate-modal.title')}
+        content={t('participate-modal.text')}
+        action={
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => {
+              startTransition(async () => {
+                const data = {
+                  campaign_id: campaign.id,
+                  user_id: user.id
+                };
+
+                const { error } = await participate(data);
+
+                if (error) {
+                  enqueueSnackbar(error, { variant: 'error' });
+                } else {
+                  enqueueSnackbar(t('participate-success-message'))
+                }
+              });
+
+              confirm.onFalse();
+            }}
+          >
+            {t('participate')}
+          </Button>
+        }
+      />
     </>
   );
-
-  // const renderLatestPosts = (
-  //   <>
-  //     <Typography variant="h4" sx={{ mb: 5 }}>
-  //       Recent Posts
-  //     </Typography>
-
-  //     <PostList
-  //       posts={latestPosts.slice(latestPosts.length - 4)}
-  //       loading={latestPostsLoading}
-  //       disabledIndex
-  //     />
-  //   </>
-  // );
 
   return (
     <>

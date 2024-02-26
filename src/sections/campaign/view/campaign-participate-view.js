@@ -21,7 +21,6 @@ import LoginButton from 'src/layouts/common/login-button';
 //
 import CampaignParticipateForm from '../campaign-participate-form';
 
-
 // ----------------------------------------------------------------------
 
 export default function CampaignParticipateView({ slug }) {
@@ -30,7 +29,7 @@ export default function CampaignParticipateView({ slug }) {
   const mdUp = useResponsive('up', 'md');
 
   const renderHead = (
-    <Stack spacing={1} sx={{ mb: 5 }}>
+    <Stack spacing={1} sx={{ mb: 5, position: 'relative', zIndex: 1 }}>
       <Button
         component={RouterLink}
         href={paths.campaign.details(slug)}
@@ -59,12 +58,12 @@ export default function CampaignParticipateView({ slug }) {
       <Box>
         <Stack spacing={1} sx={{ mb: 5 }}>
           <Typography variant="h4">{t('already-have-account')}?</Typography>
-          <Typography variant="body1">Влезте във Вашия профил, за да се възползвате от следните приемущества относно кампании:</Typography>
+          <Typography variant="body1">{t('campaign-login-prompt')}:</Typography>
           <ul>
-            <li>по-лесно записване за кампании</li>
-            <li>запазване на кампаниите във Вашия профил</li>
-            <li>възможност за връщане на обратна връзка след проведена кампания</li>
-            <li>можете да се отпишете във всеки един момент</li>
+            <li>{t('campaign-benefits.easier-campaign-signup')}</li>
+            <li>{t('campaign-benefits.campaign-save')}</li>
+            <li>{t('campaign-benefits.feedback-opportunity')}</li>
+            <li>{t('campaign-benefits.unsubscribe-anytime')}</li>
           </ul>
           <LoginButton />
         </Stack>
@@ -99,7 +98,7 @@ export default function CampaignParticipateView({ slug }) {
         {t('or')}
       </Typography>
       
-      <CampaignParticipateForm />
+      <CampaignParticipateForm slug={slug} />
     </Stack>
   );
 
@@ -124,5 +123,5 @@ export default function CampaignParticipateView({ slug }) {
 }
 
 CampaignParticipateView.propTypes = {
-  slug: PropTypes.number,
+  slug: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
 };
