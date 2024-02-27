@@ -1,27 +1,25 @@
 import PropTypes from 'prop-types';
-
+// @mui
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
-import Avatar from '@mui/material/Avatar';
 import Container from '@mui/material/Container';
 import SpeedDial from '@mui/material/SpeedDial';
 import Typography from '@mui/material/Typography';
-import ListItemText from '@mui/material/ListItemText';
 import { alpha, useTheme } from '@mui/material/styles';
 import SpeedDialAction from '@mui/material/SpeedDialAction';
-
+// hooks
 import { useResponsive } from 'src/hooks/use-responsive';
-
+// utils
 import { fDate } from 'src/utils/format-time';
-
+// components
+import Iconify from 'src/components/iconify';
+//
 import { _socials } from 'src/_mock';
 import { bgGradient } from 'src/theme/css';
 
-import Iconify from 'src/components/iconify';
-
 // ----------------------------------------------------------------------
 
-export default function PostDetailsHero({ title, author, coverUrl, createdAt }) {
+export default function PostDetailsHero({ title, coverUrl, createdAt }) {
   const theme = useTheme();
 
   const smUp = useResponsive('up', 'sm');
@@ -38,22 +36,66 @@ export default function PostDetailsHero({ title, author, coverUrl, createdAt }) 
         }),
       }}
     >
-      <Container sx={{ height: 1, position: 'relative' }}>
-        <Typography
-          variant="h3"
-          component="h1"
-          sx={{
-            zIndex: 9,
-            color: 'common.white',
-            position: 'absolute',
-            maxWidth: 480,
-            pt: { xs: 2, md: 8 },
-          }}
-        >
-          {title}
-        </Typography>
-
+      <Container
+        sx={{
+          height: 1,
+          position: 'relative',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'flex-end'
+        }}
+      >
         <Stack
+          direction={{ xs: 'column', md: 'row' }}
+          gap={{ xs: 3, md: 0 }}
+          justifyContent='space-between'
+          alignItems={{ xs: 'center', md: 'flex-end' }}
+          sx={{ py: 5 }}
+        >
+          <Stack gap={1}>
+            <Typography
+              variant="h3"
+              component="h1"
+              sx={{
+                zIndex: 9,
+                color: 'common.white',
+                maxWidth: 480,
+              }}
+            >
+              {title}
+            </Typography>
+            <Typography
+              variant="subtitle1"
+              sx={{
+                zIndex: 9,
+                color: 'text.disabled',
+                maxWidth: 480,
+              }}
+            >
+              {fDate(createdAt, 'dd.MM.yyyy')}
+            </Typography>
+          </Stack>
+
+          <SpeedDial
+            direction={smUp ? 'up' : 'up'}
+            ariaLabel="Share post"
+            icon={<Iconify icon="solar:share-bold" />}
+            FabProps={{ size: 'medium', color: 'secondary' }}
+            sx={{ mb: 2 }}
+          >
+            {_socials.map((action) => (
+              <SpeedDialAction
+                key={action.name}
+                icon={<Iconify icon={action.icon} sx={{ color: action.color }} />}
+                tooltipTitle={action.name}
+                tooltipPlacement="top"
+                FabProps={{ color: 'default' }}
+              />
+            ))}
+          </SpeedDial>
+        </Stack>
+
+        {/* <Stack
           sx={{
             left: 0,
             width: 1,
@@ -110,14 +152,13 @@ export default function PostDetailsHero({ title, author, coverUrl, createdAt }) 
               />
             ))}
           </SpeedDial>
-        </Stack>
+        </Stack> */}
       </Container>
     </Box>
   );
 }
 
 PostDetailsHero.propTypes = {
-  author: PropTypes.object,
   coverUrl: PropTypes.string,
   createdAt: PropTypes.string,
   title: PropTypes.string,
