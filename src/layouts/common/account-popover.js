@@ -1,5 +1,6 @@
+import { useState, useEffect } from 'react';
 import { m } from 'framer-motion';
-
+// @mui
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Avatar from '@mui/material/Avatar';
@@ -8,12 +9,14 @@ import { alpha } from '@mui/material/styles';
 import MenuItem from '@mui/material/MenuItem';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-
+// routes
 import { paths } from 'src/routes/paths';
-import { useRouter } from 'src/routes/hooks';
-
+import { useRouter, usePathname } from 'src/routes/hooks';
+// locales
+import { useTranslate } from 'src/locales';
+// auth
 import { useAuthContext } from 'src/auth/hooks';
-
+// components
 import { varHover } from 'src/components/animate';
 import { useSnackbar } from 'src/components/snackbar';
 import CustomPopover, { usePopover } from 'src/components/custom-popover';
@@ -38,9 +41,43 @@ const OPTIONS = [
 // ----------------------------------------------------------------------
 
 export default function AccountPopover() {
+  const { t } = useTranslate();
+
   const router = useRouter();
 
+  const pathname = usePathname();
+
   const { user, logout } = useAuthContext();
+
+  const [options, setOptions] = useState([]);
+
+  useEffect(() => {
+    if (user?.role.name === 'Admin') {
+      const isOnDashboard = pathname.includes('dashboard');
+      console.log(isOnDashboard)
+      setOptions([
+        {
+          label: isOnDashboard ? t('home') : t('dashboard'),
+          linkTo: isOnDashboard ? '/' : '/dashboard',
+        },
+        {
+          label: t('profile'),
+          linkTo: paths.dashboard.user.profile,
+        },
+      ]);
+    } else {
+      setOptions([
+        {
+          label: t('home'),
+          linkTo: '/',
+        },
+        {
+          label: t('profile'),
+          linkTo: paths.dashboard.user.profile,
+        },
+      ]);
+    }
+  }, [user])
 
   const { enqueueSnackbar } = useSnackbar();
 
@@ -107,7 +144,7 @@ export default function AccountPopover() {
         <Divider sx={{ borderStyle: 'dashed' }} />
 
         <Stack sx={{ p: 1 }}>
-          {OPTIONS.map((option) => (
+          {options.map((option) => (
             <MenuItem key={option.label} onClick={() => handleClickItem(option.linkTo)}>
               {option.label}
             </MenuItem>
@@ -120,7 +157,7 @@ export default function AccountPopover() {
           onClick={handleLogout}
           sx={{ m: 1, fontWeight: 'fontWeightBold', color: 'error.main' }}
         >
-          Logout
+          {t('logout')}
         </MenuItem>
       </CustomPopover>
     </>

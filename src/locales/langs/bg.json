@@ -44,6 +44,7 @@
     "or": "или",
     "upcoming": "Предстоящи",
     "past": "Отминали",
+    "logout": "Изход",
 
     "participate-modal": {
         "title": "Участие в кампания",
@@ -82,7 +83,7 @@
     "contact-us": "Свържете се с нас",
     
 
-    "dashboard": "Начало",
+    "dashboard": "Панел",
 
     "campaigns": "Кампании",
     "new-campaign": "Нова кампания",
