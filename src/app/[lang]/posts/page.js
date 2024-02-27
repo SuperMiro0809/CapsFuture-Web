@@ -7,8 +7,8 @@ export const metadata = {
   title: 'Posts',
 };
 
-async function getData(lang, order, filters) {
-    const { data: postsRes, error } = await getPosts({ page: 1, limit: 8 }, order, filters, lang);
+async function getData(lang, pagination, order, filters) {
+    const { data: postsRes, error } = await getPosts(pagination, order, filters, lang);
 
     return { posts: postsRes.data, postsCount: postsRes.total, error };
 }
@@ -16,13 +16,18 @@ async function getData(lang, order, filters) {
 export default async function PostsPage({ params, searchParams }) {
   const { lang } = params;
 
-  const { search, sort } = searchParams;
+  const { page, search, sort } = searchParams;
+
+  const pagination = { page, limit: 8 };
 
   const order = { orderBy: 'created_at', direction: sort };
+  if (sort !== 'asc' || sort !== 'desc') {
+    order.direction = 'asc';
+  }
 
   const filters = [{ id: 'search', value: search }];
 
-  const { posts, postsCount, error } = await getData(lang, order, filters);
+  const { posts, postsCount, error } = await getData(lang, pagination, order, filters);
 
   if (error) {
     return <div>{JSON.stringify(error)}</div>

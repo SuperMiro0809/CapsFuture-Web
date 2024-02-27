@@ -28,7 +28,7 @@ import PostSort from './post-sort';
 
 const defaultFilters = {
   search: '',
-  sort: 'asc'
+  sort: ''
 };
 
 // ----------------------------------------------------------------------
@@ -42,10 +42,23 @@ export default function PostListHomeContent({ posts, postsCount }) {
 
   const searchParams = useSearchParams();
 
+  const pageLength = Math.ceil(postsCount / 8);
+
+  let defaultPage = searchParams.get('page');
+
+  if(!isNaN(defaultPage)) {
+    defaultPage = Number(defaultPage) > pageLength ? pageLength : Number(defaultPage);
+  } else {
+    defaultPage = 1;
+  }
+
+  const [page, setPage] = useState(defaultPage);
+
   const orderOptions = [{ value: 'asc', label: t('latest') }, { value: 'desc', label: t('oldest') }];
 
   defaultFilters.search = searchParams.get('search') || '';
-  defaultFilters.sort = orderOptions.find((x) => x.value === searchParams.get('old'))?.value || orderOptions[0].value;
+
+  defaultFilters.sort = orderOptions.find((x) => x.value === searchParams.get('sort') || '')?.value || orderOptions[0].value;
 
   const [filters, setFilters] = useState(defaultFilters);
 
@@ -58,7 +71,7 @@ export default function PostListHomeContent({ posts, postsCount }) {
 
   useEffect(() => {
     const pagination = {
-      page: 1,
+      page,
       limit: 8
     };
 
@@ -66,7 +79,7 @@ export default function PostListHomeContent({ posts, postsCount }) {
     const query = makeQuery(searchParams, pagination, {}, filtersData);
 
     router.push(`${pathname}${query}`, { scroll: false });
-  }, [pathname, router, searchParams, filters])
+  }, [pathname, router, searchParams, page, filters])
 
   return (
     <Box
@@ -125,9 +138,11 @@ export default function PostListHomeContent({ posts, postsCount }) {
           ))}
         </Grid>
 
-        {true && (
+        {postsCount > 8 && (
           <Pagination
-            count={Math.ceil(postsCount / 8)}
+            page={page}
+            onChange={(_, value) => setPage(value)}
+            count={pageLength}
             color='primary'
             sx={{
               mt: 8,

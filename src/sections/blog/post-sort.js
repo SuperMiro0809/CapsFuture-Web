@@ -16,6 +16,8 @@ export default function PostSort({ sort, sortOptions, onSort }) {
 
   const popover = usePopover();
 
+  const label = sortOptions.find((x) => x.value === sort)?.label;
+
   return (
     <>
       <Button
@@ -31,7 +33,7 @@ export default function PostSort({ sort, sortOptions, onSort }) {
       >
         {t('sort-by')}:
         <Box component="span" sx={{ ml: 0.5, fontWeight: 'fontWeightBold' }}>
-          {t(sort)}
+          {t(label)}
         </Box>
       </Button>
 

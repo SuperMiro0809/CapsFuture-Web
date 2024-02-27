@@ -8,8 +8,6 @@ import PostListHomeContent from '../post-list-home-content';
 // ----------------------------------------------------------------------
 
 export default function PostListHomeView({ posts, postsCount }) {
-  console.log(posts)
-
   return (
     <>
       <PostListHomeHero />
