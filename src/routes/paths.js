@@ -44,8 +44,8 @@ export const paths = {
     },
   },
   post: {
-    root: `/post`,
-    details: (title) => `/post/${paramCase(title)}`,
+    root: `/posts`,
+    details: (slug) => `/posts/${slug}`,
     demo: {
       details: `/post/${paramCase(MOCK_TITLE)}`,
     },
