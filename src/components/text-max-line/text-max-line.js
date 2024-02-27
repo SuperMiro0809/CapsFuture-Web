@@ -40,6 +40,8 @@ const TextMaxLine = forwardRef(
   }
 );
 
+TextMaxLine.displayName = 'TextMaxLine';
+
 TextMaxLine.propTypes = {
   asLink: PropTypes.bool,
   children: PropTypes.node,

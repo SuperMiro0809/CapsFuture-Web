@@ -1,3 +1,4 @@
+/* eslint-disable react/no-children-prop */
 import PropTypes from 'prop-types';
 
 import Box from '@mui/material/Box';

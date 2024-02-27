@@ -87,6 +87,8 @@ const Logo = forwardRef(({ disabledLink = false, sx, ...other }, ref) => {
   );
 });
 
+Logo.displayName = 'Logo';
+
 Logo.propTypes = {
   disabledLink: PropTypes.bool,
   sx: PropTypes.object,

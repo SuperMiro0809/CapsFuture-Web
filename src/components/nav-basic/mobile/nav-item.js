@@ -57,6 +57,8 @@ const NavItem = forwardRef(
   }
 );
 
+NavItem.displayName = 'NavItem';
+
 NavItem.propTypes = {
   open: PropTypes.bool,
   path: PropTypes.string,

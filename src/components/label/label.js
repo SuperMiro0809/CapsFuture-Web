@@ -41,6 +41,8 @@ const Label = forwardRef(
   }
 );
 
+Label.displayName = 'Label';
+
 Label.propTypes = {
   children: PropTypes.node,
   endIcon: PropTypes.object,

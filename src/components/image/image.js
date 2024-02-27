@@ -117,6 +117,8 @@ const Image = forwardRef(
   }
 );
 
+Image.displayName = 'Image';
+
 Image.propTypes = {
   afterLoad: PropTypes.func,
   alt: PropTypes.string,

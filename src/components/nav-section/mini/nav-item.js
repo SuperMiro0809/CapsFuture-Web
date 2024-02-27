@@ -117,6 +117,8 @@ const NavItem = forwardRef(
   }
 );
 
+NavItem.displayName = 'NavItem';
+
 NavItem.propTypes = {
   open: PropTypes.bool,
   active: PropTypes.bool,

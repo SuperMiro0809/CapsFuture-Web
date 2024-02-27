@@ -17,13 +17,13 @@ export default function PostDetailsPage({ params }) {
   return <PostDetailsView title={title} />;
 }
 
-export async function generateStaticParams() {
-  const res = await axios.get(endpoints.post.list);
+// export async function generateStaticParams() {
+//   const res = await axios.get(endpoints.post.list);
 
-  return res.data.posts.map((post) => ({
-    title: paramCase(post.title),
-  }));
-}
+//   return res.data.posts.map((post) => ({
+//     title: paramCase(post.title),
+//   }));
+// }
 
 PostDetailsPage.propTypes = {
   params: PropTypes.shape({

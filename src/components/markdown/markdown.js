@@ -1,4 +1,3 @@
-/* eslint-disable perfectionist/sort-imports */
 import 'src/utils/highlight';
 
 import PropTypes from 'prop-types';

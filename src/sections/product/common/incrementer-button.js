@@ -50,6 +50,8 @@ const IncrementerButton = forwardRef(
   )
 );
 
+IncrementerButton.displayName = 'IncrementerButton';
+
 IncrementerButton.propTypes = {
   disabledDecrease: PropTypes.bool,
   disabledIncrease: PropTypes.bool,

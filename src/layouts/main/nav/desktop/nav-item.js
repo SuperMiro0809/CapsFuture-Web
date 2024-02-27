@@ -52,6 +52,8 @@ export const NavItem = forwardRef(
   }
 );
 
+NavItem.displayName = 'NavItem';
+
 NavItem.propTypes = {
   title: PropTypes.string,
   path: PropTypes.string,

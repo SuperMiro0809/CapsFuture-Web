@@ -1,3 +1,4 @@
+/* eslint-disable react/no-children-prop */
 import { m } from 'framer-motion';
 import PropTypes from 'prop-types';
 

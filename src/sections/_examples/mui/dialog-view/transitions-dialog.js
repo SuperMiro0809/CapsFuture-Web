@@ -13,6 +13,8 @@ import { useBoolean } from 'src/hooks/use-boolean';
 
 const Transition = forwardRef((props, ref) => <Slide direction="up" ref={ref} {...props} />);
 
+Transition.displayName = 'Transition';
+
 export default function TransitionsDialog() {
   const dialog = useBoolean();
 
