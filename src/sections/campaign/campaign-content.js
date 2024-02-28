@@ -46,11 +46,23 @@ export default function CampaignContent({ campaigns, campaignsCount }) {
 
   const searchParams = useSearchParams();
 
+  const pageLength = Math.ceil(campaignsCount / 8);
+
   const activeFilterOptions = ['all', 'upcoming', 'past'];
 
   defaultFilters.search = searchParams.get('search') || '';
   defaultFilters.city = searchParams.get('city') || null;
   defaultFilters.active = searchParams.get('active') || activeFilterOptions[0];
+
+  let defaultPage = searchParams.get('page');
+
+  if(!isNaN(defaultPage)) {
+    defaultPage = Number(defaultPage) > pageLength ? pageLength : Number(defaultPage);
+  } else {
+    defaultPage = 1;
+  }
+
+  const [page, setPage] = useState(defaultPage);
 
   const [filters, setFilters] = useState(defaultFilters);
 
@@ -63,7 +75,7 @@ export default function CampaignContent({ campaigns, campaignsCount }) {
 
   useEffect(() => {
     const pagination = {
-      page: 1,
+      page,
       limit: 8
     };
 
@@ -71,7 +83,7 @@ export default function CampaignContent({ campaigns, campaignsCount }) {
     const query = makeQuery(searchParams, pagination, {}, filtersData);
 
     router.push(`${pathname}${query}`, { scroll: false });
-  }, [pathname, router, searchParams, filters])
+  }, [pathname, router, searchParams, page, filters])
 
   return (
     <Box
@@ -174,9 +186,11 @@ export default function CampaignContent({ campaigns, campaignsCount }) {
           ))}
         </Grid>
 
-        {true && (
+        {campaignsCount > 8 && (
           <Pagination
-            count={Math.ceil(campaignsCount / 8)}
+            page={page}
+            onChange={(_, value) => setPage(value)}
+            count={pageLength}
             color='primary'
             sx={{
               mt: 8,
