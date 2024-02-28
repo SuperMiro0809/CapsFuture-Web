@@ -60,12 +60,14 @@ export default function HomeCampaignsSwiper({ campaigns }) {
         {campaigns.map((campaign) => (
           <SwiperSlide key={campaign.id}>
             <CampaignCard
+              id={campaign.id}
               slug={campaign.id}
               title={campaign.title}
               shortDescription={campaign.short_description}
               date={format(parseISO(campaign.date), 'dd.MM.yyyy')}
               cities={campaign.cities}
               imageSrc={`${ASSETS}/${campaign.title_image_path}`}
+              attendances={campaign.attendances}
             />
           </SwiperSlide>
         ))}

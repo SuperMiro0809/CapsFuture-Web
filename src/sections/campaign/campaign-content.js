@@ -161,12 +161,14 @@ export default function CampaignContent({ campaigns, campaignsCount }) {
           {campaigns.map((campaign) => (
             <Grid xs={12} md={6} lg={4} key={campaign.id}>
               <CampaignCard
+                id={campaign.id}
                 slug={campaign.id}
                 title={campaign.title}
                 shortDescription={campaign.short_description}
                 date={format(parseISO(campaign.date), 'dd.MM.yyyy')}
                 cities={campaign.cities}
                 imageSrc={`${ASSETS}/${campaign.title_image_path}`}
+                attendances={campaign.attendances}
               />
             </Grid>
           ))}

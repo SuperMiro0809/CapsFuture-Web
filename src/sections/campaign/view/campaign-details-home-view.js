@@ -20,15 +20,12 @@ import { useBoolean } from "src/hooks/use-boolean";
 import { useAuthContext } from 'src/auth/hooks';
 // locales
 import { useTranslate } from 'src/locales';
-// api
-import { participate, unsubscribe } from "src/api/campaign";
 // components
 import Iconify from "src/components/iconify";
 import Markdown from "src/components/markdown";
 import EmptyContent from "src/components/empty-content";
 import CustomBreadcrumbs from "src/components/custom-breadcrumbs";
-import { ConfirmDialog } from 'src/components/custom-dialog';
-import { useSnackbar } from 'src/components/snackbar';
+import { CampaignParticipateModal, CampaignUnsubscribeModal } from "src/components/campaigns";
 //
 import CampaignDetailsHero from "../campaign-details-hero";
 import { ASSETS } from "src/config-global";
@@ -42,17 +39,13 @@ export default function CampaignDetailsHomeView({ campaign, error }) {
 
   const { user } = useAuthContext();
 
-  const confirm = useBoolean();
+  const participateModal = useBoolean();
 
   const unsubscribeModal = useBoolean();
 
-  const { enqueueSnackbar } = useSnackbar();
-
-  const [isPending, startTransition] = useTransition();
-
   const onParticipate = () => {
     if (user) {
-      confirm.onTrue();
+      participateModal.onTrue();
     } else {
       router.push(paths.campaign.participate(campaign.id));
     }
@@ -137,71 +130,16 @@ export default function CampaignDetailsHomeView({ campaign, error }) {
         </Stack>
       </Container>
 
-      <ConfirmDialog
-        open={confirm.value}
-        onClose={() => {
-          confirm.onFalse();
-        }}
-        title={t('participate-modal.title')}
-        content={t('participate-modal.text')}
-        action={
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() => {
-              startTransition(async () => {
-                const data = {
-                  campaign_id: campaign.id,
-                  user_id: user.id
-                };
-
-                const { error } = await participate(data);
-
-                if (error) {
-                  enqueueSnackbar(error, { variant: 'error' });
-                } else {
-                  enqueueSnackbar(t('participate-success-message'))
-                }
-              });
-
-              confirm.onFalse();
-              router.refresh();
-            }}
-          >
-            {t('participate')}
-          </Button>
-        }
+      <CampaignParticipateModal
+        open={participateModal.value}
+        onClose={participateModal.onFalse}
+        campaignId={campaign.id}
       />
 
-      <ConfirmDialog
+      <CampaignUnsubscribeModal
         open={unsubscribeModal.value}
-        onClose={() => {
-          unsubscribeModal.onFalse();
-        }}
-        title={t('unsubscribe-modal.title')}
-        content={t('unsubscribe-modal.text')}
-        action={
-          <Button
-            variant="contained"
-            color="error"
-            onClick={() => {
-              startTransition(async () => {
-                const { error } = await unsubscribe(campaign.id, user.id);
-
-                if (error) {
-                  enqueueSnackbar(error, { variant: 'error' });
-                } else {
-                  enqueueSnackbar(t('unsubscribe-success-message'))
-                }
-              });
-
-              unsubscribeModal.onFalse();
-              router.refresh()
-            }}
-          >
-            {t('unsubscribe')}
-          </Button>
-        }
+        onClose={unsubscribeModal.onFalse}
+        campaignId={campaign.id}
       />
     </>
   );
