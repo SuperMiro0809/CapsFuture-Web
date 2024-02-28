@@ -5,7 +5,7 @@ import { REST_API } from 'src/config-global';
 
 export async function getLocations(filters) {
   try {
-    let URL = `${REST_API}/locations`;
+    let URL = `${REST_API}/locations?`;
 
     if (filters.length > 0) {
       filters.forEach((filter) => {

@@ -21,11 +21,13 @@ export function decodeArray(array) {
 export function makeQuery(searchParams, pagination, order, filters) {
   const current = new URLSearchParams(Array.from(searchParams.entries()));
 
-  current.set('page', pagination.page);
+  if (pagination?.page && pagination?.limit) {
+    current.set('page', pagination.page);
 
-  current.set('limit', pagination.limit);
+    current.set('limit', pagination.limit);
+  }
 
-  if(order.orderBy && order.direction) {
+  if (order.orderBy && order.direction) {
     current.set('orderBy', order.orderBy);
 
     current.set('direction', order.direction);
