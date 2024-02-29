@@ -9,8 +9,7 @@ import CardContent from '@mui/material/CardContent';
 import IconButton from '@mui/material/IconButton';
 import ShareIcon from '@mui/icons-material/Share';
 import Popover from '@mui/material/Popover';
-// routes
-import { useRouter } from 'src/routes/hooks';
+// react-share
 import {
   EmailShareButton,
   FacebookShareButton,
@@ -38,7 +37,12 @@ import {
   VKShareButton,
   WhatsappShareButton,
   WorkplaceShareButton,
-} from "react-share";
+} from 'react-share';
+// routes
+import { useRouter } from 'src/routes/hooks';
+import { paths } from 'src/routes/paths';
+// locales
+import { useTranslate } from 'src/locales';
 // components
 import Carousel, { useCarousel, CarouselArrowIndex } from 'src/components/carousel';
 import CustomPopover, { usePopover } from '../custom-popover';
@@ -56,7 +60,9 @@ const _carouselsExample = [...Array(20)].map((_, index) => ({
 }));
 
 
-export default function ProductCard({ title, price, images }) {
+export default function ProductCard({ id, slug, title, price, images }) {
+  const { t } = useTranslate();
+
   const router = useRouter();
 
   const popover = usePopover();
@@ -83,7 +89,7 @@ export default function ProductCard({ title, price, images }) {
             boxShadow: (theme) => (`0px 0px 20px 0px ${theme.palette.primary.main}`)
           }
         }}
-        onClick={() => router.push('/auth/login')}
+        onClick={() => router.push(paths.store.details(slug))}
       >
         <Box sx={{ height: 350 }}>
           <Carousel ref={carousel.carouselRef} {...carousel.carouselSettings}>
@@ -143,7 +149,7 @@ export default function ProductCard({ title, price, images }) {
               {title}
             </Typography>
             <Typography variant="h5" component="div">
-              {price} lv.
+              {`${price} ${t('lv')}.`}
             </Typography>
           </Box>
 
@@ -196,6 +202,8 @@ export default function ProductCard({ title, price, images }) {
 }
 
 ProductCard.propTypes = {
+  id: PropTypes.number,
+  slug: PropTypes.string,
   title: PropTypes.string,
   price: PropTypes.number,
   images: PropTypes.array

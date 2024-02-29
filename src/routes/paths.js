@@ -55,6 +55,10 @@ export const paths = {
     details: (slug) => `/campaigns/${slug}`,
     participate: (slug) => `/campaigns/${slug}/participate`
   },
+  store: {
+    root: '/store',
+    details: (slug) => `/store/${slug}`,
+  },
   // AUTH
   auth: {
     login: `${ROOTS.AUTH}/login`,
