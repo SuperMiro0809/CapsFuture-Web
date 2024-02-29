@@ -7,46 +7,57 @@ import Container from '@mui/material/Container';
 import Grid from '@mui/material/Unstable_Grid2';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-
+// routes
 import { paths } from 'src/routes/paths';
 import { usePathname } from 'src/routes/hooks';
 import { RouterLink } from 'src/routes/components';
-
-import { _socials } from 'src/_mock';
-
+// hooks
+import { useResponsive } from 'src/hooks/use-responsive';
+// locales
+import { useTranslate } from 'src/locales';
+// components
 import Logo from 'src/components/logo';
 import Iconify from 'src/components/iconify';
 
 // ----------------------------------------------------------------------
 
-const LINKS = [
-  {
-    headline: 'Minimal',
-    children: [
-      { name: 'About us', href: paths.about },
-      { name: 'Contact us', href: paths.contact },
-      { name: 'FAQs', href: paths.faqs },
-    ],
-  },
-  {
-    headline: 'Legal',
-    children: [
-      { name: 'Terms and Condition', href: '#' },
-      { name: 'Privacy Policy', href: '#' },
-    ],
-  },
-  {
-    headline: 'Contact',
-    children: [{ name: 'support@minimals.cc', href: '#' }],
-  },
+const LINKS_ONE = [
+  { name: 'campaigns', href: paths.campaign.root },
+  { name: 'map', href: paths.campaign.root },
+  { name: 'store', href: paths.campaign.root },
+];
+
+const LINKS_TWO = [
+  { name: 'about-us', href: paths.campaign.root },
+  { name: 'posts', href: paths.post.root },
+  { name: 'contacts', href: paths.campaign.root },
 ];
 
 // ----------------------------------------------------------------------
 
 export default function Footer() {
+  const { t } = useTranslate();
+
   const pathname = usePathname();
 
   const homePage = pathname === '/';
+
+  const mdUp = useResponsive('up', 'md');
+
+  const socials = [
+    {
+      name: 'Facebook',
+      color: '#1877F2',
+      icon: 'eva:facebook-fill',
+      href: 'https://www.facebook.com/kapachkizabudeshte/?locale=bg_BG'
+    },
+    {
+      name: 'Instagram',
+      color: '#E02D69',
+      icon: 'ant-design:instagram-filled',
+      href: 'https://www.instagram.com/kapachkizabudeshte/'
+    }
+  ]
 
   const simpleFooter = (
     <Box
@@ -62,9 +73,7 @@ export default function Footer() {
         <Logo sx={{ mb: 1, mx: 'auto' }} />
 
         <Typography variant="caption" component="div">
-          © All rights reserved
-          <br /> made by
-          <Link href="https://minimals.cc/"> minimals.cc </Link>
+          ©  {t('all-rights-reserved')}
         </Typography>
       </Container>
     </Box>
@@ -82,69 +91,54 @@ export default function Footer() {
 
       <Container
         sx={{
+          maxWidth: '1400px !important',
           pt: 10,
           pb: 5,
           textAlign: { xs: 'center', md: 'unset' },
         }}
       >
-        <Logo sx={{ mb: 3 }} />
+        {mdUp ? (
+          <Stack
+            direction={{ xs: 'column', md: 'row' }}
+            alignItems='center'
+            justifyContent='center'
+            spacing={8}
+            sx={{ pb: 3 }}
+          >
+            {LINKS_ONE.map((link) => (
+              <Link
+                key={link.name}
+                component={RouterLink}
+                href={link.href}
+                color="inherit"
+                variant="body2"
+              >
+                <Typography variant='subtitle1'>{t(link.name)}</Typography>
+              </Link>
+            ))}
 
-        <Grid
-          container
-          justifyContent={{
-            xs: 'center',
-            md: 'space-between',
-          }}
-        >
-          <Grid xs={8} md={3}>
-            <Typography
-              variant="body2"
-              sx={{
-                maxWidth: 270,
-                mx: { xs: 'auto', md: 'unset' },
-              }}
-            >
-              The starting point for your next project with Minimal UI Kit, built on the newest
-              version of Material-UI ©, ready to be customized to your style.
-            </Typography>
+            <Logo sx={{ mx: 10 }} />
 
-            <Stack
-              direction="row"
-              justifyContent={{ xs: 'center', md: 'flex-start' }}
-              sx={{
-                mt: 3,
-                mb: { xs: 5, md: 0 },
-              }}
-            >
-              {_socials.map((social) => (
-                <IconButton
-                  key={social.name}
-                  sx={{
-                    '&:hover': {
-                      bgcolor: alpha(social.color, 0.08),
-                    },
-                  }}
-                >
-                  <Iconify color={social.color} icon={social.icon} />
-                </IconButton>
-              ))}
-            </Stack>
-          </Grid>
+            {LINKS_TWO.map((link) => (
+              <Link
+                key={link.name}
+                component={RouterLink}
+                href={link.href}
+                color="inherit"
+                variant="body2"
+              >
+                <Typography variant='subtitle1'>{t(link.name)}</Typography>
+              </Link>
+            ))}
+          </Stack>
+        ) : (
+          <Box>
+            <Logo sx={{ mb: 4 }} />
 
-          <Grid xs={12} md={6}>
-            <Stack spacing={5} direction={{ xs: 'column', md: 'row' }}>
-              {LINKS.map((list) => (
-                <Stack
-                  key={list.headline}
-                  spacing={2}
-                  alignItems={{ xs: 'center', md: 'flex-start' }}
-                  sx={{ width: 1 }}
-                >
-                  <Typography component="div" variant="overline">
-                    {list.headline}
-                  </Typography>
-
-                  {list.children.map((link) => (
+            <Grid container spacing={2} sx={{ pb: 3 }}>
+              <Grid xs={12} sm={6}>
+                <Stack spacing={2}>
+                  {LINKS_ONE.map((link) => (
                     <Link
                       key={link.name}
                       component={RouterLink}
@@ -152,17 +146,62 @@ export default function Footer() {
                       color="inherit"
                       variant="body2"
                     >
-                      {link.name}
+                      <Typography variant='subtitle1'>{t(link.name)}</Typography>
                     </Link>
                   ))}
                 </Stack>
-              ))}
-            </Stack>
-          </Grid>
-        </Grid>
+              </Grid>
 
-        <Typography variant="body2" sx={{ mt: 10 }}>
-          © 2021. All rights reserved
+              <Grid xs={12} sm={6}>
+                <Stack spacing={2}>
+                  {LINKS_TWO.map((link) => (
+                    <Link
+                      key={link.name}
+                      component={RouterLink}
+                      href={link.href}
+                      color="inherit"
+                      variant="body2"
+                    >
+                      <Typography variant='subtitle1'>{t(link.name)}</Typography>
+                    </Link>
+                  ))}
+                </Stack>
+              </Grid>
+            </Grid>
+          </Box>
+        )}
+
+        <Divider />
+
+        <Stack
+          direction='row'
+          justifyContent={'center'}
+          sx={{
+            mt: 3,
+            mb: { xs: 5, md: 0 },
+          }}
+          spacing={2}
+        >
+          {socials.map((social) => (
+            <IconButton
+              component={Link}
+              key={social.name}
+              sx={{
+                '&:hover': {
+                  bgcolor: alpha(social.color, 0.08),
+                },
+              }}
+              size='large'
+              href={social.href}
+              target='_blank'
+            >
+              <Iconify color={social.color} icon={social.icon} />
+            </IconButton>
+          ))}
+        </Stack>
+
+        <Typography variant="body2" sx={{ mt: 8, textAlign: 'center' }}>
+          © 2024. {t('all-rights-reserved')}
         </Typography>
       </Container>
     </Box>

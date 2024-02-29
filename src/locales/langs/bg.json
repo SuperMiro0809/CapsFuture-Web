@@ -3,6 +3,7 @@
     "store": "Магазин",
     "map": "Карта",
     "about-us": "За нас",
+    "contacts": "Контакти",
 
     "login": "Вход",
     "donate": "Дари",
@@ -46,6 +47,7 @@
     "past": "Отминали",
     "logout": "Изход",
     "reply": "Отговори",
+    "all-rights-reserved": "Всички права са запазени",
 
     "participate-modal": {
         "title": "Участие в кампания",
