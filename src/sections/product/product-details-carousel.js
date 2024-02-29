@@ -10,6 +10,7 @@ import { bgGradient } from 'src/theme/css';
 import Image from 'src/components/image';
 import Lightbox, { useLightBox } from 'src/components/lightbox';
 import Carousel, { useCarousel, CarouselArrowIndex } from 'src/components/carousel';
+import { ASSETS } from 'src/config-global';
 
 // ----------------------------------------------------------------------
 
@@ -64,8 +65,8 @@ const StyledThumbnailsContainer = styled('div')(({ length, theme }) => ({
 export default function ProductDetailsCarousel({ product }) {
   const theme = useTheme();
 
-  const slides = product.images.map((img) => ({
-    src: img,
+  const slides = product.files.map((file) => ({
+    src: `${ASSETS}/${file.filepath}`,
   }));
 
   const lightbox = useLightBox(slides);

@@ -11,6 +11,7 @@ export default function ProductDetailsDescription({ description }) {
       children={description}
       sx={{
         p: 3,
+        wordWrap: 'break-word',
         '& p, li, ol': {
           typography: 'body2',
         },

@@ -2,7 +2,7 @@
 
 import PropTypes from 'prop-types';
 import { useState, useCallback } from 'react';
-
+// @mui
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 import Tabs from '@mui/material/Tabs';
@@ -12,17 +12,17 @@ import { alpha } from '@mui/material/styles';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Unstable_Grid2';
 import Typography from '@mui/material/Typography';
-
+// locales
+import { useTranslate } from 'src/locales';
+// routes
 import { paths } from 'src/routes/paths';
 import { RouterLink } from 'src/routes/components';
-
-import { useGetProduct } from 'src/api/product';
-
+// components
 import Iconify from 'src/components/iconify';
 import EmptyContent from 'src/components/empty-content';
 import { useSettingsContext } from 'src/components/settings';
 import CustomBreadcrumbs from 'src/components/custom-breadcrumbs';
-
+//
 import CartIcon from '../common/cart-icon';
 import { useCheckoutContext } from '../../checkout/context';
 import ProductDetailsReview from '../product-details-review';
@@ -53,14 +53,14 @@ const SUMMARY = [
 
 // ----------------------------------------------------------------------
 
-export default function ProductShopDetailsView({ id }) {
+export default function ProductShopDetailsView({ product, error }) {
+  const { t } = useTranslate();
+
   const settings = useSettingsContext();
 
   const checkout = useCheckoutContext();
 
   const [currentTab, setCurrentTab] = useState('description');
-
-  const { product, productLoading, productError } = useGetProduct(id);
 
   const handleChangeTab = useCallback((event, newValue) => {
     setCurrentTab(newValue);
@@ -71,15 +71,15 @@ export default function ProductShopDetailsView({ id }) {
   const renderError = (
     <EmptyContent
       filled
-      title={`${productError?.message}`}
+      title={error}
       action={
         <Button
           component={RouterLink}
-          href={paths.product.root}
+          href={paths.store.root}
           startIcon={<Iconify icon="eva:arrow-ios-back-fill" width={16} />}
           sx={{ mt: 3 }}
         >
-          Back to List
+          {t('back')}
         </Button>
       }
       sx={{ py: 10 }}
@@ -90,17 +90,17 @@ export default function ProductShopDetailsView({ id }) {
     <>
       <CustomBreadcrumbs
         links={[
-          { name: 'Home', href: '/' },
+          { name: t('home'), href: '/' },
           {
-            name: 'Shop',
-            href: paths.product.root,
+            name: t('store'),
+            href: paths.store.root,
           },
-          { name: product?.name },
+          { name: product?.title },
         ]}
         sx={{ mb: 5 }}
       />
 
-      <Grid container spacing={{ xs: 3, md: 5, lg: 8 }}>
+      <Grid container spacing={{ xs: 3, md: 5, lg: 8 }} sx={{ mb: 5 }}>
         <Grid xs={12} md={6} lg={7}>
           <ProductDetailsCarousel product={product} />
         </Grid>
@@ -111,11 +111,12 @@ export default function ProductShopDetailsView({ id }) {
             items={checkout.items}
             onAddCart={checkout.onAddToCart}
             onGotoStep={checkout.onGotoStep}
+            disabledActions={!product.active}
           />
         </Grid>
       </Grid>
 
-      <Box
+      {/* <Box
         gap={5}
         display="grid"
         gridTemplateColumns={{
@@ -137,8 +138,7 @@ export default function ProductShopDetailsView({ id }) {
             </Typography>
           </Box>
         ))}
-      </Box>
-
+      </Box> */}
       <Card>
         <Tabs
           value={currentTab}
@@ -151,11 +151,7 @@ export default function ProductShopDetailsView({ id }) {
           {[
             {
               value: 'description',
-              label: 'Description',
-            },
-            {
-              value: 'reviews',
-              label: `Reviews (${product.reviews.length})`,
+              label: t('description'),
             },
           ].map((tab) => (
             <Tab key={tab.value} value={tab.value} label={tab.label} />
@@ -166,31 +162,30 @@ export default function ProductShopDetailsView({ id }) {
           <ProductDetailsDescription description={product?.description} />
         )}
 
-        {currentTab === 'reviews' && (
+        {/* {currentTab === 'reviews' && (
           <ProductDetailsReview
             ratings={product.ratings}
             reviews={product.reviews}
             totalRatings={product.totalRatings}
             totalReviews={product.totalReviews}
           />
-        )}
+        )} */}
       </Card>
     </>
   );
 
   return (
     <Container
-      maxWidth={settings.themeStretch ? false : 'lg'}
+      // maxWidth={settings.themeStretch ? false : 'lg'}
       sx={{
+        maxWidth: '1400px !important',
         mt: 5,
         mb: 15,
       }}
     >
       <CartIcon totalItems={checkout.totalItems} />
 
-      {productLoading && renderSkeleton}
-
-      {productError && renderError}
+      {error && renderError}
 
       {product && renderProduct}
     </Container>
@@ -198,5 +193,5 @@ export default function ProductShopDetailsView({ id }) {
 }
 
 ProductShopDetailsView.propTypes = {
-  id: PropTypes.string,
+  id: PropTypes.object,
 };
