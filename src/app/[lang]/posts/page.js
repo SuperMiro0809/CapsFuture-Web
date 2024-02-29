@@ -21,7 +21,7 @@ export default async function PostsPage({ params, searchParams }) {
   const pagination = { page, limit: 8 };
 
   const order = { orderBy: 'created_at', direction: sort };
-  if (sort !== 'asc' || sort !== 'desc') {
+  if (sort !== 'asc' && sort !== 'desc') {
     order.direction = 'asc';
   }
 
