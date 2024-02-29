@@ -1,22 +1,28 @@
 import PropTypes from 'prop-types';
-
+// @mui
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import Avatar from '@mui/material/Avatar';
 import ListItem from '@mui/material/ListItem';
-import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-
+// hooks
 import { useBoolean } from 'src/hooks/use-boolean';
-
+// locales
+import { useTranslate } from 'src/locales';
+// utils
 import { fDate } from 'src/utils/format-time';
-
+// components
 import Iconify from 'src/components/iconify';
+//
+import PostCommentReplyForm from './post-comment-reply-form';
+import { bg, enUS } from 'date-fns/locale';
 
 // ----------------------------------------------------------------------
 
-export default function PostCommentItem({ name, avatarUrl, message, tagUser, postedAt, hasReply }) {
+export default function PostCommentItem({ id, postId, name, avatarUrl, message, tagUser, postedAt, hasReply }) {
+  const { t, i18n } = useTranslate();
+
   const reply = useBoolean();
 
   return (
@@ -44,7 +50,7 @@ export default function PostCommentItem({ name, avatarUrl, message, tagUser, pos
         </Typography>
 
         <Typography variant="caption" sx={{ color: 'text.disabled' }}>
-          {fDate(postedAt)}
+          {fDate(postedAt, '', { locale: i18n.language === 'bg' ? bg : enUS })}
         </Typography>
 
         <Typography variant="body2" sx={{ mt: 1 }}>
@@ -58,7 +64,11 @@ export default function PostCommentItem({ name, avatarUrl, message, tagUser, pos
 
         {reply.value && (
           <Box sx={{ mt: 2 }}>
-            <TextField fullWidth autoFocus placeholder="Write comment..." />
+            <PostCommentReplyForm
+              postId={postId}
+              commentId={id}
+              onClose={reply.onFalse}
+            />
           </Box>
         )}
       </Stack>
@@ -71,7 +81,7 @@ export default function PostCommentItem({ name, avatarUrl, message, tagUser, pos
           onClick={reply.onToggle}
           sx={{ right: 0, position: 'absolute' }}
         >
-          Reply
+          {t('reply')}
         </Button>
       )}
     </ListItem>
@@ -79,6 +89,8 @@ export default function PostCommentItem({ name, avatarUrl, message, tagUser, pos
 }
 
 PostCommentItem.propTypes = {
+  id: PropTypes.number,
+  postId: PropTypes.number,
   avatarUrl: PropTypes.string,
   hasReply: PropTypes.bool,
   message: PropTypes.string,

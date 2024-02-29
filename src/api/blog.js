@@ -100,3 +100,29 @@ export async function deletePosts(ids) {
     throw message;
   }
 }
+
+// ----------------------------------------------------------------------
+
+export async function createComment(postId, data) {
+  try {
+    const URL = `${REST_API}/posts/${postId}/comments`;
+
+    const res = await axios.post(URL, data);
+    return { status: res.status, data: res.data };
+  } catch (error) {
+    const message = typeof error === 'string' ? error : error.message;
+    return { error: message };
+  }
+}
+
+export async function createReply(postId, commentId, data) {
+  try {
+    const URL = `${REST_API}/posts/${postId}/comments/${commentId}/reply`;
+
+    const res = await axios.post(URL, data);
+    return { status: res.status, data: res.data };
+  } catch (error) {
+    const message = typeof error === 'string' ? error : error.message;
+    return { error: message };
+  }
+}

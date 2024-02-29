@@ -1,9 +1,10 @@
 import PropTypes from 'prop-types';
-
+// @mui
 import Box from '@mui/material/Box';
 import Pagination from '@mui/material/Pagination';
-
+//
 import PostCommentItem from './post-comment-item';
+import { ASSETS } from 'src/config-global';
 
 // ----------------------------------------------------------------------
 
@@ -12,29 +13,29 @@ export default function PostCommentList({ comments }) {
     <>
       <>
         {comments.map((comment) => {
-          const { id, replyComment, name, users, message, avatarUrl, postedAt } = comment;
+          const { id, post_id, user, replies, text, created_at } = comment;
 
-          const hasReply = !!replyComment.length;
+          const hasReply = !!replies.length;
 
           return (
             <Box key={id}>
               <PostCommentItem
-                name={name}
-                message={message}
-                postedAt={postedAt}
-                avatarUrl={avatarUrl}
+                id={id}
+                postId={post_id}
+                name={user?.profile.display_name}
+                message={text}
+                postedAt={created_at}
+                avatarUrl={`${ASSETS}/${user?.profile.avatar_photo_path}`}
               />
               {hasReply &&
-                replyComment.map((reply) => {
-                  const userReply = users.find((user) => user.id === reply.userId);
-
+                replies.map((reply) => {
                   return (
                     <PostCommentItem
                       key={reply.id}
-                      name={userReply?.name || ''}
-                      message={reply.message}
-                      postedAt={reply.postedAt}
-                      avatarUrl={userReply?.avatarUrl || ''}
+                      name={reply?.user?.profile.display_name || ''}
+                      message={reply.text}
+                      postedAt={reply.created_at}
+                      avatarUrl={`${ASSETS}/${reply?.user?.profile.avatar_photo_path}` || ''}
                       tagUser={reply.tagUser}
                       hasReply
                     />
@@ -45,7 +46,7 @@ export default function PostCommentList({ comments }) {
         })}
       </>
 
-      <Pagination count={8} sx={{ my: 5, mx: 'auto' }} />
+      {/* <Pagination count={8} sx={{ my: 5, mx: 'auto' }} /> */}
     </>
   );
 }

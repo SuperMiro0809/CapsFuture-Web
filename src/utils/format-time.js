@@ -2,10 +2,10 @@ import { format, getTime, formatDistanceToNow } from 'date-fns';
 
 // ----------------------------------------------------------------------
 
-export function fDate(date, newFormat) {
+export function fDate(date, newFormat, options = {}) {
   const fm = newFormat || 'dd MMM yyyy';
 
-  return date ? format(new Date(date), fm) : '';
+  return date ? format(new Date(date), fm, options) : '';
 }
 
 export function fDateTime(date, newFormat) {

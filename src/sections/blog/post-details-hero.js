@@ -9,8 +9,6 @@ import { alpha, useTheme } from '@mui/material/styles';
 import SpeedDialAction from '@mui/material/SpeedDialAction';
 // hooks
 import { useResponsive } from 'src/hooks/use-responsive';
-// utils
-import { fDate } from 'src/utils/format-time';
 // components
 import Iconify from 'src/components/iconify';
 //
@@ -72,7 +70,7 @@ export default function PostDetailsHero({ title, coverUrl, createdAt }) {
                 maxWidth: 480,
               }}
             >
-              {fDate(createdAt, 'dd.MM.yyyy')}
+              {createdAt}
             </Typography>
           </Stack>
 

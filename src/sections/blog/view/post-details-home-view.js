@@ -14,18 +14,26 @@ import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import AvatarGroup from "@mui/material/AvatarGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
+import Backdrop from '@mui/material/Backdrop';
+import Alert from '@mui/material/Alert';
 // routes
 import { paths } from "src/routes/paths";
 import { RouterLink } from "src/routes/components";
+import { usePathname } from 'src/routes/hooks';
 // locales
 import { useTranslate } from 'src/locales';
 // utils
 import { fShortenNumber } from "src/utils/format-number";
+// auth
+import { useAuthContext } from "src/auth/hooks";
 // components
 import Iconify from "src/components/iconify";
 import Markdown from "src/components/markdown";
 import EmptyContent from "src/components/empty-content";
 import CustomBreadcrumbs from "src/components/custom-breadcrumbs";
+import LoginButton from "src/layouts/common/login-button";
+// utils
+import { fDate } from "src/utils/format-time";
 //
 import PostList from "../post-list";
 import PostCommentList from "../post-comment-list";
@@ -33,14 +41,16 @@ import PostCommentForm from "../post-comment-form";
 import PostDetailsHero from "../post-details-hero";
 import { PostDetailsSkeleton } from "../post-skeleton";
 import { ASSETS } from "src/config-global";
+import { bg, enUS } from "date-fns/locale";
 
 // ----------------------------------------------------------------------
 
 export default function PostDetailsHomeView({ post, error }) {
-  const { t } = useTranslate();
-  // const { latestPosts, latestPostsLoading } = useGetLatestPosts(title);
+  const { t, i18n } = useTranslate();
 
-  // const renderSkeleton = <PostDetailsSkeleton />;
+  const { user } = useAuthContext();
+
+  const pathname = usePathname();
 
   const renderError = (
     <Container sx={{ my: 10 }}>
@@ -66,9 +76,8 @@ export default function PostDetailsHomeView({ post, error }) {
     <>
       <PostDetailsHero
         title={post.title}
-        // author={post.author}
         coverUrl={`${ASSETS}/${post.title_image_path}`}
-        createdAt={post.created_at}
+        createdAt={fDate(post.created_at, '', { locale: i18n.language === 'bg' ? bg : enUS })}
       />
 
       <Container
@@ -103,62 +112,56 @@ export default function PostDetailsHomeView({ post, error }) {
 
         <Markdown children={post.description} />
 
-        {/* <Stack
-          spacing={3}
-          sx={{
-            py: 3,
-            borderTop: (theme) => `dashed 1px ${theme.palette.divider}`,
-            borderBottom: (theme) => `dashed 1px ${theme.palette.divider}`,
-          }}
-        >
-          <Stack direction="row" flexWrap="wrap" spacing={1}>
-              {post.tags.map((tag) => (
-                <Chip key={tag} label={tag} variant="soft" />
-              ))}
-            </Stack>
-
-          <Stack direction="row" alignItems="center">
-            <FormControlLabel
-              control={
-                <Checkbox
-                  defaultChecked
-                  size="small"
-                  color="error"
-                  icon={<Iconify icon="solar:heart-bold" />}
-                  checkedIcon={<Iconify icon="solar:heart-bold" />}
-                />
-              }
-              label={fShortenNumber(post.totalFavorites)}
-              sx={{ mr: 1 }}
-            />
-
-            <AvatarGroup>
-                {post.favoritePerson.map((person) => (
-                  <Avatar
-                    key={person.name}
-                    alt={person.name}
-                    src={person.avatarUrl}
-                  />
-                ))}
-              </AvatarGroup>
-          </Stack>
-        </Stack> */}
-
-        <Box sx={{ py: 3, borderBottom: (theme) => `dashed 1px ${theme.palette.divider}` }}/>
+        <Box sx={{ py: 3, borderBottom: (theme) => `dashed 1px ${theme.palette.divider}` }} />
 
         <Stack direction="row" sx={{ mb: 3, mt: 5 }}>
-            <Typography variant="h4">Comments</Typography>
+          <Typography variant="h4">{t('comments')}</Typography>
 
-            {/* <Typography variant="subtitle2" sx={{ color: "text.disabled" }}>
+          <Typography variant="subtitle2" sx={{ color: "text.disabled" }}>
               ({post.comments.length})
-            </Typography> */}
-          </Stack>
+            </Typography>
+        </Stack>
 
-        <PostCommentForm />
+        {user ?
+          <PostCommentForm postId={post.id} /> :
+          (
+            <Box sx={{ position: 'relative' }}>
+              <Box
+                sx={{
+                  position: 'absolute',
+                  transform: 'translate(-50%, -50%)',
+                  left: '50%',
+                  top: '50%',
+                  zIndex: 1,
+                  textAlign: 'center'
+                }}
+              >
+                <Alert variant="outlined" severity="error">
+                  {t('comments-not-logged-in-message')}
+                </Alert>
+                <LoginButton
+                  sx={{ ml: 0, mt: 2 }}
+                  returnTo={pathname}
+                />
+              </Box>
+
+              <Box
+                sx={{
+                  backgroundColor: (theme) => theme.palette.background.pink,
+                  opacity: 0.3,
+                  pointerEvents: 'none',
+                  filter: 'blur(1px)'
+                }}
+              >
+                <PostCommentForm postId={post.id} />
+              </Box>
+            </Box>
+          )
+        }
 
         <Divider sx={{ mt: 5, mb: 2 }} />
 
-        {/* <PostCommentList comments={post.comments} /> */}
+        <PostCommentList comments={post.comments} />
       </Container>
     </>
   );
@@ -179,8 +182,6 @@ export default function PostDetailsHomeView({ post, error }) {
 
   return (
     <>
-      {/* {postLoading && renderSkeleton} */}
-
       {error && renderError}
 
       {post && renderPost}

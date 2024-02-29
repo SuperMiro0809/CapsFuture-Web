@@ -13,7 +13,7 @@ import { useTranslate } from 'src/locales';
 // auth
 import { useAuthContext } from 'src/auth/hooks';
 // api
-import { createComment } from 'src/api/blog';
+import { createReply } from 'src/api/blog';
 // components
 import Iconify from 'src/components/iconify';
 import FormProvider, { RHFTextField } from 'src/components/hook-form';
@@ -21,7 +21,7 @@ import { useSnackbar } from 'src/components/snackbar';
 
 // ----------------------------------------------------------------------
 
-export default function PostCommentForm({ postId }) {
+export default function PostCommentReplyForm({ postId, commentId, onClose }) {
   const { t } = useTranslate();
 
   const { user } = useAuthContext();
@@ -56,12 +56,13 @@ export default function PostCommentForm({ postId }) {
     };
 
     try {
-      const { error } = await createComment(postId, values);
+      const { error } = await createReply(postId, commentId, values);
 
       if (error) throw error;
 
       reset();
-      enqueueSnackbar(t('comment-success'));
+      onClose();
+      enqueueSnackbar(t('reply-success'));
       router.refresh();
     } catch (error) {
       enqueueSnackbar(error, { variant: 'error' })
@@ -70,39 +71,25 @@ export default function PostCommentForm({ postId }) {
 
   return (
     <FormProvider methods={methods} onSubmit={onSubmit}>
-      <Stack spacing={3}>
-        <RHFTextField
-          name='comment'
-          placeholder={`${t('write-comment')}...`}
-          multiline
-          rows={4}
-        />
+      <Stack direction='row' alignItems='center' spacing={2}>
+        <Box sx={{ flexGrow: 1 }}>
+          <RHFTextField
+            autoFocus
+            name='comment'
+            placeholder={`${t('write-reply')}...`}
+          />
+        </Box>
 
-        <Stack direction="row" alignItems="center">
-          {/* <Stack direction="row" alignItems="center" flexGrow={1}>
-            <IconButton>
-              <Iconify icon="solar:gallery-add-bold" />
-            </IconButton>
-
-            <IconButton>
-              <Iconify icon="eva:attach-2-fill" />
-            </IconButton>
-
-            <IconButton>
-              <Iconify icon="eva:smiling-face-fill" />
-            </IconButton>
-          </Stack> */}
-          <Box sx={{ flexGrow: 1 }} />
-
-          <LoadingButton type="submit" variant="contained" color='primary' loading={isSubmitting} endIcon={<Iconify icon='tabler:send' />}>
-            {t('post-comment')}
-          </LoadingButton>
-        </Stack>
+        <LoadingButton type="submit" variant="contained" color='primary' loading={isSubmitting} endIcon={<Iconify icon='tabler:send' />}>
+          {t('post-reply')}
+        </LoadingButton>
       </Stack>
-    </FormProvider>
+    </FormProvider >
   );
 }
 
-PostCommentForm.propTypes = {
-  postId: PropTypes.number
+PostCommentReplyForm.propTypes = {
+  postId: PropTypes.number,
+  commentId: PropTypes.number,
+  onClose: PropTypes.func
 };
