@@ -54,7 +54,7 @@ export default function AccountPopover() {
   useEffect(() => {
     if (user?.role.name === 'Admin') {
       const isOnDashboard = pathname.includes('dashboard');
-      console.log(isOnDashboard)
+
       setOptions([
         {
           label: isOnDashboard ? t('home') : t('dashboard'),
@@ -68,8 +68,12 @@ export default function AccountPopover() {
     } else {
       setOptions([
         {
-          label: t('home'),
-          linkTo: '/',
+          label: t('campaigns'),
+          linkTo: paths.dashboard.user.profile,
+        },
+        {
+          label: t('orders'),
+          linkTo: paths.dashboard.user.profile,
         },
         {
           label: t('profile'),
