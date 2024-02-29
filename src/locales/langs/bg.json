@@ -4,6 +4,7 @@
     "map": "Карта",
     "about-us": "За нас",
     "contacts": "Контакти",
+    "cart": "Количка",
 
     "login": "Вход",
     "donate": "Дари",
@@ -56,6 +57,11 @@
     "in-stock": "В наличност",
     "out-of-stock": "Не е в наличност",
     "lv": "лв",
+    "checkout": "Поръчка",
+    "total-price": "Обща сума",
+    "total": "Общо",
+    "with-VAT": "с ДДС",
+    "to-store": "към Магазин",
 
     "participate-modal": {
         "title": "Участие в кампания",
@@ -101,7 +107,11 @@
     "where-to-transmit-caps": "Tърсите къде да предадете Вашите капачки",
 
     "contact-us": "Свържете се с нас",
-    
+
+    "cart-empty": "Количката Ви е празна",
+    "cart-empty-message": "Изглежда, че нямате продукти в количката си",
+    "cart-product": "продукт",
+    "cart-products": "продукта",
 
     "permission-denied": "Достъпът е забранен",
     "permission-denied-message": "Нямате разрешение за достъп до тази страница",
@@ -164,6 +174,7 @@
     "working-time": "Работно време",
     "collects": "Събира",
     "phone": "Tелефонен номер",
+    "product": "Продукт",
 
     "validation": {
         "title": {

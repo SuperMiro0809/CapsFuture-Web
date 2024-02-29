@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-
+// @mui
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
@@ -10,9 +10,11 @@ import CardHeader from '@mui/material/CardHeader';
 import Typography from '@mui/material/Typography';
 import CardContent from '@mui/material/CardContent';
 import InputAdornment from '@mui/material/InputAdornment';
-
+// locales
+import { useTranslate } from 'src/locales';
+// utils
 import { fCurrency } from 'src/utils/format-number';
-
+// components
 import Iconify from 'src/components/iconify';
 
 // ----------------------------------------------------------------------
@@ -26,6 +28,8 @@ export default function CheckoutSummary({
   onEdit,
   onApplyDiscount,
 }) {
+  const { t } = useTranslate();
+
   const displayShipping = shipping !== null ? 'Free' : '-';
 
   return (
@@ -47,15 +51,15 @@ export default function CheckoutSummary({
             <Typography variant="body2" sx={{ color: 'text.secondary' }}>
               Sub Total
             </Typography>
-            <Typography variant="subtitle2">{fCurrency(subTotal)}</Typography>
+            <Typography variant="subtitle2">{`${fCurrency(subTotal)} ${t('lv')}`}</Typography>
           </Stack>
 
-          <Stack direction="row" justifyContent="space-between">
+          {/* <Stack direction="row" justifyContent="space-between">
             <Typography variant="body2" sx={{ color: 'text.secondary' }}>
               Discount
             </Typography>
             <Typography variant="subtitle2">{discount ? fCurrency(-discount) : '-'}</Typography>
-          </Stack>
+          </Stack> */}
 
           <Stack direction="row" justifyContent="space-between">
             <Typography variant="body2" sx={{ color: 'text.secondary' }}>
@@ -69,13 +73,13 @@ export default function CheckoutSummary({
           <Divider sx={{ borderStyle: 'dashed' }} />
 
           <Stack direction="row" justifyContent="space-between">
-            <Typography variant="subtitle1">Total</Typography>
+            <Typography variant="subtitle1">{t('total')}</Typography>
             <Box sx={{ textAlign: 'right' }}>
               <Typography variant="subtitle1" sx={{ color: 'error.main' }}>
-                {fCurrency(total)}
+                {`${fCurrency(total)} ${t('lv')}.`}
               </Typography>
               <Typography variant="caption" sx={{ fontStyle: 'italic' }}>
-                (VAT included if applicable)
+                {t('with-VAT')}
               </Typography>
             </Box>
           </Stack>

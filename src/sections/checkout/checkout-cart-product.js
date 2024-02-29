@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-
+// @mui
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Avatar from '@mui/material/Avatar';
@@ -8,19 +8,23 @@ import TableRow from '@mui/material/TableRow';
 import TableCell from '@mui/material/TableCell';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-
+// locales
+import { useTranslate } from 'src/locales';
+// utils
 import { fCurrency } from 'src/utils/format-number';
-
+// component
 import Label from 'src/components/label';
 import Iconify from 'src/components/iconify';
 import { ColorPreview } from 'src/components/color-utils';
-
+//
 import IncrementerButton from '../product/common/incrementer-button';
 
 // ----------------------------------------------------------------------
 
 export default function CheckoutCartProduct({ row, onDelete, onDecrease, onIncrease }) {
-  const { name, size, price, colors, coverUrl, quantity, available } = row;
+  const { t } = useTranslate();
+
+  const { name, price, coverUrl, quantity, available } = row;
 
   return (
     <TableRow>
@@ -32,7 +36,7 @@ export default function CheckoutCartProduct({ row, onDelete, onDecrease, onIncre
             {name}
           </Typography>
 
-          <Stack
+          {/* <Stack
             direction="row"
             alignItems="center"
             sx={{ typography: 'body2', color: 'text.secondary' }}
@@ -40,11 +44,11 @@ export default function CheckoutCartProduct({ row, onDelete, onDecrease, onIncre
             size: <Label sx={{ ml: 0.5 }}> {size} </Label>
             <Divider orientation="vertical" sx={{ mx: 1, height: 16 }} />
             <ColorPreview colors={colors} />
-          </Stack>
+          </Stack> */}
         </Stack>
       </TableCell>
 
-      <TableCell>{fCurrency(price)}</TableCell>
+      <TableCell>{`${fCurrency(price)} ${t('lv')}.`}</TableCell>
 
       <TableCell>
         <Box sx={{ width: 88, textAlign: 'right' }}>
@@ -55,14 +59,10 @@ export default function CheckoutCartProduct({ row, onDelete, onDecrease, onIncre
             disabledDecrease={quantity <= 1}
             disabledIncrease={quantity >= available}
           />
-
-          <Typography variant="caption" component="div" sx={{ color: 'text.secondary', mt: 1 }}>
-            available: {available}
-          </Typography>
         </Box>
       </TableCell>
 
-      <TableCell align="right">{fCurrency(price * quantity)}</TableCell>
+      <TableCell align="right">{`${fCurrency(price * quantity)} ${t('lv')}.`}</TableCell>
 
       <TableCell align="right" sx={{ px: 1 }}>
         <IconButton onClick={onDelete}>

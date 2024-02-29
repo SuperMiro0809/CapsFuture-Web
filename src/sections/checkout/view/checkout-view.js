@@ -1,13 +1,14 @@
 'use client';
 
+// @mui
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Unstable_Grid2';
 import Typography from '@mui/material/Typography';
-
+// locales
+import { useTranslate } from 'src/locales';
+// _mock
 import { PRODUCT_CHECKOUT_STEPS } from 'src/_mock/_product';
-
-import { useSettingsContext } from 'src/components/settings';
-
+//
 import CheckoutCart from '../checkout-cart';
 import CheckoutSteps from '../checkout-steps';
 import { useCheckoutContext } from '../context';
@@ -18,14 +19,14 @@ import CheckoutBillingAddress from '../checkout-billing-address';
 // ----------------------------------------------------------------------
 
 export default function CheckoutView() {
-  const settings = useSettingsContext();
+  const { t } = useTranslate();
 
   const checkout = useCheckoutContext();
 
   return (
-    <Container maxWidth={settings.themeStretch ? false : 'lg'} sx={{ mb: 10 }}>
+    <Container sx={{ maxWidth: '1400px !important', mb: 10 }}>
       <Typography variant="h4" sx={{ my: { xs: 3, md: 5 } }}>
-        Checkout
+        {t('checkout')}
       </Typography>
 
       <Grid container justifyContent={checkout.completed ? 'center' : 'flex-start'}>
