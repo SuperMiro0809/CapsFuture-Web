@@ -4,7 +4,7 @@ import { getCampaigns } from 'src/api/campaign';
 // ----------------------------------------------------------------------
 
 export const metadata = {
-  title: 'Campaigns',
+  title: 'Капачки за бъдеще: Кампании',
 };
 
 async function getData(lang, pagination, filters) {

@@ -7,7 +7,7 @@ import { getLocations } from 'src/api/location';
 // ----------------------------------------------------------------------
 
 export const metadata = {
-  title: 'Minimal: The starting point for your next project',
+  title: 'Капачки за бъдеще',
 };
 
 async function getData(lang) {

@@ -4,7 +4,7 @@ import { getPosts } from 'src/api/blog';
 // ----------------------------------------------------------------------
 
 export const metadata = {
-  title: 'Posts',
+  title: 'Капачки за бъдеще: Новини',
 };
 
 async function getData(lang, pagination, order, filters) {

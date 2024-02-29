@@ -4,7 +4,7 @@ import { getLocations } from 'src/api/location';
 // ----------------------------------------------------------------------
 
 export const metadata = {
-  title: 'Map',
+  title: 'Капачки за бъдеще: Карта с пунктове и сърца',
 };
 
 async function getData(filters) {
