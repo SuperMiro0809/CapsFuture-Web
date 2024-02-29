@@ -5,7 +5,7 @@ import Stack from '@mui/material/Stack';
 import { styled } from '@mui/material/styles';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
-import Grid from '@mui/material/Grid';
+import Grid from '@mui/material/Unstable_Grid2';
 
 import { textGradient } from 'src/theme/css';
 
@@ -41,13 +41,6 @@ const StyledTextGradient = styled(m.h2)(({ theme }) => ({
 // ----------------------------------------------------------------------
 
 export default function HomeProducts({ products }) {
-  const values = [
-    ...products,
-    ...products,
-    ...products,
-    ...products,
-  ];
-
   return (
     <Container
       component={MotionViewport}
@@ -78,15 +71,16 @@ export default function HomeProducts({ products }) {
         </m.div>
       </Stack>
 
-      <Grid container spacing={5}>
-        {values.map((product, index) => (
-          <Grid item md={6} lg={3} sx={{ width: '100%' }} key={index}>
+      <Grid container spacing={5} justifyContent='center'>
+        {products.map((product, index) => (
+          <Grid md={6} lg={3} sx={{ width: '100%' }} key={index}>
             <m.div variants={varFade().inUp} key={'test'} style={{ width: '100%' }}>
               <ProductCard
+                id={product.id}
+                slug={product.slug}
                 title={product.title}
                 price={product.price}
                 images={product.files}
-                imageSrc='https://images.prismic.io/carwow/65cbb34b-b61c-48af-b34e-5bd785e95a28_2023+Porsche+911+front+quarter+moving.jpg?fit=clip&q=60&w=750&cs=tinysrgb&auto=format'
               />
             </m.div>
           </Grid>
