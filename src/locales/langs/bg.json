@@ -103,6 +103,9 @@
     "contact-us": "Свържете се с нас",
     
 
+    "permission-denied": "Достъпът е забранен",
+    "permission-denied-message": "Нямате разрешение за достъп до тази страница",
+
     "dashboard": "Панел",
 
     "campaigns": "Кампании",

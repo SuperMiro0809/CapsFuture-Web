@@ -1,37 +1,52 @@
 import { m } from 'framer-motion';
 import PropTypes from 'prop-types';
-
+// @mui
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
-
-import { useMockedUser } from 'src/hooks/use-mocked-user';
-
+import Button from '@mui/material/Button';
+// routes
+import { RouterLink } from 'src/routes/components';
+// locales
+import { useTranslate } from 'src/locales';
+// assets
 import { ForbiddenIllustration } from 'src/assets/illustrations';
-
+// components
 import { varBounce, MotionContainer } from 'src/components/animate';
+//
+import { useAuthContext } from '../hooks';
 
 // ----------------------------------------------------------------------
 
 export default function RoleBasedGuard({ hasContent, roles, children, sx }) {
-  // Logic here to get current user role
-  const { user } = useMockedUser();
+  const { t } = useTranslate();
 
-  // const currentRole = 'user';
-  const currentRole = user?.role; // admin;
+  const { user } = useAuthContext();
+
+  const currentRole = user?.role.name;
 
   if (typeof roles !== 'undefined' && !roles.includes(currentRole)) {
     return hasContent ? (
       <Container component={MotionContainer} sx={{ textAlign: 'center', ...sx }}>
         <m.div variants={varBounce().in}>
           <Typography variant="h3" sx={{ mb: 2 }}>
-            Permission Denied
+            {t('permission-denied')}
           </Typography>
         </m.div>
 
         <m.div variants={varBounce().in}>
-          <Typography sx={{ color: 'text.secondary' }}>
-            You do not have permission to access this page
+          <Typography sx={{ color: 'text.secondary', mb: 2 }}>
+            {t('permission-denied-message')}
           </Typography>
+        </m.div>
+
+        <m.div variants={varBounce().in}>
+          <Button
+            component={RouterLink}
+            href='/'
+            variant='outlined'
+          >
+            {t('home')}
+          </Button>
         </m.div>
 
         <m.div variants={varBounce().in}>

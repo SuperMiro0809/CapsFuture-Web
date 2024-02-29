@@ -2,7 +2,7 @@
 
 import PropTypes from 'prop-types';
 
-import { AuthGuard } from 'src/auth/guard';
+import { AuthGuard, RoleBasedGuard } from 'src/auth/guard';
 import DashboardLayout from 'src/layouts/dashboard';
 
 // ----------------------------------------------------------------------
@@ -10,7 +10,17 @@ import DashboardLayout from 'src/layouts/dashboard';
 export default function Layout({ children }) {
   return (
     <AuthGuard>
-      <DashboardLayout>{children}</DashboardLayout>
+      <RoleBasedGuard
+        hasContent
+        roles={['Admin']}
+        sx={{
+          position: 'relative',
+          transform: 'translate(0, -50%)',
+          top: '50%'
+        }}
+      >
+        <DashboardLayout>{children}</DashboardLayout>
+      </RoleBasedGuard>
     </AuthGuard>
   );
 }
