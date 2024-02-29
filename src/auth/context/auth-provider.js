@@ -3,10 +3,9 @@
 import PropTypes from 'prop-types';
 import { useMemo, useEffect, useReducer, useCallback } from 'react';
 // utils
-import axios, { endpoints } from 'src/utils/axios';
 import { setTokenCookie, deleteTokenCookie } from 'src/utils/token-cookie';
 // api
-import { login as loginApi, getProfile } from 'src/api/auth';
+import { login as loginApi, register as registerApi, getProfile } from 'src/api/auth';
 //
 import { AuthContext } from './auth-context';
 import { setSession, isValidToken } from './utils';
@@ -111,9 +110,11 @@ export function AuthProvider({ children }) {
       password,
     };
 
-    const response = await loginApi(data);
+    const { data: responseData, error } = await loginApi(data);
 
-    const { accessToken, user } = response.data;
+    if (error) throw error;
+
+    const { accessToken, user } = responseData;
 
     await setTokenCookie(accessToken);
 
@@ -139,11 +140,15 @@ export function AuthProvider({ children }) {
       lastName,
     };
 
-    const response = await axios.post(endpoints.auth.register, data);
+    const { data: responseData, error } = await registerApi(data);
 
-    const { accessToken, user } = response.data;
+    if (error) throw error;
 
-    sessionStorage.setItem(STORAGE_KEY, accessToken);
+    const { accessToken, user } = responseData;
+
+    await setTokenCookie(accessToken);
+
+    setSession(accessToken);
 
     dispatch({
       type: 'REGISTER',
