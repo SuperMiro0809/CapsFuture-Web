@@ -18,4 +18,4 @@ export const GOOGLE_MAPS = {
 export const ASSETS = process.env.NEXT_PUBLIC_ASSETS;
 
 // ROOT PATH AFTER LOGIN SUCCESSFUL
-export const PATH_AFTER_LOGIN = paths.dashboard.root; // as '/dashboard'
+export const PATH_AFTER_LOGIN = paths.home; // as '/'

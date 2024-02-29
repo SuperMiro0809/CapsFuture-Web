@@ -27,9 +27,15 @@ function Container({ children }) {
 
   const searchParams = useSearchParams();
 
-  const returnTo = searchParams.get('returnTo') || paths.dashboard.root;
+  const { authenticated, user } = useAuthContext();
 
-  const { authenticated } = useAuthContext();
+  let userRedirect = paths.home;
+
+  if (user?.role.name === 'Admin') {
+    userRedirect = paths.dashboard.root
+  }
+
+  const returnTo = searchParams.get('returnTo') || userRedirect;
 
   const check = useCallback(() => {
     if (authenticated) {
