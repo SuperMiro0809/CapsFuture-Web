@@ -48,7 +48,7 @@ export default function AppWelcome({ title, description, action, img, ...other }
           variant="body2"
           sx={{
             opacity: 0.8,
-            maxWidth: 360,
+            maxWidth: 560,
             mb: { xs: 3, xl: 5 },
           }}
         >
