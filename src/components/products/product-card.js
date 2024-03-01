@@ -8,36 +8,6 @@ import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
 import IconButton from '@mui/material/IconButton';
 import ShareIcon from '@mui/icons-material/Share';
-import Popover from '@mui/material/Popover';
-// react-share
-import {
-  EmailShareButton,
-  FacebookShareButton,
-  FacebookIcon,
-  FacebookMessengerShareButton,
-  FacebookMessengerIcon,
-  TwitterShareButton,
-  XIcon,
-  ViberIcon,
-
-  GabShareButton,
-  HatenaShareButton,
-  InstapaperShareButton,
-  LineShareButton,
-  LinkedinShareButton,
-  LivejournalShareButton,
-  MailruShareButton,
-  OKShareButton,
-  PinterestShareButton,
-  PocketShareButton,
-  RedditShareButton,
-  TelegramShareButton,
-  TumblrShareButton,
-  ViberShareButton,
-  VKShareButton,
-  WhatsappShareButton,
-  WorkplaceShareButton,
-} from 'react-share';
 // routes
 import { useRouter } from 'src/routes/hooks';
 import { paths } from 'src/routes/paths';
@@ -45,20 +15,11 @@ import { paths } from 'src/routes/paths';
 import { useTranslate } from 'src/locales';
 // components
 import Carousel, { useCarousel, CarouselArrowIndex } from 'src/components/carousel';
-import CustomPopover, { usePopover } from '../custom-popover';
-import { _mock } from 'src/_mock';
+import { usePopover } from '../custom-popover';
 //
 import SvgColor from '../svg-color';
-import { ASSETS } from 'src/config-global';
-
-
-const _carouselsExample = [...Array(20)].map((_, index) => ({
-  id: _mock.id(index),
-  title: _mock.postTitle(index),
-  coverUrl: _mock.image.cover(index),
-  description: _mock.description(index),
-}));
-
+import { ASSETS, ORIGIN } from 'src/config-global';
+import SharePopup from '../share-popup';
 
 export default function ProductCard({ id, slug, title, price, images }) {
   const { t } = useTranslate();
@@ -173,30 +134,11 @@ export default function ProductCard({ id, slug, title, price, images }) {
         </CardContent>
       </Card>
 
-      <CustomPopover
+      <SharePopup
         open={popover.open}
         onClose={popover.onClose}
-        arrow="bottom-center"
-      >
-        <Stack direction='row' gap={2}>
-          <FacebookShareButton onClick={(event) => event.stopPropagation()} url={'http://localhost:3032/'}>
-            <FacebookIcon size={32} round />
-          </FacebookShareButton>
-
-          <FacebookMessengerShareButton onClick={(event) => event.stopPropagation()} url={'http://localhost:3032/'}>
-            <FacebookMessengerIcon size={32} round />
-          </FacebookMessengerShareButton>
-
-          <TwitterShareButton onClick={(event) => event.stopPropagation()} url={'http://localhost:3032/'}>
-            <XIcon size={32} round />
-          </TwitterShareButton>
-
-          <ViberShareButton onClick={(event) => event.stopPropagation()} url={'http://localhost:3032/'}>
-            <ViberIcon size={32} round />
-          </ViberShareButton>
-        </Stack>
-       
-      </CustomPopover>
+        url={`${ORIGIN}${paths.store.details(slug)}`}
+      />
     </>
   );
 }

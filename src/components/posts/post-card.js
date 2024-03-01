@@ -7,22 +7,13 @@ import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
 import IconButton from '@mui/material/IconButton';
 import ShareIcon from '@mui/icons-material/Share';
-import {
-  FacebookShareButton,
-  FacebookIcon,
-  FacebookMessengerShareButton,
-  FacebookMessengerIcon,
-  TwitterShareButton,
-  XIcon,
-  ViberIcon,
-  ViberShareButton,
-} from "react-share";
 // routes
 import { useRouter } from 'src/routes/hooks';
 import { paths } from 'src/routes/paths';
-// react-share
 //
-import CustomPopover, { usePopover } from '../custom-popover';
+import { usePopover } from '../custom-popover';
+import SharePopup from '../share-popup';
+import { ORIGIN } from 'src/config-global';
 
 
 export default function PostCard({ slug, title, shortDescription, imageSrc, date }) {
@@ -93,30 +84,11 @@ export default function PostCard({ slug, title, shortDescription, imageSrc, date
         </CardContent>
       </Card>
 
-      <CustomPopover
+      <SharePopup
         open={popover.open}
         onClose={popover.onClose}
-        arrow="bottom-center"
-      >
-        <Stack direction='row' gap={2}>
-          <FacebookShareButton onClick={(event) => event.stopPropagation()} url={'http://localhost:3032/'}>
-            <FacebookIcon size={32} round />
-          </FacebookShareButton>
-
-          <FacebookMessengerShareButton onClick={(event) => event.stopPropagation()} url={'http://localhost:3032/'}>
-            <FacebookMessengerIcon size={32} round />
-          </FacebookMessengerShareButton>
-
-          <TwitterShareButton onClick={(event) => event.stopPropagation()} url={'http://localhost:3032/'}>
-            <XIcon size={32} round />
-          </TwitterShareButton>
-
-          <ViberShareButton onClick={(event) => event.stopPropagation()} url={'http://localhost:3032/'}>
-            <ViberIcon size={32} round />
-          </ViberShareButton>
-        </Stack>
-
-      </CustomPopover>
+        url={`${ORIGIN}${paths.post.details(slug)}`}
+      />
     </>
   );
 }
