@@ -79,7 +79,7 @@ export default function SharePopup({ open, onClose, url }) {
 
       <TextField
         fullWidth
-        readonly
+        readOnly
         value={url}
         size='small'
         InputProps={{
