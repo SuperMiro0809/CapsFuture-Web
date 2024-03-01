@@ -1,13 +1,11 @@
 // @mui
 import Box from '@mui/material/Box';
-import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
 import AppBar from '@mui/material/AppBar';
 import Button from '@mui/material/Button';
 import Toolbar from '@mui/material/Toolbar';
 import { useTheme } from '@mui/material/styles';
 import Container from '@mui/material/Container';
-import Badge, { badgeClasses } from '@mui/material/Badge';
 // routes
 import { paths } from 'src/routes/paths';
 // hooks
@@ -21,7 +19,6 @@ import { useTranslate } from 'src/locales';
 import { bgBlur } from 'src/theme/css';
 // components
 import Logo from 'src/components/logo';
-import Label from 'src/components/label';
 //
 import NavMobile from './nav/mobile';
 import NavDesktop from './nav/desktop';
@@ -29,10 +26,10 @@ import { HEADER } from '../config-layout';
 import { navConfig } from './config-navigation';
 import LoginButton from '../common/login-button';
 import HeaderShadow from '../common/header-shadow';
-import SettingsButton from '../common/settings-button';
 import CartButton from '../common/cart-button';
 import LanguagePopover from '../common/language-popover';
 import AccountPopover from '../common/account-popover';
+import DonateButton from '../common/donate-button';
 
 // ----------------------------------------------------------------------
 
@@ -47,6 +44,8 @@ export default function Header() {
   const theme = useTheme();
 
   const mdUp = useResponsive('up', 'md');
+
+  const smUp = useResponsive('up', 'sm');
 
   const offsetTop = useOffSetTop(HEADER.H_DESKTOP);
 
@@ -112,30 +111,32 @@ export default function Header() {
           {mdUp && <NavDesktop data={navConfigTranslated} />}
 
           <Stack alignItems="center" direction={{ xs: 'row', md: 'row-reverse' }}>
-            {user ?
-              <Box sx={{ ml: 1 }}>
-                <AccountPopover />
-              </Box>
-              :
-              <LoginButton />
-            }
+            {smUp && (
+              <>
+                {user ?
+                  <Box sx={{ ml: 1 }}>
+                    <AccountPopover />
+                  </Box>
+                  :
+                  <LoginButton sx={{ mr: { xs: 1, md: 0 } }} />
+                }
 
-            <Button variant="contained" target="_blank" rel="noopener" color='secondary' href={paths.minimalUI}>
-              {t('donate')}
-            </Button>
+                <DonateButton />
 
-            <Box
-              sx={{
-                ml: { xs: 1, md: 0 },
-                mr: { md: 2 },
-              }}
-            >
-              <LanguagePopover />
-            </Box>
+                <Box
+                  sx={{
+                    ml: { xs: 1, md: 0 },
+                    mr: { md: 2 },
+                  }}
+                >
+                  <LanguagePopover />
+                </Box>
 
-            <CartButton />
+                <CartButton />
+              </>
+            )}
 
-            {!mdUp && <NavMobile data={navConfig} />}
+            {!mdUp && <NavMobile data={navConfigTranslated} />}
           </Stack>
         </Container>
       </Toolbar>
