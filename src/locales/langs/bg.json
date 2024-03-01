@@ -74,6 +74,7 @@
     "who": "Кои",
     "we-are": "сме ние",
     "cancel": "Oтказ",
+    "email-sent-success": "Имейлът е изпратен успешно",
 
     "participate-modal": {
         "title": "Участие в кампания",
@@ -195,6 +196,8 @@
     "collects": "Събира",
     "phone": "Tелефонен номер",
     "product": "Продукт",
+    "subject": "Предмет",
+    "message": "Съобщение",
 
     "validation": {
         "title": {
@@ -247,6 +250,12 @@
         },
         "last-name": {
             "required": "Фамилията е задължителна"
+        },
+        "subject": {
+            "required": "Предметът е задължителен"
+        },
+        "message": {
+            "required": "Съобщението е задължително"
         }
 
     }

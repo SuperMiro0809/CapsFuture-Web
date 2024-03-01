@@ -1,7 +1,10 @@
 import { m } from 'framer-motion';
 
+import * as Yup from 'yup';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+// @mui
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
@@ -9,13 +12,16 @@ import Grid from '@mui/material/Unstable_Grid2';
 import { styled } from '@mui/material/styles';
 import PhoneIcon from '@mui/icons-material/Phone';
 import MailIcon from '@mui/icons-material/Mail';
-import TextField from '@mui/material/TextField';
-
-import { textGradient } from 'src/theme/css';
-
-import { varFade, varBounce, MotionViewport } from 'src/components/animate';
-
+import LoadingButton from '@mui/lab/LoadingButton';
+// locales
 import { useTranslate } from 'src/locales';
+// components
+import FormProvider, { RHFTextField } from 'src/components/hook-form';
+import { varFade, MotionViewport } from 'src/components/animate';
+import { useSnackbar } from 'src/components/snackbar';
+//
+import { textGradient } from 'src/theme/css';
+import { contactUsMail } from 'src/api/mail';
 
 // ----------------------------------------------------------------------
 
@@ -43,7 +49,42 @@ const StyledTextGradient = styled(m.h2)(({ theme }) => ({
 export default function HomeContacts() {
   const { t } = useTranslate();
 
+  const { enqueueSnackbar } = useSnackbar();
+
   // iloveyou<3
+
+  const ContactUsSchema = Yup.object().shape({
+    email: Yup.string().required(t('validation.email.required')).email(t('validation.email.valid')),
+    subject: Yup.string().required(t('validation.subject.required')),
+    message: Yup.string().required(t('validation.message.required'))
+  });
+
+  const defaultValues = {
+    email: '',
+    subject: '',
+    message: ''
+  };
+
+  const methods = useForm({
+    resolver: yupResolver(ContactUsSchema),
+    defaultValues,
+  });
+
+  const {
+    handleSubmit,
+    formState: { isSubmitting },
+  } = methods;
+
+  const onSubmit = handleSubmit(async (data) => {
+    try {
+      await contactUsMail(data);
+
+      enqueueSnackbar(t('email-sent-success'))
+    } catch (error) {
+      const message = typeof error === 'string' ? error : error.message;
+      enqueueSnackbar(message, { variant: 'error' });
+    }
+  });
 
   return (
     <Container
@@ -106,26 +147,40 @@ export default function HomeContacts() {
         </Grid>
         <Grid xs={12} md={6}>
           <m.div variants={varFade().inRight}>
-            <Stack spacing={3}>
-              <TextField
-                name='email'
-                label={t('email')}
-                fullWidth
-              />
-              <TextField
-                name='message'
-                label={t('message')}
-                rows={3}
-                fullWidth
-                multiline
-              />
-              <Button
-                color='secondary'
-                variant='contained'
-              >
-                Изпрати
-              </Button>
-            </Stack>
+            <FormProvider methods={methods} onSubmit={onSubmit}>
+              <Stack spacing={3}>
+                <RHFTextField
+                  name='email'
+                  label={t('email')}
+                  fullWidth
+                />
+
+                <RHFTextField
+                  name='subject'
+                  label={t('subject')}
+                  fullWidth
+                />
+
+                <RHFTextField
+                  name='message'
+                  label={t('message')}
+                  rows={3}
+                  fullWidth
+                  multiline
+                />
+
+                <LoadingButton
+                  fullWidth
+                  size="large"
+                  type="submit"
+                  variant="contained"
+                  color='secondary'
+                  loading={isSubmitting}
+                >
+                  {t('send')}
+                </LoadingButton>
+              </Stack>
+            </FormProvider>
           </m.div>
         </Grid>
       </Grid>

@@ -8,6 +8,13 @@ export const ASSETS_API = process.env.NEXT_PUBLIC_ASSETS_API;
 
 export const ORIGIN = process.env.NEXT_PUBLIC_ORIGIN;
 
+export const MAIL = {
+    host: process.env.NEXT_PUBLIC_MAIL_HOST,
+    port: process.env.NEXT_PUBLIC_MAIL_PORT,
+    user: process.env.NEXT_PUBLIC_MAIL_USER,
+    password: process.env.NEXT_PUBLIC_MAIL_PASSWORD
+}
+
 export const MAPBOX_API = process.env.NEXT_PUBLIC_MAPBOX_API;
 
 export const REST_API = process.env.NEXT_PUBLIC_REST_API;

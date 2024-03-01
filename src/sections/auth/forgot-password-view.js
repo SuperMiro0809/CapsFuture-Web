@@ -33,7 +33,7 @@ export default function ForgotPasswordView() {
   const [errorMsg, setErrorMsg] = useState('');
 
   const ForgotPasswordSchema = Yup.object().shape({
-    email: Yup.string().required('Email is required').email('Email must be a valid email address'),
+    email: Yup.string().required(t('validation.email.required')).email(t('validation.email.valid')),
   });
 
   const defaultValues = {
