@@ -8,7 +8,9 @@ export async function getProducts(pagination, order, filters, lang) {
 
   if (filters.length > 0) {
     filters.forEach((filter) => {
-      URL += `&${filter.id}=${filter.value}`
+      if (filter.value) {
+        URL += `&${filter.id}=${filter.value}`;
+      }
     })
   }
 
@@ -67,7 +69,7 @@ export async function getLatestProducts(lang) {
 
 export async function createProduct(data) {
   const URL = `${REST_API}/products`;
-  
+
   try {
     const res = await axios.post(URL, data, {
       headers: {
@@ -88,7 +90,7 @@ export async function editProduct(id, data) {
   try {
     const res = await axios.post(URL, data, {
       headers: {
-          'Content-Type': 'multipart/form-data'
+        'Content-Type': 'multipart/form-data'
       }
     });
 
@@ -103,12 +105,12 @@ export async function deleteProduct(id) {
   const URL = `${REST_API}/products/${id}`;
 
   try {
-      const res = await axios.delete(URL);
+    const res = await axios.delete(URL);
 
-      return { status: res.status, data: res.data };
+    return { status: res.status, data: res.data };
   } catch (error) {
-      const message = typeof error === 'string' ? error : error.message;
-      throw message;
+    const message = typeof error === 'string' ? error : error.message;
+    throw message;
   }
 }
 
@@ -116,13 +118,13 @@ export async function deleteProducts(ids) {
   const URL = `${REST_API}/products/deleteMany`;
 
   try {
-      const res = await axios.delete(URL, {
-          data: { ids }
-      });
+    const res = await axios.delete(URL, {
+      data: { ids }
+    });
 
-      return { status: res.status, data: res.data };
+    return { status: res.status, data: res.data };
   } catch (error) {
-      const message = typeof error === 'string' ? error : error.message;
-      throw message;
+    const message = typeof error === 'string' ? error : error.message;
+    throw message;
   }
 }

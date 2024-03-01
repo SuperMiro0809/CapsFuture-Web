@@ -9,7 +9,7 @@ export async function getCampaigns(pagination, order, filters, lang) {
 
         if(filters.length > 0) {
             filters.forEach((filter) => {
-                if(filter.value) {
+                if (filter.value) {
                     URL += `&${filter.id}=${filter.value}`;
                 }
             })

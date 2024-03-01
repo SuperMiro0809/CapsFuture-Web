@@ -9,7 +9,9 @@ export async function getLocations(filters) {
 
     if (filters.length > 0) {
       filters.forEach((filter) => {
-        URL += `&${filter.id}=${filter.value}`
+        if (filter.value) {
+          URL += `&${filter.id}=${filter.value}`;
+        }
       })
     }
 

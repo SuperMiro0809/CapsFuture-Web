@@ -29,12 +29,6 @@ export default async function CampaignsPage({ params, searchParams }) {
   }
 
   return (
-    <>
-      {lang}
-      {search}
-      {city}
-      {JSON.stringify(campaigns)}
-      <CampaignListHomeView campaigns={campaigns} campaignsCount={campaignsCount} />
-    </>
+    <CampaignListHomeView campaigns={campaigns} campaignsCount={campaignsCount} />
   );
 }
