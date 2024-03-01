@@ -62,22 +62,14 @@ export default function AccountPopover() {
         },
         {
           label: t('profile'),
-          linkTo: paths.dashboard.user.profile,
+          linkTo: paths.profile,
         },
       ]);
     } else {
       setOptions([
         {
-          label: t('campaigns'),
-          linkTo: paths.dashboard.user.profile,
-        },
-        {
-          label: t('orders'),
-          linkTo: paths.dashboard.user.profile,
-        },
-        {
           label: t('profile'),
-          linkTo: paths.dashboard.user.profile,
+          linkTo: paths.profile,
         },
       ]);
     }

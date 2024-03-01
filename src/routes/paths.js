@@ -61,6 +61,7 @@ export const paths = {
     details: (slug) => `/store/${slug}`,
   },
   map: '/map',
+  profile: '/profile',
   // AUTH
   auth: {
     login: `${ROOTS.AUTH}/login`,
