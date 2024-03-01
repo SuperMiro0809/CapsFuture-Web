@@ -108,12 +108,12 @@ export function useNavData() {
           // STATION
           {
             title: t('stations'),
-            path: paths.dashboard.station.root,
+            path: paths.dashboard.station.locations.root,
             icon: ICONS.station,
-            children: [
-              { title: t('locations'), path: paths.dashboard.station.locations.root },
-              { title: t('requests'), path: paths.dashboard.station.requests }
-            ]
+            // children: [
+            //   { title: t('locations'), path: paths.dashboard.station.locations.root },
+            //   { title: t('requests'), path: paths.dashboard.station.requests }
+            // ]
           },
 
           // POST
