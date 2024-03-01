@@ -3,7 +3,7 @@
 
 import PropTypes from 'prop-types';
 import { useState, useEffect, useCallback } from 'react';
-
+// @mui
 import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
@@ -14,31 +14,33 @@ import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import AvatarGroup, { avatarGroupClasses } from '@mui/material/AvatarGroup';
-
+// routes
 import { paths } from 'src/routes/paths';
 import { RouterLink } from 'src/routes/components';
-
+// locales
+import { useTranslate } from 'src/locales';
+// utils
 import { fShortenNumber } from 'src/utils/format-number';
-
+//
 import { useGetPost } from 'src/api/blog';
 import { POST_PUBLISH_OPTIONS } from 'src/_mock';
-
+// components
 import Iconify from 'src/components/iconify';
 import Markdown from 'src/components/markdown';
 import EmptyContent from 'src/components/empty-content';
-
+//
 import PostDetailsHero from '../post-details-hero';
 import PostCommentList from '../post-comment-list';
 import PostCommentForm from '../post-comment-form';
-import { PostDetailsSkeleton } from '../post-skeleton';
 import PostDetailsToolbar from '../post-details-toolbar';
+import { ASSETS } from 'src/config-global';
 
 // ----------------------------------------------------------------------
 
-export default function PostDetailsView({ title }) {
-  const [publish, setPublish] = useState('');
+export default function PostDetailsView({ post, error }) {
+  const { t } = useTranslate();
 
-  const { post, postLoading, postError } = useGetPost(title);
+  const [publish, setPublish] = useState('');
 
   const handleChangePublish = useCallback((newValue) => {
     setPublish(newValue);
@@ -50,12 +52,10 @@ export default function PostDetailsView({ title }) {
     }
   }, [post]);
 
-  const renderSkeleton = <PostDetailsSkeleton />;
-
   const renderError = (
     <EmptyContent
       filled
-      title={`${postError?.message}`}
+      title={error}
       action={
         <Button
           component={RouterLink}
@@ -63,7 +63,7 @@ export default function PostDetailsView({ title }) {
           startIcon={<Iconify icon="eva:arrow-ios-back-fill" width={16} />}
           sx={{ mt: 3 }}
         >
-          Back to List
+          {t('back')}
         </Button>
       }
       sx={{
@@ -76,74 +76,30 @@ export default function PostDetailsView({ title }) {
     <>
       <PostDetailsToolbar
         backLink={paths.dashboard.post.root}
-        editLink={paths.dashboard.post.edit(`${post?.title}`)}
-        liveLink={paths.post.details(`${post?.title}`)}
+        editLink={paths.dashboard.post.edit(`${post?.slug}`)}
+        liveLink={paths.post.details(`${post?.slug}`)}
         publish={publish || ''}
         onChangePublish={handleChangePublish}
         publishOptions={POST_PUBLISH_OPTIONS}
       />
 
-      <PostDetailsHero title={post.title} coverUrl={post.coverUrl} />
+      <PostDetailsHero title={post.title} coverUrl={`${ASSETS}/${post.title_image_path}`} />
 
       <Stack
         sx={{
-          maxWidth: 720,
+          maxWidth: 1400,
           mx: 'auto',
           mt: { xs: 5, md: 10 },
         }}
       >
         <Typography variant="subtitle1" sx={{ mb: 5 }}>
-          {post.description}
+          {post.short_description}
         </Typography>
 
-        <Markdown children={post.content} />
-
-        <Stack
-          spacing={3}
-          sx={{
-            py: 3,
-            borderTop: (theme) => `dashed 1px ${theme.palette.divider}`,
-            borderBottom: (theme) => `dashed 1px ${theme.palette.divider}`,
-          }}
-        >
-          <Stack direction="row" flexWrap="wrap" spacing={1}>
-            {post.tags.map((tag) => (
-              <Chip key={tag} label={tag} variant="soft" />
-            ))}
-          </Stack>
-
-          <Stack direction="row" alignItems="center">
-            <FormControlLabel
-              control={
-                <Checkbox
-                  defaultChecked
-                  size="small"
-                  color="error"
-                  icon={<Iconify icon="solar:heart-bold" />}
-                  checkedIcon={<Iconify icon="solar:heart-bold" />}
-                />
-              }
-              label={fShortenNumber(post.totalFavorites)}
-              sx={{ mr: 1 }}
-            />
-
-            <AvatarGroup
-              sx={{
-                [`& .${avatarGroupClasses.avatar}`]: {
-                  width: 32,
-                  height: 32,
-                },
-              }}
-            >
-              {post.favoritePerson.map((person) => (
-                <Avatar key={person.name} alt={person.name} src={person.avatarUrl} />
-              ))}
-            </AvatarGroup>
-          </Stack>
-        </Stack>
+        <Markdown children={post.description} />
 
         <Stack direction="row" sx={{ mb: 3, mt: 5 }}>
-          <Typography variant="h4">Comments</Typography>
+          <Typography variant="h4">{t('comments')}</Typography>
 
           <Typography variant="subtitle2" sx={{ color: 'text.disabled' }}>
             ({post.comments.length})
@@ -161,9 +117,7 @@ export default function PostDetailsView({ title }) {
 
   return (
     <Container maxWidth={false}>
-      {postLoading && renderSkeleton}
-
-      {postError && renderError}
+      {error && renderError}
 
       {post && renderPost}
     </Container>
@@ -171,5 +125,6 @@ export default function PostDetailsView({ title }) {
 }
 
 PostDetailsView.propTypes = {
-  title: PropTypes.string,
+  title: PropTypes.object,
+  error: PropTypes.string
 };

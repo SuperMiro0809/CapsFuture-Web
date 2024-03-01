@@ -73,6 +73,7 @@
     "send": "Изпрати",
     "who": "Кои",
     "we-are": "сме ние",
+    "cancel": "Oтказ",
 
     "participate-modal": {
         "title": "Участие в кампания",
@@ -139,6 +140,8 @@
 
     "products": "Продукти",
     "posts": "Новини",
+    "new-post": "Нова новина",
+    "create-new-post": "Създаване на нова новина",
 
     "locations": "Локации",
     "location": "Локация",

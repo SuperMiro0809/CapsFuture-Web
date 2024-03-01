@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-
+// @mui
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
@@ -7,9 +7,11 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import IconButton from '@mui/material/IconButton';
 import LoadingButton from '@mui/lab/LoadingButton';
-
+// routes
 import { RouterLink } from 'src/routes/components';
-
+// locales
+import { useTranslate } from 'src/locales';
+// components
 import Iconify from 'src/components/iconify';
 import CustomPopover, { usePopover } from 'src/components/custom-popover';
 
@@ -25,6 +27,8 @@ export default function PostDetailsToolbar({
   sx,
   ...other
 }) {
+  const { t } = useTranslate();
+
   const popover = usePopover();
 
   return (
@@ -43,7 +47,7 @@ export default function PostDetailsToolbar({
           href={backLink}
           startIcon={<Iconify icon="eva:arrow-ios-back-fill" width={16} />}
         >
-          Back
+          {t('back')}
         </Button>
 
         <Box sx={{ flexGrow: 1 }} />
@@ -56,13 +60,13 @@ export default function PostDetailsToolbar({
           </Tooltip>
         )}
 
-        <Tooltip title="Edit">
+        <Tooltip title={t('edit')}>
           <IconButton component={RouterLink} href={editLink}>
             <Iconify icon="solar:pen-bold" />
           </IconButton>
         </Tooltip>
 
-        <LoadingButton
+        {/* <LoadingButton
           color="inherit"
           variant="contained"
           loading={!publish}
@@ -72,7 +76,7 @@ export default function PostDetailsToolbar({
           sx={{ textTransform: 'capitalize' }}
         >
           {publish}
-        </LoadingButton>
+        </LoadingButton> */}
       </Stack>
 
       <CustomPopover

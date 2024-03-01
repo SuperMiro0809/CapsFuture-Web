@@ -9,13 +9,9 @@ export const metadata = {
 };
 
 async function getData(slug, lang) {
-  try {
-    const res = await getPostBySlug(slug, lang);
+  const { data, error } = await getPostBySlug(slug, lang);
 
-    return { post: res.data };
-  } catch (error) {
-    return { error }
-  }
+  return { post: data, error };
 }
 
 export default async function PostEditPage({ params }) {

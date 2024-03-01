@@ -1,9 +1,5 @@
-import PropTypes from 'prop-types';
-
-import { paramCase } from 'src/utils/change-case';
-import axios, { endpoints } from 'src/utils/axios';
-
 import { PostDetailsView } from 'src/sections/blog/view';
+import { getPostBySlug } from 'src/api/blog';
 
 // ----------------------------------------------------------------------
 
@@ -11,22 +7,17 @@ export const metadata = {
   title: 'Dashboard: Post Details',
 };
 
-export default function PostDetailsPage({ params }) {
-  const { title } = params;
+async function getData(lang, slug) {
+  const { data, error } = await getPostBySlug(slug, lang);
 
-  return <PostDetailsView title={title} />;
+  return { post: data, error }
 }
 
-// export async function generateStaticParams() {
-//   const res = await axios.get(endpoints.post.list);
+export default async function PostDetailsPage({ params }) {
+  const { lang, slug } = params;
 
-//   return res.data.posts.map((post) => ({
-//     title: paramCase(post.title),
-//   }));
-// }
+  const { post, error } = await getData(lang, slug);
 
-PostDetailsPage.propTypes = {
-  params: PropTypes.shape({
-    title: PropTypes.string,
-  }),
-};
+  return <PostDetailsView post={post} error={error} />;
+}
+

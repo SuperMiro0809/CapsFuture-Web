@@ -1,6 +1,6 @@
 /* eslint-disable react/no-children-prop */
 import PropTypes from 'prop-types';
-
+// @mui
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
@@ -9,11 +9,13 @@ import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import LoadingButton from '@mui/lab/LoadingButton';
 import DialogActions from '@mui/material/DialogActions';
-
+// locales
+import { useTranslate } from 'src/locales';
+// components
 import Markdown from 'src/components/markdown';
 import Scrollbar from 'src/components/scrollbar';
 import EmptyContent from 'src/components/empty-content';
-
+//
 import PostDetailsHero from './post-details-hero';
 
 // ----------------------------------------------------------------------
@@ -30,6 +32,8 @@ export default function PostDetailsPreview({
   onSubmit,
   isSubmitting,
 }) {
+  const { t } = useTranslate();
+
   const hasContent = title || description || content || coverUrl;
 
   const hasHero = title || coverUrl;
@@ -38,11 +42,11 @@ export default function PostDetailsPreview({
     <Dialog fullScreen open={open} onClose={onClose}>
       <DialogActions sx={{ py: 2, px: 3 }}>
         <Typography variant="h6" sx={{ flexGrow: 1 }}>
-          Preview
+          {t('preview')}
         </Typography>
 
         <Button variant="outlined" color="inherit" onClick={onClose}>
-          Cancel
+          {t('cancel')}
         </Button>
 
         <LoadingButton
@@ -52,7 +56,7 @@ export default function PostDetailsPreview({
           loading={isSubmitting}
           onClick={onSubmit}
         >
-          Post
+          {t('save')}
         </LoadingButton>
       </DialogActions>
 
@@ -62,10 +66,15 @@ export default function PostDetailsPreview({
         <Scrollbar>
           {hasHero && <PostDetailsHero title={title} coverUrl={coverUrl} />}
 
-          <Container sx={{ mt: 5, mb: 10 }}>
+          <Container
+            sx={{
+              maxWidth: '1400px !important',
+              mt: 5,
+              mb: 10
+            }}
+          >
             <Stack
               sx={{
-                maxWidth: 720,
                 mx: 'auto',
               }}
             >

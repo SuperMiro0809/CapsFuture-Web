@@ -42,7 +42,7 @@ import { ASSETS } from 'src/config-global';
 // ----------------------------------------------------------------------
 
 export default function PostNewEditForm({ currentPost }) {
-  const { t } = useTranslate();
+  const { t, i18n } = useTranslate();
 
   const router = useRouter();
 
@@ -356,17 +356,17 @@ export default function PostNewEditForm({ currentPost }) {
       <Grid container spacing={3}>
         {renderDetails}
 
-        {renderProperties}
+        {/* {renderProperties} */}
 
         {renderActions}
       </Grid>
 
       <PostDetailsPreview
-        title={values.title}
-        content={values.content}
-        description={values.description}
+        title={values.information[i18n.language].title}
+        content={values.information[i18n.language].description}
+        description={values.information[i18n.language].short_description}
         coverUrl={
-          typeof values.coverUrl === 'string' ? values.coverUrl : `${values.coverUrl?.preview}`
+          typeof values.title_image === 'string' ? values.title_image : `${values.title_image?.preview}`
         }
         //
         open={preview.value}

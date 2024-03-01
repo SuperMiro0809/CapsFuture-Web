@@ -37,7 +37,7 @@ export async function getPostBySlug(slug, lang) {
     return { status: res.status, data: res.data };
   } catch (error) {
     const message = typeof error === 'object' ? error.message : error;
-    throw message;
+    return { error: message }
   }
 }
 

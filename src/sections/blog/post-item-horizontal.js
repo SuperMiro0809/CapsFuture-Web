@@ -7,6 +7,8 @@ import Stack from '@mui/material/Stack';
 import Avatar from '@mui/material/Avatar';
 import MenuItem from '@mui/material/MenuItem';
 import IconButton from '@mui/material/IconButton';
+// date-fns
+import { bg, enUS } from 'date-fns/locale';
 // routes
 import { paths } from 'src/routes/paths';
 import { useRouter } from 'src/routes/hooks';
@@ -33,7 +35,7 @@ import { ASSETS } from 'src/config-global';
 // ----------------------------------------------------------------------
 
 export default function PostItemHorizontal({ post }) {
-  const { t } = useTranslate();
+  const { t, i18n } = useTranslate();
 
   const popover = usePopover();
 
@@ -49,6 +51,7 @@ export default function PostItemHorizontal({ post }) {
     title,
     title_image_path,
     short_description,
+    comments,
     description,
     author,
     active,
@@ -85,7 +88,7 @@ export default function PostItemHorizontal({ post }) {
             </Label>
 
             <Box component="span" sx={{ typography: 'caption', color: 'text.disabled' }}>
-              {fDate(created_at)}
+              {fDate(created_at, '', { locale: i18n.language === 'bg' ? bg : enUS })}
             </Box>
           </Stack>
 
@@ -119,10 +122,10 @@ export default function PostItemHorizontal({ post }) {
             >
               <Stack direction="row" alignItems="center">
                 <Iconify icon="eva:message-circle-fill" width={16} sx={{ mr: 0.5 }} />
-                {fShortenNumber(20)}
+                {fShortenNumber(comments.length) || 0}
               </Stack>
 
-              <Stack direction="row" alignItems="center">
+              {/* <Stack direction="row" alignItems="center">
                 <Iconify icon="solar:eye-bold" width={16} sx={{ mr: 0.5 }} />
                 {fShortenNumber(20)}
               </Stack>
@@ -130,7 +133,7 @@ export default function PostItemHorizontal({ post }) {
               <Stack direction="row" alignItems="center">
                 <Iconify icon="solar:share-bold" width={16} sx={{ mr: 0.5 }} />
                 {fShortenNumber(20)}
-              </Stack>
+              </Stack> */}
             </Stack>
           </Stack>
         </Stack>

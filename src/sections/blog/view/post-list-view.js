@@ -53,7 +53,7 @@ export default function PostListView({ posts, postsCount }) {
 
   const [page, setPage] = useState(defaultPageValue);
 
-  const perPage = 2;
+  const perPage = 8;
 
   const sortByDefaultValue = searchParams.get('direction') === 'desc' ? 'oldest' : 'latest';
   const [sortBy, setSortBy] = useState(sortByDefaultValue);
@@ -154,7 +154,7 @@ export default function PostListView({ posts, postsCount }) {
         <TextField
           value={searchValue}
           onChange={(event) => handleSearch(event.target.value)}
-          placeholder={t('search.title')}
+          placeholder={t('search')}
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
