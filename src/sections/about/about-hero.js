@@ -1,16 +1,20 @@
 import { m } from 'framer-motion';
 import PropTypes from 'prop-types';
-
+// @mui
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
-
+// locales
+import { useTranslate } from 'src/locales';
+// components
 import { varFade, MotionContainer } from 'src/components/animate';
 
 // ----------------------------------------------------------------------
 
 export default function AboutHero() {
+  const { t } = useTranslate();
+
   return (
     <Box
       sx={{
@@ -21,7 +25,7 @@ export default function AboutHero() {
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundImage:
-          'url(/assets/background/overlay_1.svg), url(/assets/images/about/hero.jpg)',
+          'url(/assets/background/overlay_9.svg), url(/assets/images/about/hero.webp)',
       }}
     >
       <Container component={MotionContainer}>
@@ -35,13 +39,12 @@ export default function AboutHero() {
             },
           }}
         >
-          <TextAnimate text="Who" variants={varFade().inRight} sx={{ color: 'primary.main' }} />
+          <TextAnimate text={t('who')} variants={varFade().inRight} sx={{ color: 'primary.main' }} />
 
           <br />
 
           <Stack spacing={2} display="inline-flex" direction="row" sx={{ color: 'common.white' }}>
-            <TextAnimate text="we" />
-            <TextAnimate text="are?" />
+            <TextAnimate text={`${t('we-are')}?`} />
           </Stack>
 
           <m.div variants={varFade().inRight}>
