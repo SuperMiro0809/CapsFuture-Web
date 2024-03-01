@@ -1,11 +1,11 @@
-import { ClassicForgotPasswordView } from 'src/sections/auth-demo/classic';
+import { ForgotPasswordView } from 'src/sections/auth';
 
 // ----------------------------------------------------------------------
 
 export const metadata = {
-  title: 'Auth Classic: Forgot Password',
+  title: 'Капачки за бъдеще: Забравена парола',
 };
 
-export default function ClassicForgotPasswordPage() {
-  return <ClassicForgotPasswordView />;
+export default function ForgotPasswordPage() {
+  return <ForgotPasswordView />;
 }

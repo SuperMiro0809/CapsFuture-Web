@@ -60,7 +60,9 @@ export const endpoints = {
     login: '/auth/login',
     register: '/auth/register',
     logout: '/auth/logout',
-    profile: '/auth/profile'
+    profile: '/auth/profile',
+    forgotPassword: '/auth/forgot-password',
+    resetPassword: '/auth/reset-password'
   },
   post: {
     list: '/post/list',

@@ -40,3 +40,33 @@ export async function getProfile() {
 
   return { status: res.data, data: res.data };
 }
+
+export async function forgotPassword(data) {
+  try {
+    const res = await axios.post(endpoints.auth.forgotPassword, data);
+
+    return { status: res.data, data: res.data };
+  } catch (error) {
+    let message = typeof error === 'string' ? error : error.message;
+
+    if(Array.isArray(message)) {
+      message = message[0];
+    }
+    return { error: message };
+  }
+}
+
+export async function resetPassword(data) {
+  try {
+    const res = await axios.post(endpoints.auth.resetPassword, data);
+
+    return { status: res.data, data: res.data };
+  } catch (error) {
+    let message = typeof error === 'string' ? error : error.message;
+
+    if(Array.isArray(message)) {
+      message = message[0];
+    }
+    return { error: message };
+  }
+}
