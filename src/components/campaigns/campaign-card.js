@@ -137,7 +137,7 @@ export default function CampaignCard({ id, slug, title, shortDescription, date, 
 
 CampaignCard.propTypes = {
   id: PropTypes.number,
-  slug: PropTypes.string,
+  slug: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   title: PropTypes.string,
   shortDescription: PropTypes.string,
   date: PropTypes.string,
