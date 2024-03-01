@@ -119,7 +119,7 @@ export default function ProductCard({ id, slug, title, price, images }) {
           }}
         >
           <Box>
-            <TextMaxLine variant="h4" component="div">
+            <TextMaxLine line={1} variant="h4" component="div">
               {title}
             </TextMaxLine>
             <Typography variant="h5" component="div">
