@@ -90,7 +90,7 @@ export default function StationLocationsListView({ locations }) {
                         startIcon={<Iconify icon="mingcute:add-line" />}
                         color='secondary'
                     >
-                        {t('new-locations')}
+                        {t('new-location')}
                     </Button>
                 }
                 sx={{
