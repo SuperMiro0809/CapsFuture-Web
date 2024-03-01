@@ -8,16 +8,19 @@ import { useTheme } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 // routes
 import { RouterLink } from 'src/routes/components';
+// locales
+import { useTranslate } from 'src/locales';
 // utils
 import { fNumber, fPercent } from 'src/utils/format-number';
 // components
-import Chart from 'src/components/chart';
 import Iconify from 'src/components/iconify';
 import SvgColor from 'src/components/svg-color';
 
 // ----------------------------------------------------------------------
 
 export default function AppWidgetSummary({ title, percent, buttonHref, total, iconName, chart, sx, ...other }) {
+  const { t } = useTranslate();
+
   const theme = useTheme();
 
   // const {
@@ -102,7 +105,7 @@ export default function AppWidgetSummary({ title, percent, buttonHref, total, ic
             color='primary'
             sx={{ fontSize: 12, mt: 1 }}
           >
-            Виж повече
+            {t('see-more')}
           </Button>
         )}
       </Box>

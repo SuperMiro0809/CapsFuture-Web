@@ -9,6 +9,8 @@ import Typography from '@mui/material/Typography';
 // swiper
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { EffectCards } from 'swiper/modules';
+// locales
+import { useTranslate } from 'src/locales';
 // theme
 import { textGradient } from 'src/theme/css';
 // routes
@@ -44,6 +46,8 @@ const StyledTextGradient = styled(m.h2)(({ theme }) => ({
 // ----------------------------------------------------------------------
 
 export default function HomeAboutUs() {
+  const { t } = useTranslate();
+
   const mdUp = useResponsive('up', 'md');
 
   const StyledEllipseBottom = styled('div')(({ theme }) => ({
@@ -92,12 +96,12 @@ export default function HomeAboutUs() {
                   repeat: Infinity,
                 }}
               >
-                За нас
+                {t('about-us')}
               </StyledTextGradient>
             </m.div>
 
             <m.div variants={varFade().inUp}>
-              <Typography variant='body1'>Старта на организацията е през октомври 2017г. Нейн основател е Лазар Радков (на снимката). Цел на кампанията е да се събират капачки, да ги предадат на вторични суровини и със събраните средства да се закупут кувьози, както и линейки в последствие.</Typography>
+              <Typography variant='body1'>{t('about-us-text')}</Typography>
             </m.div>
 
             <Box sx={{ mt: 4 }}>
@@ -109,7 +113,7 @@ export default function HomeAboutUs() {
                   color='primary'
                   sx={{ fontSize: 16 }}
                 >
-                  Виж повече
+                  {t('see-more')}
                 </Button>
               </m.div>
             </Box>

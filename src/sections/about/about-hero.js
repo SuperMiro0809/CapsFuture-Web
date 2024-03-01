@@ -47,7 +47,7 @@ export default function AboutHero() {
             <TextAnimate text={`${t('we-are')}?`} />
           </Stack>
 
-          <m.div variants={varFade().inRight}>
+          {/* <m.div variants={varFade().inRight}>
             <Typography
               variant="h4"
               sx={{
@@ -59,7 +59,7 @@ export default function AboutHero() {
               Let&apos;s work together and
               <br /> make awesome site easily
             </Typography>
-          </m.div>
+          </m.div> */}
         </Box>
       </Container>
     </Box>
@@ -81,7 +81,7 @@ function TextAnimate({ text, variants, sx, ...other }) {
       {...other}
     >
       {text.split('').map((letter, index) => (
-        <m.span key={index} variants={variants || varFade().inUp}>
+        <m.span key={index} variants={variants || varFade().inUp} style={{ width: letter === ' ' && 10 }}>
           {letter}
         </m.span>
       ))}

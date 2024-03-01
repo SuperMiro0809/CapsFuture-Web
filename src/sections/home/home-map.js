@@ -137,7 +137,7 @@ export default function HomeMap({ locations }) {
             color='primary'
             sx={{ fontSize: 16 }}
           >
-            Виж повече
+            {t('see-more')}
           </Button>
         </m.div>
       </Box>

@@ -1,5 +1,5 @@
 import { m } from 'framer-motion';
-
+// @mui
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
@@ -8,11 +8,13 @@ import Grid from '@mui/material/Unstable_Grid2';
 import Typography from '@mui/material/Typography';
 import { alpha, useTheme } from '@mui/material/styles';
 import LinearProgress from '@mui/material/LinearProgress';
-
+// hooks
 import { useResponsive } from 'src/hooks/use-responsive';
-
+// locales
+import { useTranslate } from 'src/locales';
+// utils
 import { fPercent } from 'src/utils/format-number';
-
+// components
 import Image from 'src/components/image';
 import Iconify from 'src/components/iconify';
 import { varFade, MotionViewport } from 'src/components/animate';
@@ -27,6 +29,8 @@ export const SKILLS = [...Array(3)].map((_, index) => ({
 // ----------------------------------------------------------------------
 
 export default function AboutWhat() {
+  const { t } = useTranslate();
+
   const theme = useTheme();
 
   const mdUp = useResponsive('up', 'md');
@@ -52,8 +56,8 @@ export default function AboutWhat() {
             <Grid xs={6}>
               <m.div variants={varFade().inUp}>
                 <Image
-                  alt="our office 2"
-                  src="/assets/images/about/what_2.png"
+                  alt="lazar radkov"
+                  src="/assets/images/about/1.jpeg"
                   ratio="1/1"
                   sx={{ borderRadius: 3, boxShadow: shadow }}
                 />
@@ -63,8 +67,8 @@ export default function AboutWhat() {
             <Grid xs={6}>
               <m.div variants={varFade().inUp}>
                 <Image
-                  alt="our office 1"
-                  src="/assets/images/about/what_1.png"
+                  alt="bottle caps"
+                  src="/assets/images/about/4.jpeg"
                   ratio="3/4"
                   sx={{ borderRadius: 3, boxShadow: shadow }}
                 />
@@ -76,7 +80,7 @@ export default function AboutWhat() {
         <Grid xs={12} md={6} lg={5}>
           <m.div variants={varFade().inRight}>
             <Typography variant="h2" sx={{ mb: 3 }}>
-              What is Minimal?
+              {t('what-is')} <Typography variant='h2' component='span' color='primary'>{t('caps-for-future')}?</Typography>
             </Typography>
           </m.div>
 
@@ -86,14 +90,11 @@ export default function AboutWhat() {
                 color: theme.palette.mode === 'light' ? 'text.secondary' : 'common.white',
               }}
             >
-              Our theme is the most advanced and user-friendly theme you will find on the market, we
-              have documentation and video to help set your site really easily, pre-installed demos
-              you can import in one click and everything from the theme options to page content can
-              be edited from the front-end. This is the theme you are looking for.
+              {t('about-us-text')}
             </Typography>
           </m.div>
 
-          <Stack spacing={3} sx={{ my: 5 }}>
+          {/* <Stack spacing={3} sx={{ my: 5 }}>
             {SKILLS.map((progress, index) => (
               <Box component={m.div} key={progress.label} variants={varFade().inRight}>
                 <Stack direction="row" alignItems="center" sx={{ mb: 1 }}>
@@ -113,9 +114,9 @@ export default function AboutWhat() {
                 />
               </Box>
             ))}
-          </Stack>
+          </Stack> */}
 
-          <m.div variants={varFade().inRight}>
+          {/* <m.div variants={varFade().inRight}>
             <Button
               variant="outlined"
               color="inherit"
@@ -124,7 +125,7 @@ export default function AboutWhat() {
             >
               Our Work
             </Button>
-          </m.div>
+          </m.div> */}
         </Grid>
       </Grid>
     </Container>

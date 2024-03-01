@@ -18,6 +18,7 @@ import { useTranslate } from 'src/locales';
 // components
 import Carousel, { useCarousel, CarouselArrowIndex } from 'src/components/carousel';
 import { usePopover } from '../custom-popover';
+import TextMaxLine from '../text-max-line';
 //
 import SvgColor from '../svg-color';
 import { ASSETS, ORIGIN } from 'src/config-global';
@@ -118,9 +119,9 @@ export default function ProductCard({ id, slug, title, price, images }) {
           }}
         >
           <Box>
-            <Typography variant="h4" component="div">
+            <TextMaxLine variant="h4" component="div">
               {title}
-            </Typography>
+            </TextMaxLine>
             <Typography variant="h5" component="div">
               {`${price} ${t('lv')}.`}
             </Typography>

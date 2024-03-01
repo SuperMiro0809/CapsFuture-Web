@@ -1,20 +1,20 @@
 import { m } from 'framer-motion';
-
+// @mui
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import { styled } from '@mui/material/styles';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Unstable_Grid2';
-
+// locales
+import { useTranslate } from 'src/locales';
+// theme
 import { textGradient } from 'src/theme/css';
-
+// component
 import { varFade, MotionViewport } from 'src/components/animate';
-
 import { ProductCard } from 'src/components/products';
-
 import { RouterLink } from 'src/routes/components';
-
+//
 import { _mock } from 'src/_mock';
 
 // ----------------------------------------------------------------------
@@ -41,6 +41,8 @@ const StyledTextGradient = styled(m.h2)(({ theme }) => ({
 // ----------------------------------------------------------------------
 
 export default function HomeProducts({ products }) {
+  const { t } = useTranslate();
+
   return (
     <Container
       component={MotionViewport}
@@ -66,7 +68,7 @@ export default function HomeProducts({ products }) {
               repeat: Infinity,
             }}
           >
-            Нашите продукти
+            {t('our-products')}
           </StyledTextGradient>
         </m.div>
       </Stack>
@@ -97,7 +99,7 @@ export default function HomeProducts({ products }) {
             color='primary'
             sx={{ fontSize: 16 }}
           >
-            Виж повече
+            {t('see-more')}
           </Button>
         </m.div>
       </Box>
