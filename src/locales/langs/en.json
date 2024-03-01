@@ -1,54 +1,286 @@
 {
-  "app": "app",
-  "job": "job",
-  "user": "user",
-  "list": "list",
-  "edit": "edit",
-  "shop": "shop",
-  "blog": "blog",
-  "post": "post",
-  "mail": "mail",
-  "chat": "chat",
-  "file": "file",
-  "tour": "tour",
-  "cards": "cards",
-  "blank": "blank",
-  "order": "order",
-  "lists": "lists",
-  "create": "create",
-  "kanban": "kanban",
-  "general": "general",
-  "banking": "banking",
-  "booking": "booking",
-  "profile": "profile",
-  "account": "account",
-  "product": "product",
-  "invoice": "invoice",
-  "details": "details",
-  "checkout": "checkout",
-  "calendar": "calendar",
-  "overview": "overview",
-  "analytics": "analytics",
-  "ecommerce": "e-commerce",
-  "management": "management",
-  "menu_level": "menu level",
-  "item_label": "item label",
-  "description": "description",
-  "other_cases": "other cases",
-  "item_caption": "item caption",
-  "file_manager": "File Manager",
-  "menu_level_1a": "menu level 1a",
-  "menu_level_1b": "menu level 1b",
-  "menu_level_2a": "menu level 2a",
-  "menu_level_2b": "menu level 2b",
-  "menu_level_3a": "menu level 3a",
-  "menu_level_3b": "menu level 4b",
-  "item_disabled": "item disabled",
-  "item_by_roles": "item by roles",
-  "item_external_link": "item external link",
-  "only_admin_can_see_this_item": "Only admin can see this item",
-  "upgrade_to_pro": "Upgrade to Pro",
-  "demo": {
-    "title": "English"
+  "caps-for-future": "Caps for the Future",
+
+  "home": "Home",
+  "store": "Store",
+  "map": "Map",
+  "about-us": "About Us",
+  "contacts": "Contacts",
+  "cart": "Cart",
+  "profile": "Profile",
+
+  "login": "Login",
+  "donate": "Donate",
+  "forgot-password": "Forgot Your Password",
+  "forgot-password-text": "Please enter the email address associated with your account, and we will send you a link to reset your password via email.",
+  "forgot-password-email-sent": "A link has been sent to your email. Please open it and follow the steps to reset your password",
+  "reset-password": "Reset Password",
+  "reset-password-success": "Your password has been successfully changed",
+  "update-password": "Update Password",
+
+  "create-account": "Create Account",
+
+  "register": "Register",
+  "already-have-account": "Already Have an Account",
+
+  "overview": "Overview",
+  "management": "Management",
+
+  "create": "Add",
+  "save": "Save",
+  "edit": "Edit",
+  "delete": {
+      "word": "Delete",
+      "action": "Delete",
+      "single-modal": "Are you sure you want to delete this entry?",
+      "multiple-modal": "Are you sure you want to delete these"
+  },
+  "preview": "Preview",
+  "details": "Details",
+  "details-subtext": "Cover photo, title, short description, content...",
+  "properties": "Properties",
+  "properties-subtext": "Additional features and characteristics...",
+  "latest": "First, the Newest",
+  "oldest": "First, the Oldest",
+  "cheapest": "First, the Cheapest",
+  "most-expensive": "First, the Most Expensive",
+  "sort-by": "Sort By",
+  "published": "Published",
+  "draft": "Draft",
+  "all": "All",
+  "read-more": "Read More",
+  "participate": "Participate",
+  "unsubscribe": "Unsubscribe",
+  "search": "Search",
+  "will-take-place-on": "Will Take Place On",
+  "back": "Back",
+  "or": "or",
+  "upcoming": "Upcoming",
+  "past": "Past",
+  "logout": "Logout",
+  "reply": "Reply",
+  "all-rights-reserved": "All Rights Reserved",
+  "add-to-cart": "Add to Cart",
+  "buy-now": "Buy Now",
+  "quantity": "Quantity",
+  "in-stock": "In Stock",
+  "out-of-stock": "Out of Stock",
+  "lv": "lv",
+  "checkout": "Checkout",
+  "total-price": "Total Price",
+  "total": "Total",
+  "with-VAT": "with VAT",
+  "to-store": "to Store",
+  "share-by": "Share By",
+  "to-login": "to Login",
+  "send": "Send",
+  "who": "Who",
+  "we-are": "We Are",
+  "cancel": "Cancel",
+  "email-sent-success": "Email Sent Successfully",
+  "drop-file-here-or-click": "Drop files here or click",
+  "drop-or-select-file": "Drop or Select File",
+  "browse": "browse",
+  "thorough-your-machine": "through your machine",
+  "remove-all": "Remove All",
+  "create-success": "Successfully Added",
+  "edit-success": "Successfully Edited",
+  "what-is": "What is",
+  "see-more": "See More",
+  "help-too": "Help Too",
+  "payment": "Payment",
+  "shipping": "Shipping",
+  "free": "Free",
+
+  "about-us-text": "The organization started in October 2017. Its founder is Lazar Radkov (in the picture). The campaign's goal is to collect caps, recycle them, and use the funds to purchase incubators and subsequently ambulances.",
+
+  "participate-modal": {
+      "title": "Participation in the Campaign",
+      "text": "Are you sure you want to sign up for this campaign?"
+  },
+  "participate-apply-title": "Fill in the following information to sign up",
+  "participate-warning-message": "By choosing this method, you will not be able to unsubscribe or save the campaign later",
+  "participate-success-message": "Signing up for the campaign was successful",
+  "participate-not-allowed": "Signing up for this campaign is not allowed",
+
+  "unsubscribe-modal": {
+      "title": "Unsubscribe from Campaign",
+      "text": "Are you sure you want to unsubscribe from this campaign?"
+  },
+  "unsubscribe-success-message": "Unsubscribing from the campaign was successful",
+
+  "campaign-login-prompt": "Log in to your account to take advantage of the following campaign benefits",
+  "campaign-benefits": {
+    "easier-campaign-signup": "easier campaign signup",
+    "campaign-save": "save campaigns in your account",
+    "feedback-opportunity": "opportunity to provide feedback after a campaign",
+    "unsubscribe-anytime": "you can unsubscribe at any time"
+  },
+
+  "comments": "Comments",
+  "post-comment": "Post Comment",
+  "comments-not-logged-in-message": "You must log in to your account to post a comment",
+  "write-comment": "Write Your Comment",
+  "write-reply": "Write Your Reply",
+  "post-reply": "Post Reply",
+  "comment-success": "Comment Posted Successfully",
+  "reply-success": "Reply Posted Successfully",
+
+  "our-achievements": "Our Achievements",
+  "ambulances": "Ambulances",
+  "incubators": "Incubators",
+  "children-lives": "Children's Lives",
+  "plastic": "Plastic",
+  "mil": "mil",
+
+  "faq": "Frequently Asked Questions",
+
+  "where-to-transmit-caps": "Looking Where to Submit Your Caps",
+
+  "contact-us": "Contact Us",
+  "we-love-hear-from-you": "We'd Love to Hear from You",
+  "contact-us-text": "Don't hesitate, send us an email with your questions",
+
+  "cart-empty": "Your Cart is Empty",
+  "cart-empty-message": "It seems you have no products in your cart",
+  "cart-product": "product",
+  "cart-products": "products",
+  "order-summary": "Order Summary",
+  "sub-total": "Subtotal",
+  "check-out": "Proceed",
+
+  "permission-denied": "Access Denied",
+  "permission-denied-message": "You do not have permission to access this page",
+
+  "dashboard": "Dashboard",
+  "dashboard-description": "Welcome to the Admin Panel of the application. This is a restricted access module intended for managing the site's content. From here, you can add, edit, and delete campaigns, news, products, and locations.",
+
+  "welcome-back": "Welcome Back",
+
+  "campaigns": "Campaigns",
+  "new-campaign": "New Campaign",
+  "create-new-campaign": "Create New Campaign",
+  "upcoming-campaigns": "Upcoming Campaigns",
+
+  "products": "Products",
+  "our-products": "Our Products",
+  "new-product": "New Product",
+  "create-new-product": "Create New Product",
+  "posts": "News",
+  "new-post": "New Post",
+  "create-new-post": "Create New Post",
+
+  "locations": "Locations",
+  "location": "Location",
+  "location-subtext": "Choose a location from the map",
+  "create-new-location": "Add New Location",
+  "new-location": "New Location",
+  "stations": "Stations",
+  "station": "Station",
+  "hearts": "Hearts",
+  "heart": "Heart",
+  "requests": "Requests",
+  "caps": "Caps",
+  "bottles": "Bottles",
+  "cans": "Cans",
+  "enter-address": "Enter Address",
+  "enter-address-or-choose-on-map": "Enter Address or Choose on Map",
+  "address": "Address",
+  "manager": "Manager",
+  "manager-subtext": "Choose a registered user or enter manually",
+
+  "users": "Users",
+  "new-user": "New User",
+  "registered-user": "Registered User",
+  "create-new-user": "Create New User",
+  "user": "User",
+  
+
+  "title": "Title",
+  "short_description": "Short Description",
+  "description": "Description",
+  "date": "Date",
+  "cities": "Cities",
+  "city": "City",
+  "title-image": "Title Image",
+  "images": "Images",
+  "price": "Price",
+  "active": "Active",
+  "enable-comments": "Enable Comments",
+  "email": "Email",
+  "password": "Password",
+  "confirm-password": "Confirm Password",
+  "first-name": "First Name",
+  "last-name": "Last Name",
+  "role": "Role",
+  "full-name": "Full Name",
+  "type": "Type",
+  "name": "Name",
+  "working-time": "Working Time",
+  "collects": "Collects",
+  "phone": "Phone Number",
+  "product": "Product",
+  "subject": "Subject",
+  "message": "Message",
+
+  "validation": {
+      "title": {
+          "required": "Title is required"
+      },
+      "short_description": {
+          "required": "Short description is required"
+      },
+      "description": {
+          "required": "Description is required"
+      },
+      "date": {
+          "required": "Date is required"
+      },
+      "cities": {
+          "required": "Cities are required"
+      },
+      "type": {
+          "required": "Type is required"
+      },
+      "name": {
+          "required": "Name is required"
+      },
+      "working-time": {
+          "required": "Working time is required"
+      },
+      "collects": {
+          "required": "Collects is required"
+      },
+      "phone": {
+          "required": "Phone number is required",
+          "valid": "Phone number is not valid"
+      },
+      "location": {
+          "required": "Location is required"
+      },
+      "email": {
+          "required": "Email is required",
+          "valid": "Email is not valid",
+          "registered": "Email is already registered",
+          "not-registered": "There is no user registered with this email"
+      },
+      "password": {
+          "required": "Password is required",
+          "min": "Password must be at least 8 characters long",
+          "no-match": "Passwords must match"
+      },
+      "first-name": {
+          "required": "First name is required"
+      },
+      "last-name": {
+          "required": "Last name is required"
+      },
+      "subject": {
+          "required": "Subject is required"
+      },
+      "message": {
+          "required": "Message is required"
+      }
+
   }
 }
