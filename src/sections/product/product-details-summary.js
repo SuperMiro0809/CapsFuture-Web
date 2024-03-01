@@ -1,30 +1,26 @@
 import PropTypes from 'prop-types';
 import { useEffect, useCallback } from 'react';
-import { useForm, Controller } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 // @mui
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
-import Rating from '@mui/material/Rating';
 import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
-import MenuItem from '@mui/material/MenuItem';
 import Typography from '@mui/material/Typography';
-import { formHelperTextClasses } from '@mui/material/FormHelperText';
 // routes
 import { paths } from 'src/routes/paths';
 import { useRouter } from 'src/routes/hooks';
 // locales
 import { useTranslate } from 'src/locales';
 // utils
-import { fCurrency, fShortenNumber } from 'src/utils/format-number';
+import { fCurrency } from 'src/utils/format-number';
 // components
-import Label from 'src/components/label';
 import Iconify from 'src/components/iconify';
-import { ColorPicker } from 'src/components/color-utils';
-import FormProvider, { RHFSelect } from 'src/components/hook-form';
+import FormProvider from 'src/components/hook-form';
 //
 import IncrementerButton from './common/incrementer-button';
+import { ASSETS } from 'src/config-global';
 
 // ----------------------------------------------------------------------
 
@@ -45,13 +41,7 @@ export default function ProductDetailsSummary({
     title,
     price,
     active,
-    coverUrl,
-    newLabel,
-    priceSale,
-    saleLabel,
-    totalRatings,
-    totalReviews,
-    inventoryType,
+    files,
     short_description,
   } = product;
 
@@ -59,7 +49,7 @@ export default function ProductDetailsSummary({
 
   const defaultValues = {
     id,
-    coverUrl,
+    coverUrl: `${ASSETS}/${files[0].filepath}`,
     price,
     quantity: 1,
   };
@@ -84,7 +74,6 @@ export default function ProductDetailsSummary({
       if (!existProduct) {
         onAddCart?.({
           ...data,
-          // colors: [values.colors],
           subTotal: data.price * data.quantity,
         });
       }
@@ -99,7 +88,6 @@ export default function ProductDetailsSummary({
     try {
       onAddCart?.({
         ...values,
-        // colors: [values.colors],
         subTotal: values.price * values.quantity,
       });
     } catch (error) {
@@ -109,19 +97,6 @@ export default function ProductDetailsSummary({
 
   const renderPrice = (
     <Box sx={{ typography: 'h5' }}>
-      {priceSale && (
-        <Box
-          component="span"
-          sx={{
-            color: 'text.disabled',
-            textDecoration: 'line-through',
-            mr: 0.5,
-          }}
-        >
-          {fCurrency(priceSale)}
-        </Box>
-      )}
-
       {`${fCurrency(price)} ${t('lv')}.`}
     </Box>
   );
@@ -256,19 +231,19 @@ export default function ProductDetailsSummary({
     </Typography>
   );
 
-  const renderRating = (
-    <Stack
-      direction="row"
-      alignItems="center"
-      sx={{
-        color: 'text.disabled',
-        typography: 'body2',
-      }}
-    >
-      <Rating size="small" value={totalRatings} precision={0.1} readOnly sx={{ mr: 1 }} />
-      {`(${fShortenNumber(totalReviews)} reviews)`}
-    </Stack>
-  );
+  // const renderRating = (
+  //   <Stack
+  //     direction="row"
+  //     alignItems="center"
+  //     sx={{
+  //       color: 'text.disabled',
+  //       typography: 'body2',
+  //     }}
+  //   >
+  //     <Rating size="small" value={totalRatings} precision={0.1} readOnly sx={{ mr: 1 }} />
+  //     {`(${fShortenNumber(totalReviews)} reviews)`}
+  //   </Stack>
+  // );
 
   // const renderLabels = (newLabel.enabled || saleLabel.enabled) && (
   //   <Stack direction="row" alignItems="center" spacing={1}>

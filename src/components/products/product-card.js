@@ -11,6 +11,8 @@ import ShareIcon from '@mui/icons-material/Share';
 // routes
 import { useRouter } from 'src/routes/hooks';
 import { paths } from 'src/routes/paths';
+//
+import { useCheckoutContext } from 'src/sections/checkout/context';
 // locales
 import { useTranslate } from 'src/locales';
 // components
@@ -27,6 +29,8 @@ export default function ProductCard({ id, slug, title, price, images }) {
   const router = useRouter();
 
   const popover = usePopover();
+
+  const checkout = useCheckoutContext();
 
   const carousel = useCarousel({
     fade: true,
@@ -123,7 +127,13 @@ export default function ProductCard({ id, slug, title, price, images }) {
             }}
             onClick={(event) => {
               event.stopPropagation();
-              console.log('clicked');
+              checkout.onAddToCart({
+                id,
+                price,
+                coverUrl: `${ASSETS}/${images[0].filepath}` ,
+                quantity: 1,
+                subTotal: price,
+              });
             }}
           >
             <SvgColor

@@ -128,7 +128,7 @@ export default function StoreHomeContent({ products, productsCount }) {
           {products.map((product) => (
             <Grid xs={12} md={6} lg={4} key={product.id}>
               <ProductCard
-                id={product.slug}
+                id={product.id}
                 slug={product.slug}
                 title={product.title}
                 price={product.price}
