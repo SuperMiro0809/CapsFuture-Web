@@ -31,6 +31,7 @@ export default async function CampaignsPage({ params, searchParams }) {
   return (
     <>
       {lang}
+      {JSON.stringify(campaigns)}
       <CampaignListHomeView campaigns={campaigns} campaignsCount={campaignsCount} />
     </>
   );
