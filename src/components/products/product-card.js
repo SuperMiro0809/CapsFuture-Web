@@ -57,16 +57,25 @@ export default function ProductCard({ id, slug, title, price, images }) {
         onClick={() => router.push(paths.store.details(slug))}
       >
         <Box sx={{ height: 350 }}>
-          <Carousel ref={carousel.carouselRef} {...carousel.carouselSettings}>
-            {images.map((item, index) => (
-              <CardMedia
-                sx={{ height: 350, objectFit: 'cover' }}
-                image={`${ASSETS}/${item.filepath}`}
-                title={title}
-                key={index}
-              />
-            ))}
-          </Carousel>
+          {images.length === 1 ? (
+            <CardMedia
+              sx={{ height: 350, objectFit: 'cover' }}
+              image={`${ASSETS}/${images[0].filepath}`}
+              title={title}
+              key={index}
+            />
+          ) : (
+            <Carousel ref={carousel.carouselRef} {...carousel.carouselSettings}>
+              {images.map((item, index) => (
+                <CardMedia
+                  sx={{ height: 350, objectFit: 'cover' }}
+                  image={`${ASSETS}/${item.filepath}`}
+                  title={title}
+                  key={index}
+                />
+              ))}
+            </Carousel>
+          )}
 
           <CarouselArrowIndex
             index={carousel.currentIndex}
@@ -130,7 +139,7 @@ export default function ProductCard({ id, slug, title, price, images }) {
               checkout.onAddToCart({
                 id,
                 price,
-                coverUrl: `${ASSETS}/${images[0].filepath}` ,
+                coverUrl: `${ASSETS}/${images[0].filepath}`,
                 quantity: 1,
                 subTotal: price,
               });
