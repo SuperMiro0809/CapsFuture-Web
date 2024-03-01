@@ -30,12 +30,12 @@ export default function CheckoutSummary({
 }) {
   const { t } = useTranslate();
 
-  const displayShipping = shipping !== null ? 'Free' : '-';
+  const displayShipping = shipping !== null ? 'free' : '-';
 
   return (
     <Card sx={{ mb: 3 }}>
       <CardHeader
-        title="Order Summary"
+        title={t('order-summary')}
         action={
           onEdit && (
             <Button size="small" onClick={onEdit} startIcon={<Iconify icon="solar:pen-bold" />}>
@@ -49,7 +49,7 @@ export default function CheckoutSummary({
         <Stack spacing={2}>
           <Stack direction="row" justifyContent="space-between">
             <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-              Sub Total
+              {t('sub-total')}
             </Typography>
             <Typography variant="subtitle2">{`${fCurrency(subTotal)} ${t('lv')}`}</Typography>
           </Stack>
@@ -63,10 +63,10 @@ export default function CheckoutSummary({
 
           <Stack direction="row" justifyContent="space-between">
             <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-              Shipping
+              {t('shipping')}
             </Typography>
             <Typography variant="subtitle2">
-              {shipping ? fCurrency(shipping) : displayShipping}
+              {shipping ? fCurrency(shipping) : t(displayShipping)}
             </Typography>
           </Stack>
 

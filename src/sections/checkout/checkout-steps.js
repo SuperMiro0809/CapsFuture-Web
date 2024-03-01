@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-
+// @mui
 import Box from '@mui/material/Box';
 import Step from '@mui/material/Step';
 import Stack from '@mui/material/Stack';
@@ -7,7 +7,9 @@ import Stepper from '@mui/material/Stepper';
 import { styled } from '@mui/material/styles';
 import StepLabel, { stepLabelClasses } from '@mui/material/StepLabel';
 import MuiStepConnector, { stepConnectorClasses } from '@mui/material/StepConnector';
-
+// locales
+import { useTranslate } from 'src/locales';
+// components
 import Iconify from 'src/components/iconify';
 
 // ----------------------------------------------------------------------
@@ -30,6 +32,8 @@ const StepConnector = styled(MuiStepConnector)(({ theme }) => ({
 // ----------------------------------------------------------------------
 
 export default function CheckoutSteps({ steps, activeStep, sx, ...other }) {
+  const { t } = useTranslate();
+
   return (
     <Stepper
       alternativeLabel
@@ -51,7 +55,7 @@ export default function CheckoutSteps({ steps, activeStep, sx, ...other }) {
               },
             }}
           >
-            {label}
+            {t(label)}
           </StepLabel>
         </Step>
       ))}

@@ -84,9 +84,9 @@ export default function CheckoutCart() {
           variant="contained"
           color='primary'
           disabled={empty}
-          onClick={checkout.onNextStep}
+          // onClick={checkout.onNextStep}
         >
-          Check Out
+          {t('check-out')}
         </Button>
       </Grid>
     </Grid>
