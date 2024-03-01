@@ -120,8 +120,8 @@ export default function HomeContacts() {
         <Grid xs={12} md={6}>
           <m.div variants={varFade().inLeft}>
             <Stack spacing={3}>
-              <Typography variant='h4'>Ще се радваме да се чуем с вас!</Typography>
-              <Typography variant='body1'>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</Typography>
+              <Typography variant='h4'>{t('we-love-hear-from-you')}!</Typography>
+              <Typography variant='body1'>{t('contact-us-text')}</Typography>
               <Box
                 sx={{
                   display: 'flex',

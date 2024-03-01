@@ -23,14 +23,14 @@ import Iconify from 'src/components/iconify';
 
 const LINKS_ONE = [
   { name: 'campaigns', href: paths.campaign.root },
-  { name: 'map', href: paths.campaign.root },
-  { name: 'store', href: paths.campaign.root },
+  { name: 'map', href: paths.map },
+  { name: 'store', href: paths.store.root },
 ];
 
 const LINKS_TWO = [
-  { name: 'about-us', href: paths.campaign.root },
+  { name: 'about-us', href: paths.about },
   { name: 'posts', href: paths.post.root },
-  { name: 'contacts', href: paths.campaign.root },
+  { name: 'contacts', href: paths.about },
 ];
 
 // ----------------------------------------------------------------------
