@@ -21,6 +21,8 @@ import HomeAchievements from '../home-achievements';
 import HomeFAQ from '../home-faq';
 import HomeContacts from '../home-contacts';
 
+import { useResponsive } from 'src/hooks/use-responsive';
+
 // ----------------------------------------------------------------------
 
 const StyledPolygon = styled('div')(({ anchor = 'top', theme }) => ({
@@ -68,6 +70,8 @@ export default function HomeView({ campaigns, products, locations }) {
 
   const rotate = useParallaxCap(scrollYProgress, 360);
 
+  const mdUp = useResponsive('up', 'md');
+
   return (
     <MainLayout>
       <ScrollProgress scrollYProgress={scrollYProgress} />
@@ -84,33 +88,41 @@ export default function HomeView({ campaigns, products, locations }) {
       >
         <HomePartners />
 
-        <m.div style={{ y: yBlue, position: 'absolute', left: '20%', top: '15%' }}>
-          <m.img style={{ rotate }} src='/assets/images/home/bottle_cap_blue.svg' />
-        </m.div>
+        {mdUp && (
+          <>
+            <m.div style={{ y: yBlue, position: 'absolute', left: '20%', top: '15%' }}>
+              <m.img style={{ rotate }} src='/assets/images/home/bottle_cap_blue.svg' />
+            </m.div>
 
-        <m.div style={{ y: yPeach, position: 'absolute', left: '35%', top: '20%' }}>
-          <m.img style={{ rotate }} src='/assets/images/home/bottle_cap_peach.svg' />
-        </m.div>
+            <m.div style={{ y: yPeach, position: 'absolute', left: '35%', top: '20%' }}>
+              <m.img style={{ rotate }} src='/assets/images/home/bottle_cap_peach.svg' />
+            </m.div>
 
-        <m.div style={{ y: yGreen, position: 'absolute', right: '20%', top: '20%' }}>
-          <m.img style={{ rotate }} src='/assets/images/home/bottle_cap_green.svg' />
-        </m.div>
+            <m.div style={{ y: yGreen, position: 'absolute', right: '20%', top: '20%' }}>
+              <m.img style={{ rotate }} src='/assets/images/home/bottle_cap_green.svg' />
+            </m.div>
+          </>
+        )}
 
         <HomeAboutUs />
 
         <HomeMap locations={locations} />
 
-        <m.div style={{ y: yBlue, position: 'absolute', left: '18%', top: '33%' }}>
-          <m.img style={{ rotate }} src='/assets/images/home/bottle_cap_blue.svg' />
-        </m.div>
+        {mdUp && (
+          <>
+            <m.div style={{ y: yBlue, position: 'absolute', left: '18%', top: '33%' }}>
+              <m.img style={{ rotate }} src='/assets/images/home/bottle_cap_blue.svg' />
+            </m.div>
 
-        <m.div style={{ y: yGreen, position: 'absolute', right: '18%', top: '35%' }}>
-          <m.img style={{ rotate }} src='/assets/images/home/bottle_cap_yellow.svg' />
-        </m.div>
+            <m.div style={{ y: yGreen, position: 'absolute', right: '18%', top: '35%' }}>
+              <m.img style={{ rotate }} src='/assets/images/home/bottle_cap_yellow.svg' />
+            </m.div>
 
-        <m.div style={{ y: yGreen, position: 'absolute', right: '20%', top: '38%' }}>
-          <m.img style={{ rotate }} src='/assets/images/home/bottle_cap_pink.svg' />
-        </m.div>
+            <m.div style={{ y: yGreen, position: 'absolute', right: '20%', top: '38%' }}>
+              <m.img style={{ rotate }} src='/assets/images/home/bottle_cap_pink.svg' />
+            </m.div>
+          </>
+        )}
 
         <HomeProducts products={products} />
 

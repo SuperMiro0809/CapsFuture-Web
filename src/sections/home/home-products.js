@@ -92,7 +92,7 @@ export default function HomeProducts({ products }) {
         <m.div variants={varFade().in}>
           <Button
             component={RouterLink}
-            href='/products'
+            href='/store'
             variant='outlined'
             color='primary'
             sx={{ fontSize: 16 }}

@@ -73,6 +73,8 @@ export default function HomeMap({ locations }) {
         sx={{
           textAlign: 'center',
           mb: { xs: 5, md: 15 },
+          position: 'relative',
+          zIndex: 1
         }}
       >
         <m.div variants={varFade().inUp}>
