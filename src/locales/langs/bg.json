@@ -75,6 +75,13 @@
     "we-are": "сме ние",
     "cancel": "Oтказ",
     "email-sent-success": "Имейлът е изпратен успешно",
+    "drop-file-here-or-click": "Пуснете файлове тук или кликнете върху",
+    "drop-or-select-file": "Пуснете или изберете файл",
+    "browse": "преглед",
+    "thorough-your-machine": "на файловете във Вашата система",
+    "remove-all": "Премахни всички",
+    "create-success": "Добавянето е успешно",
+    "edit-success": "Редактирането е успешно",
 
     "participate-modal": {
         "title": "Участие в кампания",

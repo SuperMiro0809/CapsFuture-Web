@@ -452,7 +452,7 @@ export default function ProductNewEditForm({ currentProduct }) {
         />
 
         <LoadingButton type="submit" variant="contained" size="large" loading={isSubmitting}>
-          {!currentProduct ? 'Create Product' : 'Save Changes'}
+          {!currentProduct ? t('create') : t('save')}
         </LoadingButton>
       </Grid>
     </>

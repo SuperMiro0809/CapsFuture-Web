@@ -62,7 +62,6 @@ export default function ProductCard({ id, slug, title, price, images }) {
               sx={{ height: 350, objectFit: 'cover' }}
               image={`${ASSETS}/${images[0].filepath}`}
               title={title}
-              key={index}
             />
           ) : (
             <Carousel ref={carousel.carouselRef} {...carousel.carouselSettings}>

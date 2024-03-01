@@ -1,15 +1,17 @@
 import PropTypes from 'prop-types';
 import { useDropzone } from 'react-dropzone';
-
+// @mui
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import { alpha } from '@mui/material/styles';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-
+// locales
+import { useLocales, useTranslate } from 'src/locales';
+// assets
 import { UploadIllustration } from 'src/assets/illustrations';
-
+//
 import Iconify from '../iconify';
 import MultiFilePreview from './preview-multi-file';
 import RejectionFiles from './errors-rejection-files';
@@ -34,6 +36,8 @@ export default function Upload({
   sx,
   ...other
 }) {
+  const { t } = useLocales();
+
   const { getRootProps, getInputProps, isDragActive, isDragReject, fileRejections } = useDropzone({
     multiple,
     disabled,
@@ -50,9 +54,9 @@ export default function Upload({
     <Stack spacing={3} alignItems="center" justifyContent="center" flexWrap="wrap">
       <UploadIllustration sx={{ width: 1, maxWidth: 200 }} />
       <Stack spacing={1} sx={{ textAlign: 'center' }}>
-        <Typography variant="h6">Drop or Select file</Typography>
+        <Typography variant="h6">{t('drop-or-select-file')}</Typography>
         <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-          Drop files here or click
+          {t('drop-file-here-or-click')}
           <Box
             component="span"
             sx={{
@@ -61,9 +65,9 @@ export default function Upload({
               textDecoration: 'underline',
             }}
           >
-            browse
+            {t('browse')}
           </Box>
-          thorough your machine
+          {t('thorough-your-machine')}
         </Typography>
       </Stack>
     </Stack>
@@ -102,7 +106,7 @@ export default function Upload({
       <Stack direction="row" justifyContent="flex-end" spacing={1.5}>
         {onRemoveAll && (
           <Button color="inherit" variant="outlined" size="small" onClick={onRemoveAll}>
-            Remove All
+            {t('remove-all')}
           </Button>
         )}
 
