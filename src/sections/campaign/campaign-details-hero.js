@@ -10,7 +10,7 @@ import { alpha, useTheme } from '@mui/material/styles';
 import SpeedDialAction from '@mui/material/SpeedDialAction';
 import Chip from '@mui/material/Chip';
 // react-share
-import { FacebookShareButton } from 'react-share';
+import { FacebookShareButton, FacebookMessengerShareButton, InstapaperShareButton, TwitterShareButton, ViberShareButton } from 'react-share';
 // routes
 import { usePathname } from 'src/routes/hooks';
 // hooks
@@ -20,8 +20,8 @@ import { useTranslate } from 'src/locales';
 // components
 import Iconify from 'src/components/iconify';
 //
-import { _socials } from 'src/_mock';
 import { bgGradient } from 'src/theme/css';
+import { ORIGIN } from 'src/config-global';
 
 // ----------------------------------------------------------------------
 
@@ -33,6 +33,39 @@ export default function CampaignDetailsHero({ title, date, cities, coverUrl, isS
   const smUp = useResponsive('up', 'sm');
 
   const pathname = usePathname();
+
+  const socials = [
+    {
+      name: 'Facebook',
+      icon: 'eva:facebook-fill',
+      component: FacebookShareButton,
+      color: '#1877F2'
+    },
+    {
+      name: 'Facebook Messenger',
+      icon: 'logos:messenger',
+      component: FacebookMessengerShareButton,
+      color: '#1877F2'
+    },
+    {
+      name: 'Instagram',
+      icon: 'skill-icons:instagram',
+      component: InstapaperShareButton,
+      color: '#E02D69'
+    },
+    {
+      name: 'X',
+      icon: 'bi:twitter-x',
+      component: TwitterShareButton,
+      color: 'black'
+    },
+    {
+      name: 'Viber',
+      icon: 'jam:viber',
+      component: ViberShareButton,
+      color: '#8f5db7'
+    },
+  ];
 
   return (
     <Box
@@ -159,14 +192,18 @@ export default function CampaignDetailsHero({ title, date, cities, coverUrl, isS
               color='secondary'
               sx={{ mb: 4 }}
             >
-              {_socials.map((action) => (
+              {socials.map((action) => (
                 <SpeedDialAction
-                  // component={FacebookShareButton}
                   key={action.name}
                   icon={<Iconify icon={action.icon} sx={{ color: action.color }} />}
                   tooltipTitle={action.name}
                   tooltipPlacement="top"
-                  FabProps={{ color: 'default' }}
+                  FabProps={{
+                    color: 'default',
+                    style: { backgroundColor: 'white !important' },
+                    component: action.component,
+                    url: `${ORIGIN}${pathname}`
+                  }}
                 />
               ))}
             </SpeedDial>

@@ -7,13 +7,17 @@ import SpeedDial from '@mui/material/SpeedDial';
 import Typography from '@mui/material/Typography';
 import { alpha, useTheme } from '@mui/material/styles';
 import SpeedDialAction from '@mui/material/SpeedDialAction';
+// react-share
+import { FacebookShareButton, FacebookMessengerShareButton, InstapaperShareButton, TwitterShareButton, ViberShareButton } from 'react-share';
+// routes
+import { usePathname } from 'src/routes/hooks';
 // hooks
 import { useResponsive } from 'src/hooks/use-responsive';
 // components
 import Iconify from 'src/components/iconify';
 //
-import { _socials } from 'src/_mock';
 import { bgGradient } from 'src/theme/css';
+import { ORIGIN } from 'src/config-global';
 
 // ----------------------------------------------------------------------
 
@@ -21,6 +25,41 @@ export default function PostDetailsHero({ title, coverUrl, createdAt }) {
   const theme = useTheme();
 
   const smUp = useResponsive('up', 'sm');
+
+  const pathname = usePathname();
+
+  const socials = [
+    {
+      name: 'Facebook',
+      icon: 'eva:facebook-fill',
+      component: FacebookShareButton,
+      color: '#1877F2'
+    },
+    {
+      name: 'Facebook Messenger',
+      icon: 'logos:messenger',
+      component: FacebookMessengerShareButton,
+      color: '#1877F2'
+    },
+    {
+      name: 'Instagram',
+      icon: 'skill-icons:instagram',
+      component: InstapaperShareButton,
+      color: '#E02D69'
+    },
+    {
+      name: 'X',
+      icon: 'bi:twitter-x',
+      component: TwitterShareButton,
+      color: 'black'
+    },
+    {
+      name: 'Viber',
+      icon: 'jam:viber',
+      component: ViberShareButton,
+      color: '#8f5db7'
+    },
+  ];
 
   return (
     <Box
@@ -81,76 +120,22 @@ export default function PostDetailsHero({ title, coverUrl, createdAt }) {
             FabProps={{ size: 'medium', color: 'secondary' }}
             sx={{ mb: 2 }}
           >
-            {_socials.map((action) => (
+            {socials.map((action) => (
               <SpeedDialAction
                 key={action.name}
                 icon={<Iconify icon={action.icon} sx={{ color: action.color }} />}
                 tooltipTitle={action.name}
                 tooltipPlacement="top"
-                FabProps={{ color: 'default' }}
+                FabProps={{
+                  color: 'default',
+                  style: { backgroundColor: 'white !important' },
+                  component: action.component,
+                  url: `${ORIGIN}${pathname}`
+                }}
               />
             ))}
           </SpeedDial>
         </Stack>
-
-        {/* <Stack
-          sx={{
-            left: 0,
-            width: 1,
-            bottom: 0,
-            position: 'absolute',
-          }}
-        >
-          {author && createdAt && (
-            <Stack
-              direction="row"
-              alignItems="center"
-              sx={{
-                px: { xs: 2, md: 3 },
-                pb: { xs: 3, md: 8 },
-              }}
-            >
-              <Avatar
-                alt={author.name}
-                src={author.avatarUrl}
-                sx={{ width: 64, height: 64, mr: 2 }}
-              />
-
-              <ListItemText
-                sx={{ color: 'common.white' }}
-                primary={author.name}
-                secondary={fDate(createdAt)}
-                primaryTypographyProps={{ typography: 'subtitle1', mb: 0.5 }}
-                secondaryTypographyProps={{
-                  color: 'inherit',
-                  sx: { opacity: 0.64 },
-                }}
-              />
-            </Stack>
-          )}
-
-          <SpeedDial
-            direction={smUp ? 'left' : 'up'}
-            ariaLabel="Share post"
-            icon={<Iconify icon="solar:share-bold" />}
-            FabProps={{ size: 'medium' }}
-            sx={{
-              position: 'absolute',
-              bottom: { xs: 32, md: 64 },
-              right: { xs: 16, md: 24 },
-            }}
-          >
-            {_socials.map((action) => (
-              <SpeedDialAction
-                key={action.name}
-                icon={<Iconify icon={action.icon} sx={{ color: action.color }} />}
-                tooltipTitle={action.name}
-                tooltipPlacement="top"
-                FabProps={{ color: 'default' }}
-              />
-            ))}
-          </SpeedDial>
-        </Stack> */}
       </Container>
     </Box>
   );
