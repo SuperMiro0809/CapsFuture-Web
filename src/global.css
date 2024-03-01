@@ -24,6 +24,7 @@
 @import 'swiper/css/navigation';
 @import 'swiper/css/pagination';
 @import 'swiper/css/scrollbar';
+@import 'swiper/css/effect-cards';
 
 .table-column-swiper {
     width: 150px;
@@ -113,6 +114,23 @@
     width: 40px;
     height: auto;
 }
+
+.about-us-card-swiper {
+    width: 400px;
+    height: 320px;
+}
+
+.about-us-card-swiper .swiper-slide {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 18px;
+    font-size: 22px;
+    font-weight: bold;
+    color: #fff;
+}
+
+
 
 /* leafler */
 @import 'leaflet/dist/leaflet.css';
