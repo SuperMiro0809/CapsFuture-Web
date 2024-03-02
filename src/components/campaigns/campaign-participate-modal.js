@@ -45,7 +45,7 @@ export default function CampaignParticipateModal({ open, onClose, campaignId }) 
               const { error } = await participate(data);
 
               if (error) {
-                enqueueSnackbar(error, { variant: 'error' });
+                enqueueSnackbar(t(error), { variant: 'error' });
               } else {
                 enqueueSnackbar(t('participate-success-message'))
               }

@@ -25,6 +25,30 @@ export default function HomePartners() {
     cssEase: "linear"
   });
 
+  const partners = [
+    {
+      logo: 'https://mfd.jabulgaria.org/wp-content/uploads/wpjobboard/company/99/company-logo/econt_logo.png',
+      name: ''
+    },
+    {
+      logo: 'https://worktalent.com/web/uploads/site_users_company/7/logo/thumb_314x132_Lidl_Logo_Basis.png',
+      name: ''
+    },
+    {
+      logo: 'https://karchershop.bg/wp-content/uploads/2019/11/logo_karcher_2015.svg',
+      name: ''
+    },
+    {
+      logo: 'https://mfd.jabulgaria.org/wp-content/uploads/wpjobboard/company/99/company-logo/econt_logo.png',
+      name: ''
+    },
+    {
+      logo: 'https://mfd.jabulgaria.org/wp-content/uploads/wpjobboard/company/99/company-logo/econt_logo.png',
+      name: ''
+    },
+
+  ]
+
   return (
     <Box
       sx={(theme) => ({
@@ -54,7 +78,7 @@ export default function HomePartners() {
             </Typography>
             
             <Carousel ref={carousel.carouselRef} {...carousel.carouselSettings}>
-              {[...Array(10).keys()].map((campaign, index) => (
+              {partners.map((partner, index) => (
                 <Paper sx={{ backgroundColor: 'transparent' }} key={index}>
                   <Box
                     sx={{
@@ -64,8 +88,8 @@ export default function HomePartners() {
                       gap: 1
                     }}
                   >
-                    <img width='100' src='https://upload.wikimedia.org/wikipedia/commons/1/1d/Lidl_logo.png' />
-                    <Typography component='div' variant='h5'>Lidl</Typography>
+                    <img width='100' src={partner.logo} />
+                    <Typography component='div' variant='h5'>{partner.name}</Typography>
                   </Box>
                 </Paper>
               ))}
