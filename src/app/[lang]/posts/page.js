@@ -25,7 +25,7 @@ export default async function PostsPage({ params, searchParams }) {
     order.direction = 'asc';
   }
 
-  const filters = [{ id: 'search', value: search }];
+  const filters = [{ id: 'search', value: search }, { id: 'active', value: 1 }];
 
   const { posts, postsCount, error } = await getData(lang, pagination, order, filters);
 
