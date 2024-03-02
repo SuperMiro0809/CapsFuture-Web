@@ -62,7 +62,7 @@ export default function StoreHomeHero() {
                 fontWeight: 'fontWeightSemiBold',
               }}
             >
-              {t('store-hero-text')}
+              {/* {t('store-hero-text')} */}
               {/* Let&apos;s work together and
               <br /> make awesome site easily */}
             </Typography>

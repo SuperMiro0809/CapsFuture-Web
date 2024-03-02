@@ -63,7 +63,7 @@ export default function PostListHomeHero() {
                 fontWeight: 'fontWeightSemiBold',
               }}
             >
-              {t('posts-hero-text')}
+              {/* {t('posts-hero-text')} */}
               {/* Let&apos;s work together and
               <br /> make awesome site easily */}
             </Typography>

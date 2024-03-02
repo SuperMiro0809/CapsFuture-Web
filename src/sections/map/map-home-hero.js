@@ -62,7 +62,7 @@ export default function MapHomeHero() {
                 fontWeight: 'fontWeightSemiBold',
               }}
             >
-              {t('map-hero-text')}
+              {/* {t('map-hero-text')} */}
               {/* Let&apos;s work together and
               <br /> make awesome site easily */}
             </Typography>

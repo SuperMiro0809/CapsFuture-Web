@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { useMemo } from 'react';
 
 import { m } from 'framer-motion';
 import dynamic from 'next/dynamic';
@@ -41,19 +42,24 @@ const StyledTextGradient = styled(m.h2)(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-const LeafletMap = dynamic(
-  () => import('src/components/leaflet-map').then(module => module.LeafletMap),
-  { ssr: false },
-);
-
-const LocationMarker = dynamic(
-  () => import('src/components/leaflet-map').then(module => module.LocationMarker),
-  { ssr: false },
-);
-
-
 export default function HomeMap({ locations }) {
   const { t } = useTranslate();
+
+  const LeafletMap = useMemo(() => dynamic(
+    () => import('src/components/leaflet-map').then(module => module.LeafletMap),
+    {
+      loading: () => <p>A map is loading</p>,
+      ssr: false
+    }
+  ), []);
+
+  const LocationMarker = useMemo(() => dynamic(
+    () => import('src/components/leaflet-map').then(module => module.LocationMarker),
+    {
+      loading: () => <p>A map is loading</p>,
+      ssr: false
+    }
+  ), []);
 
   const position = [42.7249925, 25.4833039];
   const zoom = 7;

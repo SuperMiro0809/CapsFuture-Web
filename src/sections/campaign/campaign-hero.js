@@ -63,7 +63,7 @@ export default function CampaignHero() {
                 fontWeight: 'fontWeightSemiBold',
               }}
             >
-              {t('campaigns-hero-text')}
+              {/* {t('campaigns-hero-text')} */}
               {/* Let&apos;s work together and
               <br /> make awesome site easily */}
             </Typography>
