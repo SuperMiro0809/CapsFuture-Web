@@ -8,7 +8,7 @@ import { alpha } from '@mui/material/styles';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 // locales
-import { useLocales, useTranslate } from 'src/locales';
+import { useTranslate } from 'src/locales';
 // assets
 import { UploadIllustration } from 'src/assets/illustrations';
 //
@@ -36,7 +36,7 @@ export default function Upload({
   sx,
   ...other
 }) {
-  const { t } = useLocales();
+  const { t } = useTranslate();
 
   const { getRootProps, getInputProps, isDragActive, isDragReject, fileRejections } = useDropzone({
     multiple,
