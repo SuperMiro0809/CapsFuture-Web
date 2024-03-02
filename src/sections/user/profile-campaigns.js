@@ -10,7 +10,7 @@ import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 import ListItemText from '@mui/material/ListItemText';
 // locales
-import { useTranslate } from 'src/locales';
+import { useTranslate, useLocales } from 'src/locales';
 // components
 import Iconify from 'src/components/iconify';
 import { CampaignCard } from 'src/components/campaigns';
@@ -20,6 +20,8 @@ import { ASSETS } from 'src/config-global';
 
 export default function ProfileCampaigns({ campaigns }) {
   const { t } = useTranslate();
+
+  const { currentLang } = useLocales();
 
   const _mockFollowed = campaigns.slice(4, 8).map((i) => i.id);
 
@@ -35,6 +37,12 @@ export default function ProfileCampaigns({ campaigns }) {
     },
     [followed]
   );
+
+  const getCurrentTranslation = (transitions) => {
+    const el = transitions.find((x) => x.language === currentLang.value);
+
+    return el;
+  }
 
   return (
     <>
@@ -57,13 +65,10 @@ export default function ProfileCampaigns({ campaigns }) {
             slug={campaignAttendance.campaign.id}
             date={campaignAttendance.campaign.date}
             imageSrc={`${ASSETS}/${campaignAttendance.campaign.title_image_path}`}
-            title={'test'}
-            shortDescription='test'
+            title={getCurrentTranslation(campaignAttendance.campaign.translations).title}
+            shortDescription={getCurrentTranslation(campaignAttendance.campaign.translations).short_description}
             cities={campaignAttendance.campaign.cities}
             attendances={campaignAttendance.campaign.attendances}
-            // campaign={campaignAttendance.campaign}
-            // selected={followed.includes(campaignAttendance.id)}
-            // onSelected={() => handleClick(campaignAttendance.id)}
             key={campaignAttendance.id}
           />
         ))}
