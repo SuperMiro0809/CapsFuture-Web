@@ -13,6 +13,7 @@ import { paths } from 'src/routes/paths';
 //
 import { usePopover } from '../custom-popover';
 import SharePopup from '../share-popup';
+import TextMaxLine from '../text-max-line';
 import { ORIGIN } from 'src/config-global';
 
 
@@ -70,17 +71,17 @@ export default function PostCard({ slug, title, shortDescription, imageSrc, date
             justifyContent='space-between'
             sx={{ mb: 2 }}
           >
-            <Typography variant="h4" component="div">
+            <TextMaxLine line={1} variant="h4" component="div">
               {title}
-            </Typography>
+            </TextMaxLine>
             <Typography component="div" sx={{ typography: 'caption', color: 'text.disabled' }}>
               {date}
             </Typography>
           </Stack>
 
-          <Typography variant="body2" color="text.secondary">
+          <TextMaxLine variant="body2" color="text.secondary">
             {shortDescription}
-          </Typography>
+          </TextMaxLine>
         </CardContent>
       </Card>
 

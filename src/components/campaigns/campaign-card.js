@@ -20,6 +20,7 @@ import { useAuthContext } from 'src/auth/hooks';
 // components
 import CampaignParticipateModal from './campaign-participate-modal';
 import CampaignUnsubscribeModal from './campaign-unsubscribe-modal';
+import TextMaxLine from '../text-max-line';
 
 export default function CampaignCard({ id, slug, title, shortDescription, date, cities, imageSrc, attendances }) {
   const { t } = useTranslate();
@@ -67,17 +68,17 @@ export default function CampaignCard({ id, slug, title, shortDescription, date, 
 
           <CardContent>
             <Box sx={{ mb: 2 }}>
-              <Typography variant="h4" component="div">
+              <TextMaxLine line={1} variant="h4" component="div">
                 {title}
-              </Typography>
+              </TextMaxLine>
               <Stack direction='row' spacing={1}>
                 {cities.map((city) => <Chip label={city.city} color='primary' key={city.id} />)}
               </Stack>
             </Box>
 
-            <Typography variant="body2" color="text.secondary">
+            <TextMaxLine variant="body2" color="text.secondary">
               {shortDescription}
-            </Typography>
+            </TextMaxLine>
           </CardContent>
         </Box>
 
