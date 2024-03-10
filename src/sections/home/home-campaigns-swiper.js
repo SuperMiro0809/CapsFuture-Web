@@ -22,7 +22,6 @@ export default function HomeCampaignsSwiper({ campaigns }) {
         effect={"coverflow"}
         grabCursor={true}
         centeredSlides={true}
-        slidesPerView={2}
         coverflowEffect={{
           rotate: 0,
           stretch: 0,

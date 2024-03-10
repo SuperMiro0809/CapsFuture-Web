@@ -12,6 +12,7 @@ import Container from '@mui/material/Container';
 import Grid from '@mui/material/Unstable_Grid2';
 import Typography from '@mui/material/Typography';
 import { alpha, styled, useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 import { paths } from 'src/routes/paths';
 import { RouterLink } from 'src/routes/components';
@@ -79,6 +80,9 @@ const StyledTextGradient = styled(m.h1)(({ theme }) => ({
   fontSize: `${40 / 16}rem`,
   fontFamily: theme.typography.fontSecondaryFamily,
   [theme.breakpoints.up('md')]: {
+    fontSize: `${64 / 16}rem`,
+  },
+  [theme.breakpoints.up('lg')]: {
     fontSize: `${80 / 16}rem`,
   },
 }));
@@ -150,6 +154,8 @@ export default function HomeHero({ campaigns }) {
 
   const lightMode = theme.palette.mode === 'light';
 
+  const matchesHeight = useMediaQuery('(min-height:1000px)');
+
   const getScroll = useCallback(() => {
     let heroHeight = 0;
 
@@ -212,16 +218,16 @@ export default function HomeHero({ campaigns }) {
   const renderSwiper = (
     <Stack
       sx={{
-        height: 1,
+        height: { xs: '700px', lg: '770px' },
         mx: 'auto',
-        maxWidth: 1600,
+        maxWidth: 1400,
         width: '100%',
         opacity: {
           md: opacity > 0 ? opacity : 0
         },
         mt: {
           xs: 30,
-          md: `${2 * HEADER.H_DESKTOP + 75 + percent * 2.5}px`,
+          lg: matchesHeight ? `${2 * HEADER.H_DESKTOP + 50 + percent * 2.5}px` : 30,
         },
       }}
     >

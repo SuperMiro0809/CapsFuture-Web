@@ -48,7 +48,7 @@ export default function CampaignCard({ id, slug, title, shortDescription, date, 
       >
         <Box>
           <CardMedia
-            sx={{ height: 400, objectFit: 'cover' }}
+            sx={{ height: { xs: 300, lg: 400 }, objectFit: 'cover' }}
             image={imageSrc}
             title={title}
           />
