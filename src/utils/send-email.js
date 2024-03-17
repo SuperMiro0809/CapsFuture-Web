@@ -24,13 +24,26 @@ export async function sendEmail(from, to, subject, text, html) {
         html, // Optionally passed from the client
     }
 
+    await new Promise((resolve, reject) => {
+        // verify connection configuration
+        transporter.verify(function (error, success) {
+            if (error) {
+                console.log(error);
+                reject(error);
+            } else {
+                console.log("Server is ready to take our messages");
+                resolve(success);
+            }
+        });
+    });
+
     // Send email
     return await new Promise((resolve, reject) => {
         // send mail
         transporter.sendMail(mailOptions, (error, info) => {
             if (error) {
-                console.error(err);
-                reject(err);
+                console.error(error);
+                reject(error);
             } else {
                 console.log(`Email sent: ${info.response}`);
                 resolve(info);
