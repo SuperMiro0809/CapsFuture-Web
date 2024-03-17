@@ -4,11 +4,12 @@ import { MAIL } from 'src/config-global';
 
 const transporter = nodemailer.createTransport({
     host: 'mail.caps-for-future.org',
-    port: 25,
+    port: 587,
     auth: {
         user: 'capsforf',
         pass: 'y9AHZy2,a]rN',
     },
+    secure:false,
     tls: {
         rejectUnauthorized: false
     }
