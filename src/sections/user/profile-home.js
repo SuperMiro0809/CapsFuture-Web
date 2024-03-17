@@ -1,8 +1,8 @@
 'use client';
 
-import { useRef } from 'react';
+import { useState, useCallback, useRef } from 'react';
 import PropTypes from 'prop-types';
-
+// @mui
 import Fab from '@mui/material/Fab';
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
@@ -14,54 +14,52 @@ import { alpha } from '@mui/material/styles';
 import InputBase from '@mui/material/InputBase';
 import Grid from '@mui/material/Unstable_Grid2';
 import CardHeader from '@mui/material/CardHeader';
-
+import MenuItem from '@mui/material/MenuItem';
+import IconButton from '@mui/material/IconButton';
+// hooks
+import { useBoolean } from 'src/hooks/use-boolean';
+// utils
 import { fNumber } from 'src/utils/format-number';
-
+// locales
+import { useTranslate } from 'src/locales';
+//
 import { _socials } from 'src/_mock';
-
+import { _addressBooks } from 'src/_mock';
+// components
 import Iconify from 'src/components/iconify';
-
+import CustomPopover, { usePopover } from 'src/components/custom-popover';
+//
 import ProfilePostItem from './profile-post-item';
+import { AddressItem, AddressNewForm } from '../address';
 
 // ----------------------------------------------------------------------
 
 export default function ProfileHome({ info, posts }) {
-  const fileRef = useRef(null);
+  const { t } = useTranslate();
 
-  console.log(info)
+  const [addressId, setAddressId] = useState('');
 
-  const handleAttach = () => {
-    if (fileRef.current) {
-      fileRef.current.click();
-    }
-  };
+  const popover = usePopover();
 
-  // const renderFollows = (
-  //   <Card sx={{ py: 3, textAlign: 'center', typography: 'h4' }}>
-  //     <Stack
-  //       direction="row"
-  //       divider={<Divider orientation="vertical" flexItem sx={{ borderStyle: 'dashed' }} />}
-  //     >
-  //       <Stack width={1}>
-  //         {fNumber(info.totalFollowers)}
-  //         <Box component="span" sx={{ color: 'text.secondary', typography: 'body2' }}>
-  //           Follower
-  //         </Box>
-  //       </Stack>
+  const addressForm = useBoolean();
 
-  //       <Stack width={1}>
-  //         {fNumber(info.totalFollowing)}
-  //         <Box component="span" sx={{ color: 'text.secondary', typography: 'body2' }}>
-  //           Following
-  //         </Box>
-  //       </Stack>
-  //     </Stack>
-  //   </Card>
-  // );
+  const handleSelectedId = useCallback(
+    (event, id) => {
+      popover.onOpen(event);
+      setAddressId(id);
+    },
+    [popover]
+  );
+
+  const handleClose = useCallback(() => {
+    popover.onClose();
+    setAddressId('');
+  }, [popover]);
+
 
   const renderAbout = (
     <Card>
-      <CardHeader title="About" />
+      <CardHeader title={t('about')} />
 
       <Stack spacing={2} sx={{ p: 3 }}>
         {/* <Box sx={{ typography: 'body2' }}>{info.quote}</Box> */}
@@ -83,94 +81,107 @@ export default function ProfileHome({ info, posts }) {
     </Card>
   );
 
-  // const renderPostInput = (
-  //   <Card sx={{ p: 3 }}>
-  //     <InputBase
-  //       multiline
-  //       fullWidth
-  //       rows={4}
-  //       placeholder="Share what you are thinking here..."
-  //       sx={{
-  //         p: 2,
-  //         mb: 3,
-  //         borderRadius: 1,
-  //         border: (theme) => `solid 1px ${alpha(theme.palette.grey[500], 0.2)}`,
-  //       }}
-  //     />
+  const renderAddresses = (
+    <>
+      <Card>
+        <CardHeader
+          title={t('addresses')}
+          action={
+            <Button
+              size="small"
+              color="primary"
+              startIcon={<Iconify icon="mingcute:add-line" />}
+              onClick={addressForm.onTrue}
+            >
+              {t('create')}
+            </Button>
+          }
+        />
 
-  //     <Stack direction="row" alignItems="center" justifyContent="space-between">
-  //       <Stack direction="row" spacing={1} alignItems="center" sx={{ color: 'text.secondary' }}>
-  //         <Fab size="small" color="inherit" variant="softExtended" onClick={handleAttach}>
-  //           <Iconify icon="solar:gallery-wide-bold" width={24} sx={{ color: 'success.main' }} />
-  //           Image/Video
-  //         </Fab>
+        <Stack spacing={2.5} sx={{ p: 3 }}>
+          {_addressBooks.slice(0, 4).map((address) => (
+            <AddressItem
+              variant="outlined"
+              key={address.id}
+              address={address}
+              action={
+                <IconButton
+                  onClick={(event) => {
+                    handleSelectedId(event, `${address.id}`);
+                  }}
+                  sx={{ position: 'absolute', top: 8, right: 8 }}
+                >
+                  <Iconify icon="eva:more-vertical-fill" />
+                </IconButton>
+              }
+              // action={
+              //   <Stack flexDirection="row" flexWrap="wrap" flexShrink={0}>
+              //     {!address.primary && (
+              //       <Button size="small" color="error" sx={{ mr: 1 }}>
+              //         {t('delete.word')}
+              //       </Button>
+              //     )}
+              //   </Stack>
+              // }
+              sx={{
+                p: 2.5,
+                borderRadius: 1
+              }}
+            />
+          ))}
+        </Stack>
+      </Card>
 
-  //         <Fab size="small" color="inherit" variant="softExtended">
-  //           <Iconify icon="solar:videocamera-record-bold" width={24} sx={{ color: 'error.main' }} />
-  //           Streaming
-  //         </Fab>
-  //       </Stack>
+      <CustomPopover open={popover.open} onClose={handleClose}>
+        <MenuItem
+          onClick={() => {
+            handleClose();
+            console.info('SET AS PRIMARY', addressId);
+          }}
+        >
+          <Iconify icon="eva:star-fill" />
+          Set as primary
+        </MenuItem>
 
-  //       <Button variant="contained">Post</Button>
-  //     </Stack>
+        <MenuItem
+          onClick={() => {
+            handleClose();
+            console.info('EDIT', addressId);
+          }}
+        >
+          <Iconify icon="solar:pen-bold" />
+          {t('edit')}
+        </MenuItem>
 
-  //     <input ref={fileRef} type="file" style={{ display: 'none' }} />
-  //   </Card>
-  // );
+        <MenuItem
+          onClick={() => {
+            handleClose();
+            console.info('DELETE', addressId);
+          }}
+          sx={{ color: 'error.main' }}
+        >
+          <Iconify icon="solar:trash-bin-trash-bold" />
+          {t('delete.word')}
+        </MenuItem>
+      </CustomPopover>
 
-  // const renderSocials = (
-  //   <Card>
-  //     <CardHeader title="Social" />
-
-  //     <Stack spacing={2} sx={{ p: 3 }}>
-  //       {_socials.map((link) => (
-  //         <Stack
-  //           key={link.name}
-  //           spacing={2}
-  //           direction="row"
-  //           sx={{ wordBreak: 'break-all', typography: 'body2' }}
-  //         >
-  //           <Iconify
-  //             icon={link.icon}
-  //             width={24}
-  //             sx={{
-  //               flexShrink: 0,
-  //               color: link.color,
-  //             }}
-  //           />
-  //           <Link color="inherit">
-  //             {link.value === 'facebook' && info.socialLinks.facebook}
-  //             {link.value === 'instagram' && info.socialLinks.instagram}
-  //             {link.value === 'linkedin' && info.socialLinks.linkedin}
-  //             {link.value === 'twitter' && info.socialLinks.twitter}
-  //           </Link>
-  //         </Stack>
-  //       ))}
-  //     </Stack>
-  //   </Card>
-  // );
+      <AddressNewForm
+        open={addressForm.value}
+        onClose={addressForm.onFalse}
+        // onCreate={handleAddNewAddress}
+      />
+    </>
+  );
 
   return (
     <Grid container spacing={3}>
       <Grid xs={12}>
         <Stack spacing={3}>
-          {/* {renderFollows} */}
-
           {renderAbout}
 
-          {/* {renderSocials} */}
+          {renderAddresses}
         </Stack>
       </Grid>
-
-      {/* <Grid xs={12} md={8}>
-        <Stack spacing={3}>
-          {renderPostInput}
-
-          {posts.map((post) => (
-            <ProfilePostItem key={post.id} post={post} />
-          ))}
-        </Stack>
-      </Grid> */}
     </Grid>
   );
 }

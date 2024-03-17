@@ -70,3 +70,18 @@ export async function resetPassword(data) {
     return { error: message };
   }
 }
+
+export async function changePassword(userId, data) {
+  try {
+    const res = await axios.put(endpoints.auth.changePassword(userId), data);
+
+    return { status: res.data, data: res.data };
+  } catch (error) {
+    let message = typeof error === 'string' ? error : error.message;
+
+    if(Array.isArray(message)) {
+      message = message[0];
+    }
+    return { error: message };
+  }
+}

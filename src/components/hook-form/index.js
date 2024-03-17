@@ -15,6 +15,7 @@ export { default as RHFLanguageField } from './rhf-language-field';
 export { default as RHFDatePicker } from './rhf-date-picker';
 
 export { default as RHFAutocomplete } from './rhf-autocomplete';
+export { default as RHFAutocompleteVirtualize } from './rhf-autocomplete-virtualize';
 
 export const RHFLocationSelectorField = dynamic(() => import('./rhf-location-selector-field'), {
     ssr: false,
