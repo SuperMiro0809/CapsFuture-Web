@@ -77,12 +77,13 @@ export default function HomeContacts() {
 
   const onSubmit = handleSubmit(async (data) => {
     try {
-      await contactUsMail(data);
+      const { error } = await contactUsMail(data);
+
+      if (error) throw error;
 
       enqueueSnackbar(t('email-sent-success'))
     } catch (error) {
-      const message = typeof error === 'string' ? error : error.message;
-      enqueueSnackbar(message, { variant: 'error' });
+      enqueueSnackbar(error, { variant: 'error' });
     }
   });
 
