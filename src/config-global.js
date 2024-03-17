@@ -8,6 +8,8 @@ export const ASSETS_API = process.env.NEXT_PUBLIC_ASSETS_API;
 
 export const ORIGIN = process.env.NEXT_PUBLIC_ORIGIN;
 
+export const ECONT_API = process.env.NEXT_PUBLIC_ECONT_API;
+
 export const MAIL = {
     host: process.env.NEXT_PUBLIC_MAIL_HOST,
     port: process.env.NEXT_PUBLIC_MAIL_PORT,
