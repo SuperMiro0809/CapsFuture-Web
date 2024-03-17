@@ -3,11 +3,11 @@ import nodemailer from 'nodemailer';
 import { MAIL } from 'src/config-global';
 
 const transporter = nodemailer.createTransport({
-    host: 'mail.caps-for-future.org',
-    port: 587,
+    host: MAIL.host,
+    port: MAIL.port,
     auth: {
-        user: 'capsforf',
-        pass: 'y9AHZy2,a]rN',
+        user: MAIL.user,
+        pass: MAIL.password,
     },
     secure:false,
     tls: {
