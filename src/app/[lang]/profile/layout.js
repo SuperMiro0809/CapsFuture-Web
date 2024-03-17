@@ -2,12 +2,18 @@
 
 import PropTypes from 'prop-types';
 
+import { AuthGuard } from 'src/auth/guard';
 import MainLayout from 'src/layouts/main';
+
 
 // ----------------------------------------------------------------------
 
 export default function Layout({ children }) {
-  return <MainLayout>{children}</MainLayout>;
+  return (
+    <AuthGuard>
+      <MainLayout>{children}</MainLayout>
+    </AuthGuard>
+  );
 }
 
 Layout.propTypes = {
