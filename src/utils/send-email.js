@@ -15,7 +15,7 @@ const transporter = nodemailer.createTransport({
 });
 
 
-export function sendEmail(from, to, subject, text, html) {
+export async function sendEmail(from, to, subject, text, html) {
     const mailOptions = {
         from, // Passed from the client
         to, // Passed from the client
@@ -25,11 +25,16 @@ export function sendEmail(from, to, subject, text, html) {
     }
 
     // Send email
-    transporter.sendMail(mailOptions, (error, info) => {
-        if (error) {
-            console.log(error);
-        } else {
-            console.log(`Email sent: ${info.response}`);
-        }
+    return await new Promise((resolve, reject) => {
+        // send mail
+        transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+                console.error(err);
+                reject(err);
+            } else {
+                console.log(`Email sent: ${info.response}`);
+                resolve(info);
+            }
+        });
     });
 }
