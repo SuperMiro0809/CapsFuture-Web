@@ -61,7 +61,17 @@ export default function CampaignListView({ campaigns = [], campaignsCount = 0 })
         defaultCurrentPage,
         defaultRowsPerPage,
         defaultOrderBy,
-        defaultOrder
+        defaultOrder,
+        options: {
+            custom: [
+                {
+                    title: t('participations'),
+                    handler: (id) => { router.push(paths.dashboard.campaign.participations(id)) },
+                    icon: <Iconify icon='fluent:people-20-filled' />,
+                    color: 'primary.main'
+                }
+            ]
+        }
     });
 
     const settings = useSettingsContext();

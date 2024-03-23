@@ -36,3 +36,31 @@ export async function getUserAttendances(lang, id) {
         return { error: message };
     }
 }
+
+export async function deleteAttendance(id) {
+    try {
+        const URL = `${REST_API}/campaigns/attendances/${id}`;
+
+        const res = await axios.delete(URL);
+
+        return { status: res.status, data: res.data };
+    } catch (error) {
+        const message = typeof error === 'string' ? error : error.message;
+        return { error: message };
+    }
+}
+
+export async function deleteAttendances(ids) {
+    try {
+        const URL = `${REST_API}/campaigns/attendances/deleteMany`;
+
+        const res = await axios.delete(URL, {
+            data: { ids }
+        });
+
+        return { status: res.status, data: res.data };
+    } catch (error) {
+        const message = typeof error === 'string' ? error : error.message;
+        return { error: message };
+    }
+}

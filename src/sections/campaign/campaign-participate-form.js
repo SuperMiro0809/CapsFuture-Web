@@ -7,18 +7,19 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useState } from 'react';
 // @mui
 import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
 import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
+import FormHelperText from '@mui/material/FormHelperText';
 import LoadingButton from '@mui/lab/LoadingButton';
-// routes
-import { useRouter } from 'src/routes/hooks';
 // locales
 import { useTranslate } from 'src/locales';
 // api
 import { participate } from 'src/api/campaign';
 // components
-import FormProvider, { RHFTextField } from 'src/components/hook-form';
+import FormProvider, { RHFTextField, RHFCheckbox } from 'src/components/hook-form';
+import Iconify from 'src/components/iconify';
 
 // ----------------------------------------------------------------------
 
@@ -29,20 +30,39 @@ export default function CampaignParticipateForm({ slug }) {
 
   const [errorMsg, setErrorMsg] = useState('');
 
+  const [step, setStep] = useState(1);
+
   const phoneRegex = /^\+?(\d{1,3})?[-.\s]?\(?(?:\d{1,3})?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,4}$/;
 
   const ParticipateSchema = Yup.object().shape({
     firstName: Yup.string().required(t('validation.first-name.required')),
     lastName: Yup.string().required(t('validation.last-name.required')),
     email: Yup.string().required(t('validation.email.required')).email(t('validation.email.valid')),
-    phone: Yup.string().required(t('validation.phone.required')).matches(phoneRegex, t('validation.phone.valid'))
-  });
+    phone: Yup.string().required(t('validation.phone.required')).matches(phoneRegex, t('validation.phone.valid')),
+    //
+    caps_handover: Yup.boolean(),
+    bottles_handover: Yup.boolean(),
+    cans_handover: Yup.boolean(),
+    buying_consumables: Yup.boolean(),
+    campaign_labour: Yup.boolean(),
+    note: Yup.string()
+  }).test(
+    'at-least-one-true',
+    t('validation.at-least-one-true'),
+    object => object.caps_handover || object.bottles_handover || object.cans_handover || object.buying_consumables || object.campaign_labour
+  );
 
   const defaultValues = {
     firstName: '',
     lastName: '',
     email: '',
-    phone: ''
+    phone: '',
+    caps_handover: false,
+    bottles_handover: false,
+    cans_handover: false,
+    buying_consumables: false,
+    campaign_labour: false,
+    note: ''
   };
 
   const methods = useForm({
@@ -51,9 +71,8 @@ export default function CampaignParticipateForm({ slug }) {
   });
 
   const {
-    reset,
     handleSubmit,
-    formState: { isSubmitting },
+    formState: { isSubmitting, errors },
   } = methods;
 
   const onSubmit = handleSubmit(async (data) => {
@@ -86,48 +105,107 @@ export default function CampaignParticipateForm({ slug }) {
 
       {!!successMsg && <Alert severity="success">{successMsg}</Alert>}
 
-      <Box gap={2} display="grid" gridTemplateColumns="repeat(2, 1fr)">
-        <RHFTextField
-          name="firstName"
-          label={t('first-name')}
-          sx={{ backgroundColor: (theme) => theme.palette.background.pink, borderRadius: 2 }}
-        />
+      {step === 1 && (
+        <>
+          <Box gap={2} display="grid" gridTemplateColumns="repeat(2, 1fr)">
+            <RHFTextField
+              name="firstName"
+              label={t('first-name')}
+              sx={{ backgroundColor: (theme) => theme.palette.background.pink, borderRadius: 2 }}
+            />
 
-        <RHFTextField
-          name="lastName"
-          label={t('last-name')}
-          sx={{ backgroundColor: (theme) => theme.palette.background.pink, borderRadius: 2 }}
-        />
+            <RHFTextField
+              name="lastName"
+              label={t('last-name')}
+              sx={{ backgroundColor: (theme) => theme.palette.background.pink, borderRadius: 2 }}
+            />
 
-        <RHFTextField
-          name="email"
-          label={t('email')}
-          sx={{ backgroundColor: (theme) => theme.palette.background.pink, borderRadius: 2 }}
-        />
+            <RHFTextField
+              name="email"
+              label={t('email')}
+              sx={{ backgroundColor: (theme) => theme.palette.background.pink, borderRadius: 2 }}
+            />
 
-        <RHFTextField
-          name="phone"
-          label={t('phone')}
-          sx={{ backgroundColor: (theme) => theme.palette.background.pink, borderRadius: 2 }}
-        />
-      </Box>
+            <RHFTextField
+              name="phone"
+              label={t('phone')}
+              sx={{ backgroundColor: (theme) => theme.palette.background.pink, borderRadius: 2 }}
+            />
+          </Box>
 
-      <LoadingButton
-        fullWidth
-        color="secondary"
-        size="large"
-        type="submit"
-        variant="contained"
-        loading={isSubmitting}
-      >
-        {t('participate')}
-      </LoadingButton>
+          <Button
+            color='secondary'
+            variant='contained'
+            size='large'
+            onClick={() => setStep(2)}
+          >
+            {t('forward')}
+          </Button>
+        </>
+      )}
+
+      {step === 2 && (
+        <Stack spacing={2}>
+          <Box>
+            <Stack spacing={1}>
+              <Typography variant="subtitle2">{t('how-can-you-help')}?</Typography>
+
+              <Box
+                columnGap={2}
+                display="grid"
+                gridTemplateColumns={{
+                  xs: 'repeat(1, 1fr)',
+                  md: 'repeat(2, 1fr)',
+                }}
+              >
+                <RHFCheckbox name='caps_handover' label={t('caps_handover')} />
+                <RHFCheckbox name='bottles_handover' label={t('bottles_handover')} />
+                <RHFCheckbox name='cans_handover' label={t('cans_handover')} />
+                <RHFCheckbox name='buying_consumables' label={t('buying_consumables')} />
+                <RHFCheckbox name='campaign_labour' label={t('campaign_labour')} />
+              </Box>
+            </Stack>
+            {errors[''] && <FormHelperText error>{errors[''].message}</FormHelperText>}
+          </Box>
+
+          <RHFTextField
+            name='note'
+            label={t('note')}
+            multiline
+            rows={3}
+            sx={{ backgroundColor: (theme) => theme.palette.background.pink, borderRadius: 2 }}
+          />
+
+          <Stack direction='row' justifyContent='space-between'>
+            <Button
+              variant='text'
+              size='large'
+              onClick={() => setStep(1)}
+              startIcon={<Iconify icon="eva:arrow-ios-back-fill" width={16} />}
+            >
+              {t('back')}
+            </Button>
+
+            <LoadingButton
+              fullWidth
+              color="primary"
+              size="large"
+              type="submit"
+              variant="contained"
+              loading={isSubmitting}
+              sx={{ maxWidth: 200 }}
+            >
+              {t('participate')}!
+            </LoadingButton>
+          </Stack>
+        </Stack>
+      )}
     </Stack>
   );
 
   return (
     <FormProvider methods={methods} onSubmit={onSubmit}>
-      {renderHead}
+      {step === 1 && renderHead}
 
       {renderForm}
     </FormProvider>

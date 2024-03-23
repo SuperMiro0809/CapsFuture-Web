@@ -4,7 +4,7 @@ import { CampaignParticipateView } from 'src/sections/campaign/view';
 // ----------------------------------------------------------------------
 
 export const metadata = {
-  title: 'Campaigns',
+  title: 'Campaign | Participate',
 };
 
 // async function getData(lang, id) {

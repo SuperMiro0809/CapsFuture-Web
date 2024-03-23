@@ -207,5 +207,6 @@ export default function Footer() {
     </Box>
   );
 
-  return homePage ? simpleFooter : mainFooter;
+  // return homePage ? simpleFooter : mainFooter;
+  return simpleFooter;
 }

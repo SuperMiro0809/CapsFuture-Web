@@ -97,8 +97,10 @@ export default function CampaignParticipateView({ slug }) {
       >
         {t('or')}
       </Typography>
-      
-      <CampaignParticipateForm slug={slug} />
+
+      <Box sx={{ height: 370 }}>
+        <CampaignParticipateForm slug={slug} />
+      </Box>
     </Stack>
   );
 
@@ -106,11 +108,12 @@ export default function CampaignParticipateView({ slug }) {
     <Container
       sx={{
         maxWidth: '1400px !important',
-        height: '100vh',
+        height: '100%',
         overflow: 'hidden',
         position: 'relative',
         zIndex: 1,
-        pt: { xs: 15, md: 30 }
+        pt: { xs: 15, md: 25 },
+        pb: { xs: 15, md: 20 }
       }}
     >
       {renderHead}

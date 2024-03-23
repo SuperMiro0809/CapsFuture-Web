@@ -82,6 +82,10 @@ export default function TableHeadCustom({
         {tableOptions?.delete?.value && (
           <TableCell />
         )}
+
+        {tableOptions?.custom && tableOptions.custom.map((_, index) => (
+          <TableCell key={index} />
+        ))}
       </TableRow>
     </TableHead>
   );

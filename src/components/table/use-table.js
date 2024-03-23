@@ -42,11 +42,14 @@ export default function useTable(props) {
 
   const editOption = useBoolean(props?.options?.edit ?? true);
 
+  const customOptions = props?.options?.custom ?? [];
+
   const options = {
     checkbox: checkboxOption,
     add: addOption,
     delete: deleteOption,
-    edit: editOption
+    edit: editOption,
+    custom: customOptions
   }
 
   const onSort = useCallback(

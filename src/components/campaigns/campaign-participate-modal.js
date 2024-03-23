@@ -1,7 +1,13 @@
 import PropTypes from 'prop-types';
-import { useTransition } from 'react';
+import * as Yup from 'yup';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
 // @mui
-import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import Stack from '@mui/material/Stack';
+import FormHelperText from '@mui/material/FormHelperText';
+import LoadingButton from '@mui/lab/LoadingButton';
 // routes
 import { useRouter } from 'src/routes/hooks';
 // locales
@@ -13,6 +19,7 @@ import { participate } from 'src/api/campaign';
 // components
 import { ConfirmDialog } from 'src/components/custom-dialog';
 import { useSnackbar } from 'src/components/snackbar';
+import FormProvider, { RHFTextField, RHFCheckbox } from 'src/components/hook-form';
 
 export default function CampaignParticipateModal({ open, onClose, campaignId }) {
   const { t } = useTranslate();
@@ -23,40 +30,122 @@ export default function CampaignParticipateModal({ open, onClose, campaignId }) 
 
   const { enqueueSnackbar } = useSnackbar();
 
-  const [isPending, startTransition] = useTransition();
+  const phoneRegex = /^\+?(\d{1,3})?[-.\s]?\(?(?:\d{1,3})?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,4}$/;
+
+  const ParticipateSchema = Yup.object().shape({
+    phone: Yup.string().required(t('validation.phone.required')).matches(phoneRegex, t('validation.phone.valid')),
+    //
+    caps_handover: Yup.boolean(),
+    bottles_handover: Yup.boolean(),
+    cans_handover: Yup.boolean(),
+    buying_consumables: Yup.boolean(),
+    campaign_labeor: Yup.boolean(),
+    note: Yup.string()
+  }).test(
+    'at-least-one-true',
+    t('validation.at-least-one-true'),
+    object => object.caps_handover || object.bottles_handover || object.cans_handover || object.buying_consumables || object.campaign_labour
+  );
+
+  const defaultValues = {
+    phone: '',
+    caps_handover: false,
+    bottles_handover: false,
+    cans_handover: false,
+    buying_consumables: false,
+    campaign_labour: false,
+    note: ''
+  };
+
+  const methods = useForm({
+    resolver: yupResolver(ParticipateSchema),
+    defaultValues,
+  });
+
+  const {
+    handleSubmit,
+    formState: { isSubmitting, errors },
+  } = methods;
+
+  const onSubmit = handleSubmit(async (data) => {
+    const values = {
+      campaign_id: campaignId,
+      user_id: user.id,
+      ...data
+    };
+
+    try {
+      const { error } = await participate(values);
+
+      if (error) throw error;
+
+      enqueueSnackbar(t('participate-success-message'));
+      onClose();
+      router.refresh();
+    } catch (error) {
+      enqueueSnackbar(t(error), { variant: 'error' });
+    }
+  });
 
   return (
     <ConfirmDialog
       open={open}
       onClose={onClose}
       title={t('participate-modal.title')}
-      content={t('participate-modal.text')}
+      maxWidth="sm"
+      content={(
+        <>
+          <Typography variant='body1'>{t('participate-modal.text')}</Typography>
+          <Typography variant='subtitle2' sx={{ mt: 2 }}>{t('campaign-participate-provide-information-text')}:</Typography>
+
+          <FormProvider methods={methods} onSubmit={onSubmit}>
+            <Stack spacing={3} sx={{ mt: 2 }}>
+              <RHFTextField
+                name='phone'
+                label={t('phone')}
+              />
+
+              <Box>
+                <Stack spacing={1}>
+                  <Typography variant="subtitle2">{t('how-can-you-help')}?</Typography>
+
+                  <Box
+                    columnGap={2}
+                    display="grid"
+                    gridTemplateColumns={{
+                      xs: 'repeat(1, 1fr)',
+                      md: 'repeat(2, 1fr)',
+                    }}
+                  >
+                    <RHFCheckbox name='caps_handover' label={t('caps_handover')} />
+                    <RHFCheckbox name='bottles_handover' label={t('bottles_handover')} />
+                    <RHFCheckbox name='cans_handover' label={t('cans_handover')} />
+                    <RHFCheckbox name='buying_consumables' label={t('buying_consumables')} />
+                    <RHFCheckbox name='campaign_labour' label={t('campaign_labour')} />
+                  </Box>
+                </Stack>
+                {errors[''] && <FormHelperText error>{errors[''].message}</FormHelperText>}
+              </Box>
+
+              <RHFTextField
+                name='note'
+                label={t('note')}
+                multiline
+                rows={3}
+              />
+            </Stack>
+          </FormProvider>
+        </>
+      )}
       action={
-        <Button
+        <LoadingButton
           variant="contained"
           color="primary"
-          onClick={() => {
-            startTransition(async () => {
-              const data = {
-                campaign_id: campaignId,
-                user_id: user.id
-              };
-
-              const { error } = await participate(data);
-
-              if (error) {
-                enqueueSnackbar(t(error), { variant: 'error' });
-              } else {
-                enqueueSnackbar(t('participate-success-message'))
-              }
-            });
-
-            onClose()
-            router.refresh();
-          }}
+          loading={isSubmitting}
+          onClick={onSubmit}
         >
           {t('participate')}
-        </Button>
+        </LoadingButton>
       }
     />
   );

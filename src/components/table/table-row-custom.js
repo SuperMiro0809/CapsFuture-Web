@@ -157,6 +157,19 @@ export default function TableRowCustom({
                 );
             })}
 
+            {tableOptions.custom.map((option, index) => (
+                <TableCell align='right' key={index}>
+                    <Tooltip title={option.title} placement="top" arrow>
+                        <IconButton
+                            onClick={(event) => option.handler(row.id)}
+                            sx={{ color: option?.color || 'default' }}
+                        >
+                            {option.icon}
+                        </IconButton>
+                    </Tooltip>
+                </TableCell>
+            ))}
+
             {tableOptions.edit.value && (
                 <TableCell align='right'>
                     <Tooltip title="Edit" placement="top" arrow>
@@ -185,7 +198,6 @@ export default function TableRowCustom({
                     </Tooltip>
                 </TableCell>
             )}
-
         </TableRow>
     );
 }
