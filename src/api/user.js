@@ -108,3 +108,55 @@ export async function deleteUsers(ids) {
     throw message;
   }
 }
+
+export async function getAddresses(profileId) {
+  const URL = `${REST_API}/users/addresses/${profileId}`;
+
+  try {
+    const res = await axios.get(URL);
+
+    return { status: res.status, data: res.data };
+  } catch (error) {
+    const message = typeof error === 'string' ? error : error.message;
+    return { error: message };
+  }
+}
+
+export async function createAddress(profileId, data) {
+  const URL = `${REST_API}/users/addresses/${profileId}`;
+
+  try {
+    const res = await axios.post(URL, data);
+
+    return { status: res.status, data: res.data };
+  } catch (error) {
+    const message = typeof error === 'string' ? error : error.message;
+    return { error: message };
+  }
+}
+
+export async function editAddress(profileId, id, data) {
+  const URL = `${REST_API}/users/addresses/${profileId}/${id}`;
+
+  try {
+    const res = await axios.put(URL, data);
+
+    return { status: res.status, data: res.data };
+  } catch (error) {
+    const message = typeof error === 'string' ? error : error.message;
+    return { error: message };
+  }
+}
+
+export async function deleteAddress(profileId, id) {
+  const URL = `${REST_API}/users/addresses/${profileId}/${id}`;
+
+  try {
+    const res = await axios.delete(URL);
+
+    return { status: res.status, data: res.data };
+  } catch (error) {
+    const message = typeof error === 'string' ? error : error.message;
+    return { error: message };
+  }
+}

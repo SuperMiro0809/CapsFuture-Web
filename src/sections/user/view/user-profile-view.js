@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState, useEffect, useCallback, useTransition } from 'react';
 // @mui
 import Tab from '@mui/material/Tab';
 import Card from '@mui/material/Card';
@@ -10,6 +10,8 @@ import Tabs, { tabsClasses } from '@mui/material/Tabs';
 import { useTranslate } from 'src/locales';
 // auth
 import { useAuthContext } from 'src/auth/hooks';
+// api
+import { getAddresses } from 'src/api/user';
 //
 import { _userAbout, _userFeeds, _userFriends, _userGallery, _userFollowers } from 'src/_mock';
 // components
@@ -59,6 +61,10 @@ export default function UserProfileView() {
 
   const [currentTab, setCurrentTab] = useState('profile');
 
+  const [addresses, setAddresses] = useState([]);
+
+  const [isPending, startTransition] = useTransition();
+
   const handleChangeTab = useCallback((event, newValue) => {
     setCurrentTab(newValue);
   }, []);
@@ -66,6 +72,26 @@ export default function UserProfileView() {
   const handleSearchFriends = useCallback((event) => {
     setSearchFriends(event.target.value);
   }, []);
+
+  const loadAddresses = useCallback(() => {
+    startTransition(async () => {
+      try {
+        const { data, error } = await getAddresses(user.profile.id);
+
+        if (error) throw error;
+
+        setAddresses(data);
+      } catch (error) {
+        console.error(error)
+      }
+    })
+  });
+
+  useEffect(() => {
+    if (user?.profile) {
+      loadAddresses();
+    }
+  }, [user])
 
   return (
     <Container
@@ -112,7 +138,14 @@ export default function UserProfileView() {
         </Tabs>
       </Card>
 
-      {currentTab === 'profile' && <ProfileHome info={user} posts={_userFeeds} />}
+      {currentTab === 'profile' && (
+        <ProfileHome
+          info={user}
+          addresses={addresses}
+          loading={isPending}
+          loadAddresses={loadAddresses}
+        />
+      )}
 
       {currentTab === 'campaigns' && <ProfileCampaigns campaigns={user?.attendances} />}
 

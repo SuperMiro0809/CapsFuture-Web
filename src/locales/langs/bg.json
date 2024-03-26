@@ -97,8 +97,11 @@
     "free": "Безплатно",
     "new-address": "Нов адрес",
     "use-as-default-address": "Използвай този адрес като основен",
+    "default": "Основен",
     "security": "Сигурност",
     "items": "записа",
+    "set-as-primary": "Задай като основен",
+    "profile-no-addresses": "Няма добавени адреси към профила Ви",
 
     "guest": "Гост",
     "guests": "Гости",

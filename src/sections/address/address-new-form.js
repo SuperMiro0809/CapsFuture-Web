@@ -1,4 +1,4 @@
-import { useEffect, useState, useTransition } from 'react';
+import { useEffect, useState, useTransition, useMemo } from 'react';
 import * as Yup from 'yup';
 import PropTypes from 'prop-types';
 import { useForm } from 'react-hook-form';
@@ -13,12 +13,16 @@ import DialogTitle from '@mui/material/DialogTitle';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import Grid from '@mui/material/Unstable_Grid2';
+import FormHelperText from '@mui/material/FormHelperText';
 // locales
 import { useTranslate } from 'src/locales';
 // assets
 import { countries } from 'src/assets/data';
 // api
 import { getCities, getQuarters, getStreets } from 'src/api/econt';
+import { createAddress, editAddress } from 'src/api/user';
+// auth
+import { useAuthContext } from 'src/auth/hooks';
 // components
 import Iconify from 'src/components/iconify';
 import FormProvider, {
@@ -31,8 +35,10 @@ import { useSnackbar } from 'src/components/snackbar';
 
 // ----------------------------------------------------------------------
 
-export default function AddressNewForm({ open, onClose, onCreate }) {
+export default function AddressNewForm({ open, onClose, loadAddresses, currentAddress }) {
   const { t } = useTranslate();
+
+  const { user } = useAuthContext();
 
   const { enqueueSnackbar } = useSnackbar();
 
@@ -47,14 +53,14 @@ export default function AddressNewForm({ open, onClose, onCreate }) {
   const phoneRegex = /^\+?(\d{1,3})?[-.\s]?\(?(?:\d{1,3})?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,4}$/;
 
   const NewAddressSchema = Yup.object().shape({
-    name: Yup.string().required(t('validation.name.required')),
+    fullName: Yup.string().required(t('validation.name.required')),
     phone: Yup.string().required(t('validation.phone.required')).matches(phoneRegex, t('validation.phone.valid')),
     country: Yup.object().required(t('validation.country.required')),
     city: Yup.object().required(t('validation.city.required')),
     street: Yup.string().required(t('validation.street.required')),
     postCode: Yup.string().required(t('validation.post-code.required')),
     // not required
-    quarter: Yup.string(),
+    quarter: Yup.string().nullable(),
     buildingNumber: Yup.string(),
     entrance: Yup.string(),
     floor: Yup.string(),
@@ -62,16 +68,28 @@ export default function AddressNewForm({ open, onClose, onCreate }) {
     primary: Yup.boolean(),
   });
 
-  const defaultValues = {
-    name: '',
-    phone: '',
-    country: null,
-    city: null,
-    quarter: '',
-    street: '',
-    postCode: '',
-    primary: true,
-  };
+  const defaultValues = useMemo(
+    () => {
+
+      return {
+        fullName: currentAddress?.full_name || user.profile.display_name,
+        phone: currentAddress?.phone || '',
+        country: currentAddress?.country && currentAddress?.country_code ? { label: currentAddress.country, value: currentAddress.country_code } : null,
+        city: currentAddress?.city && currentAddress?.econt_city_id ? { label: currentAddress.city, value: currentAddress.econt_city_id } : null,
+        quarter: currentAddress?.quarter || null,
+        street: currentAddress?.street || null,
+        streetNumber: currentAddress?.street_number || '',
+        postCode: currentAddress?.post_code || '',
+        buildingNumber: currentAddress?.building_number || '',
+        entrance: currentAddress?.entrance || '',
+        floor: currentAddress?.floor || '',
+        apartment: currentAddress?.apartment || '',
+        note: currentAddress?.note || '',
+        primary: currentAddress ? currentAddress.primary : true,
+      }
+    },
+    [currentAddress]
+  )
 
   const methods = useForm({
     resolver: yupResolver(NewAddressSchema),
@@ -79,7 +97,9 @@ export default function AddressNewForm({ open, onClose, onCreate }) {
   });
 
   const {
+    reset,
     watch,
+    setValue,
     handleSubmit,
     formState: { isSubmitting },
   } = methods;
@@ -87,6 +107,15 @@ export default function AddressNewForm({ open, onClose, onCreate }) {
   const values = watch();
 
   useEffect(() => {
+    if (currentAddress) {
+      reset(defaultValues);
+    } else {
+      reset(defaultValues);
+    }
+  }, [currentAddress, defaultValues, reset]);
+
+  useEffect(() => {
+    console.log(values.country)
     if (values.country) {
       startTransition(async () => {
         try {
@@ -99,6 +128,8 @@ export default function AddressNewForm({ open, onClose, onCreate }) {
           enqueueSnackbar(error, { variant: 'error' });
         }
       });
+    } else {
+      setValue('city', null);
     }
   }, [values.country]);
 
@@ -121,26 +152,35 @@ export default function AddressNewForm({ open, onClose, onCreate }) {
           enqueueSnackbar(error, { variant: 'error' });
         }
       });
+    } else {
+      setValue('quarter', null);
+      setValue('street', null);
     }
   }, [values.city])
 
   const onSubmit = handleSubmit(async (data) => {
     try {
-      // onCreate({
-      //   name: data.name,
-      //   phoneNumber: data.phoneNumber,
-      //   fullAddress: `${data.address}, ${data.city}, ${data.state}, ${data.country}, ${data.zipCode}`,
-      //   addressType: data.addressType,
-      //   primary: data.primary,
-      // });
+      if (currentAddress) {
+        const { error } = await editAddress(user?.profile.id, currentAddress.id, data);
+
+        if (error) throw error;
+      } else {
+        const { error } = await createAddress(user?.profile.id, data);
+
+        if (error) throw error;
+      }
+
+      enqueueSnackbar(t('add-success'));
+      reset();
       onClose();
+      loadAddresses();
     } catch (error) {
       enqueueSnackbar(error, { variant: 'error' });
     }
   });
 
   return (
-    <Dialog fullWidth maxWidth="sm" open={open} onClose={onClose}>
+    <Dialog fullWidth maxWidth='sm' open={open} onClose={onClose}>
       <FormProvider methods={methods} onSubmit={onSubmit}>
         <DialogTitle>{t('new-address')}</DialogTitle>
 
@@ -157,7 +197,7 @@ export default function AddressNewForm({ open, onClose, onCreate }) {
               sx={{ mt: 1 }}
             >
               <RHFTextField
-                name="name"
+                name="fullName"
                 label={t('full-name')}
               />
 
@@ -228,6 +268,7 @@ export default function AddressNewForm({ open, onClose, onCreate }) {
                 name="quarter"
                 label={t('quarter')}
                 options={quarters.map((quarter) => quarter.name)}
+                isOptionEqualToValue={(option, value) => option === value}
                 loading={isPending}
               />
 
@@ -240,7 +281,10 @@ export default function AddressNewForm({ open, onClose, onCreate }) {
                   name="street"
                   label={t('street')}
                   options={streets.map((quarter) => quarter.name)}
+                  isOptionEqualToValue={(option, value) => option === value}
                   loading={isPending}
+                  freeSolo={!!values.street}
+                  autoSelect
                 />
               </Grid>
               <Grid xs={12} sm={2}>
@@ -308,6 +352,7 @@ export default function AddressNewForm({ open, onClose, onCreate }) {
 
 AddressNewForm.propTypes = {
   onClose: PropTypes.func,
-  onCreate: PropTypes.func,
+  loadAddresses: PropTypes.func,
   open: PropTypes.bool,
+  currentAddress: PropTypes.object
 };

@@ -1,52 +1,56 @@
 'use client';
 
-import { useState, useCallback, useRef } from 'react';
+import { useState, useCallback, useTransition } from 'react';
 import PropTypes from 'prop-types';
 // @mui
-import Fab from '@mui/material/Fab';
 import Box from '@mui/material/Box';
-import Link from '@mui/material/Link';
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
-import Divider from '@mui/material/Divider';
-import { alpha } from '@mui/material/styles';
-import InputBase from '@mui/material/InputBase';
 import Grid from '@mui/material/Unstable_Grid2';
 import CardHeader from '@mui/material/CardHeader';
 import MenuItem from '@mui/material/MenuItem';
 import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
+import CircularProgress from '@mui/material/CircularProgress';
 // hooks
 import { useBoolean } from 'src/hooks/use-boolean';
-// utils
-import { fNumber } from 'src/utils/format-number';
 // locales
 import { useTranslate } from 'src/locales';
-//
-import { _socials } from 'src/_mock';
-import { _addressBooks } from 'src/_mock';
+// api
+import { deleteAddress, editAddress } from 'src/api/user';
 // components
 import Iconify from 'src/components/iconify';
 import CustomPopover, { usePopover } from 'src/components/custom-popover';
+import { ConfirmDialog } from 'src/components/custom-dialog';
+import { useSnackbar } from 'src/components/snackbar';
 //
-import ProfilePostItem from './profile-post-item';
 import { AddressItem, AddressNewForm } from '../address';
 
 // ----------------------------------------------------------------------
 
-export default function ProfileHome({ info, posts }) {
+export default function ProfileHome({ info, addresses, loading, loadAddresses }) {
   const { t } = useTranslate();
 
   const [addressId, setAddressId] = useState('');
+
+  const [isPrimary, setIsPrimary] = useState(false);
 
   const popover = usePopover();
 
   const addressForm = useBoolean();
 
+  const confirm = useBoolean();
+
+  const [isPending, startTransition] = useTransition();
+
+  const { enqueueSnackbar } = useSnackbar();
+
   const handleSelectedId = useCallback(
-    (event, id) => {
+    (event, id, primary) => {
       popover.onOpen(event);
       setAddressId(id);
+      setIsPrimary(primary);
     },
     [popover]
   );
@@ -55,6 +59,39 @@ export default function ProfileHome({ info, posts }) {
     popover.onClose();
     setAddressId('');
   }, [popover]);
+
+  const handleDeleteAddress = useCallback(() => {
+    startTransition(async () => {
+      try {
+        const { error } = await deleteAddress(info?.profile.id, addressId);
+
+        if (error) throw error;
+
+        enqueueSnackbar(t('delete-success'));
+        loadAddresses();
+      } catch (error) {
+        console.error(error);
+      }
+    });
+  }, []);
+
+  const handleSetAsPrimary = useCallback(() => {
+    startTransition(async () => {
+      try {
+        const { error } = await editAddress(info?.profile.id, addressId, { primary: 1 });
+
+        if (error) throw error;
+
+        enqueueSnackbar(t('edit-success'));
+        loadAddresses();
+      } catch (error) {
+        console.error(error);
+      }
+    });
+  }, [addressId]);
+
+
+  const currentAddress = addresses.find(address => address.id === addressId);
 
 
   const renderAbout = (
@@ -98,8 +135,42 @@ export default function ProfileHome({ info, posts }) {
           }
         />
 
+        {(loading && addresses.length === 0) && (
+          <Box sx={{ position: 'relative', height: 150 }}>
+            <Box
+              sx={{
+                position: 'absolute',
+                transform: 'translate(-50%, -50%)',
+                left: '50%',
+                top: '50%',
+                zIndex: 1,
+                textAlign: 'center'
+              }}
+            >
+              <CircularProgress color='primary' />
+            </Box>
+          </Box>
+        )}
+
+        {(!loading && addresses.length) === 0 && (
+          <Box sx={{ position: 'relative', height: 150 }}>
+            <Box
+              sx={{
+                position: 'absolute',
+                transform: 'translate(-50%, -50%)',
+                left: '50%',
+                top: '50%',
+                zIndex: 1,
+                textAlign: 'center'
+              }}
+            >
+              <Typography variant='subtitle1'>{t('profile-no-addresses')}.</Typography>
+            </Box>
+          </Box>
+        )}
+
         <Stack spacing={2.5} sx={{ p: 3 }}>
-          {_addressBooks.slice(0, 4).map((address) => (
+          {addresses.map((address) => (
             <AddressItem
               variant="outlined"
               key={address.id}
@@ -107,22 +178,13 @@ export default function ProfileHome({ info, posts }) {
               action={
                 <IconButton
                   onClick={(event) => {
-                    handleSelectedId(event, `${address.id}`);
+                    handleSelectedId(event, address.id, !!address.primary);
                   }}
                   sx={{ position: 'absolute', top: 8, right: 8 }}
                 >
                   <Iconify icon="eva:more-vertical-fill" />
                 </IconButton>
               }
-              // action={
-              //   <Stack flexDirection="row" flexWrap="wrap" flexShrink={0}>
-              //     {!address.primary && (
-              //       <Button size="small" color="error" sx={{ mr: 1 }}>
-              //         {t('delete.word')}
-              //       </Button>
-              //     )}
-              //   </Stack>
-              // }
               sx={{
                 p: 2.5,
                 borderRadius: 1
@@ -133,20 +195,23 @@ export default function ProfileHome({ info, posts }) {
       </Card>
 
       <CustomPopover open={popover.open} onClose={handleClose}>
-        <MenuItem
-          onClick={() => {
-            handleClose();
-            console.info('SET AS PRIMARY', addressId);
-          }}
-        >
-          <Iconify icon="eva:star-fill" />
-          Set as primary
-        </MenuItem>
+        {!isPrimary && (
+          <MenuItem
+            onClick={() => {
+              handleSetAsPrimary();
+              handleClose();
+            }}
+          >
+            <Iconify icon="eva:star-fill" />
+            {t('set-as-primary')}
+          </MenuItem>
+        )}
 
         <MenuItem
           onClick={() => {
-            handleClose();
+            // handleClose();
             console.info('EDIT', addressId);
+            addressForm.onTrue();
           }}
         >
           <Iconify icon="solar:pen-bold" />
@@ -155,8 +220,7 @@ export default function ProfileHome({ info, posts }) {
 
         <MenuItem
           onClick={() => {
-            handleClose();
-            console.info('DELETE', addressId);
+            confirm.onTrue();
           }}
           sx={{ color: 'error.main' }}
         >
@@ -165,10 +229,34 @@ export default function ProfileHome({ info, posts }) {
         </MenuItem>
       </CustomPopover>
 
+      <ConfirmDialog
+        open={confirm.value}
+        onClose={() => {
+          confirm.onFalse();
+        }}
+        title={t('delete.word')}
+        content={t('delete.single-modal')}
+        action={
+          <Button
+            variant="contained"
+            color="error"
+            onClick={() => {
+              handleDeleteAddress();
+
+              confirm.onFalse();
+              handleClose();
+            }}
+          >
+            {t('delete.action')}
+          </Button>
+        }
+      />
+
       <AddressNewForm
         open={addressForm.value}
         onClose={addressForm.onFalse}
-        // onCreate={handleAddNewAddress}
+        loadAddresses={loadAddresses}
+        currentAddress={currentAddress}
       />
     </>
   );
@@ -188,5 +276,7 @@ export default function ProfileHome({ info, posts }) {
 
 ProfileHome.propTypes = {
   info: PropTypes.object,
-  posts: PropTypes.array,
+  addresses: PropTypes.array,
+  loading: PropTypes.bool,
+  loadAddresses: PropTypes.func
 };

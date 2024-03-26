@@ -34,7 +34,7 @@ function renderRow(props) {
 
   return (
     <Typography component="li" {...other} noWrap style={inlineStyle}>
-      {dataSet[1]?.label || dataSet[1]}
+      {typeof dataSet[1] === 'string' ? dataSet[1] : dataSet[1]?.label }
     </Typography>
   );
 }
@@ -151,6 +151,7 @@ export default function RHFAutocompleteVirtualize({ name, label, placeholder, he
       control={control}
       render={({ field, fieldState: { error } }) => (
         <Autocomplete
+          {...field}
           onChange={(_, newValue) => setValue(name, newValue, { shouldValidate: true })}
           disableListWrap
           PopperComponent={StyledPopper}
