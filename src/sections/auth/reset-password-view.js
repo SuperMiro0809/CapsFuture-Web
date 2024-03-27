@@ -39,13 +39,13 @@ export default function ResetPasswordView({ token, email }) {
   const [errorMsg, setErrorMsg] = useState('');
 
   const NewPasswordSchema = Yup.object().shape({
-    email: Yup.string().required(t('validation.email.required')).email(t('validation.email.valid')),
+    email: Yup.string().required(t('email.required', { ns: 'validation' })).email(t('email.valid', { ns: 'validation' })),
     password: Yup.string()
-      .min(8, t('validation.password.min'))
-      .required(t('validation.password.required')),
+      .min(8, t('password.min', { ns: 'validation' }))
+      .required(t('password.required', { ns: 'validation' })),
     confirmPassword: Yup.string()
-      .required(t('validation.password.required'))
-      .oneOf([Yup.ref('password')], t('validation.password.no-match')),
+      .required(t('password.required', { ns: 'validation' }))
+      .oneOf([Yup.ref('password')], t('password.no-match', { ns: 'validation' })),
   });
 
   const defaultValues = {
@@ -79,7 +79,7 @@ export default function ResetPasswordView({ token, email }) {
       console.log(data)
 
       setErrorMsg('');
-      setSuccessMsg(t('reset-password-success'));
+      setSuccessMsg(t('reset-password-success', { ns: 'messages' }));
     } catch (error) {
       setSuccessMsg('');
       setErrorMsg(t(error));
@@ -90,7 +90,7 @@ export default function ResetPasswordView({ token, email }) {
     <Stack spacing={3} alignItems="center">
       <RHFTextField
         name="email"
-        label={t('email')}
+        label={t('email', { ns: 'forms' })}
         placeholder="example@gmail.com"
         InputLabelProps={{ shrink: true }}
         readOnly
@@ -98,7 +98,7 @@ export default function ResetPasswordView({ token, email }) {
 
       <RHFTextField
         name="password"
-        label={t('password')}
+        label={t('password', { ns: 'forms' })}
         type={password.value ? 'text' : 'password'}
         InputProps={{
           endAdornment: (
@@ -113,7 +113,7 @@ export default function ResetPasswordView({ token, email }) {
 
       <RHFTextField
         name="confirmPassword"
-        label={t('confirm-password')}
+        label={t('confirm-password', { ns: 'forms' })}
         type={password.value ? 'text' : 'password'}
         InputProps={{
           endAdornment: (
@@ -160,7 +160,7 @@ export default function ResetPasswordView({ token, email }) {
         }}
       >
         <Iconify icon="eva:arrow-ios-back-fill" width={16} />
-        {t('to-login')}
+        {t('to-login', { ns: 'common' })}
       </Link>
     </Stack>
   );

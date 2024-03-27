@@ -31,7 +31,7 @@ export default function PostSort({ sort, sortOptions, onSort }) {
         }
         sx={{ fontWeight: 'fontWeightSemiBold' }}
       >
-        {t('sort-by')}:
+        {t('sort-by', { ns: 'common' })}:
         <Box component="span" sx={{ ml: 0.5, fontWeight: 'fontWeightBold' }}>
           {t(label)}
         </Box>

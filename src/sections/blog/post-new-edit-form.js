@@ -56,14 +56,14 @@ export default function PostNewEditForm({ currentPost }) {
     title_image: Yup.mixed().nullable().required('Cover is required'),
     information: Yup.object().shape({
       bg: Yup.object().shape({
-        title: Yup.string().required(t('validation.title.required')),
-        short_description: Yup.string().required(t('validation.short_description.required')),
-        description: Yup.string().required(t('validation.description.required'))
+        title: Yup.string().required(t('title.required', { ns: 'validation' })),
+        short_description: Yup.string().required(t('short_description.required', { ns: 'validation' })),
+        description: Yup.string().required(t('description.required', { ns: 'validation' }))
       }),
       en: Yup.object().shape({
-        title: Yup.string().required(t('validation.title.required')),
-        short_description: Yup.string().required(t('validation.short_description.required')),
-        description: Yup.string().required(t('validation.description.required'))
+        title: Yup.string().required(t('title.required', { ns: 'validation' })),
+        short_description: Yup.string().required(t('short_description.required', { ns: 'validation' })),
+        description: Yup.string().required(t('description.required', { ns: 'validation' }))
       })
     }),
     // metaKeywords: Yup.array().min(1, 'Meta keywords is required'),
@@ -149,11 +149,11 @@ export default function PostNewEditForm({ currentPost }) {
       if (currentPost) {
         await editPost(currentPost.id, formData);
 
-        enqueueSnackbar(t('edit-success'));
+        enqueueSnackbar(t('edit-success', { ns: 'messages' }));
       } else {
         await createPost(formData);
 
-        enqueueSnackbar(t('create-success'));
+        enqueueSnackbar(t('create-success', { ns: 'messages' }));
       }
 
       router.push(paths.dashboard.post.root);
@@ -188,10 +188,10 @@ export default function PostNewEditForm({ currentPost }) {
       {mdUp && (
         <Grid md={4}>
           <Typography variant="h6" sx={{ mb: 0.5 }}>
-            {t('details')}
+            {t('details', { ns: 'common' })}
           </Typography>
           <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-            {t('details-subtext')}
+            {t('details-subtext', { ns: 'common' })}
           </Typography>
         </Grid>
       )}
@@ -202,7 +202,7 @@ export default function PostNewEditForm({ currentPost }) {
 
           <Stack spacing={3} sx={{ p: 3 }}>
             <Stack spacing={1.5}>
-              <Typography variant="subtitle2">{t('title-image')}</Typography>
+              <Typography variant="subtitle2">{t('title-image', { ns: 'forms' })}</Typography>
               <RHFUpload
                 name="title_image"
                 maxSize={3145728}
@@ -218,9 +218,9 @@ export default function PostNewEditForm({ currentPost }) {
                 { label: 'English', slug: 'en' },
               ]}
               fields={[
-                { type: 'text', name: 'title', label: t('title') },
-                { type: 'text', name: 'short_description', label: t('short_description'), multiline: true, rows: 4 },
-                { type: 'editor', name: 'description', label: t('description') }
+                { type: 'text', name: 'title', label: t('title', { ns: 'forms' }) },
+                { type: 'text', name: 'short_description', label: t('short_description', { ns: 'forms' }), multiline: true, rows: 4 },
+                { type: 'editor', name: 'description', label: t('description', { ns: 'forms' }) }
               ]}
             />
           </Stack>
@@ -234,10 +234,10 @@ export default function PostNewEditForm({ currentPost }) {
       {mdUp && (
         <Grid md={4}>
           <Typography variant="h6" sx={{ mb: 0.5 }}>
-            {t('properties')}
+            {t('properties', { ns: 'common' })}
           </Typography>
           <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-            {t('properties-subtext')}
+            {t('properties-subtext', { ns: 'common' })}
           </Typography>
         </Grid>
       )}
@@ -314,7 +314,7 @@ export default function PostNewEditForm({ currentPost }) {
 
             <RHFSwitch
               name='enable_comments'
-              label={t('enable-comments')}
+              label={t('enable-comments', { ns: 'forms' })}
             />
           </Stack>
         </Card>
@@ -329,13 +329,13 @@ export default function PostNewEditForm({ currentPost }) {
         <Box sx={{ flexGrow: 1 }}>
           <RHFSwitch
             name='active'
-            label={t('active')}
+            label={t('active', { ns: 'forms' })}
             sx={{ pl: 3 }}
           />
         </Box>
 
         <Button color="inherit" variant="outlined" size="large" onClick={preview.onTrue}>
-          {t('preview')}
+          {t('preview', { ns: 'common' })}
         </Button>
 
         <LoadingButton
@@ -345,7 +345,7 @@ export default function PostNewEditForm({ currentPost }) {
           loading={isSubmitting}
           sx={{ ml: 2 }}
         >
-          {!currentPost ? t('create') : t('save')}
+          {!currentPost ? t('create', { ns: 'common' }) : t('save', { ns: 'common' })}
         </LoadingButton>
       </Grid>
     </>

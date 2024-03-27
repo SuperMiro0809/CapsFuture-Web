@@ -61,7 +61,7 @@ export default function PostCommentForm({ postId }) {
       if (error) throw error;
 
       reset();
-      enqueueSnackbar(t('comment-success'));
+      enqueueSnackbar(t('comment-success', { ns: 'forms' }));
       router.refresh();
     } catch (error) {
       enqueueSnackbar(error, { variant: 'error' })

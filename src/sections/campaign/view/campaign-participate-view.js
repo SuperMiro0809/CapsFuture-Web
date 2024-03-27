@@ -36,7 +36,7 @@ export default function CampaignParticipateView({ slug }) {
         startIcon={<Iconify icon="eva:arrow-ios-back-fill" width={16} />}
         sx={{ maxWidth: 70 }}
       >
-        {t('back')}
+        {t('back', { ns: 'common' })}
       </Button>
       <Typography variant="h3" color='primary'>{t('participate-modal.title')}</Typography>
     </Stack>
@@ -95,7 +95,7 @@ export default function CampaignParticipateView({ slug }) {
           }
         }}
       >
-        {t('or')}
+        {t('or', { ns: 'common' })}
       </Typography>
 
       <Box sx={{ height: 370 }}>

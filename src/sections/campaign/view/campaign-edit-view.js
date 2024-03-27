@@ -23,14 +23,14 @@ export default function CampaignEditView({ campaign }) {
   return (
     <Container maxWidth={settings.themeStretch ? false : 'lg'}>
       <CustomBreadcrumbs
-        heading={t('edit')}
+        heading={t('edit', { ns: 'common' })}
         links={[
           {
-            name: t('dashboard'),
+            name: t('dashboard', { ns: 'headers' }),
             href: paths.dashboard.root,
           },
           {
-            name: t('campaigns'),
+            name: t('campaigns', { ns: 'headers' }),
             href: paths.dashboard.campaign.root,
           },
           { name: campaign && campaign.title },

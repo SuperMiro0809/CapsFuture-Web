@@ -54,7 +54,7 @@ export default function PostListHomeContent({ posts, postsCount }) {
 
   const [page, setPage] = useState(defaultPage);
 
-  const orderOptions = [{ value: 'asc', label: t('latest') }, { value: 'desc', label: t('oldest') }];
+  const orderOptions = [{ value: 'asc', label: t('latest', { ns: 'common' }) }, { value: 'desc', label: t('oldest', { ns: 'common' }) }];
 
   defaultFilters.search = searchParams.get('search') || '';
 
@@ -105,7 +105,7 @@ export default function PostListHomeContent({ posts, postsCount }) {
             sx={{ flexGrow: 1 }}
             value={filters.search}
             onChange={(event) => handleFilters('search', event.target.value)}
-            placeholder={`${t('search')}...`}
+            placeholder={`${t('search', { ns: 'common' })}...`}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">

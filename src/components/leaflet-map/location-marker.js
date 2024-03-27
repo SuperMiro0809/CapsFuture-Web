@@ -96,13 +96,13 @@ export default function LocationMarker({
           </Box>
 
           <Box>
-            <Typography component='span' variant='body2'>{t('type')}:</Typography>
+            <Typography component='span' variant='body2'>{t('type', { ns: 'forms' })}:</Typography>
             <Typography component='span' variant='subtitle2' sx={{ pl: 0.5 }}>{t(type_display_name)}</Typography>
           </Box>
 
           {working_time && (
             <Box>
-              <Typography component='span' variant='body2'>{t('working-time')}:</Typography>
+              <Typography component='span' variant='body2'>{t('working-time', { ns: 'forms' })}:</Typography>
               <Typography component='span' variant='subtitle2' sx={{ pl: 0.5 }}>{working_time}</Typography>
             </Box>
           )}
@@ -157,14 +157,14 @@ export default function LocationMarker({
               startIcon={<Iconify icon="solar:pen-bold" />}
               href={paths.dashboard.station.locations.edit(id)}
             >
-              {t('edit')}
+              {t('edit', { ns: 'common' })}
             </Button>
             <Button
               color='error'
               startIcon={<Iconify icon="solar:trash-bin-trash-bold" />}
               onClick={() => deleteHandler(id)}
             >
-              {t('delete.word')}
+              {t('delete.word', { ns: 'common' })}
             </Button>
           </Box>
         )}

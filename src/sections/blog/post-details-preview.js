@@ -42,11 +42,11 @@ export default function PostDetailsPreview({
     <Dialog fullScreen open={open} onClose={onClose}>
       <DialogActions sx={{ py: 2, px: 3 }}>
         <Typography variant="h6" sx={{ flexGrow: 1 }}>
-          {t('preview')}
+          {t('preview', { ns: 'common' })}
         </Typography>
 
         <Button variant="outlined" color="inherit" onClick={onClose}>
-          {t('cancel')}
+          {t('cancel', { ns: 'common' })}
         </Button>
 
         <LoadingButton
@@ -56,7 +56,7 @@ export default function PostDetailsPreview({
           loading={isSubmitting}
           onClick={onSubmit}
         >
-          {t('save')}
+          {t('save', { ns: 'common' })}
         </LoadingButton>
       </DialogActions>
 

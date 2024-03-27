@@ -1,0 +1,21 @@
+{
+    "permission-denied": "Достъпът е забранен",
+    "permission-denied-message": "Нямате разрешение за достъп до тази страница",
+
+    "comment-success": "Коментарът е публикуван успешно",
+    "reply-success": "Отговорът е публикуван успешно",
+    "comments-not-logged-in-message": "За да публикувате коментар, първо трябва да влезете във Вашия акаунт",
+
+    "unsubscribe-success-message": "Отписването от кампания е успешно",
+
+    "participate-warning-message": "Избирайки този метод, след това няма да можете да се отпишете или да запазите кампанията",
+    "participate-success-message": "Записването за кампания е успешно",
+    "participate-not-allowed": "Записването за тази кампания е забранено",
+
+    "email-sent-success": "Имейлът е изпратен успешно",
+
+    "create-success": "Добавянето е успешно",
+    "edit-success": "Редактирането е успешно",
+
+    "reset-password-success": "Паролата е сменена успешно"
+}

@@ -44,7 +44,7 @@ export default function UserListView({ users, usersCount, roles }) {
     { 
       type: 'select',
       name: 'role',
-      placeholder: t('role'),
+      placeholder: t('role', { ns: 'forms' }),
       options: rolesOptions,
       getOptionLabel: (option) => option?.label || rolesOptions.find((role) => role.value === option)?.label,
       isOptionEqualToValue: (option, value) => option.value === value,
@@ -74,10 +74,10 @@ export default function UserListView({ users, usersCount, roles }) {
   const { enqueueSnackbar } = useSnackbar();
 
   const TABLE_HEAD = [
-    { id: 'full_name', type: 'text-with-image', label: t('full-name'), imageSelector: 'avatar_photo_path', imageVariant: 'circular' },
-    { id: 'email', label: t('email'), width: 180 },
-    { id: 'phone', label: t('phone'), width: 400 },
-    { id: 'role_name', type: 'chip', label: t('role'), getColor: (value) => value === 'Admin' ? 'primary' : 'secondary', width: 100 }
+    { id: 'full_name', type: 'text-with-image', label: t('full-name', { ns: 'forms' }), imageSelector: 'avatar_photo_path', imageVariant: 'circular' },
+    { id: 'email', label: t('email', { ns: 'forms' }), width: 180 },
+    { id: 'phone', label: t('phone', { ns: 'forms' }), width: 400 },
+    { id: 'role_name', type: 'chip', label: t('role', { ns: 'forms' }), getColor: (value) => value === 'Admin' ? 'primary' : 'secondary', width: 100 }
   ];
 
   const handleDelete = async (ids) => {
@@ -116,10 +116,10 @@ export default function UserListView({ users, usersCount, roles }) {
   return (
     <Container maxWidth={settings.themeStretch ? false : 'lg'}>
       <CustomBreadcrumbs
-        heading={t('users')}
+        heading={t('users', { ns: 'forms' })}
         links={[
-          { name: t('dashboard'), href: paths.dashboard.root },
-          { name: t('users') }
+          { name: t('dashboard', { ns: 'headers' }), href: paths.dashboard.root },
+          { name: t('users', { ns: 'forms' }) }
         ]}
         action={
           <Button

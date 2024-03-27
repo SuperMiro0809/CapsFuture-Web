@@ -25,11 +25,11 @@ export default function CampaignCreateView() {
         heading={t('create-new-campaign')}
         links={[
           {
-            name: t('dashboard'),
+            name: t('dashboard', { ns: 'headers' }),
             href: paths.dashboard.root,
           },
           {
-            name: t('campaigns'),
+            name: t('campaigns', { ns: 'headers' }),
             href: paths.dashboard.campaign.root,
           },
           { name: t('new-campaign') },

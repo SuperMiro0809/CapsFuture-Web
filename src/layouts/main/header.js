@@ -38,7 +38,7 @@ export default function Header() {
 
   const { user } = useAuthContext();
 
-  const navConfigTranslated = navConfig.map((list) => ({ ...list, title: t(list.title) }));
+  const navConfigTranslated = navConfig.map((list) => ({ ...list, title: t(list.title, { ns: 'headers' }) }));
   // const t = useTranslations('Common');
 
   const theme = useTheme();

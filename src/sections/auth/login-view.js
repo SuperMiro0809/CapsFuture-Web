@@ -78,7 +78,7 @@ export default function LoginView() {
 
   const renderHead = (
     <Stack spacing={2} sx={{ mb: 5 }}>
-      <Typography variant="h3">{t('login')}</Typography>
+      <Typography variant="h3">{t('login', { ns: 'headers' })}</Typography>
 
       <Stack direction="row" spacing={0.5}>
         <Typography variant="body2">{t('new-user')}?</Typography>
@@ -94,11 +94,11 @@ export default function LoginView() {
     <Stack spacing={2.5}>
       {!!errorMsg && <Alert severity="error">{errorMsg}</Alert>}
 
-      <RHFTextField name="email" label={t('email')} />
+      <RHFTextField name="email" label={t('email', { ns: 'forms' })} />
 
       <RHFTextField
         name="password"
-        label={t('password')}
+        label={t('password', { ns: 'forms' })}
         type={password.value ? 'text' : 'password'}
         InputProps={{
           endAdornment: (
@@ -130,7 +130,7 @@ export default function LoginView() {
         variant="contained"
         loading={isSubmitting}
       >
-        {t('login')}
+        {t('login', { ns: 'headers' })}
       </LoadingButton>
     </Stack>
   );

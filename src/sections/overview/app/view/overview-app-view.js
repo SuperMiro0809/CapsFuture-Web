@@ -42,14 +42,14 @@ export default function OverviewAppView({ info }) {
         <Grid xs={12} md={4}>
           <Stack spacing={3}>
             <AppWidgetSummary
-              title={t('campaigns')}
+              title={t('campaigns', { ns: 'headers' })}
               total={info?.campaignCount}
               buttonHref={paths.dashboard.campaign.root}
               iconName='ic_campaign'
             />
 
             <AppWidgetSummary
-              title={t('products')}
+              title={t('products', { ns: 'headers' })}
               total={info?.productCount}
               buttonHref={paths.dashboard.product.root}
               iconName='ic_product'
@@ -73,14 +73,14 @@ export default function OverviewAppView({ info }) {
         <Grid xs={12} md={4}>
           <Stack spacing={3}>
             <AppWidgetSummary
-              title={t('posts')}
+              title={t('posts', { ns: 'headers' })}
               total={info?.postCount}
               buttonHref={paths.dashboard.post.root}
               iconName='ic_blog'
             />
 
             <AppWidgetSummary
-              title={t('locations')}
+              title={t('locations', { ns: 'headers' })}
               total={info?.locationCount}
               buttonHref={paths.dashboard.station.locations.root}
               iconName='ic_station'

@@ -23,11 +23,11 @@ export default function ProductEditView({ product }) {
   return (
     <Container maxWidth={settings.themeStretch ? false : 'lg'}>
       <CustomBreadcrumbs
-        heading={t('edit')}
+        heading={t('edit', { ns: 'common' })}
         links={[
-          { name: t('dashboard'), href: paths.dashboard.root },
+          { name: t('dashboard', { ns: 'headers' }), href: paths.dashboard.root },
           {
-            name: t('products'),
+            name: t('products', { ns: 'headers' }),
             href: paths.dashboard.product.root,
           },
           { name: product?.title },

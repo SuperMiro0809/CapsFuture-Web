@@ -80,7 +80,7 @@ export default function AboutWhat() {
         <Grid xs={12} md={6} lg={5}>
           <m.div variants={varFade().inRight}>
             <Typography variant="h2" sx={{ mb: 3 }}>
-              {t('what-is')} <Typography variant='h2' component='span' color='primary'>{t('caps-for-future')}?</Typography>
+              {t('what-is', { ns: 'common' })} <Typography variant='h2' component='span' color='primary'>{t('caps-for-future', { ns: 'headers' })}?</Typography>
             </Typography>
           </m.div>
 

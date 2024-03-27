@@ -47,7 +47,7 @@ export default function ProfileCampaigns() {
   return (
     <>
       <Card>
-        <CardHeader title={t('campaigns')} />
+        <CardHeader title={t('campaigns', { ns: 'headers' })} />
 
         {(campaigns.length === 0 && !isPending) && (
           <Box sx={{ position: 'relative', height: 150 }}>
@@ -70,7 +70,7 @@ export default function ProfileCampaigns() {
                 endIcon={<Iconify icon="eva:arrow-ios-forward-fill" />}
                 sx={{ mt: 2 }}
               >
-                {t('to-campaigns')}
+                {t('to-campaigns', { ns: 'common' })}
               </Button>
             </Box>
           </Box>

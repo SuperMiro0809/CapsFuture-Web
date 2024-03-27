@@ -116,7 +116,7 @@ export default function CampaignCard({ id, slug, title, shortDescription, date, 
             variant='outlined'
             onClick={() => router.push(`/campaigns/${slug}`)}
           >
-            {t('read-more')}
+            {t('read-more', { ns: 'common' })}
           </Button>
         </CardActions>
       </Card>

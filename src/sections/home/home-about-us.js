@@ -96,7 +96,7 @@ export default function HomeAboutUs() {
                   repeat: Infinity,
                 }}
               >
-                {t('about-us')}
+                {t('about-us', { ns: 'headers' })}
               </StyledTextGradient>
             </m.div>
 
@@ -113,7 +113,7 @@ export default function HomeAboutUs() {
                   color='primary'
                   sx={{ fontSize: 16 }}
                 >
-                  {t('see-more')}
+                  {t('see-more', { ns: 'common' })}
                 </Button>
               </m.div>
             </Box>

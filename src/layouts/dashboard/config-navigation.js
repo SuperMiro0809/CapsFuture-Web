@@ -51,10 +51,10 @@ export function useNavData() {
       // OVERVIEW
       // ----------------------------------------------------------------------
       {
-        subheader: t('overview'),
+        subheader: t('overview', { ns: 'headers' }),
         items: [
           {
-            title: t('home'),
+            title: t('home', { ns: 'headers' }),
             path: paths.dashboard.root,
             icon: ICONS.dashboard,
           },
@@ -89,18 +89,18 @@ export function useNavData() {
       // MANAGEMENT
       // ----------------------------------------------------------------------
       {
-        subheader: t('management'),
+        subheader: t('management', { ns: 'common' }),
         items: [
           // CAMPAIGN
           {
-            title: t('campaigns'),
+            title: t('campaigns', { ns: 'headers' }),
             path: paths.dashboard.campaign.root,
             icon: ICONS.campaign
           },
 
           // PRODUCT
           {
-            title: t('products'),
+            title: t('products', { ns: 'headers' }),
             path: paths.dashboard.product.root,
             icon: ICONS.product
           },
@@ -118,14 +118,14 @@ export function useNavData() {
 
           // POST
           {
-            title: t('posts'),
+            title: t('posts', { ns: 'headers' }),
             path: paths.dashboard.post.root,
             icon: ICONS.blog
           },
 
           // USER
           {
-            title: t('users'),
+            title: t('users', { ns: 'forms' }),
             path: paths.dashboard.user.root,
             icon: ICONS.user
           }

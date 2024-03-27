@@ -62,7 +62,7 @@ export default function PostCommentReplyForm({ postId, commentId, onClose }) {
 
       reset();
       onClose();
-      enqueueSnackbar(t('reply-success'));
+      enqueueSnackbar(t('reply-success', { ns: 'forms' }));
       router.refresh();
     } catch (error) {
       enqueueSnackbar(error, { variant: 'error' })

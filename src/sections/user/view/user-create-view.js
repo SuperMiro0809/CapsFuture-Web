@@ -26,11 +26,11 @@ export default function UserCreateView({ roles }) {
         heading={t('create-new-user')}
         links={[
           {
-            name: t('dashboard'),
+            name: t('dashboard', { ns: 'headers' }),
             href: paths.dashboard.root,
           },
           {
-            name: t('users'),
+            name: t('users', { ns: 'forms' }),
             href: paths.dashboard.user.root,
           },
           { name: t('new-user') },

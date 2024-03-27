@@ -15,7 +15,7 @@ export default function DonateButton({ sx }) {
 
   return (
     <Button component={RouterLink} target="_blank" color='secondary' rel="noopener" href={paths.home} variant="contained" sx={{ ...sx }}>
-      {t('donate')}
+      {t('donate', { ns: 'headers' })}
     </Button>
   );
 }

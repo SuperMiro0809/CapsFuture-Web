@@ -105,7 +105,7 @@ export default function AppWidgetSummary({ title, percent, buttonHref, total, ic
             color='primary'
             sx={{ fontSize: 12, mt: 1 }}
           >
-            {t('see-more')}
+            {t('see-more', { ns: 'common' })}
           </Button>
         )}
       </Box>

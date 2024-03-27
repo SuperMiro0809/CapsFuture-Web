@@ -24,15 +24,15 @@ export default function PostCreateView() {
         heading={t('create-new-post')}
         links={[
           {
-            name: t('dashboard'),
+            name: t('dashboard', { ns: 'headers' }),
             href: paths.dashboard.root,
           },
           {
-            name: t('posts'),
+            name: t('posts', { ns: 'headers' }),
             href: paths.dashboard.post.root,
           },
           {
-            name: t('create'),
+            name: t('create', { ns: 'common' }),
           },
         ]}
         sx={{

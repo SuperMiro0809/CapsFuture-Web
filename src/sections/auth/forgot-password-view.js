@@ -33,7 +33,7 @@ export default function ForgotPasswordView() {
   const [errorMsg, setErrorMsg] = useState('');
 
   const ForgotPasswordSchema = Yup.object().shape({
-    email: Yup.string().required(t('validation.email.required')).email(t('validation.email.valid')),
+    email: Yup.string().required(t('email.required', { ns: 'validation' })).email(t('email.valid', { ns: 'validation' })),
   });
 
   const defaultValues = {
@@ -66,7 +66,7 @@ export default function ForgotPasswordView() {
 
   const renderForm = (
     <Stack spacing={3} alignItems="center">
-      <RHFTextField name="email" label={t('email')} />
+      <RHFTextField name="email" label={t('email', { ns: 'forms' })} />
 
       <LoadingButton
         fullWidth
@@ -76,7 +76,7 @@ export default function ForgotPasswordView() {
         color='primary'
         loading={isSubmitting}
       >
-        {t('send')}
+        {t('send', { ns: 'common' })}
       </LoadingButton>
 
       <Link
@@ -90,7 +90,7 @@ export default function ForgotPasswordView() {
         }}
       >
         <Iconify icon="eva:arrow-ios-back-fill" width={16} />
-        {t('to-login')}
+        {t('to-login', { ns: 'common' })}
       </Link>
     </Stack>
   );

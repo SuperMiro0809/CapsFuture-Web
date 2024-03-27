@@ -56,7 +56,7 @@ export default function SharePopup({ open, onClose, url }) {
         maxWidth: 300
       }}
     >
-      <Typography variant='body2' color='text.secondary' sx={{ pb: 1, textAlign: 'center' }}>{t('share-by')}:</Typography>
+      <Typography variant='body2' color='text.secondary' sx={{ pb: 1, textAlign: 'center' }}>{t('share-by', { ns: 'common' })}:</Typography>
       <Stack direction='row' justifyContent='center' spacing={2}>
         <FacebookShareButton onClick={(event) => event.stopPropagation()} url={url}>
           <FacebookIcon size={40} round />
@@ -75,7 +75,7 @@ export default function SharePopup({ open, onClose, url }) {
         </ViberShareButton>
       </Stack>
 
-      <Typography variant='body2' color='text.secondary' sx={{ pb: 1, textAlign: 'center' }}>- {t('or')} -</Typography>
+      <Typography variant='body2' color='text.secondary' sx={{ pb: 1, textAlign: 'center' }}>- {t('or', { ns: 'common' })} -</Typography>
 
       <TextField
         fullWidth

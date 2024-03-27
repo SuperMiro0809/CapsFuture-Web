@@ -44,7 +44,7 @@ export default function StoreHomeHero() {
             },
           }}
         >
-          <TextAnimate text={t('store')} variants={varFade().inRight} sx={{ color: 'primary.main' }} />
+          <TextAnimate text={t('store', { ns: 'headers' })} variants={varFade().inRight} sx={{ color: 'primary.main' }} />
 
           <br />
 

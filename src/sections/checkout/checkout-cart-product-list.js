@@ -22,10 +22,10 @@ export default function CheckoutCartProductList({
   const { t } = useTranslate();
 
   const TABLE_HEAD = [
-    { id: 'product', label: t('product') },
-    { id: 'price', label: t('price') },
-    { id: 'quantity', label: t('quantity') },
-    { id: 'totalAmount', label: t('total-price'), align: 'right' },
+    { id: 'product', label: t('product', { ns: 'forms' }) },
+    { id: 'price', label: t('price', { ns: 'forms' }) },
+    { id: 'quantity', label: t('quantity', { ns: 'forms' }) },
+    { id: 'totalAmount', label: t('total-price', { ns: 'forms' }), align: 'right' },
     { id: '' },
   ];
 

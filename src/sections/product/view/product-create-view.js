@@ -25,11 +25,11 @@ export default function ProductCreateView() {
         heading={t('create-new-product')}
         links={[
           {
-            name: t('dashboard'),
+            name: t('dashboard', { ns: 'headers' }),
             href: paths.dashboard.root,
           },
           {
-            name: t('products'),
+            name: t('products', { ns: 'headers' }),
             href: paths.dashboard.product.root,
           },
           { name: t('new-product') },

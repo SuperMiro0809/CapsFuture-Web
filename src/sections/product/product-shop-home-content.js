@@ -54,7 +54,7 @@ export default function StoreHomeContent({ products, productsCount }) {
 
   const [page, setPage] = useState(defaultPage);
 
-  const orderOptions = [{ value: 'asc', label: t('cheapest') }, { value: 'desc', label: t('most-expensive') }];
+  const orderOptions = [{ value: 'asc', label: t('cheapest', { ns: 'common' }) }, { value: 'desc', label: t('most-expensive', { ns: 'common' }) }];
 
   defaultFilters.search = searchParams.get('search') || '';
 
@@ -105,7 +105,7 @@ export default function StoreHomeContent({ products, productsCount }) {
             sx={{ flexGrow: 1 }}
             value={filters.search}
             onChange={(event) => handleFilters('search', event.target.value)}
-            placeholder={`${t('search')}...`}
+            placeholder={`${t('search', { ns: 'common' })}...`}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">

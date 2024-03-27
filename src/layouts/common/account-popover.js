@@ -57,18 +57,18 @@ export default function AccountPopover() {
 
       setOptions([
         {
-          label: isOnDashboard ? t('home') : t('dashboard'),
+          label: isOnDashboard ? t('home', { ns: 'headers' }) : t('dashboard', { ns: 'headers' }),
           linkTo: isOnDashboard ? '/' : '/dashboard',
         },
         {
-          label: t('profile'),
+          label: t('profile', { ns: 'headers' }),
           linkTo: paths.profile,
         },
       ]);
     } else {
       setOptions([
         {
-          label: t('profile'),
+          label: t('profile', { ns: 'headers' }),
           linkTo: paths.profile,
         },
       ]);

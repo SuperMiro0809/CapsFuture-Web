@@ -45,7 +45,7 @@ export default function PostListHomeHero() {
             },
           }}
         >
-          <TextAnimate text={t('posts')} variants={varFade().inRight} sx={{ color: 'primary.main' }} />
+          <TextAnimate text={t('posts', { ns: 'headers' })} variants={varFade().inRight} sx={{ color: 'primary.main' }} />
 
           <br />
 

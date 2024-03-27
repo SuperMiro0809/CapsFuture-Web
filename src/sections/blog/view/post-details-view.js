@@ -63,7 +63,7 @@ export default function PostDetailsView({ post, error }) {
           startIcon={<Iconify icon="eva:arrow-ios-back-fill" width={16} />}
           sx={{ mt: 3 }}
         >
-          {t('back')}
+          {t('back', { ns: 'common' })}
         </Button>
       }
       sx={{

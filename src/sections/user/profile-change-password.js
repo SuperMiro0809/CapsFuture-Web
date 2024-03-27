@@ -35,16 +35,16 @@ export default function ProfileChangePassword() {
   const confirmPassword = useBoolean();
 
   const ChangePassWordSchema = Yup.object().shape({
-    oldPassword: Yup.string().required(t('validation.old-password.required')),
+    oldPassword: Yup.string().required(t('old-password.required', { ns: 'validation' })),
     newPassword: Yup.string()
-      .required(t('validation.password.required'))
-      .min(8, t('validation.password.min'))
+      .required(t('password.required', { ns: 'validation' }))
+      .min(8, t('password.min', { ns: 'validation' }))
       .test(
         'no-match',
-        t('validation.password.different'),
+        t('password.different', { ns: 'validation' }),
         (value, { parent }) => value !== parent.oldPassword
       ),
-    confirmPassword: Yup.string().oneOf([Yup.ref('newPassword')], t('validation.password.no-match')),
+    confirmPassword: Yup.string().oneOf([Yup.ref('newPassword')], t('password.no-match', { ns: 'validation' })),
   });
 
   const defaultValues = {
@@ -69,7 +69,7 @@ export default function ProfileChangePassword() {
 
       if (error) throw error;
       
-      enqueueSnackbar(t('reset-password-success'));
+      enqueueSnackbar(t('reset-password-success', { ns: 'messages' }));
     } catch (error) {
       enqueueSnackbar(t(error), { variant: 'error' });
     }
@@ -84,7 +84,7 @@ export default function ProfileChangePassword() {
           <RHFTextField
             name="oldPassword"
             type={oldPassword.value ? 'text' : 'password'}
-            label={t('old-password')}
+            label={t('old-password', { ns: 'forms' })}
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
@@ -98,7 +98,7 @@ export default function ProfileChangePassword() {
 
           <RHFTextField
             name="newPassword"
-            label={t('new-password')}
+            label={t('new-password', { ns: 'forms' })}
             type={newPassword.value ? 'text' : 'password'}
             InputProps={{
               endAdornment: (
@@ -112,7 +112,7 @@ export default function ProfileChangePassword() {
             helperText={
               <Stack component="span" direction="row" alignItems="center">
                 <Iconify icon="eva:info-fill" width={16} sx={{ mr: 0.5 }} />
-                {t('validation.password.min')}
+                {t('password.min', { ns: 'validation' })}
               </Stack>
             }
           />
@@ -120,7 +120,7 @@ export default function ProfileChangePassword() {
           <RHFTextField
             name="confirmPassword"
             type={confirmPassword.value ? 'text' : 'password'}
-            label={t('confirm-password')}
+            label={t('confirm-password', { ns: 'forms' })}
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
@@ -133,7 +133,7 @@ export default function ProfileChangePassword() {
           />
 
           <LoadingButton type="submit" variant="contained" loading={isSubmitting} sx={{ ml: 'auto' }}>
-            {t('save')}
+            {t('save', { ns: 'common' })}
           </LoadingButton>
         </Stack>
       </FormProvider>

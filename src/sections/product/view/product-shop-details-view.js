@@ -79,7 +79,7 @@ export default function ProductShopDetailsView({ product, error }) {
           startIcon={<Iconify icon="eva:arrow-ios-back-fill" width={16} />}
           sx={{ mt: 3 }}
         >
-          {t('back')}
+          {t('back', { ns: 'common' })}
         </Button>
       }
       sx={{ py: 10 }}
@@ -90,9 +90,9 @@ export default function ProductShopDetailsView({ product, error }) {
     <>
       <CustomBreadcrumbs
         links={[
-          { name: t('home'), href: '/' },
+          { name: t('home', { ns: 'headers' }), href: '/' },
           {
-            name: t('store'),
+            name: t('store', { ns: 'headers' }),
             href: paths.store.root,
           },
           { name: product?.title },
@@ -151,7 +151,7 @@ export default function ProductShopDetailsView({ product, error }) {
           {[
             {
               value: 'description',
-              label: t('description'),
+              label: t('description', { ns: 'forms' }),
             },
           ].map((tab) => (
             <Tab key={tab.value} value={tab.value} label={tab.label} />

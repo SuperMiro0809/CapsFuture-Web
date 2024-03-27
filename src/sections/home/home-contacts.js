@@ -54,9 +54,9 @@ export default function HomeContacts() {
   // iloveyou<3
 
   const ContactUsSchema = Yup.object().shape({
-    email: Yup.string().required(t('validation.email.required')).email(t('validation.email.valid')),
-    subject: Yup.string().required(t('validation.subject.required')),
-    message: Yup.string().required(t('validation.message.required'))
+    email: Yup.string().required(t('email.required', { ns: 'validation' })).email(t('email.valid', { ns: 'validation' })),
+    subject: Yup.string().required(t('subject.required', { ns: 'validation' })),
+    message: Yup.string().required(t('message.required', { ns: 'validation' }))
   });
 
   const defaultValues = {
@@ -81,7 +81,7 @@ export default function HomeContacts() {
 
       if (error) throw error;
 
-      enqueueSnackbar(t('email-sent-success'))
+      enqueueSnackbar(t('email-sent-success', { ns: 'messages' }))
     } catch (error) {
       enqueueSnackbar(error, { variant: 'error' });
     }
@@ -152,19 +152,19 @@ export default function HomeContacts() {
               <Stack spacing={3}>
                 <RHFTextField
                   name='email'
-                  label={t('email')}
+                  label={t('email', { ns: 'forms' })}
                   fullWidth
                 />
 
                 <RHFTextField
                   name='subject'
-                  label={t('subject')}
+                  label={t('subject', { ns: 'forms' })}
                   fullWidth
                 />
 
                 <RHFTextField
                   name='message'
-                  label={t('message')}
+                  label={t('message', { ns: 'forms' })}
                   rows={3}
                   fullWidth
                   multiline
@@ -178,7 +178,7 @@ export default function HomeContacts() {
                   color='secondary'
                   loading={isSubmitting}
                 >
-                  {t('send')}
+                  {t('send', { ns: 'common' })}
                 </LoadingButton>
               </Stack>
             </FormProvider>

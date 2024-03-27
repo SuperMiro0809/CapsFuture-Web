@@ -21,7 +21,7 @@ export default function LoginButton({ sx, returnTo = '' }) {
 
   return (
     <Button component={RouterLink} href={href} variant="outlined" sx={{ ml: 1, ...sx }}>
-      {t('login')}
+      {t('login', { ns: 'headers' })}
     </Button>
   );
 }

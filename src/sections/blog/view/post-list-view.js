@@ -115,14 +115,14 @@ export default function PostListView({ posts, postsCount }) {
   return (
     <Container maxWidth={settings.themeStretch ? false : 'lg'}>
       <CustomBreadcrumbs
-        heading={t('posts')}
+        heading={t('posts', { ns: 'headers' })}
         links={[
           {
-            name: t('dashboard'),
+            name: t('dashboard', { ns: 'headers' }),
             href: paths.dashboard.root,
           },
           {
-            name: t('posts')
+            name: t('posts', { ns: 'headers' })
           }
         ]}
         action={
@@ -154,7 +154,7 @@ export default function PostListView({ posts, postsCount }) {
         <TextField
           value={searchValue}
           onChange={(event) => handleSearch(event.target.value)}
-          placeholder={t('search')}
+          placeholder={t('search', { ns: 'common' })}
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
@@ -165,8 +165,8 @@ export default function PostListView({ posts, postsCount }) {
         />
 
         <PostSort sort={sortBy} onSort={handleSortBy} sortOptions={[
-          { value: 'latest', label: t('latest') },
-          { value: 'oldest', label: t('oldest') },
+          { value: 'latest', label: t('latest', { ns: 'common' }) },
+          { value: 'oldest', label: t('oldest', { ns: 'common' }) },
         ]} />
       </Stack>
 

@@ -106,10 +106,10 @@ export default function CampaignListView({ campaigns = [], campaignsCount = 0 })
     }, [pathname, router, searchParams, table.page, table.rowsPerPage, table.orderBy, table.order, table.filters])
 
     const TABLE_HEAD = [
-        { id: 'title', type: 'text-with-image', label: t('title'), imageSelector: 'title_image_path' },
-        { id: 'short_description', label: t('short_description'), width: 180 },
-        { id: 'cities', type: 'array', selector: 'city', label: t('cities'), width: 400 },
-        { id: 'date', label: t('date'), width: 100 }
+        { id: 'title', type: 'text-with-image', label: t('title', { ns: 'forms' }), imageSelector: 'title_image_path' },
+        { id: 'short_description', label: t('short_description', { ns: 'forms' }), width: 180 },
+        { id: 'cities', type: 'array', selector: 'city', label: t('cities', { ns: 'forms' }), width: 400 },
+        { id: 'date', label: t('date', { ns: 'forms' }), width: 100 }
     ];
 
     const handleDelete = async (ids) => {
@@ -134,10 +134,10 @@ export default function CampaignListView({ campaigns = [], campaignsCount = 0 })
     return (
         <Container maxWidth={settings.themeStretch ? false : 'lg'}>
             <CustomBreadcrumbs
-                heading={t('campaigns')}
+                heading={t('campaigns', { ns: 'headers' })}
                 links={[
-                    { name: t('dashboard'), href: paths.dashboard.root },
-                    { name: t('campaigns') }
+                    { name: t('dashboard', { ns: 'headers' }), href: paths.dashboard.root },
+                    { name: t('campaigns', { ns: 'headers' }) }
                 ]}
                 action={
                     <Button

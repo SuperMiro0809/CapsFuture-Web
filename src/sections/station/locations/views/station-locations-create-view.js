@@ -26,11 +26,11 @@ export default function StationLocationsCreateView({ locationTypes, users }) {
         heading={t('create-new-location')}
         links={[
           {
-            name: t('dashboard'),
+            name: t('dashboard', { ns: 'headers' }),
             href: paths.dashboard.root,
           },
           {
-            name: t('locations'),
+            name: t('locations', { ns: 'headers' }),
             href: paths.dashboard.station.locations.root,
           },
           { name: t('new-location') },

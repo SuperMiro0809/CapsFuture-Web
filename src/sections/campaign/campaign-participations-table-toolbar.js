@@ -95,7 +95,7 @@ export default function CampaignParticipationsTableToolbar({
             fullWidth
             value={filters.name}
             onChange={handleFilterName}
-            placeholder={`${t('search')}...`}
+            placeholder={`${t('search', { ns: 'common' })}...`}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -140,15 +140,15 @@ export default function CampaignParticipationsTableToolbar({
         <MenuItem
           onClick={() => {
             const dataFields = [
-              { id: 'name', label: t('name') },
-              { id: 'email', label: t('email') },
-              { id: 'phone', label: t('phone') },
+              { id: 'name', label: t('name', { ns: 'forms' }) },
+              { id: 'email', label: t('email', { ns: 'forms' }) },
+              { id: 'phone', label: t('phone', { ns: 'forms' }) },
               { id: 'caps_handover', label: t('caps_handover') },
               { id: 'bottles_handover', label: t('bottles_handover') },
               { id: 'cans_handover', label: t('cans_handover') },
               { id: 'buying_consumables', label: t('buying_consumables') },
               { id: 'campaign_labour', label: t('campaign_labour') },
-              { id: 'note', label: t('note') },
+              { id: 'note', label: t('note', { ns: 'forms' }) },
             ];
 
             const data = participations.map((participation) => ({

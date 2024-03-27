@@ -33,7 +33,7 @@ export default function CampaignParticipateModal({ open, onClose, campaignId }) 
   const phoneRegex = /^\+?(\d{1,3})?[-.\s]?\(?(?:\d{1,3})?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,4}$/;
 
   const ParticipateSchema = Yup.object().shape({
-    phone: Yup.string().required(t('validation.phone.required')).matches(phoneRegex, t('validation.phone.valid')),
+    phone: Yup.string().required(t('phone.required', { ns: 'validation' })).matches(phoneRegex, t('phone.valid', { ns: 'validation' })),
     //
     caps_handover: Yup.boolean(),
     bottles_handover: Yup.boolean(),
@@ -43,7 +43,7 @@ export default function CampaignParticipateModal({ open, onClose, campaignId }) 
     note: Yup.string()
   }).test(
     'at-least-one-true',
-    t('validation.at-least-one-true'),
+    t('at-least-one-true', { ns: 'validation' }),
     object => object.caps_handover || object.bottles_handover || object.cans_handover || object.buying_consumables || object.campaign_labour
   );
 
@@ -79,11 +79,11 @@ export default function CampaignParticipateModal({ open, onClose, campaignId }) 
 
       if (error) throw error;
 
-      enqueueSnackbar(t('participate-success-message'));
+      enqueueSnackbar(t('participate-success-message', { ns: 'messages' }));
       onClose();
       router.refresh();
     } catch (error) {
-      enqueueSnackbar(t(error), { variant: 'error' });
+      enqueueSnackbar(t(error, { ns: 'messages' }), { variant: 'error' });
     }
   });
 
@@ -102,7 +102,7 @@ export default function CampaignParticipateModal({ open, onClose, campaignId }) 
             <Stack spacing={3} sx={{ mt: 2 }}>
               <RHFTextField
                 name='phone'
-                label={t('phone')}
+                label={t('phone', { ns: 'forms' })}
               />
 
               <Box>
@@ -117,11 +117,11 @@ export default function CampaignParticipateModal({ open, onClose, campaignId }) 
                       md: 'repeat(2, 1fr)',
                     }}
                   >
-                    <RHFCheckbox name='caps_handover' label={t('caps_handover')} />
-                    <RHFCheckbox name='bottles_handover' label={t('bottles_handover')} />
-                    <RHFCheckbox name='cans_handover' label={t('cans_handover')} />
-                    <RHFCheckbox name='buying_consumables' label={t('buying_consumables')} />
-                    <RHFCheckbox name='campaign_labour' label={t('campaign_labour')} />
+                    <RHFCheckbox name='caps_handover' label={t('caps_handover', { ns: 'forms' })} />
+                    <RHFCheckbox name='bottles_handover' label={t('bottles_handover', { ns: 'forms' })} />
+                    <RHFCheckbox name='cans_handover' label={t('cans_handover', { ns: 'forms' })} />
+                    <RHFCheckbox name='buying_consumables' label={t('buying_consumables', { ns: 'forms' })} />
+                    <RHFCheckbox name='campaign_labour' label={t('campaign_labour', { ns: 'forms' })} />
                   </Box>
                 </Stack>
                 {errors[''] && <FormHelperText error>{errors[''].message}</FormHelperText>}
@@ -129,7 +129,7 @@ export default function CampaignParticipateModal({ open, onClose, campaignId }) 
 
               <RHFTextField
                 name='note'
-                label={t('note')}
+                label={t('note', { ns: 'forms' })}
                 multiline
                 rows={3}
               />

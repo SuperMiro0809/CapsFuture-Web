@@ -120,7 +120,7 @@ export default function MapHomeContent({ locations }) {
           fullWidth
           value={filters.search}
           onChange={(event) => handleFilters('search', event.target.value)}
-          placeholder={`${t('search')}...`}
+          placeholder={`${t('search', { ns: 'common' })}...`}
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">

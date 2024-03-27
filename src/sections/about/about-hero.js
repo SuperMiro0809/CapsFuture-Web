@@ -39,12 +39,12 @@ export default function AboutHero() {
             },
           }}
         >
-          <TextAnimate text={t('who')} variants={varFade().inRight} sx={{ color: 'primary.main' }} />
+          <TextAnimate text={t('who', { ns: 'common' })} variants={varFade().inRight} sx={{ color: 'primary.main' }} />
 
           <br />
 
           <Stack spacing={2} display="inline-flex" direction="row" sx={{ color: 'common.white' }}>
-            <TextAnimate text={`${t('we-are')}?`} />
+            <TextAnimate text={`${t('we-are', { ns: 'common' })}?`} />
           </Stack>
 
           {/* <m.div variants={varFade().inRight}>

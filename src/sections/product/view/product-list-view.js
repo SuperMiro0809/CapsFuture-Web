@@ -106,7 +106,7 @@ export default function ProductListView({ products = [], productsCount = 0 }) {
       try {
         await editProduct(id, data);
 
-        enqueueSnackbar(t('edit-success'));
+        enqueueSnackbar(t('edit-success', { ns: 'messages' }));
         router.refresh();
       } catch (error) {
         enqueueSnackbar(error.message, { variant: 'error' });
@@ -134,20 +134,20 @@ export default function ProductListView({ products = [], productsCount = 0 }) {
   }
 
   const TABLE_HEAD = [
-    { id: 'title', type: 'text-with-image', label: t('title'), imageSelector: 'files' },
-    { id: 'short_description', label: t('short_description'), width: 180 },
-    { id: 'price', label: t('price'), width: 140 },
-    { id: 'active', type: 'switch', label: t('active'), width: 100, handler: handleEditActive },
+    { id: 'title', type: 'text-with-image', label: t('title', { ns: 'forms' }), imageSelector: 'files' },
+    { id: 'short_description', label: t('short_description', { ns: 'forms' }), width: 180 },
+    { id: 'price', label: t('price', { ns: 'forms' }), width: 140 },
+    { id: 'active', type: 'switch', label: t('active', { ns: 'forms' }), width: 100, handler: handleEditActive },
   ];
 
   return (
     <>
       <Container maxWidth={settings.themeStretch ? false : 'lg'}>
         <CustomBreadcrumbs
-          heading={t('products')}
+          heading={t('products', { ns: 'headers' })}
           links={[
-            { name: t('dashboard'), href: paths.dashboard.root },
-            { name: t('products') }
+            { name: t('dashboard', { ns: 'headers' }), href: paths.dashboard.root },
+            { name: t('products', { ns: 'headers' }) }
           ]}
           action={
             <Button

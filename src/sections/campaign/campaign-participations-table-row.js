@@ -130,7 +130,7 @@ export default function CampaignParticipationsTableRow({ row, selected, onViewRo
                   <TableCell align='center'>{t('cans_handover')}</TableCell>
                   <TableCell align='center'>{t('buying_consumables')}</TableCell>
                   <TableCell align='center'>{t('campaign_labour')}</TableCell>
-                  <TableCell align='center'>{t('note')}</TableCell>
+                  <TableCell align='center'>{t('note', { ns: 'forms' })}</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -182,7 +182,7 @@ export default function CampaignParticipationsTableRow({ row, selected, onViewRo
           sx={{ color: 'error.main' }}
         >
           <Iconify icon="solar:trash-bin-trash-bold" />
-          {t('delete.action')}
+          {t('delete.action', { ns: 'common' })}
         </MenuItem>
 
         <MenuItem
@@ -199,11 +199,11 @@ export default function CampaignParticipationsTableRow({ row, selected, onViewRo
       <ConfirmDialog
         open={confirm.value}
         onClose={confirm.onFalse}
-        title={t('delete.word')}
-        content={t('delete.single-modal')}
+        title={t('delete.word', { ns: 'common' })}
+        content={t('delete.single-modal', { ns: 'common' })}
         action={
           <Button variant="contained" color="error" onClick={onDeleteRow}>
-            {t('delete.action')}
+            {t('delete.action', { ns: 'common' })}
           </Button>
         }
       />

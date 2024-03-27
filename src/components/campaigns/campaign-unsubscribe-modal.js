@@ -42,7 +42,7 @@ export default function CampaignUnsubscribeModal({ open, onClose, campaignId }) 
               if (error) {
                 enqueueSnackbar(error, { variant: 'error' });
               } else {
-                enqueueSnackbar(t('unsubscribe-success-message'))
+                enqueueSnackbar(t('unsubscribe-success-message', { ns: 'messages' }))
               }
             });
 

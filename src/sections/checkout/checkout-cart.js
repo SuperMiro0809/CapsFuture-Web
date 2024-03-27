@@ -33,7 +33,7 @@ export default function CheckoutCart() {
           <CardHeader
             title={
               <Typography variant="h6">
-                {t('cart')}
+                {t('cart', { ns: 'headers' })}
                 <Typography component="span" sx={{ color: 'text.secondary' }}>
                   &nbsp;({checkout.totalItems} {checkout.totalItems === 1 ? t('cart-product') : t('cart-products')})
                 </Typography>
@@ -65,7 +65,7 @@ export default function CheckoutCart() {
           color="inherit"
           startIcon={<Iconify icon="eva:arrow-ios-back-fill" />}
         >
-          {t('to-store')}
+          {t('to-store', { ns: 'common' })}
         </Button>
       </Grid>
 

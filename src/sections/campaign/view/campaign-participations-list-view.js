@@ -60,9 +60,9 @@ export default function CampaignParticipationsListView({ participations, campaig
   const { t } = useTranslate();
 
   const TABLE_HEAD = [
-    { id: 'name', label: t('user') },
-    { id: 'createdAt', label: t('phone') },
-    { id: 'status', label: t('type'), width: 110 },
+    { id: 'name', label: t('user', { ns: 'forms' }) },
+    { id: 'createdAt', label: t('phone', { ns: 'forms' }) },
+    { id: 'status', label: t('type', { ns: 'forms' }), width: 110 },
     { id: '', width: 88 },
   ];
 
@@ -177,11 +177,11 @@ export default function CampaignParticipationsListView({ participations, campaig
           heading={t('participations')}
           links={[
             {
-              name: t('dashboard'),
+              name: t('dashboard', { ns: 'headers' }),
               href: paths.dashboard.root,
             },
             {
-              name: t('campaigns'),
+              name: t('campaigns', { ns: 'headers' }),
               href: paths.dashboard.campaign.root,
             },
             {
@@ -336,10 +336,10 @@ export default function CampaignParticipationsListView({ participations, campaig
       <ConfirmDialog
         open={confirm.value}
         onClose={confirm.onFalse}
-        title={t('delete.action')}
+        title={t('delete.action', { ns: 'common' })}
         content={
           <>
-            {t('delete.multiple-modal')} <strong> {table.selected.length} </strong> {t('items')}?
+            {t('delete.multiple-modal', { ns: 'common' })} <strong> {table.selected.length} </strong> {t('items', { ns: 'common' })}?
           </>
         }
         action={
@@ -351,7 +351,7 @@ export default function CampaignParticipationsListView({ participations, campaig
               confirm.onFalse();
             }}
           >
-            {t('delete.word')}
+            {t('delete.word', { ns: 'common' })}
           </Button>
         }
       />

@@ -108,7 +108,7 @@ export default function CampaignContent({ campaigns, campaignsCount }) {
             fullWidth
             value={filters.search}
             onChange={(event) => handleFilters('search', event.target.value)}
-            placeholder={`${t('search')}...`}
+            placeholder={`${t('search', { ns: 'common' })}...`}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -121,7 +121,7 @@ export default function CampaignContent({ campaigns, campaignsCount }) {
           <Autocomplete
             fullWidth
             value={filters.city}
-            placeholder={t('city')}
+            placeholder={t('city', { ns: 'forms' })}
             options={CITIES}
             onChange={(_, newValue) => handleFilters('city', newValue)}
             isOptionEqualToValue={(option, value) => option === value}
@@ -132,7 +132,7 @@ export default function CampaignContent({ campaigns, campaignsCount }) {
             )}
             renderInput={(params) => (
               <TextField
-                placeholder={t('city')}
+                placeholder={t('city', { ns: 'forms' })}
                 {...params}
               />
             )}
@@ -151,7 +151,7 @@ export default function CampaignContent({ campaigns, campaignsCount }) {
               key={tab}
               iconPosition="end"
               value={tab}
-              label={t(tab)}
+              label={t(tab, { ns: 'common' })}
               icon={
                 <Label
                   variant={((tab === 'all' || tab === filters.active) && 'filled') || 'soft'}

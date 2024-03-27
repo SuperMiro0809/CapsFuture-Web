@@ -50,18 +50,18 @@ export default function ProductNewEditForm({ currentProduct }) {
   const { enqueueSnackbar } = useSnackbar();
 
   const NewProductSchema = Yup.object().shape({
-    images: Yup.array().min(1, t('validation.images.required')),
-    price: Yup.number().moreThan(0, t('validation.price.not_zero')),
+    images: Yup.array().min(1, t('images.required', { ns: 'validation' })),
+    price: Yup.number().moreThan(0, t('price.not_zero', { ns: 'validation' })),
     information: Yup.object().shape({
       bg: Yup.object().shape({
-        title: Yup.string().required(t('validation.title.required')),
-        short_description: Yup.string().required(t('validation.short_description.required')),
-        description: Yup.string().required(t('validation.description.required'))
+        title: Yup.string().required(t('title.required', { ns: 'validation' })),
+        short_description: Yup.string().required(t('short_description.required', { ns: 'validation' })),
+        description: Yup.string().required(t('description.required', { ns: 'validation' }))
       }),
       en: Yup.object().shape({
-        title: Yup.string().required(t('validation.title.required')),
-        short_description: Yup.string().required(t('validation.short_description.required')),
-        description: Yup.string().required(t('validation.description.required'))
+        title: Yup.string().required(t('title.required', { ns: 'validation' })),
+        short_description: Yup.string().required(t('short_description.required', { ns: 'validation' })),
+        description: Yup.string().required(t('description.required', { ns: 'validation' }))
       })
     })
   });
@@ -138,11 +138,11 @@ export default function ProductNewEditForm({ currentProduct }) {
         formData.append('deleteImagesIds', JSON.stringify(deleteImagesIds));
         await editProduct(currentProduct.id, formData);
 
-        enqueueSnackbar(t('edit-success'));
+        enqueueSnackbar(t('edit-success', { ns: 'messages' }));
       } else {
         await createProduct(formData);
 
-        enqueueSnackbar(t('create-success'));
+        enqueueSnackbar(t('create-success', { ns: 'messages' }));
       }
 
       router.push(paths.dashboard.product.root);
@@ -190,7 +190,7 @@ export default function ProductNewEditForm({ currentProduct }) {
         <Card>
           <Stack spacing={3} sx={{ p: 3 }}>
             <Stack spacing={1.5}>
-              <Typography variant="subtitle2">{t('images')}</Typography>
+              <Typography variant="subtitle2">{t('images', { ns: 'forms' })}</Typography>
               <RHFUpload
                 multiple
                 thumbnail
@@ -203,7 +203,7 @@ export default function ProductNewEditForm({ currentProduct }) {
             </Stack>
 
             <Stack spacing={1.5}>
-              <Typography variant="subtitle2">{t('price')}</Typography>
+              <Typography variant="subtitle2">{t('price', { ns: 'forms' })}</Typography>
               <RHFTextField
                 name='price'
                 type='number'
@@ -228,9 +228,9 @@ export default function ProductNewEditForm({ currentProduct }) {
                   { label: 'English', slug: 'en' },
                 ]}
                 fields={[
-                  { type: 'text', name: 'title', label: t('title') },
-                  { type: 'text', name: 'short_description', label: t('short_description'), multiline: true, rows: 4 },
-                  { type: 'editor', name: 'description', label: t('description') }
+                  { type: 'text', name: 'title', label: t('title', { ns: 'forms' }) },
+                  { type: 'text', name: 'short_description', label: t('short_description', { ns: 'forms' }), multiline: true, rows: 4 },
+                  { type: 'editor', name: 'description', label: t('description', { ns: 'forms' }) }
                 ]}
               />
             </Stack>
@@ -447,12 +447,12 @@ export default function ProductNewEditForm({ currentProduct }) {
       <Grid xs={12} md={8} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}>
         <RHFSwitch
           name='active'
-          label={t('active')}
+          label={t('active', { ns: 'forms' })}
           sx={{ pl: 3 }}
         />
 
         <LoadingButton type="submit" variant="contained" size="large" loading={isSubmitting}>
-          {!currentProduct ? t('create') : t('save')}
+          {!currentProduct ? t('create', { ns: 'common' }) : t('save', { ns: 'common' })}
         </LoadingButton>
       </Grid>
     </>

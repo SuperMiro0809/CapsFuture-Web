@@ -97,7 +97,7 @@ export default function ProductDetailsSummary({
 
   const renderPrice = (
     <Box sx={{ typography: 'h5' }}>
-      {`${fCurrency(price)} ${t('lv')}.`}
+      {`${fCurrency(price)} ${t('lv', { ns: 'common' })}.`}
     </Box>
   );
 
@@ -185,7 +185,7 @@ export default function ProductDetailsSummary({
   const renderQuantity = (
     <Stack direction="row">
       <Typography variant="subtitle2" sx={{ flexGrow: 1 }}>
-        {t('quantity')}
+        {t('quantity', { ns: 'forms' })}
       </Typography>
 
       <Stack spacing={1}>
@@ -262,7 +262,7 @@ export default function ProductDetailsSummary({
           'success.main',
       }}
     >
-      {active ? t('in-stock') : t('out-of-stock')}
+      {active ? t('in-stock', { ns: 'common' }) : t('out-of-stock', { ns: 'common' })}
     </Box>
   );
 

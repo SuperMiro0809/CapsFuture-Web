@@ -23,14 +23,14 @@ export default function PostEditView({ post }) {
   return (
     <Container maxWidth={settings.themeStretch ? false : 'lg'}>
       <CustomBreadcrumbs
-        heading={t('edit')}
+        heading={t('edit', { ns: 'common' })}
         links={[
           {
-            name: t('dashboard'),
+            name: t('dashboard', { ns: 'headers' }),
             href: paths.dashboard.root,
           },
           {
-            name: t('posts'),
+            name: t('posts', { ns: 'headers' }),
             href: paths.dashboard.post.root,
           },
           {

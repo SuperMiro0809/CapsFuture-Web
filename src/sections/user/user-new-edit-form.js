@@ -51,10 +51,10 @@ export default function UserNewEditForm({ roles, currentUser }) {
   const password = useBoolean();
 
   const NewUserSchema = Yup.object().shape({
-    first_name: Yup.string().required(t('validation.first_name.required')),
-    last_name: Yup.string().required(t('validation.last_name.required')),
-    email: Yup.string().required(t('validation.email.required')).email(t('validation.email.valid')),
-    password: Yup.string().required(t('validation.password.required')),
+    first_name: Yup.string().required(t('first_name.required', { ns: 'validation' })),
+    last_name: Yup.string().required(t('last_name.required', { ns: 'validation' })),
+    email: Yup.string().required(t('email.required', { ns: 'validation' })).email(t('email.valid', { ns: 'validation' })),
+    password: Yup.string().required(t('password.required', { ns: 'validation' })),
     // phoneNumber: Yup.string().required('Phone number is required'),
     // address: Yup.string().required('Address is required'),
     // country: Yup.string().required('Country is required'),
@@ -118,7 +118,7 @@ export default function UserNewEditForm({ roles, currentUser }) {
         await createUser(values);
       }
 
-      enqueueSnackbar(currentUser ? t('edit-success') : t('create-success'));
+      enqueueSnackbar(currentUser ? t('edit-success', { ns: 'messages' }) : t('create-success', { ns: 'messages' }));
       router.push(paths.dashboard.user.root);
     } catch (error) {
       console.error(error);
@@ -251,17 +251,17 @@ export default function UserNewEditForm({ roles, currentUser }) {
                 sm: 'repeat(2, 1fr)',
               }}
             >
-              <RHFTextField name="first_name" label={t('first-name')} />
+              <RHFTextField name="first_name" label={t('first-name', { ns: 'forms' })} />
 
-              <RHFTextField name="last_name" label={t('last-name')} />
+              <RHFTextField name="last_name" label={t('last-name', { ns: 'forms' })} />
 
-              <RHFTextField name="email" label={t('email')} />
+              <RHFTextField name="email" label={t('email', { ns: 'forms' })} />
 
               {!currentUser && (
                 <RHFTextField
                   name='password'
                   type={password.value ? 'text' : 'password'}
-                  label={t('password')}
+                  label={t('password', { ns: 'forms' })}
                   InputProps={{
                     endAdornment: (
                       <InputAdornment position='end'>
@@ -276,7 +276,7 @@ export default function UserNewEditForm({ roles, currentUser }) {
 
               <RHFAutocomplete
                 name='role'
-                label={t('role')}
+                label={t('role', { ns: 'forms' })}
                 options={roles.map((role) => ({ label: role.name, value: role.id }))}
                 getOptionLabel={(option) => option.label}
                 isOptionEqualToValue={(option, value) => option.value === value.value}
@@ -286,7 +286,7 @@ export default function UserNewEditForm({ roles, currentUser }) {
 
             <Stack alignItems="flex-end" sx={{ mt: 3 }}>
               <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-                {!currentUser ? t('create') : t('save')}
+                {!currentUser ? t('create', { ns: 'common' }) : t('save', { ns: 'common' })}
               </LoadingButton>
             </Stack>
           </Card>

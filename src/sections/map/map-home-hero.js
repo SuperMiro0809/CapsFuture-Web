@@ -44,7 +44,7 @@ export default function MapHomeHero() {
             },
           }}
         >
-          <TextAnimate text={t('map')} variants={varFade().inRight} sx={{ color: 'primary.main' }} />
+          <TextAnimate text={t('map', { ns: 'headers' })} variants={varFade().inRight} sx={{ color: 'primary.main' }} />
 
           <br />
 

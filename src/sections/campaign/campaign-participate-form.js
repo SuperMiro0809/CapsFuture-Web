@@ -35,10 +35,10 @@ export default function CampaignParticipateForm({ slug }) {
   const phoneRegex = /^\+?(\d{1,3})?[-.\s]?\(?(?:\d{1,3})?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,4}$/;
 
   const ParticipateSchema = Yup.object().shape({
-    firstName: Yup.string().required(t('validation.first-name.required')),
-    lastName: Yup.string().required(t('validation.last-name.required')),
-    email: Yup.string().required(t('validation.email.required')).email(t('validation.email.valid')),
-    phone: Yup.string().required(t('validation.phone.required')).matches(phoneRegex, t('validation.phone.valid')),
+    firstName: Yup.string().required(t('first-name.required', { ns: 'validation' })),
+    lastName: Yup.string().required(t('last-name.required', { ns: 'validation' })),
+    email: Yup.string().required(t('email.required', { ns: 'validation' })).email(t('email.valid', { ns: 'validation' })),
+    phone: Yup.string().required(t('phone.required', { ns: 'validation' })).matches(phoneRegex, t('phone.valid', { ns: 'validation' })),
     //
     caps_handover: Yup.boolean(),
     bottles_handover: Yup.boolean(),
@@ -48,7 +48,7 @@ export default function CampaignParticipateForm({ slug }) {
     note: Yup.string()
   }).test(
     'at-least-one-true',
-    t('validation.at-least-one-true'),
+    t('at-least-one-true', { ns: 'validation' }),
     object => object.caps_handover || object.bottles_handover || object.cans_handover || object.buying_consumables || object.campaign_labour
   );
 
@@ -84,7 +84,7 @@ export default function CampaignParticipateForm({ slug }) {
       if (error) throw error;
 
       setErrorMsg('');
-      setSuccessMsg(t('participate-success-message'));
+      setSuccessMsg(t('participate-success-message', { ns: 'messages' }));
     } catch (error) {
       setErrorMsg(t(error));
       setSuccessMsg('');
@@ -99,7 +99,7 @@ export default function CampaignParticipateForm({ slug }) {
 
   const renderForm = (
     <Stack spacing={2.5}>
-      <Alert severity='warning'>{t('participate-warning-message')}</Alert>
+      <Alert severity='warning'>{t('participate-warning-message', { ns: 'messages' })}</Alert>
 
       {!!errorMsg && <Alert severity="error">{errorMsg}</Alert>}
 
@@ -110,25 +110,25 @@ export default function CampaignParticipateForm({ slug }) {
           <Box gap={2} display="grid" gridTemplateColumns="repeat(2, 1fr)">
             <RHFTextField
               name="firstName"
-              label={t('first-name')}
+              label={t('first-name', { ns: 'forms' })}
               sx={{ backgroundColor: (theme) => theme.palette.background.pink, borderRadius: 2 }}
             />
 
             <RHFTextField
               name="lastName"
-              label={t('last-name')}
+              label={t('last-name', { ns: 'forms' })}
               sx={{ backgroundColor: (theme) => theme.palette.background.pink, borderRadius: 2 }}
             />
 
             <RHFTextField
               name="email"
-              label={t('email')}
+              label={t('email', { ns: 'forms' })}
               sx={{ backgroundColor: (theme) => theme.palette.background.pink, borderRadius: 2 }}
             />
 
             <RHFTextField
               name="phone"
-              label={t('phone')}
+              label={t('phone', { ns: 'forms' })}
               sx={{ backgroundColor: (theme) => theme.palette.background.pink, borderRadius: 2 }}
             />
           </Box>
@@ -139,7 +139,7 @@ export default function CampaignParticipateForm({ slug }) {
             size='large'
             onClick={() => setStep(2)}
           >
-            {t('forward')}
+            {t('forward', { ns: 'common' })}
           </Button>
         </>
       )}
@@ -170,7 +170,7 @@ export default function CampaignParticipateForm({ slug }) {
 
           <RHFTextField
             name='note'
-            label={t('note')}
+            label={t('note', { ns: 'forms' })}
             multiline
             rows={3}
             sx={{ backgroundColor: (theme) => theme.palette.background.pink, borderRadius: 2 }}
@@ -183,7 +183,7 @@ export default function CampaignParticipateForm({ slug }) {
               onClick={() => setStep(1)}
               startIcon={<Iconify icon="eva:arrow-ios-back-fill" width={16} />}
             >
-              {t('back')}
+              {t('back', { ns: 'common' })}
             </Button>
 
             <LoadingButton

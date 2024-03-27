@@ -133,14 +133,14 @@ export default function TableBuilder({
                     confirm.onFalse();
                     setSelectedId(0);
                 }}
-                title={t('delete.word')}
+                title={t('delete.word', { ns: 'common' })}
                 content={
                     <>
                         {(selectedId || table.selected.length === 1) ? (
-                            <>{t('delete.single-modal')}</>
+                            <>{t('delete.single-modal', { ns: 'common' })}</>
                         ) : (
                             <>
-                                {t('delete.multiple-modal')} <strong> {table.selected.length} </strong> {t('items')}?
+                                {t('delete.multiple-modal', { ns: 'common' })} <strong> {table.selected.length} </strong> {t('items', { ns: 'common' })}?
                             </>
                         )}
                     </>
@@ -160,7 +160,7 @@ export default function TableBuilder({
                             setSelectedId(0);
                         }}
                     >
-                        {t('delete.action')}
+                        {t('delete.action', { ns: 'common' })}
                     </Button>
                 }
             />

@@ -7,6 +7,12 @@ import LanguageDetector from 'i18next-browser-languagedetector';
 import translationEn from './langs/en.json';
 import translationBg from './langs/bg.json';
 
+import commonBg from './langs/bg/common.json';
+import formsBg from './langs/bg/forms.json';
+import validationBg from './langs/bg/validation.json';
+import messagesBg from './langs/bg/messages.json';
+import headersBg from './langs/bg/headers.json';
+
 // ----------------------------------------------------------------------
 
 export default async function initTranslations(locale, i18nInstance) {
@@ -19,7 +25,14 @@ export default async function initTranslations(locale, i18nInstance) {
     lng: locale,
     resources: {
       en: { translations: translationEn },
-      bg: { translations: translationBg }
+      bg: {
+        translations: translationBg,
+        validation: validationBg,
+        forms: formsBg,
+        messages: messagesBg,
+        common: commonBg,
+        headers: headersBg
+      }
     },
     fallbackLng: locale,
     debug: false,

@@ -45,7 +45,7 @@ export default function CampaignHero() {
             },
           }}
         >
-          <TextAnimate text={t('campaigns')} variants={varFade().inRight} sx={{ color: 'primary.main' }} />
+          <TextAnimate text={t('campaigns', { ns: 'headers' })} variants={varFade().inRight} sx={{ color: 'primary.main' }} />
 
           <br />
 

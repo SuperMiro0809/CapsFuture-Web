@@ -54,9 +54,9 @@ export default function Upload({
     <Stack spacing={3} alignItems="center" justifyContent="center" flexWrap="wrap">
       <UploadIllustration sx={{ width: 1, maxWidth: 200 }} />
       <Stack spacing={1} sx={{ textAlign: 'center' }}>
-        <Typography variant="h6">{t('drop-or-select-file')}</Typography>
+        <Typography variant="h6">{t('drop-or-select-file', { ns: 'common' })}</Typography>
         <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-          {t('drop-file-here-or-click')}
+          {t('drop-file-here-or-click', { ns: 'common' })}
           <Box
             component="span"
             sx={{
@@ -65,9 +65,9 @@ export default function Upload({
               textDecoration: 'underline',
             }}
           >
-            {t('browse')}
+            {t('browse', { ns: 'common' })}
           </Box>
-          {t('thorough-your-machine')}
+          {t('thorough-your-machine', { ns: 'common' })}
         </Typography>
       </Stack>
     </Stack>
@@ -106,7 +106,7 @@ export default function Upload({
       <Stack direction="row" justifyContent="flex-end" spacing={1.5}>
         {onRemoveAll && (
           <Button color="inherit" variant="outlined" size="small" onClick={onRemoveAll}>
-            {t('remove-all')}
+            {t('remove-all', { ns: 'common' })}
           </Button>
         )}
 

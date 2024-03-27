@@ -82,13 +82,13 @@ export default function RegisterView() {
 
   const renderHead = (
     <Stack spacing={2} sx={{ mb: 5, position: 'relative' }}>
-      <Typography variant="h3">{t('register')}</Typography>
+      <Typography variant="h3">{t('register', { ns: 'headers' })}</Typography>
 
       <Stack direction="row" spacing={0.5}>
         <Typography variant="body2"> {t('already-have-account')}? </Typography>
 
         <Link href={paths.auth.login} component={RouterLink} variant="subtitle2">
-          {t('login')}
+          {t('login', { ns: 'headers' })}
         </Link>
       </Stack>
     </Stack>
@@ -122,15 +122,15 @@ export default function RegisterView() {
         {!!errorMsg && <Alert severity="error">{errorMsg}</Alert>}
 
         <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
-          <RHFTextField name="firstName" label={t('first-name')} />
-          <RHFTextField name="lastName" label={t('last-name')} />
+          <RHFTextField name="firstName" label={t('first-name', { ns: 'forms' })} />
+          <RHFTextField name="lastName" label={t('last-name', { ns: 'forms' })} />
         </Stack>
 
-        <RHFTextField name="email" label={t('email')} />
+        <RHFTextField name="email" label={t('email', { ns: 'forms' })} />
 
         <RHFTextField
           name="password"
-          label={t('password')}
+          label={t('password', { ns: 'forms' })}
           type={password.value ? 'text' : 'password'}
           InputProps={{
             endAdornment: (
@@ -151,7 +151,7 @@ export default function RegisterView() {
           variant="contained"
           loading={isSubmitting}
         >
-          {t('register')}
+          {t('register', { ns: 'headers' })}
         </LoadingButton>
       </Stack>
     </FormProvider>

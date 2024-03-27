@@ -123,7 +123,7 @@ export default function ProductCard({ id, slug, title, price, images }) {
               {title}
             </TextMaxLine>
             <Typography variant="h5" component="div">
-              {`${price} ${t('lv')}.`}
+              {`${price} ${t('lv', { ns: 'common' })}.`}
             </Typography>
           </Box>
 

@@ -45,19 +45,19 @@ export default function CampaignNewEditForm({ currentCampaign }) {
     const { t } = useTranslation();
 
     const NewCampaignSchema = Yup.object().shape({
-        title_image: Yup.mixed().required(t('validation.title_image.required')),
-        date: Yup.date().required(t('validation.date.required')),
-        cities: Yup.array().min(1, t('validation.cities.required')),
+        title_image: Yup.mixed().required(t('title_image.required', { ns: 'validation' })),
+        date: Yup.date().required(t('date.required', { ns: 'validation' })),
+        cities: Yup.array().min(1, t('cities.required', { ns: 'validation' })),
         information: Yup.object().shape({
             bg: Yup.object().shape({
-                title: Yup.string().required(t('validation.title.required')),
-                short_description: Yup.string().required(t('validation.short_description.required')),
-                description: Yup.string().required(t('validation.description.required'))
+                title: Yup.string().required(t('title.required', { ns: 'validation' })),
+                short_description: Yup.string().required(t('short_description.required', { ns: 'validation' })),
+                description: Yup.string().required(t('description.required', { ns: 'validation' }))
             }),
             en: Yup.object().shape({
-                title: Yup.string().required(t('validation.title.required')),
-                short_description: Yup.string().required(t('validation.short_description.required')),
-                description: Yup.string().required(t('validation.description.required'))
+                title: Yup.string().required(t('title.required', { ns: 'validation' })),
+                short_description: Yup.string().required(t('short_description.required', { ns: 'validation' })),
+                description: Yup.string().required(t('description.required', { ns: 'validation' }))
             })
         })
     });
@@ -137,11 +137,11 @@ export default function CampaignNewEditForm({ currentCampaign }) {
             if(currentCampaign) {
                 await editCampaign(currentCampaign.id, formData);
 
-                enqueueSnackbar(t('edit-success'));
+                enqueueSnackbar(t('edit-success', { ns: 'messages' }));
             }else {
                 await createCampaign(formData);
 
-                enqueueSnackbar(t('create-success'));
+                enqueueSnackbar(t('create-success', { ns: 'messages' }));
             }
 
             router.push(paths.dashboard.campaign.root);
@@ -171,7 +171,7 @@ export default function CampaignNewEditForm({ currentCampaign }) {
             <Card>
                 <Stack spacing={3} sx={{ p: 3 }}>
                     <Stack spacing={1.5}>
-                        <Typography variant="subtitle2">{t('title-image')}</Typography>
+                        <Typography variant="subtitle2">{t('title-image', { ns: 'forms' })}</Typography>
                         <RHFUpload
                             name="title_image"
                             maxSize={3145728}
@@ -190,12 +190,12 @@ export default function CampaignNewEditForm({ currentCampaign }) {
                         }}
                     >
                         <Stack spacing={1.5}>
-                            <Typography variant="subtitle2">{t('date')}</Typography>
+                            <Typography variant="subtitle2">{t('date', { ns: 'forms' })}</Typography>
                             <RHFDatePicker name='date' />
                         </Stack>
 
                         <Stack spacing={1.5}>
-                            <Typography variant="subtitle2">{t('cities')}</Typography>
+                            <Typography variant="subtitle2">{t('cities', { ns: 'forms' })}</Typography>
                             <RHFAutocomplete
                                 name='cities'
                                 options={CITIES}
@@ -212,9 +212,9 @@ export default function CampaignNewEditForm({ currentCampaign }) {
                             { label: 'English', slug: 'en' },
                         ]}
                         fields={[
-                            { type: 'text', name: 'title', label: t('title') },
-                            { type: 'text', name: 'short_description', label: t('short_description'), multiline: true, rows: 4 },
-                            { type: 'editor', name: 'description', label: t('description') }
+                            { type: 'text', name: 'title', label: t('title', { ns: 'forms' }) },
+                            { type: 'text', name: 'short_description', label: t('short_description', { ns: 'forms' }), multiline: true, rows: 4 },
+                            { type: 'editor', name: 'description', label: t('description', { ns: 'forms' }) }
                         ]}
                     />
                 </Stack>
@@ -233,7 +233,7 @@ export default function CampaignNewEditForm({ currentCampaign }) {
                     loading={isSubmitting}
                     sx={{ ml: 2 }}
                 >
-                    {!currentCampaign ? t('create') : t('save')}
+                    {!currentCampaign ? t('create', { ns: 'common' }) : t('save', { ns: 'common' })}
                 </LoadingButton>
             </Grid>
         </>

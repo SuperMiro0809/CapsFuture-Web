@@ -64,7 +64,7 @@ export default function PostDetailsHomeView({ post, error }) {
             startIcon={<Iconify icon="eva:arrow-ios-back-fill" width={16} />}
             sx={{ mt: 3 }}
           >
-            {t('back')}
+            {t('back', { ns: 'common' })}
           </Button>
         }
         sx={{ py: 10 }}
@@ -91,11 +91,11 @@ export default function PostDetailsHomeView({ post, error }) {
         <CustomBreadcrumbs
           links={[
             {
-              name: t('home'),
+              name: t('home', { ns: 'headers' }),
               href: '/',
             },
             {
-              name: t('posts'),
+              name: t('posts', { ns: 'headers' }),
               href: paths.post.root,
             },
             {
@@ -137,7 +137,7 @@ export default function PostDetailsHomeView({ post, error }) {
                 }}
               >
                 <Alert variant="outlined" severity="error">
-                  {t('comments-not-logged-in-message')}
+                  {t('comments-not-logged-in-message', { ns: 'messages' })}
                 </Alert>
                 <LoginButton
                   sx={{ ml: 0, mt: 2 }}

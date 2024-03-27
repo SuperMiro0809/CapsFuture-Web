@@ -49,34 +49,34 @@ export default function StationLocationsNewEditForm({ currentLocation, locationT
   const phoneRegex = /^\+?(\d{1,3})?[-.\s]?\(?(?:\d{1,3})?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,4}$/;
 
   const NewBlogSchema = Yup.object().shape({
-    type: Yup.number().required(t('validation.type.required')),
-    name: Yup.string().required(t('validation.name.required')),
+    type: Yup.number().required(t('type.required', { ns: 'validation' })),
+    name: Yup.string().required(t('name.required', { ns: 'validation' })),
     working_time: Yup.string().when('type', {
       is: (type) => type === 2,
-      then: () => Yup.string().required(t('validation.working-time.required')),
+      then: () => Yup.string().required(t('working-time.required', { ns: 'validation' })),
       otherwise: () => Yup.string().notRequired(),
     }),
-    location: Yup.object().required(t('validation.location.required')),
-    phone: Yup.string().required(t('validation.phone.required')).matches(phoneRegex, t('validation.phone.valid')),
+    location: Yup.object().required(t('location.required', { ns: 'validation' })),
+    phone: Yup.string().required(t('phone.required', { ns: 'validation' })).matches(phoneRegex, t('phone.valid', { ns: 'validation' })),
     user_type: Yup.number().required(),
     user: Yup.object().when('user_type', {
       is: (user_type) => user_type === 0,
-      then: () => Yup.object().required(t('validation.user.required')),
+      then: () => Yup.object().required(t('user.required', { ns: 'validation' })),
       otherwise: () => Yup.object().notRequired(),
     }),
     first_name: Yup.string().when('user_type', {
       is: (user_type) => user_type === 1,
-      then: () => Yup.string().required(t('validation.first-name.required')),
+      then: () => Yup.string().required(t('first-name.required', { ns: 'validation' })),
       otherwise: () => Yup.string().notRequired(),
     }),
     last_name: Yup.string().when('user_type', {
       is: (user_type) => user_type === 1,
-      then: () => Yup.string().required(t('validation.last-name.required')),
+      then: () => Yup.string().required(t('last-name.required', { ns: 'validation' })),
       otherwise: () => Yup.string().notRequired(),
     }),
     email: Yup.string().when('user_type', {
       is: (user_type) => user_type === 1,
-      then: () => Yup.string().email(t('validation.email.valid')).required(t('validation.email.required')),
+      then: () => Yup.string().email(t('email.valid', { ns: 'validation' })).required(t('email.required', { ns: 'validation' })),
       otherwise: () => Yup.string().notRequired(),
     }),
   });
@@ -163,7 +163,7 @@ export default function StationLocationsNewEditForm({ currentLocation, locationT
 
         if (error) throw error;
 
-        enqueueSnackbar(t('create-success'));
+        enqueueSnackbar(t('create-success', { ns: 'messages' }));
       }
 
       router.push(paths.dashboard.station.locations.root);
@@ -179,21 +179,21 @@ export default function StationLocationsNewEditForm({ currentLocation, locationT
       {mdUp && (
         <Grid md={4}>
           <Typography variant="h6" sx={{ mb: 0.5 }}>
-            {t('details')}
+            {t('details', { ns: 'common' })}
           </Typography>
           <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-            {t('details-subtext')}
+            {t('details-subtext', { ns: 'common' })}
           </Typography>
         </Grid>
       )}
 
       <Grid xs={12} md={8}>
         <Card>
-          {!mdUp && <CardHeader title={t('details')} />}
+          {!mdUp && <CardHeader title={t('details', { ns: 'common' })} />}
 
           <Stack spacing={3} sx={{ p: 3 }}>
             <Stack spacing={1.5}>
-              <Typography variant='subtitle2'>{t('type')}</Typography>
+              <Typography variant='subtitle2'>{t('type', { ns: 'forms' })}</Typography>
               <Controller
                 name='type'
                 control={control}
@@ -229,19 +229,19 @@ export default function StationLocationsNewEditForm({ currentLocation, locationT
             </Stack>
 
             <Stack spacing={1.5}>
-              <Typography variant="subtitle2">{t('name')}</Typography>
+              <Typography variant="subtitle2">{t('name', { ns: 'forms' })}</Typography>
               <RHFTextField name='name' />
             </Stack>
 
             {values.type === 2 && (
               <>
                 <Stack spacing={1.5}>
-                  <Typography variant="subtitle2">{t('working-time')}</Typography>
+                  <Typography variant="subtitle2">{t('working-time', { ns: 'forms' })}</Typography>
                   <RHFTextField name='working_time' />
                 </Stack>
 
                 <Stack spacing={1.5}>
-                  <Typography variant='subtitle2'>{t('collects')}</Typography>
+                  <Typography variant='subtitle2'>{t('collects', { ns: 'forms' })}</Typography>
                   <Box gap={2} display="grid" gridTemplateColumns="repeat(3, 1fr)">
                     {[
                       {
@@ -305,7 +305,7 @@ export default function StationLocationsNewEditForm({ currentLocation, locationT
       {mdUp && (
         <Grid md={4}>
           <Typography variant="h6" sx={{ mb: 0.5 }}>
-            {t('location')}
+            {t('location', { ns: 'forms' })}
           </Typography>
           <Typography variant="body2" sx={{ color: 'text.secondary' }}>
             {t('location-subtext')}
@@ -315,7 +315,7 @@ export default function StationLocationsNewEditForm({ currentLocation, locationT
 
       <Grid xs={12} md={8}>
         <Card>
-          {!mdUp && <CardHeader title={t('location')} />}
+          {!mdUp && <CardHeader title={t('location', { ns: 'forms' })} />}
 
           <Stack spacing={1.5} sx={{ p: 3 }}>
             <RHFLocationSelectorField
@@ -349,7 +349,7 @@ export default function StationLocationsNewEditForm({ currentLocation, locationT
 
           <Stack spacing={3} sx={{ p: 3 }}>
             <Stack spacing={1.5}>
-              <Typography variant='subtitle2'>{t('type')}</Typography>
+              <Typography variant='subtitle2'>{t('type', { ns: 'forms' })}</Typography>
               <Box gap={2} display="grid" gridTemplateColumns="repeat(2, 1fr)">
                 {[
                   {
@@ -406,7 +406,7 @@ export default function StationLocationsNewEditForm({ currentLocation, locationT
 
             {values.user_type === 0 && (
               <Stack spacing={1.5}>
-                <Typography variant="subtitle2">{t('user')}</Typography>
+                <Typography variant="subtitle2">{t('user', { ns: 'forms' })}</Typography>
                 <RHFAutocomplete
                   name='user'
                   options={userOptions}
@@ -419,24 +419,24 @@ export default function StationLocationsNewEditForm({ currentLocation, locationT
             {values.user_type === 1 && (
               <>
                 <Stack spacing={1.5}>
-                  <Typography variant="subtitle2">{t('first-name')}</Typography>
+                  <Typography variant="subtitle2">{t('first-name', { ns: 'forms' })}</Typography>
                   <RHFTextField name='first_name' />
                 </Stack>
 
                 <Stack spacing={1.5}>
-                  <Typography variant="subtitle2">{t('last-name')}</Typography>
+                  <Typography variant="subtitle2">{t('last-name', { ns: 'forms' })}</Typography>
                   <RHFTextField name='last_name' />
                 </Stack>
 
                 <Stack spacing={1.5}>
-                  <Typography variant="subtitle2">{t('email')}</Typography>
+                  <Typography variant="subtitle2">{t('email', { ns: 'forms' })}</Typography>
                   <RHFTextField name='email' />
                 </Stack>
               </>
             )}
 
             <Stack spacing={1.5}>
-              <Typography variant="subtitle2">{t('phone')}</Typography>
+              <Typography variant="subtitle2">{t('phone', { ns: 'forms' })}</Typography>
               <RHFTextField
                 name='phone'
                 placeholder='+359 888 888 888 / 0888 888 888'
@@ -455,7 +455,7 @@ export default function StationLocationsNewEditForm({ currentLocation, locationT
         <Box sx={{ flexGrow: 1 }}>
           <RHFSwitch
             name='active'
-            label={t('active')}
+            label={t('active', { ns: 'forms' })}
             sx={{ pl: 3 }}
           />
         </Box>
@@ -467,7 +467,7 @@ export default function StationLocationsNewEditForm({ currentLocation, locationT
           loading={isSubmitting}
           sx={{ ml: 2 }}
         >
-          {!currentLocation ? t('create') : t('save')}
+          {!currentLocation ? t('create', { ns: 'common' }) : t('save', { ns: 'common' })}
         </LoadingButton>
       </Grid>
     </>

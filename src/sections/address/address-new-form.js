@@ -53,12 +53,12 @@ export default function AddressNewForm({ open, onClose, loadAddresses, currentAd
   const phoneRegex = /^\+?(\d{1,3})?[-.\s]?\(?(?:\d{1,3})?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,4}$/;
 
   const NewAddressSchema = Yup.object().shape({
-    fullName: Yup.string().required(t('validation.name.required')),
-    phone: Yup.string().required(t('validation.phone.required')).matches(phoneRegex, t('validation.phone.valid')),
-    country: Yup.object().required(t('validation.country.required')),
-    city: Yup.object().required(t('validation.city.required')),
-    street: Yup.string().required(t('validation.street.required')),
-    postCode: Yup.string().required(t('validation.post-code.required')),
+    fullName: Yup.string().required(t('name.required', { ns: 'validation' })),
+    phone: Yup.string().required(t('phone.required', { ns: 'validation' })).matches(phoneRegex, t('phone.valid', { ns: 'validation' })),
+    country: Yup.object().required(t('country.required', { ns: 'validation' })),
+    city: Yup.object().required(t('city.required', { ns: 'validation' })),
+    street: Yup.string().required(t('street.required', { ns: 'validation' })),
+    postCode: Yup.string().required(t('post-code.required', { ns: 'validation' })),
     // not required
     quarter: Yup.string().nullable(),
     buildingNumber: Yup.string(),
@@ -198,12 +198,12 @@ export default function AddressNewForm({ open, onClose, loadAddresses, currentAd
             >
               <RHFTextField
                 name="fullName"
-                label={t('full-name')}
+                label={t('full-name', { ns: 'forms' })}
               />
 
               <RHFTextField
                 name="phone"
-                label={t('phone')}
+                label={t('phone', { ns: 'forms' })}
               />
             </Box>
 
@@ -218,7 +218,7 @@ export default function AddressNewForm({ open, onClose, loadAddresses, currentAd
             >
               <RHFAutocomplete
                 name="country"
-                label={t('country')}
+                label={t('country', { ns: 'forms' })}
                 options={countries.filter((country) => country.code === 'BG').map((country) => ({ label: country.label, value: country.code }))}
                 getOptionLabel={(option) => option.label}
                 isOptionEqualToValue={(option, value) => option.value === value.value}
@@ -247,7 +247,7 @@ export default function AddressNewForm({ open, onClose, loadAddresses, currentAd
 
               <RHFAutocompleteVirtualize
                 name="city"
-                label={t('city')}
+                label={t('city', { ns: 'forms' })}
                 options={cities.map((city) => ({ label: city.name, value: city.id }))}
                 getOptionLabel={(option) => option.label}
                 isOptionEqualToValue={(option, value) => option.value === value.value}
@@ -266,20 +266,20 @@ export default function AddressNewForm({ open, onClose, loadAddresses, currentAd
             >
               <RHFAutocompleteVirtualize
                 name="quarter"
-                label={t('quarter')}
+                label={t('quarter', { ns: 'forms' })}
                 options={quarters.map((quarter) => quarter.name)}
                 isOptionEqualToValue={(option, value) => option === value}
                 loading={isPending}
               />
 
-              <RHFTextField name="postCode" label={t('post-code')} />
+              <RHFTextField name="postCode" label={t('post-code', { ns: 'forms' })} />
             </Box>
 
             <Grid container spacing={2}>
               <Grid xs={12} sm={10}>
                 <RHFAutocompleteVirtualize
                   name="street"
-                  label={t('street')}
+                  label={t('street', { ns: 'forms' })}
                   options={streets.map((quarter) => quarter.name)}
                   isOptionEqualToValue={(option, value) => option === value}
                   loading={isPending}
@@ -306,28 +306,28 @@ export default function AddressNewForm({ open, onClose, loadAddresses, currentAd
             >
               <RHFTextField
                 name="buildingNumber"
-                label={t('building')}
+                label={t('building', { ns: 'forms' })}
               />
 
               <RHFTextField
                 name="entrance"
-                label={t('entrance')}
+                label={t('entrance', { ns: 'forms' })}
               />
 
               <RHFTextField
                 name="floor"
-                label={t('floor')}
+                label={t('floor', { ns: 'forms' })}
               />
 
               <RHFTextField
                 name="apartment"
-                label={t('apartment')}
+                label={t('apartment', { ns: 'forms' })}
               />
             </Box>
 
             <RHFTextField
               name="note"
-              label={t('note')}
+              label={t('note', { ns: 'forms' })}
               multiline
               rows={3}
             />
@@ -338,11 +338,11 @@ export default function AddressNewForm({ open, onClose, loadAddresses, currentAd
 
         <DialogActions>
           <Button color="inherit" variant="outlined" onClick={onClose}>
-            {t('cancel')}
+            {t('cancel', { ns: 'common' })}
           </Button>
 
           <LoadingButton type="submit" variant="contained" color='primary' loading={isSubmitting}>
-            {t('create')}
+            {t('create', { ns: 'common' })}
           </LoadingButton>
         </DialogActions>
       </FormProvider>

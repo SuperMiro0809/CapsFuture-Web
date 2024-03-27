@@ -143,7 +143,7 @@ export default function HomeMap({ locations }) {
             color='primary'
             sx={{ fontSize: 16 }}
           >
-            {t('see-more')}
+            {t('see-more', { ns: 'common' })}
           </Button>
         </m.div>
       </Box>

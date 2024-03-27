@@ -48,7 +48,7 @@ export default function CheckoutCartProduct({ row, onDelete, onDecrease, onIncre
         </Stack>
       </TableCell>
 
-      <TableCell>{`${fCurrency(price)} ${t('lv')}.`}</TableCell>
+      <TableCell>{`${fCurrency(price)} ${t('lv', { ns: 'common' })}.`}</TableCell>
 
       <TableCell>
         <Box sx={{ width: 88, textAlign: 'right' }}>
@@ -62,7 +62,7 @@ export default function CheckoutCartProduct({ row, onDelete, onDecrease, onIncre
         </Box>
       </TableCell>
 
-      <TableCell align="right">{`${fCurrency(price * quantity)} ${t('lv')}.`}</TableCell>
+      <TableCell align="right">{`${fCurrency(price * quantity)} ${t('lv', { ns: 'common' })}.`}</TableCell>
 
       <TableCell align="right" sx={{ px: 1 }}>
         <IconButton onClick={onDelete}>

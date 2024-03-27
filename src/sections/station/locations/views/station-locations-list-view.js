@@ -77,10 +77,10 @@ export default function StationLocationsListView({ locations }) {
     return (
         <Container maxWidth={settings.themeStretch ? false : 'lg'}>
             <CustomBreadcrumbs
-                heading={t('locations')}
+                heading={t('locations', { ns: 'headers' })}
                 links={[
-                    { name: t('dashboard'), href: paths.dashboard.root },
-                    { name: t('locations') }
+                    { name: t('dashboard', { ns: 'headers' }), href: paths.dashboard.root },
+                    { name: t('locations', { ns: 'headers' }) }
                 ]}
                 action={
                     <Button
@@ -131,8 +131,8 @@ export default function StationLocationsListView({ locations }) {
                     confirm.onFalse();
                     setSelectedId(0);
                 }}
-                title={t('delete.word')}
-                content={t('delete.single-modal')}
+                title={t('delete.word', { ns: 'common' })}
+                content={t('delete.single-modal', { ns: 'common' })}
                 action={
                     <Button
                         variant="contained"
@@ -144,7 +144,7 @@ export default function StationLocationsListView({ locations }) {
                             setSelectedId(0);
                         }}
                     >
-                        {t('delete.action')}
+                        {t('delete.action', { ns: 'common' })}
                     </Button>
                 }
             />

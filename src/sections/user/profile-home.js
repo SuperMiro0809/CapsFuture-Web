@@ -82,7 +82,7 @@ export default function ProfileHome({ info, addresses, loading, loadAddresses })
 
         if (error) throw error;
 
-        enqueueSnackbar(t('edit-success'));
+        enqueueSnackbar(t('edit-success', { ns: 'messages' }));
         loadAddresses();
       } catch (error) {
         console.error(error);
@@ -130,7 +130,7 @@ export default function ProfileHome({ info, addresses, loading, loadAddresses })
               startIcon={<Iconify icon="mingcute:add-line" />}
               onClick={addressForm.onTrue}
             >
-              {t('create')}
+              {t('create', { ns: 'common' })}
             </Button>
           }
         />
@@ -215,7 +215,7 @@ export default function ProfileHome({ info, addresses, loading, loadAddresses })
           }}
         >
           <Iconify icon="solar:pen-bold" />
-          {t('edit')}
+          {t('edit', { ns: 'common' })}
         </MenuItem>
 
         <MenuItem
@@ -225,7 +225,7 @@ export default function ProfileHome({ info, addresses, loading, loadAddresses })
           sx={{ color: 'error.main' }}
         >
           <Iconify icon="solar:trash-bin-trash-bold" />
-          {t('delete.word')}
+          {t('delete.word', { ns: 'common' })}
         </MenuItem>
       </CustomPopover>
 
@@ -234,8 +234,8 @@ export default function ProfileHome({ info, addresses, loading, loadAddresses })
         onClose={() => {
           confirm.onFalse();
         }}
-        title={t('delete.word')}
-        content={t('delete.single-modal')}
+        title={t('delete.word', { ns: 'common' })}
+        content={t('delete.single-modal', { ns: 'common' })}
         action={
           <Button
             variant="contained"
@@ -247,7 +247,7 @@ export default function ProfileHome({ info, addresses, loading, loadAddresses })
               handleClose();
             }}
           >
-            {t('delete.action')}
+            {t('delete.action', { ns: 'common' })}
           </Button>
         }
       />

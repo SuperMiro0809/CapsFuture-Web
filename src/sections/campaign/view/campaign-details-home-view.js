@@ -69,7 +69,7 @@ export default function CampaignDetailsHomeView({ campaign, error }) {
             startIcon={<Iconify icon="eva:arrow-ios-back-fill" width={16} />}
             sx={{ mt: 3 }}
           >
-            {t('back')}
+            {t('back', { ns: 'common' })}
           </Button>
         }
         sx={{ py: 10 }}
@@ -100,11 +100,11 @@ export default function CampaignDetailsHomeView({ campaign, error }) {
         <CustomBreadcrumbs
           links={[
             {
-              name: t('home'),
+              name: t('home', { ns: 'headers' }),
               href: '/',
             },
             {
-              name: t('campaigns'),
+              name: t('campaigns', { ns: 'headers' }),
               href: paths.campaign.root,
             },
             {

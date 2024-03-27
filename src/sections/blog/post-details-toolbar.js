@@ -47,7 +47,7 @@ export default function PostDetailsToolbar({
           href={backLink}
           startIcon={<Iconify icon="eva:arrow-ios-back-fill" width={16} />}
         >
-          {t('back')}
+          {t('back', { ns: 'common' })}
         </Button>
 
         <Box sx={{ flexGrow: 1 }} />
@@ -60,7 +60,7 @@ export default function PostDetailsToolbar({
           </Tooltip>
         )}
 
-        <Tooltip title={t('edit')}>
+        <Tooltip title={t('edit', { ns: 'common' })}>
           <IconButton component={RouterLink} href={editLink}>
             <Iconify icon="solar:pen-bold" />
           </IconButton>

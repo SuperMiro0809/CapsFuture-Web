@@ -51,7 +51,7 @@ export default function CheckoutSummary({
             <Typography variant="body2" sx={{ color: 'text.secondary' }}>
               {t('sub-total')}
             </Typography>
-            <Typography variant="subtitle2">{`${fCurrency(subTotal)} ${t('lv')}`}</Typography>
+            <Typography variant="subtitle2">{`${fCurrency(subTotal)} ${t('lv', { ns: 'common' })}`}</Typography>
           </Stack>
 
           {/* <Stack direction="row" justifyContent="space-between">
@@ -73,13 +73,13 @@ export default function CheckoutSummary({
           <Divider sx={{ borderStyle: 'dashed' }} />
 
           <Stack direction="row" justifyContent="space-between">
-            <Typography variant="subtitle1">{t('total')}</Typography>
+            <Typography variant="subtitle1">{t('total', { ns: 'common' })}</Typography>
             <Box sx={{ textAlign: 'right' }}>
               <Typography variant="subtitle1" sx={{ color: 'error.main' }}>
                 {`${fCurrency(total)} ${t('lv')}.`}
               </Typography>
               <Typography variant="caption" sx={{ fontStyle: 'italic' }}>
-                {t('with-VAT')}
+                {t('with-VAT', { ns: 'common' })}
               </Typography>
             </Box>
           </Stack>

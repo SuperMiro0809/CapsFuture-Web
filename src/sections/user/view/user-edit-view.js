@@ -23,14 +23,14 @@ export default function UserEditView({ user, roles }) {
   return (
     <Container maxWidth={settings.themeStretch ? false : 'lg'}>
       <CustomBreadcrumbs
-        heading={t('edit')}
+        heading={t('edit', { ns: 'common' })}
         links={[
           {
-            name: t('dashboard'),
+            name: t('dashboard', { ns: 'headers' }),
             href: paths.dashboard.root,
           },
           {
-            name: t('users'),
+            name: t('users', { ns: 'forms' }),
             href: paths.dashboard.user.root,
           },
           { name: user?.full_name },

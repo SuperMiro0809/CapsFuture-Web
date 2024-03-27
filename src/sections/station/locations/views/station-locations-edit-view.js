@@ -23,14 +23,14 @@ export default function StationLocationsEditView({ location, locationTypes, user
   return (
     <Container maxWidth={settings.themeStretch ? false : 'lg'}>
       <CustomBreadcrumbs
-        heading={t('edit')}
+        heading={t('edit', { ns: 'common' })}
         links={[
           {
-            name: t('dashboard'),
+            name: t('dashboard', { ns: 'headers' }),
             href: paths.dashboard.root,
           },
           {
-            name: t('locations'),
+            name: t('locations', { ns: 'headers' }),
             href: paths.dashboard.station.locations.root,
           },
           { name: location?.name },

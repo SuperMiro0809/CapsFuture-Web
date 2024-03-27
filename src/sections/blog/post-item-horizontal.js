@@ -84,7 +84,7 @@ export default function PostItemHorizontal({ post }) {
         >
           <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ mb: 2 }}>
             <Label variant="soft" color={(active ? 'primary' : 'secondary') || 'default'}>
-              {active ? t('published') : t('draft')}
+              {active ? t('published', { ns: 'common' }) : t('draft', { ns: 'common' })}
             </Label>
 
             <Box component="span" sx={{ typography: 'caption', color: 'text.disabled' }}>
@@ -171,7 +171,7 @@ export default function PostItemHorizontal({ post }) {
           }}
         >
           <Iconify icon="solar:eye-bold" />
-          {t('preview')}
+          {t('preview', { ns: 'common' })}
         </MenuItem>
 
         <MenuItem
@@ -181,7 +181,7 @@ export default function PostItemHorizontal({ post }) {
           }}
         >
           <Iconify icon="solar:pen-bold" />
-          {t('edit')}
+          {t('edit', { ns: 'common' })}
         </MenuItem>
 
         <MenuItem
@@ -189,7 +189,7 @@ export default function PostItemHorizontal({ post }) {
           sx={{ color: 'error.main' }}
         >
           <Iconify icon="solar:trash-bin-trash-bold" />
-          {t('delete.action')}
+          {t('delete.action', { ns: 'common' })}
         </MenuItem>
       </CustomPopover>
     </>

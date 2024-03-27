@@ -29,13 +29,13 @@ export default function RoleBasedGuard({ hasContent, roles, children, sx }) {
       <Container component={MotionContainer} sx={{ textAlign: 'center', ...sx }}>
         <m.div variants={varBounce().in}>
           <Typography variant="h3" sx={{ mb: 2 }}>
-            {t('permission-denied')}
+            {t('permission-denied', { ns: 'messages' })}
           </Typography>
         </m.div>
 
         <m.div variants={varBounce().in}>
           <Typography sx={{ color: 'text.secondary', mb: 2 }}>
-            {t('permission-denied-message')}
+            {t('permission-denied-message', { ns: 'messages' })}
           </Typography>
         </m.div>
 
@@ -45,7 +45,7 @@ export default function RoleBasedGuard({ hasContent, roles, children, sx }) {
             href='/'
             variant='outlined'
           >
-            {t('home')}
+            {t('home', { ns: 'headers' })}
           </Button>
         </m.div>
 
