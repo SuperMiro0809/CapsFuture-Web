@@ -74,7 +74,7 @@ export default function CheckoutCart() {
           total={checkout.total}
           discount={checkout.discount}
           subTotal={checkout.subTotal}
-          onApplyDiscount={false}
+          // onApplyDiscount={false}
         />
 
         <Button
@@ -84,7 +84,7 @@ export default function CheckoutCart() {
           variant="contained"
           color='primary'
           disabled={empty}
-          // onClick={checkout.onNextStep}
+          onClick={checkout.onNextStep}
         >
           {t('check-out', { ns: 'ecommerce' })}
         </Button>

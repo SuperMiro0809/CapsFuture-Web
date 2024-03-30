@@ -39,7 +39,7 @@ export default function CheckoutSummary({
         action={
           onEdit && (
             <Button size="small" onClick={onEdit} startIcon={<Iconify icon="solar:pen-bold" />}>
-              Edit
+              {t('edit', { ns: 'common' })}
             </Button>
           )
         }

@@ -25,7 +25,7 @@ import CustomPopover, { usePopover } from 'src/components/custom-popover';
 import { ConfirmDialog } from 'src/components/custom-dialog';
 import { useSnackbar } from 'src/components/snackbar';
 //
-import { AddressItem, AddressNewForm } from '../address';
+import { AddressItem, AddressNewModal } from '../address';
 
 // ----------------------------------------------------------------------
 
@@ -252,10 +252,10 @@ export default function ProfileHome({ info, addresses, loading, loadAddresses })
         }
       />
 
-      <AddressNewForm
+      <AddressNewModal
         open={addressForm.value}
         onClose={addressForm.onFalse}
-        loadAddresses={loadAddresses}
+        onCreate={loadAddresses}
         currentAddress={currentAddress}
       />
     </>

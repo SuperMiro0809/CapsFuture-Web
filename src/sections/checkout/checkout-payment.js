@@ -1,14 +1,16 @@
 import * as Yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-
+// @mui
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Unstable_Grid2';
 import LoadingButton from '@mui/lab/LoadingButton';
-
+// locales
+import { useTranslate } from 'src/locales';
+// components
 import Iconify from 'src/components/iconify';
 import FormProvider from 'src/components/hook-form';
-
+//
 import { useCheckoutContext } from './context';
 import CheckoutSummary from './checkout-summary';
 import CheckoutDelivery from './checkout-delivery';
@@ -60,6 +62,8 @@ const CARDS_OPTIONS = [
 ];
 
 export default function CheckoutPayment() {
+  const { t } = useTranslate();
+
   const checkout = useCheckoutContext();
 
   const PaymentSchema = Yup.object().shape({
@@ -83,8 +87,8 @@ export default function CheckoutPayment() {
 
   const onSubmit = handleSubmit(async (data) => {
     try {
-      checkout.onNextStep();
-      checkout.onReset();
+      // checkout.onNextStep();
+      // checkout.onReset();
       console.info('DATA', data);
     } catch (error) {
       console.error(error);
@@ -95,7 +99,7 @@ export default function CheckoutPayment() {
     <FormProvider methods={methods} onSubmit={onSubmit}>
       <Grid container spacing={3}>
         <Grid xs={12} md={8}>
-          <CheckoutDelivery onApplyShipping={checkout.onApplyShipping} options={DELIVERY_OPTIONS} />
+          {/* <CheckoutDelivery onApplyShipping={checkout.onApplyShipping} options={DELIVERY_OPTIONS} /> */}
 
           <CheckoutPaymentMethods
             cardOptions={CARDS_OPTIONS}
@@ -109,7 +113,7 @@ export default function CheckoutPayment() {
             onClick={checkout.onBackStep}
             startIcon={<Iconify icon="eva:arrow-ios-back-fill" />}
           >
-            Back
+            {t('back', { ns: 'common' })}
           </Button>
         </Grid>
 
@@ -126,12 +130,13 @@ export default function CheckoutPayment() {
 
           <LoadingButton
             fullWidth
+            color='primary'
             size="large"
             type="submit"
             variant="contained"
             loading={isSubmitting}
           >
-            Complete Order
+            {t('complete-order', { ns: 'ecommerce' })}
           </LoadingButton>
         </Grid>
       </Grid>
