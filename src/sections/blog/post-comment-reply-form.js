@@ -76,12 +76,12 @@ export default function PostCommentReplyForm({ postId, commentId, onClose }) {
           <RHFTextField
             autoFocus
             name='comment'
-            placeholder={`${t('write-reply')}...`}
+            placeholder={`${t('write-reply', { ns: 'post' })}...`}
           />
         </Box>
 
         <LoadingButton type="submit" variant="contained" color='primary' loading={isSubmitting} endIcon={<Iconify icon='tabler:send' />}>
-          {t('post-reply')}
+          {t('post-reply', { ns: 'post' })}
         </LoadingButton>
       </Stack>
     </FormProvider >

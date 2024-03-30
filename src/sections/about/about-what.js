@@ -90,7 +90,7 @@ export default function AboutWhat() {
                 color: theme.palette.mode === 'light' ? 'text.secondary' : 'common.white',
               }}
             >
-              {t('about-us-text')}
+              {t('about-us-text', { ns: 'home' })}
             </Typography>
           </m.div>
 

@@ -78,13 +78,13 @@ export default function LoginView() {
 
   const renderHead = (
     <Stack spacing={2} sx={{ mb: 5 }}>
-      <Typography variant="h3">{t('login', { ns: 'headers' })}</Typography>
+      <Typography variant="h3">{t('login', { ns: 'auth' })}</Typography>
 
       <Stack direction="row" spacing={0.5}>
-        <Typography variant="body2">{t('new-user')}?</Typography>
+        <Typography variant="body2">{t('new-user', { ns: 'profile' })}?</Typography>
 
         <Link component={RouterLink} href={paths.auth.register} variant="subtitle2">
-          {t('create-account')}
+          {t('create-account', { ns: 'auth' })}
         </Link>
       </Stack>
     </Stack>
@@ -119,7 +119,7 @@ export default function LoginView() {
         underline="always"
         sx={{ alignSelf: 'flex-end' }}
       >
-        {t('forgot-password')}?
+        {t('forgot-password.title', { ns: 'auth' })}?
       </Link>
 
       <LoadingButton
@@ -130,7 +130,7 @@ export default function LoginView() {
         variant="contained"
         loading={isSubmitting}
       >
-        {t('login', { ns: 'headers' })}
+        {t('login', { ns: 'auth' })}
       </LoadingButton>
     </Stack>
   );

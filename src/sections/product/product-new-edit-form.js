@@ -212,7 +212,7 @@ export default function ProductNewEditForm({ currentProduct }) {
                   endAdornment: (
                     <InputAdornment position='start'>
                       <Box component='span' sx={{ color: 'text.disabled' }}>
-                        {t('lv.')}
+                        {t('lv.', { ns: 'common' })}
                       </Box>
                     </InputAdornment>
                   ),

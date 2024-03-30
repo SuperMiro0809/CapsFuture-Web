@@ -73,7 +73,7 @@ export default function PostCommentForm({ postId }) {
       <Stack spacing={3}>
         <RHFTextField
           name='comment'
-          placeholder={`${t('write-comment')}...`}
+          placeholder={`${t('write-comment', { ns: 'post' })}...`}
           multiline
           rows={4}
         />
@@ -95,7 +95,7 @@ export default function PostCommentForm({ postId }) {
           <Box sx={{ flexGrow: 1 }} />
 
           <LoadingButton type="submit" variant="contained" color='primary' loading={isSubmitting} endIcon={<Iconify icon='tabler:send' />}>
-            {t('post-comment')}
+            {t('post-comment', { ns: 'post' })}
           </LoadingButton>
         </Stack>
       </Stack>

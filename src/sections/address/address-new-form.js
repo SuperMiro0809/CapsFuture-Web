@@ -182,7 +182,7 @@ export default function AddressNewForm({ open, onClose, loadAddresses, currentAd
   return (
     <Dialog fullWidth maxWidth='sm' open={open} onClose={onClose}>
       <FormProvider methods={methods} onSubmit={onSubmit}>
-        <DialogTitle>{t('new-address')}</DialogTitle>
+        <DialogTitle>{t('new-address', { ns: 'profile' })}</DialogTitle>
 
         <DialogContent dividers>
           <Stack spacing={3}>
@@ -332,7 +332,7 @@ export default function AddressNewForm({ open, onClose, loadAddresses, currentAd
               rows={3}
             />
 
-            <RHFCheckbox name="primary" label={t('use-as-default-address')} />
+            <RHFCheckbox name="primary" label={t('use-as-default-address', { ns: 'profile' })} />
           </Stack>
         </DialogContent>
 

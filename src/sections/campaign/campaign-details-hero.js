@@ -146,7 +146,7 @@ export default function CampaignDetailsHero({ title, date, cities, coverUrl, isS
                   }}
                   onClick={onUnsubscribe}
                 >
-                  {t('unsubscribe')}
+                  {t('unsubscribe', { ns: 'campaign' })}
                 </Button>
               ) : (
                 <Button
@@ -159,7 +159,7 @@ export default function CampaignDetailsHero({ title, date, cities, coverUrl, isS
                   }}
                   onClick={onParticipate}
                 >
-                  {t('participate')}!
+                  {t('participate', { ns: 'campaign' })}!
                 </Button>
               )}
 
@@ -168,7 +168,7 @@ export default function CampaignDetailsHero({ title, date, cities, coverUrl, isS
                   color: 'common.white',
                 }}
               >
-                {t('will-take-place-on')}:
+                {t('will-take-place-on', { ns: 'campaign' })}:
 
                 <Box
                   component='span'

@@ -60,7 +60,7 @@ export default function AddressItem({ address, action, sx, ...other }) {
 
           {!!primary && (
             <Label color="info" sx={{ ml: 1 }}>
-              {t('default')}
+              {t('default', { ns: 'profile' })}
             </Label>
           )}
         </Stack>

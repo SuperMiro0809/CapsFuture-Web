@@ -21,7 +21,7 @@ export default function PostCreateView() {
   return (
     <Container maxWidth={settings.themeStretch ? false : 'lg'}>
       <CustomBreadcrumbs
-        heading={t('create-new-post')}
+        heading={t('create-new', { ns: 'post' })}
         links={[
           {
             name: t('dashboard', { ns: 'headers' }),

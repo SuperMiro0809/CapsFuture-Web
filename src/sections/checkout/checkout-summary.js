@@ -35,7 +35,7 @@ export default function CheckoutSummary({
   return (
     <Card sx={{ mb: 3 }}>
       <CardHeader
-        title={t('order-summary')}
+        title={t('order-summary', { ns: 'ecommerce' })}
         action={
           onEdit && (
             <Button size="small" onClick={onEdit} startIcon={<Iconify icon="solar:pen-bold" />}>
@@ -49,7 +49,7 @@ export default function CheckoutSummary({
         <Stack spacing={2}>
           <Stack direction="row" justifyContent="space-between">
             <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-              {t('sub-total')}
+              {t('sub-total', { ns: 'ecommerce' })}
             </Typography>
             <Typography variant="subtitle2">{`${fCurrency(subTotal)} ${t('lv', { ns: 'common' })}`}</Typography>
           </Stack>
@@ -63,10 +63,10 @@ export default function CheckoutSummary({
 
           <Stack direction="row" justifyContent="space-between">
             <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-              {t('shipping')}
+              {t('shipping', { ns: 'ecommerce' })}
             </Typography>
             <Typography variant="subtitle2">
-              {shipping ? fCurrency(shipping) : t(displayShipping)}
+              {shipping ? fCurrency(shipping) : t(displayShipping, { ns: 'ecommerce' })}
             </Typography>
           </Stack>
 
@@ -76,7 +76,7 @@ export default function CheckoutSummary({
             <Typography variant="subtitle1">{t('total', { ns: 'common' })}</Typography>
             <Box sx={{ textAlign: 'right' }}>
               <Typography variant="subtitle1" sx={{ color: 'error.main' }}>
-                {`${fCurrency(total)} ${t('lv')}.`}
+                {`${fCurrency(total)} ${t('lv', { ns: 'common' })}.`}
               </Typography>
               <Typography variant="caption" sx={{ fontStyle: 'italic' }}>
                 {t('with-VAT', { ns: 'common' })}

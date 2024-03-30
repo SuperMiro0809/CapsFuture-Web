@@ -149,7 +149,7 @@ export default function MapHomeContent({ locations }) {
           renderInput={(params) => (
             <TextField
               {...params}
-              placeholder={t('enter-address')}
+              placeholder={t('enter-address', { ns: 'location' })}
               variant='outlined'
               InputProps={{ ...params.InputProps, type: 'search' }}
             />

@@ -91,12 +91,12 @@ export default function CampaignParticipateModal({ open, onClose, campaignId }) 
     <ConfirmDialog
       open={open}
       onClose={onClose}
-      title={t('participate-modal.title')}
+      title={t('participate-modal.title', { ns: 'campaign' })}
       maxWidth="sm"
       content={(
         <>
-          <Typography variant='body1'>{t('participate-modal.text')}</Typography>
-          <Typography variant='subtitle2' sx={{ mt: 2 }}>{t('campaign-participate-provide-information-text')}:</Typography>
+          <Typography variant='body1'>{t('participate-modal.text', { ns: 'campaign' })}</Typography>
+          <Typography variant='subtitle2' sx={{ mt: 2 }}>{t('participate-provide-information-text', { ns: 'campaign' })}:</Typography>
 
           <FormProvider methods={methods} onSubmit={onSubmit}>
             <Stack spacing={3} sx={{ mt: 2 }}>
@@ -107,7 +107,7 @@ export default function CampaignParticipateModal({ open, onClose, campaignId }) 
 
               <Box>
                 <Stack spacing={1}>
-                  <Typography variant="subtitle2">{t('how-can-you-help')}?</Typography>
+                  <Typography variant="subtitle2">{t('how-can-you-help', { ns: 'campaing' })}?</Typography>
 
                   <Box
                     columnGap={2}
@@ -144,7 +144,7 @@ export default function CampaignParticipateModal({ open, onClose, campaignId }) 
           loading={isSubmitting}
           onClick={onSubmit}
         >
-          {t('participate')}
+          {t('participate', { ns: 'campaign' })}
         </LoadingButton>
       }
     />

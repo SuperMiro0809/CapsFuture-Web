@@ -122,7 +122,7 @@ export default function ProfileHome({ info, addresses, loading, loadAddresses })
     <>
       <Card>
         <CardHeader
-          title={t('addresses')}
+          title={t('addresses', { ns: 'location' })}
           action={
             <Button
               size="small"
@@ -164,7 +164,7 @@ export default function ProfileHome({ info, addresses, loading, loadAddresses })
                 textAlign: 'center'
               }}
             >
-              <Typography variant='subtitle1'>{t('profile-no-addresses')}.</Typography>
+              <Typography variant='subtitle1'>{t('no-addresses', { ns: 'profile' })}.</Typography>
             </Box>
           </Box>
         )}
@@ -203,7 +203,7 @@ export default function ProfileHome({ info, addresses, loading, loadAddresses })
             }}
           >
             <Iconify icon="eva:star-fill" />
-            {t('set-as-primary')}
+            {t('set-as-primary', { ns: 'profile' })}
           </MenuItem>
         )}
 

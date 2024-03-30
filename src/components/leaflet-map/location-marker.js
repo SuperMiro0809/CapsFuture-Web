@@ -91,7 +91,7 @@ export default function LocationMarker({
 
         <Stack spacing={1}>
           <Box>
-            <Typography component='span' variant='body2'>{t('address')}:</Typography>
+            <Typography component='span' variant='body2'>{t('address', { ns: 'location' })}:</Typography>
             <Typography component='span' variant='subtitle2' sx={{ pl: 0.5 }}>{address}</Typography>
           </Box>
 
@@ -108,7 +108,7 @@ export default function LocationMarker({
           )}
 
           <Box>
-            <Typography component='span' variant='body2'>{t('manager')}:</Typography>
+            <Typography component='span' variant='body2'>{t('manager', { ns: 'location' })}:</Typography>
             <Box sx={{ display: 'flex', justifyContent: 'space-evenly', alignItems: 'center' }}>
               <Paper
                 sx={{

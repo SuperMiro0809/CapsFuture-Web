@@ -115,7 +115,7 @@ export default function PostDetailsHomeView({ post, error }) {
         <Box sx={{ py: 3, borderBottom: (theme) => `dashed 1px ${theme.palette.divider}` }} />
 
         <Stack direction="row" sx={{ mb: 3, mt: 5 }}>
-          <Typography variant="h4">{t('comments')}</Typography>
+          <Typography variant="h4">{t('comments', { ns: 'post' })}</Typography>
 
           <Typography variant="subtitle2" sx={{ color: "text.disabled" }}>
               ({post.comments.length})

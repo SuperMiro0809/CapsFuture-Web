@@ -76,7 +76,7 @@ export default function ProductListView({ products = [], productsCount = 0 }) {
     title: product.title,
     files: product.files,
     short_description: product.short_description,
-    price: `${product.price} ${t('lv.')}`,
+    price: `${product.price} ${t('lv.', { ns: 'common' })}`,
     active: product.active
   }));
 
@@ -157,7 +157,7 @@ export default function ProductListView({ products = [], productsCount = 0 }) {
               startIcon={<Iconify icon="mingcute:add-line" />}
               color='secondary'
             >
-              {t('new-product')}
+              {t('new-product', { ns: 'ecommerce' })}
             </Button>
           }
           sx={{ mb: { xs: 3, md: 5 } }}

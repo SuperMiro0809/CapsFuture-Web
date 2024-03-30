@@ -77,7 +77,7 @@ export default function ProfileChangePassword() {
 
   return (
     <Card>
-      <CardHeader title={t('change-password')} />
+      <CardHeader title={t('change-password', { ns: 'auth' })} />
 
       <FormProvider methods={methods} onSubmit={onSubmit}>
         <Stack spacing={3} sx={{ p: 3 }}>

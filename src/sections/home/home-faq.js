@@ -92,7 +92,7 @@ export default function HomeFAQ() {
               repeat: Infinity,
             }}
           >
-            {t('faq')}
+            {t('faq', { ns: 'help' })}
           </StyledTextGradient>
         </m.div>
       </Stack>

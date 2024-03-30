@@ -68,7 +68,7 @@ export default function HomeProducts({ products }) {
               repeat: Infinity,
             }}
           >
-            {t('our-products')}
+            {t('our-products', { ns: 'ecommerce' })}
           </StyledTextGradient>
         </m.div>
       </Stack>

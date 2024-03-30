@@ -97,7 +97,7 @@ export default function CampaignCard({ id, slug, title, shortDescription, date, 
               variant='contained'
               onClick={user ? participateModal.onTrue : () => router.push(`/campaigns/${slug}/participate`)}
             >
-              {t('participate')}!
+              {t('participate', { ns: 'campaign' })}!
             </Button>
             :
             <Button
@@ -106,7 +106,7 @@ export default function CampaignCard({ id, slug, title, shortDescription, date, 
               variant='contained'
               onClick={unsubscribeModal.onTrue}
             >
-              {t('unsubscribe')}
+              {t('unsubscribe', { ns: 'campaign' })}
             </Button>
           }
 

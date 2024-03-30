@@ -23,7 +23,7 @@ export default function UserCreateView({ roles }) {
   return (
     <Container maxWidth={settings.themeStretch ? false : 'lg'}>
       <CustomBreadcrumbs
-        heading={t('create-new-user')}
+        heading={t('create-new-user', { ns: 'profile' })}
         links={[
           {
             name: t('dashboard', { ns: 'headers' }),
@@ -33,7 +33,7 @@ export default function UserCreateView({ roles }) {
             name: t('users', { ns: 'forms' }),
             href: paths.dashboard.user.root,
           },
-          { name: t('new-user') },
+          { name: t('new-user', { ns: 'profile' }) },
         ]}
         sx={{
           mb: { xs: 3, md: 5 },

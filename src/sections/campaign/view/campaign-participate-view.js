@@ -38,7 +38,7 @@ export default function CampaignParticipateView({ slug }) {
       >
         {t('back', { ns: 'common' })}
       </Button>
-      <Typography variant="h3" color='primary'>{t('participate-modal.title')}</Typography>
+      <Typography variant="h3" color='primary'>{t('participate-modal.title', { ns: 'campaign' })}</Typography>
     </Stack>
   );
 
@@ -57,13 +57,13 @@ export default function CampaignParticipateView({ slug }) {
     >
       <Box>
         <Stack spacing={1} sx={{ mb: 5 }}>
-          <Typography variant="h4">{t('already-have-account')}?</Typography>
-          <Typography variant="body1">{t('campaign-login-prompt')}:</Typography>
+          <Typography variant="h4">{t('already-have-account', { ns: 'auth' })}?</Typography>
+          <Typography variant="body1">{t('login-prompt', { ns: 'campaign' })}:</Typography>
           <ul>
-            <li>{t('campaign-benefits.easier-campaign-signup')}</li>
-            <li>{t('campaign-benefits.campaign-save')}</li>
-            <li>{t('campaign-benefits.feedback-opportunity')}</li>
-            <li>{t('campaign-benefits.unsubscribe-anytime')}</li>
+            <li>{t('benefits.easier-campaign-signup', { ns: 'campaign' })}</li>
+            <li>{t('benefits.campaign-save', { ns: 'campaign' })}</li>
+            <li>{t('benefits.feedback-opportunity', { ns: 'campaign' })}</li>
+            <li>{t('benefits.unsubscribe-anytime', { ns: 'campaign' })}</li>
           </ul>
           <LoginButton returnTo={`/campaigns/${slug}`} />
         </Stack>

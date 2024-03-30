@@ -153,7 +153,7 @@ export default function AccountPopover() {
           onClick={handleLogout}
           sx={{ m: 1, fontWeight: 'fontWeightBold', color: 'error.main' }}
         >
-          {t('logout')}
+          {t('logout', { ns: 'auth' })}
         </MenuItem>
       </CustomPopover>
     </>

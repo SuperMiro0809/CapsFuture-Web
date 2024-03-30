@@ -93,7 +93,7 @@ export default function HomeMap({ locations }) {
               repeat: Infinity,
             }}
           >
-            {t('where-to-transmit-caps')}?
+            {t('where-to-transmit-caps', { ns: 'home' })}?
           </StyledTextGradient>
         </m.div>
       </Stack>

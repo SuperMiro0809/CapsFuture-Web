@@ -33,8 +33,8 @@ export default function OverviewAppView({ info }) {
       <Grid container spacing={3}>
         <Grid xs={12} md={12}>
           <AppWelcome
-            title={`${t('welcome-back')} 👋 \n ${user?.profile.display_name}`}
-            description={t('dashboard-description')}
+            title={`${t('welcome-back', { ns: 'dashboard' })} 👋 \n ${user?.profile.display_name}`}
+            description={t('description', { ns: 'dashboard' })}
             img={<SeoIllustration />}
           />
         </Grid>

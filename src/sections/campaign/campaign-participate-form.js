@@ -93,7 +93,7 @@ export default function CampaignParticipateForm({ slug }) {
 
   const renderHead = (
     <Stack spacing={1} sx={{ mb: 5 }}>
-      <Typography variant="h4">{t('participate-apply-title')}</Typography>
+      <Typography variant="h4">{t('participate-apply-title', { ns: 'campaign' })}</Typography>
     </Stack>
   );
 
@@ -148,7 +148,7 @@ export default function CampaignParticipateForm({ slug }) {
         <Stack spacing={2}>
           <Box>
             <Stack spacing={1}>
-              <Typography variant="subtitle2">{t('how-can-you-help')}?</Typography>
+              <Typography variant="subtitle2">{t('how-can-you-help', { ns: 'campaign' })}?</Typography>
 
               <Box
                 columnGap={2}
@@ -195,7 +195,7 @@ export default function CampaignParticipateForm({ slug }) {
               loading={isSubmitting}
               sx={{ maxWidth: 200 }}
             >
-              {t('participate')}!
+              {t('participate', { ns: 'campaign' })}!
             </LoadingButton>
           </Stack>
         </Stack>

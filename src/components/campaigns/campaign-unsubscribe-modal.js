@@ -29,8 +29,8 @@ export default function CampaignUnsubscribeModal({ open, onClose, campaignId }) 
     <ConfirmDialog
       open={open}
       onClose={onClose}
-      title={t('unsubscribe-modal.title')}
-      content={t('unsubscribe-modal.text')}
+      title={t('unsubscribe-modal.title', { ns: 'campaign' })}
+      content={t('unsubscribe-modal.text', { ns: 'campaign' })}
       action={
         <Button
           variant="contained"
@@ -50,7 +50,7 @@ export default function CampaignUnsubscribeModal({ open, onClose, campaignId }) 
             router.refresh()
           }}
         >
-          {t('unsubscribe')}
+          {t('unsubscribe', { ns: 'campaign' })}
         </Button>
       }
     />

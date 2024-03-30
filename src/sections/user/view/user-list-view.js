@@ -129,7 +129,7 @@ export default function UserListView({ users, usersCount, roles }) {
             startIcon={<Iconify icon="mingcute:add-line" />}
             color='secondary'
           >
-            {t('new-user')}
+            {t('new-user', { ns: 'profile' })}
           </Button>
         }
         sx={{

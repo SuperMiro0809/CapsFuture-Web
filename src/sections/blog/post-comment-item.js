@@ -81,7 +81,7 @@ export default function PostCommentItem({ id, postId, name, avatarUrl, message, 
           onClick={reply.onToggle}
           sx={{ right: 0, position: 'absolute' }}
         >
-          {t('reply')}
+          {t('reply', { ns: 'common' })}
         </Button>
       )}
     </ListItem>

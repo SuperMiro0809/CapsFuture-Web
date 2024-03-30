@@ -99,7 +99,7 @@ export default function PostDetailsView({ post, error }) {
         <Markdown children={post.description} />
 
         <Stack direction="row" sx={{ mb: 3, mt: 5 }}>
-          <Typography variant="h4">{t('comments')}</Typography>
+          <Typography variant="h4">{t('comments', { ns: 'post' })}</Typography>
 
           <Typography variant="subtitle2" sx={{ color: 'text.disabled' }}>
             ({post.comments.length})

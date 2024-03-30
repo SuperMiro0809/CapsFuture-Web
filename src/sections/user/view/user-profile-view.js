@@ -27,33 +27,31 @@ import { ASSETS } from 'src/config-global';
 
 // ----------------------------------------------------------------------
 
-const TABS = [
-  {
-    value: 'profile',
-    label: 'profile',
-    icon: <Iconify icon="solar:user-id-bold" width={24} />,
-  },
-  {
-    value: 'campaigns',
-    label: 'campaigns',
-    icon: <Iconify icon="solar:heart-bold" width={24} />,
-  },
-  {
-    value: 'security',
-    label: 'security',
-    icon: <Iconify icon="ic:round-vpn-key" width={24} />,
-  },
-  // {
-  //   value: 'orders',
-  //   label: 'orders',
-  //   icon: <Iconify icon="solar:users-group-rounded-bold" width={24} />,
-  // },
-];
-
-// ----------------------------------------------------------------------
-
 export default function UserProfileView() {
   const { t } = useTranslate();
+
+  const TABS = [
+    {
+      value: 'profile',
+      label: t('profile', { ns: 'headers' }),
+      icon: <Iconify icon="solar:user-id-bold" width={24} />,
+    },
+    {
+      value: 'campaigns',
+      label: t('campaigns', { ns: 'headers' }),
+      icon: <Iconify icon="solar:heart-bold" width={24} />,
+    },
+    {
+      value: 'security',
+      label: t('security', { ns: 'profile' }),
+      icon: <Iconify icon="ic:round-vpn-key" width={24} />,
+    },
+    // {
+    //   value: 'orders',
+    //   label: 'orders',
+    //   icon: <Iconify icon="solar:users-group-rounded-bold" width={24} />,
+    // },
+  ];
 
   const { user } = useAuthContext();
 

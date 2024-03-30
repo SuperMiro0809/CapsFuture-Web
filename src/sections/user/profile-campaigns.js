@@ -61,8 +61,8 @@ export default function ProfileCampaigns() {
                 textAlign: 'center'
               }}
             >
-              <Typography variant='subtitle1'>{t('profile-no-campaigns-activity')}.</Typography>
-              <Typography variant='body2'>{t('campaigns-active-overview')}:</Typography>
+              <Typography variant='subtitle1'>{t('no-campaigns-activity', { ns: 'profile' })}.</Typography>
+              <Typography variant='body2'>{t('campaigns-active-overview', { ns: 'home' })}:</Typography>
               <Button
                 component={RouterLink}
                 href={paths.campaign.root}

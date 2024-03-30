@@ -133,7 +133,7 @@ export default function PostListView({ posts, postsCount }) {
             startIcon={<Iconify icon="mingcute:add-line" />}
             color='secondary'
           >
-            {t('new-post')}
+            {t('new', { ns: 'post' })}
           </Button>
         }
         sx={{

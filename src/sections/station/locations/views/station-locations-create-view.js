@@ -23,7 +23,7 @@ export default function StationLocationsCreateView({ locationTypes, users }) {
   return (
     <Container maxWidth={settings.themeStretch ? false : 'lg'}>
       <CustomBreadcrumbs
-        heading={t('create-new-location')}
+        heading={t('create-new', { ns: 'location' })}
         links={[
           {
             name: t('dashboard', { ns: 'headers' }),
@@ -33,7 +33,7 @@ export default function StationLocationsCreateView({ locationTypes, users }) {
             name: t('locations', { ns: 'headers' }),
             href: paths.dashboard.station.locations.root,
           },
-          { name: t('new-location') },
+          { name: t('new', { ns: 'location' }) },
         ]}
         sx={{
           mb: { xs: 3, md: 5 },

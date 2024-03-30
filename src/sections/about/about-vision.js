@@ -122,7 +122,7 @@ export default function AboutVision() {
 
         <m.div variants={varFade().inUp}>
           <StyledTextGradient>
-            {t('help-too')}!
+            {t('help-too', { ns: 'home' })}!
           </StyledTextGradient>
         </m.div>
       </Container>

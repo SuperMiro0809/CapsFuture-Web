@@ -73,7 +73,7 @@ export default function Footer() {
         <Logo sx={{ mb: 1, mx: 'auto' }} />
 
         <Typography variant="caption" component="div">
-          ©  {t('all-rights-reserved')}
+          ©  {t('all-rights-reserved', { ns: 'common' })}
         </Typography>
       </Container>
     </Box>
@@ -201,7 +201,7 @@ export default function Footer() {
         </Stack>
 
         <Typography variant="body2" sx={{ mt: 8, textAlign: 'center' }}>
-          © 2024. {t('all-rights-reserved')}
+          © 2024. {t('all-rights-reserved', { ns: 'common' })}
         </Typography>
       </Container>
     </Box>

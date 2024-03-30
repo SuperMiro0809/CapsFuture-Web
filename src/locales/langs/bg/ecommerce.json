@@ -1,0 +1,25 @@
+{
+    "add-to-cart": "Добави в количката",
+    "buy-now": "Купи сега",
+
+    "cart-empty": "Количката Ви е празна",
+    "cart-empty-message": "Изглежда, че нямате продукти в количката си",
+    "cart-product": "продукт",
+    "cart-products": "продукта",
+    "order-summary": "Обобщение на поръчката",
+    "sub-total": "Междинна сума",
+    "check-out": "Продължи",
+
+    "shipping": "Доставка",
+    "free": "Безплатно",
+
+    "steps": {
+        "cart": "Количка",
+        "address": "Адрес",
+        "payment": "Плащане"
+    },
+
+    "our-products": "Нашите продукти",
+    "new-product": "Нов продукт",
+    "create-new-product": "Създаване на нов продукт"
+}

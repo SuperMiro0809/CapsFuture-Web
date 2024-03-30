@@ -82,13 +82,13 @@ export default function RegisterView() {
 
   const renderHead = (
     <Stack spacing={2} sx={{ mb: 5, position: 'relative' }}>
-      <Typography variant="h3">{t('register', { ns: 'headers' })}</Typography>
+      <Typography variant="h3">{t('register', { ns: 'auth' })}</Typography>
 
       <Stack direction="row" spacing={0.5}>
-        <Typography variant="body2"> {t('already-have-account')}? </Typography>
+        <Typography variant="body2"> {t('already-have-account', { ns: 'auth' })}? </Typography>
 
         <Link href={paths.auth.login} component={RouterLink} variant="subtitle2">
-          {t('login', { ns: 'headers' })}
+          {t('login', { ns: 'auth' })}
         </Link>
       </Stack>
     </Stack>
@@ -151,7 +151,7 @@ export default function RegisterView() {
           variant="contained"
           loading={isSubmitting}
         >
-          {t('register', { ns: 'headers' })}
+          {t('register', { ns: 'auth' })}
         </LoadingButton>
       </Stack>
     </FormProvider>

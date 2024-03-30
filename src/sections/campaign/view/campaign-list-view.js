@@ -65,7 +65,7 @@ export default function CampaignListView({ campaigns = [], campaignsCount = 0 })
         options: {
             custom: [
                 {
-                    title: t('participations'),
+                    title: t('participations', { ns: 'campaign' }),
                     handler: (id) => { router.push(paths.dashboard.campaign.participations(id)) },
                     icon: <Iconify icon='fluent:people-20-filled' />,
                     color: 'primary.main'
@@ -147,7 +147,7 @@ export default function CampaignListView({ campaigns = [], campaignsCount = 0 })
                         startIcon={<Iconify icon="mingcute:add-line" />}
                         color='secondary'
                     >
-                        {t('new-campaign')}
+                        {t('new', { ns: 'campaign' })}
                     </Button>
                 }
                 sx={{

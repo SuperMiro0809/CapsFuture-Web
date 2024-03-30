@@ -112,7 +112,7 @@ export default function HomeContacts() {
               repeat: Infinity,
             }}
           >
-            {t('contact-us')}
+            {t('contact-us', { ns: 'help' })}
           </StyledTextGradient>
         </m.div>
       </Stack>
@@ -121,8 +121,8 @@ export default function HomeContacts() {
         <Grid xs={12} md={6}>
           <m.div variants={varFade().inLeft}>
             <Stack spacing={3}>
-              <Typography variant='h4'>{t('we-love-hear-from-you')}!</Typography>
-              <Typography variant='body1'>{t('contact-us-text')}</Typography>
+              <Typography variant='h4'>{t('we-love-hear-from-you', { ns: 'help' })}!</Typography>
+              <Typography variant='body1'>{t('contact-us-text', { ns: 'help' })}</Typography>
               <Box
                 sx={{
                   display: 'flex',

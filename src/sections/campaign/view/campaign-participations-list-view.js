@@ -47,8 +47,6 @@ import OrderTableFiltersResult from '../campaign-participations-table-filter-res
 
 // ----------------------------------------------------------------------
 
-const STATUS_OPTIONS = [{ value: 'all', label: 'all' }, { value: 'registered', label: 'registered' }, { value: 'guests', label: 'guests' }];
-
 const defaultFilters = {
   name: '',
   status: 'all'
@@ -58,6 +56,8 @@ const defaultFilters = {
 
 export default function CampaignParticipationsListView({ participations, campaign }) {
   const { t } = useTranslate();
+
+  const STATUS_OPTIONS = [{ value: 'all', label: t('all', { ns: 'common' }) }, { value: 'registered', label: t('registered', { ns: 'auth' }) }, { value: 'guests', label: t('guests', { ns: 'auth' }) }];
 
   const TABLE_HEAD = [
     { id: 'name', label: t('user', { ns: 'forms' }) },
@@ -174,7 +174,7 @@ export default function CampaignParticipationsListView({ participations, campaig
     <>
       <Container maxWidth={settings.themeStretch ? false : 'lg'}>
         <CustomBreadcrumbs
-          heading={t('participations')}
+          heading={t('participations', { ns: 'campaign' })}
           links={[
             {
               name: t('dashboard', { ns: 'headers' }),
@@ -188,7 +188,7 @@ export default function CampaignParticipationsListView({ participations, campaig
               name: campaign.title,
               href: paths.dashboard.campaign.edit(campaign.id)
             },
-            { name: t('participations') },
+            { name: t('participations', { ns: 'campaign' }) },
           ]}
           sx={{
             mb: { xs: 3, md: 5 },

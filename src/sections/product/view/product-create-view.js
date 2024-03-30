@@ -22,7 +22,7 @@ export default function ProductCreateView() {
   return (
     <Container maxWidth={settings.themeStretch ? false : 'lg'}>
       <CustomBreadcrumbs
-        heading={t('create-new-product')}
+        heading={t('create-new-product', { ns: 'ecommerce' })}
         links={[
           {
             name: t('dashboard', { ns: 'headers' }),
@@ -32,7 +32,7 @@ export default function ProductCreateView() {
             name: t('products', { ns: 'headers' }),
             href: paths.dashboard.product.root,
           },
-          { name: t('new-product') },
+          { name: t('new-product', { ns: 'ecommerce' }) },
         ]}
         sx={{
           mb: { xs: 3, md: 5 },

@@ -77,7 +77,7 @@ export default function HomeAchievements() {
               repeat: Infinity,
             }}
           >
-            {t('our-achievements')}
+            {t('our-achievements', { ns: 'home' })}
           </StyledTextGradient>
         </m.div>
       </Stack>
@@ -133,7 +133,7 @@ export default function HomeAchievements() {
                   >
                     <AmbulanceIcon />
                     <Typography component='div' variant='h2'>5</Typography>
-                    <Typography component='div' variant='body1' sx={{ fontSize: '1.5rem' }}>{t('ambulances')}</Typography>
+                    <Typography component='div' variant='body1' sx={{ fontSize: '1.5rem' }}>{t('ambulances', { ns: 'common' })}</Typography>
                   </Stack>
                 )}
 
@@ -147,7 +147,7 @@ export default function HomeAchievements() {
                   >
                     <BabyIcon />
                     <Typography component='div' variant='h2'>22</Typography>
-                    <Typography component='div' variant='body1' sx={{ fontSize: '1.5rem' }}>{t('incubators')}</Typography>
+                    <Typography component='div' variant='body1' sx={{ fontSize: '1.5rem' }}>{t('incubators', { ns: 'common' })}</Typography>
                   </Stack>
                 )}
 
@@ -161,7 +161,7 @@ export default function HomeAchievements() {
                   >
                     <HeartIcon />
                     <Typography component='div' variant='h2'>100</Typography>
-                    <Typography component='div' variant='body1' sx={{ fontSize: '1.5rem' }}>{t('children-lives')}</Typography>
+                    <Typography component='div' variant='body1' sx={{ fontSize: '1.5rem' }}>{t('children-lives', { ns: 'common' })}</Typography>
                   </Stack>
                 )}
 
@@ -174,8 +174,8 @@ export default function HomeAchievements() {
                     }}
                   >
                     <RecycleSignIcon />
-                    <Typography component='div' variant='h2'>1 {t('mil')}</Typography>
-                    <Typography component='div' variant='body1' sx={{ fontSize: '1.5rem' }}>{t('plastic')}</Typography>
+                    <Typography component='div' variant='h2'>1 {t('mil', { ns: 'common' })}</Typography>
+                    <Typography component='div' variant='body1' sx={{ fontSize: '1.5rem' }}>{t('plastic', { ns: 'common' })}</Typography>
                   </Stack>
                 )}
               </m.div>

@@ -134,7 +134,7 @@ export default function ResetPasswordView({ token, email }) {
         color='primary'
         loading={isSubmitting}
       >
-        {t('update-password')}
+        {t('update-password', { ns: 'auth' })}
       </LoadingButton>
 
       {/* <Typography variant="body2">
@@ -170,7 +170,7 @@ export default function ResetPasswordView({ token, email }) {
       <SentIcon sx={{ height: 96 }} />
 
       <Stack spacing={1} sx={{ my: 5 }}>
-        <Typography variant="h3">{t('reset-password')}</Typography>
+        <Typography variant="h3">{t('reset-password', { ns: 'auth' })}</Typography>
 
         {/* <Typography variant="body2" sx={{ color: 'text.secondary' }}>
           We&apos;ve sent a 6-digit confirmation email to your email.

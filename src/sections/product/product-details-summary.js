@@ -216,11 +216,11 @@ export default function ProductDetailsSummary({
         onClick={handleAddCart}
         sx={{ whiteSpace: 'nowrap' }}
       >
-        {t('add-to-cart')}
+        {t('add-to-cart', { ns: 'ecommerce' })}
       </Button>
 
       <Button fullWidth size="large" color="primary" type="submit" variant="contained" disabled={disabledActions}>
-        {t('buy-now')}
+        {t('buy-now', { ns: 'ecommerce' })}
       </Button>
     </Stack>
   );

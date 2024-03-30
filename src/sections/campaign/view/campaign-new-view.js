@@ -22,7 +22,7 @@ export default function CampaignCreateView() {
   return (
     <Container maxWidth={settings.themeStretch ? false : 'lg'}>
       <CustomBreadcrumbs
-        heading={t('create-new-campaign')}
+        heading={t('create-new', { ns: 'campaign' })}
         links={[
           {
             name: t('dashboard', { ns: 'headers' }),
@@ -32,7 +32,7 @@ export default function CampaignCreateView() {
             name: t('campaigns', { ns: 'headers' }),
             href: paths.dashboard.campaign.root,
           },
-          { name: t('new-campaign') },
+          { name: t('new', { ns: 'campaign' }) },
         ]}
         sx={{
           mb: { xs: 3, md: 5 },

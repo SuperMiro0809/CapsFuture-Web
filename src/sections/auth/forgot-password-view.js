@@ -57,7 +57,7 @@ export default function ForgotPasswordView() {
       if (error) throw error;
       
       setErrorMsg('');
-      setSuccessMsg(t('forgot-password-email-sent'));
+      setSuccessMsg(t('forgot-password.email-sent', { ns: 'auth' }));
     } catch (error) {
       setSuccessMsg('');
       setErrorMsg(t(error));
@@ -100,10 +100,10 @@ export default function ForgotPasswordView() {
       <PasswordIcon sx={{ height: 96 }} />
 
       <Stack spacing={1} sx={{ my: 5 }}>
-        <Typography variant="h3">{t('forgot-password')}?</Typography>
+        <Typography variant="h3">{t('forgot-password.title', { ns: 'auth' })}?</Typography>
 
         <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-          {t('forgot-password-text')}
+          {t('forgot-password.text', { ns: 'auth' })}
         </Typography>
       </Stack>
     </>

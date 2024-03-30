@@ -55,7 +55,7 @@ export default function CheckoutSteps({ steps, activeStep, sx, ...other }) {
               },
             }}
           >
-            {t(label)}
+            {t(label, { ns: 'ecommerce' })}
           </StepLabel>
         </Step>
       ))}

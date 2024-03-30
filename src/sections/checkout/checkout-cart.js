@@ -35,7 +35,7 @@ export default function CheckoutCart() {
               <Typography variant="h6">
                 {t('cart', { ns: 'headers' })}
                 <Typography component="span" sx={{ color: 'text.secondary' }}>
-                  &nbsp;({checkout.totalItems} {checkout.totalItems === 1 ? t('cart-product') : t('cart-products')})
+                  &nbsp;({checkout.totalItems} {checkout.totalItems === 1 ? t('cart-product', { ns: 'ecommerce' }) : t('cart-products', { ns: 'ecommerce' })})
                 </Typography>
               </Typography>
             }
@@ -44,8 +44,8 @@ export default function CheckoutCart() {
 
           {empty ? (
             <EmptyContent
-              title={`${t('cart-empty')}!`}
-              description={`${t('cart-empty-message')}.`}
+              title={`${t('cart-empty', { ns: 'ecommerce' })}!`}
+              description={`${t('cart-empty-message', { ns: 'ecommerce' })}.`}
               imgUrl="/assets/icons/empty/ic_cart.svg"
               sx={{ pt: 5, pb: 10 }}
             />
@@ -86,7 +86,7 @@ export default function CheckoutCart() {
           disabled={empty}
           // onClick={checkout.onNextStep}
         >
-          {t('check-out')}
+          {t('check-out', { ns: 'ecommerce' })}
         </Button>
       </Grid>
     </Grid>

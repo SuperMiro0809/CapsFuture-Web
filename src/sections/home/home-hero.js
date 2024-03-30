@@ -209,7 +209,7 @@ export default function HomeHero({ campaigns }) {
             repeat: Infinity,
           }}
         >
-          {t('upcoming-campaigns')}
+          {t('upcoming', { ns: 'campaign' })}
         </StyledTextGradient>
       </m.div>
     </Stack>

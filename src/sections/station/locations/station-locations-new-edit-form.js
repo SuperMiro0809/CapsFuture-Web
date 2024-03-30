@@ -246,18 +246,18 @@ export default function StationLocationsNewEditForm({ currentLocation, locationT
                     {[
                       {
                         name: 'collects_caps',
-                        label: t('caps'),
+                        label: t('caps', { ns: 'common' }),
                         icon: <SvgColor src='/assets/icons/app/bottle_cap.svg' sx={{ width: 42, height: 42, mb: 2 }} />,
 
                       },
                       {
                         name: 'collects_bottles',
-                        label: t('bottles'),
+                        label: t('bottles', { ns: 'common' }),
                         icon: <Iconify icon="solar:bottle-bold-duotone" width={42} height={42} sx={{ mb: 2 }} />,
                       },
                       {
                         name: 'collects_cans',
-                        label: t('cans'),
+                        label: t('cans', { ns: 'common' }),
                         icon: <Iconify icon="pepicons-print:can" width={42} height={42} sx={{ mb: 2 }} />,
                       }
                     ].map((item) => (
@@ -308,7 +308,7 @@ export default function StationLocationsNewEditForm({ currentLocation, locationT
             {t('location', { ns: 'forms' })}
           </Typography>
           <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-            {t('location-subtext')}
+            {t('subtext', { ns: 'location' })}
           </Typography>
         </Grid>
       )}
@@ -320,9 +320,9 @@ export default function StationLocationsNewEditForm({ currentLocation, locationT
           <Stack spacing={1.5} sx={{ p: 3 }}>
             <RHFLocationSelectorField
               name='location'
-              placeholder={t('enter-address')}
+              placeholder={t('enter-address', { ns: 'location' })}
               iconName={values.type === 1 ? 'heartIcon' : 'stationIcon'}
-              helperText={t('enter-address-or-choose-on-map')}
+              helperText={t('enter-address-or-choose-on-map', { ns: 'location' })}
             />
           </Stack>
         </Card>
@@ -335,17 +335,17 @@ export default function StationLocationsNewEditForm({ currentLocation, locationT
       {mdUp && (
         <Grid md={4}>
           <Typography variant="h6" sx={{ mb: 0.5 }}>
-            {t('manager')}
+            {t('manager', { ns: 'location' })}
           </Typography>
           <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-            {t('manager-subtext')}
+            {t('manager-subtext', { ns: 'location' })}
           </Typography>
         </Grid>
       )}
 
       <Grid xs={12} md={8}>
         <Card>
-          {!mdUp && <CardHeader title={t('manager')} />}
+          {!mdUp && <CardHeader title={t('manager', { ns: 'location' })} />}
 
           <Stack spacing={3} sx={{ p: 3 }}>
             <Stack spacing={1.5}>
@@ -353,12 +353,12 @@ export default function StationLocationsNewEditForm({ currentLocation, locationT
               <Box gap={2} display="grid" gridTemplateColumns="repeat(2, 1fr)">
                 {[
                   {
-                    label: t('registered-user'),
+                    label: t('registered-user', { ns: 'auth' }),
                     icon: <Iconify icon="mingcute:user-follow-2-fill" width={42} height={42} sx={{ mb: 2 }} />,
                     value: 0,
                   },
                   {
-                    label: t('new-user'),
+                    label: t('new-user', { ns: 'profile' }),
                     icon: <Iconify icon="mingcute:user-add-2-fill" width={42} height={42} sx={{ mb: 2 }} />,
                     value: 1
                   }

@@ -79,7 +79,7 @@ export default function CampaignParticipationsTableRow({ row, selected, onViewRo
       </TableCell>
 
       <TableCell>
-        <Tooltip title={user ? t('registered-user-description') : t('guest-user-description')}>
+        <Tooltip title={user ? t('registered-user-description', { ns: 'auth' }) : t('guest-user-description', { ns: 'auth' })}>
           <Label
             variant="soft"
             color={
@@ -87,7 +87,7 @@ export default function CampaignParticipationsTableRow({ row, selected, onViewRo
               'secondary'
             }
           >
-            {user ? t('registered') : t('guest')}
+            {user ? t('registered', { ns: 'auth' }) : t('guest', { ns: 'auth' })}
           </Label>
         </Tooltip>
       </TableCell>

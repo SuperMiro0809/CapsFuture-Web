@@ -101,7 +101,7 @@ export default function HomeAboutUs() {
             </m.div>
 
             <m.div variants={varFade().inUp}>
-              <Typography variant='body1'>{t('about-us-text')}</Typography>
+              <Typography variant='body1'>{t('about-us-text', { ns: 'home' })}</Typography>
             </m.div>
 
             <Box sx={{ mt: 4 }}>
