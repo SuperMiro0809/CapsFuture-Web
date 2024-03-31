@@ -10,6 +10,12 @@ export const ORIGIN = process.env.NEXT_PUBLIC_ORIGIN;
 
 export const ECONT_API = process.env.NEXT_PUBLIC_ECONT_API;
 
+export const DSK = {
+    api: process.env.NEXT_PUBLIC_DSK_API,
+    username: process.env.NEXT_PUBLIC_DSK_USERNAME,
+    password: process.env.NEXT_PUBLIC_DSK_PASSWORD
+};
+
 export const MAIL = {
     host: process.env.NEXT_PUBLIC_MAIL_HOST,
     port: process.env.NEXT_PUBLIC_MAIL_PORT,
