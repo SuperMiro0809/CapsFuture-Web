@@ -12,4 +12,5 @@ export { default as ComingSoonIllustration } from './coming-soon-illustration';
 export { default as MaintenanceIllustration } from './maintenance-illustration';
 export { default as PageNotFoundIllustration } from './page-not-found-illustration';
 export { default as OrderCompleteIllustration } from './order-complete-illustration';
+export { default as OrderFailedIllustration } from './order-failed-illustration';
 export { default as UpgradeStorageIllustration } from './upgrade-storage-illustration';
