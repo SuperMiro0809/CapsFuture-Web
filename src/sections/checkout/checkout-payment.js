@@ -6,16 +6,23 @@ import Button from '@mui/material/Button';
 import Grid from '@mui/material/Unstable_Grid2';
 import LoadingButton from '@mui/lab/LoadingButton';
 // locales
-import { useTranslate } from 'src/locales';
+import { useTranslate, useLocales } from 'src/locales';
+// api
+import { createOrder } from 'src/api/order';
+import { getBankTerminalLink } from 'src/api/payment';
+// auth
+import { useAuthContext } from 'src/auth/hooks';
 // components
 import Iconify from 'src/components/iconify';
 import FormProvider from 'src/components/hook-form';
+import { useSnackbar } from 'src/components/snackbar';
 //
 import { useCheckoutContext } from './context';
 import CheckoutSummary from './checkout-summary';
 import CheckoutDelivery from './checkout-delivery';
 import CheckoutBillingInfo from './checkout-billing-info';
 import CheckoutPaymentMethods from './checkout-payment-methods';
+import { ORIGIN } from 'src/config-global';
 
 // ----------------------------------------------------------------------
 
@@ -37,24 +44,6 @@ const DELIVERY_OPTIONS = [
   },
 ];
 
-const PAYMENT_OPTIONS = [
-  {
-    value: 'paypal',
-    label: 'Pay with Paypal',
-    description: 'You will be redirected to PayPal website to complete your purchase securely.',
-  },
-  {
-    value: 'credit',
-    label: 'Credit / Debit Card',
-    description: 'We support Mastercard, Visa, Discover and Stripe.',
-  },
-  {
-    value: 'cash',
-    label: 'Cash',
-    description: 'Pay with cash when your order is delivered.',
-  },
-];
-
 const CARDS_OPTIONS = [
   { value: 'ViSa1', label: '**** **** **** 1212 - Jimmy Holland' },
   { value: 'ViSa2', label: '**** **** **** 2424 - Shawn Stokes' },
@@ -64,7 +53,31 @@ const CARDS_OPTIONS = [
 export default function CheckoutPayment() {
   const { t } = useTranslate();
 
+  const PAYMENT_OPTIONS = [
+    {
+      value: 'paypal',
+      label: 'Pay with Paypal',
+      description: 'You will be redirected to PayPal website to complete your purchase securely.',
+    },
+    {
+      value: 'credit',
+      label: t('methods.credit.title', { ns: 'ecommerce' }),
+      description: t('methods.credit.description', { ns: 'ecommerce' }),
+    },
+    {
+      value: 'cash',
+      label: t('methods.cash.title', { ns: 'ecommerce' }),
+      description: t('methods.cash.description', { ns: 'ecommerce' }),
+    },
+  ];
+
+  const { currentLang } = useLocales();
+
+  const { user } = useAuthContext();
+
   const checkout = useCheckoutContext();
+
+  const { enqueueSnackbar } = useSnackbar();
 
   const PaymentSchema = Yup.object().shape({
     payment: Yup.string().required('Payment is required'),
@@ -87,10 +100,45 @@ export default function CheckoutPayment() {
 
   const onSubmit = handleSubmit(async (data) => {
     try {
-      // checkout.onNextStep();
-      // checkout.onReset();
+      const values = {
+        ...data,
+        products: checkout.items,
+        address: checkout.billing,
+        total: checkout.total,
+        user_id: user?.id || null
+      };
+
       console.info('DATA', data);
+      console.log(checkout);
+
+      const { data: order, error } = await createOrder(values);
+
+      if (error) throw error;
+
+      if (data.payment === 'cash') {
+        console.log('cash');
+        // checkout.onNextStep();
+        // checkout.onReset();
+      } else {
+        let dskData = {
+          'amount': checkout.total * 100,
+          'currency': '975',
+          'returnUrl': `${ORIGIN}/order/${order.number}/payment?token=${order.payment_access_token}`,
+          'description': `Order: ${order.number}, Date: ${order.created_at}, Total: ${checkout.total} BGN`,
+          'language': currentLang.value,
+          'orderNumber': order.number
+        };
+  
+        enqueueSnackbar(t('order-create-success', { ns: 'messages' }));
+  
+        const { data: paymentData, error: paymentError } = await getBankTerminalLink(dskData);
+  
+        if (paymentError) throw paymentError;
+  
+        window.open(paymentData.formUrl, '_self');
+      }
     } catch (error) {
+      enqueueSnackbar(error, { variant: 'error' });
       console.error(error);
     }
   });

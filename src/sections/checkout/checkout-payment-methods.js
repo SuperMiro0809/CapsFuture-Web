@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { Controller, useFormContext } from 'react-hook-form';
-
+// @mui
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
@@ -10,16 +10,20 @@ import TextField from '@mui/material/TextField';
 import CardHeader from '@mui/material/CardHeader';
 import ListItemText from '@mui/material/ListItemText';
 import FormHelperText from '@mui/material/FormHelperText';
-
+// hooks
 import { useBoolean } from 'src/hooks/use-boolean';
-
+// locales
+import { useTranslate } from 'src/locales';
+// components
 import Iconify from 'src/components/iconify';
-
+//
 import PaymentNewCardDialog from '../payment/payment-new-card-dialog';
 
 // ----------------------------------------------------------------------
 
 export default function CheckoutPaymentMethods({ options, cardOptions, ...other }) {
+  const { t } = useTranslate();
+
   const { control } = useFormContext();
 
   const newCard = useBoolean();
@@ -27,7 +31,7 @@ export default function CheckoutPaymentMethods({ options, cardOptions, ...other 
   return (
     <>
       <Card {...other}>
-        <CardHeader title="Payment" />
+        <CardHeader title={t('payment-method', { ns: 'ecommerce' })} />
 
         <Controller
           name="payment"
@@ -110,7 +114,7 @@ function OptionItem({ option, cardOptions, selected, isCredit, onOpen, ...other 
         secondaryTypographyProps={{ typography: 'body2' }}
       />
 
-      {isCredit && (
+      {/* {isCredit && (
         <Stack
           spacing={2.5}
           alignItems="flex-end"
@@ -135,7 +139,7 @@ function OptionItem({ option, cardOptions, selected, isCredit, onOpen, ...other 
             Add New Card
           </Button>
         </Stack>
-      )}
+      )} */}
     </Paper>
   );
 }

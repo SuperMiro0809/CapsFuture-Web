@@ -19,5 +19,7 @@
 
     "reset-password-success": "Паролата е сменена успешно",
 
-    "error-occurred": "Възникна грешка!"
+    "error-occurred": "Възникна грешка!",
+
+    "order-create-success": "Поръчката е създадена успешно"
 }
