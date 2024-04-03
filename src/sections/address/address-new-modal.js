@@ -172,7 +172,7 @@ export default function AddressNewModal({ open, onClose, onCreate, currentAddres
       enqueueSnackbar(t('add-success'));
       reset();
       onClose();
-      onCreate();
+      onCreate(data);
     } catch (error) {
       enqueueSnackbar(error, { variant: 'error' });
     }

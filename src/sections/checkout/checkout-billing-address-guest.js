@@ -10,6 +10,8 @@ import Typography from '@mui/material/Typography';
 import LoadingButton from '@mui/lab/LoadingButton';
 // locales
 import { useTranslate } from 'src/locales';
+// utils
+import { formatBilling } from 'src/utils/format-billing';
 // components
 import Iconify from 'src/components/iconify';
 //
@@ -48,8 +50,8 @@ export default function CheckoutBillingAddressGuest() {
   const defaultValues = useMemo(() => ({
     fullName: checkout.billing?.fullName || '',
     phone: checkout.billing?.phone || '',
-    country: checkout.billing?.country || null,
-    city: checkout.billing?.city || null,
+    country: (checkout.billing?.country && checkout.billing?.countryCode) ? { label: checkout.billing.country, value: checkout.billing.countryCode } : null,
+    city: (checkout.billing?.city && checkout.billing?.econtCityId) ? { label: checkout.billing.city, value: checkout.billing.econtCityId } : null,
     quarter: checkout.billing?.quarter || null,
     street: checkout.billing?.street || null,
     streetNumber: checkout.billing?.streetNumber || '',
@@ -74,7 +76,7 @@ export default function CheckoutBillingAddressGuest() {
   const onSubmit = handleSubmit(async (data) => {
     console.log(data);
 
-    checkout.onCreateBilling(data);
+    checkout.onCreateBilling(formatBilling(data));
   });
 
 

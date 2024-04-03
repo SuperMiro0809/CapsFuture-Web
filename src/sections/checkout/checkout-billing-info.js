@@ -15,18 +15,18 @@ import Iconify from 'src/components/iconify';
 export default function CheckoutBillingInfo({ billing, onBackStep }) {
   const { t } = useTranslate();
 
-  const { full_name, phone, country, city, post_code, district, street, street_number, building_number, entrance, floor, apartment, note } = billing;
+  const { fullName, phone, country, city, postCode, quarter, street, streetNumber, buildingNumber, entrance, floor, apartment, note } = billing;
 
-  let fullAddress = `${country}, гр. ${city} ${post_code}`;
+  let fullAddress = `${country}, гр. ${city} ${postCode}`;
 
-  if (district) {
-    fullAddress += `, кв. ${district}`;
+  if (quarter) {
+    fullAddress += `, кв. ${quarter}`;
   }
 
-  fullAddress += `, ${street} ${street_number || ''} `;
+  fullAddress += `, ${street} ${streetNumber || ''} `;
 
-  if (building_number) {
-    fullAddress += `, бл. ${building_number}`;
+  if (buildingNumber) {
+    fullAddress += `, бл. ${buildingNumber}`;
   }
 
   if (entrance) {
@@ -53,7 +53,7 @@ export default function CheckoutBillingInfo({ billing, onBackStep }) {
       />
       <Stack spacing={1} sx={{ p: 3 }}>
         <Box sx={{ typography: 'subtitle2' }}>
-          {`${billing?.fullName} `}
+          {fullName}
           {/* <Box component="span" sx={{ color: 'text.secondary', typography: 'body2' }}>
             ({billing?.addressType})
           </Box> */}
@@ -61,7 +61,7 @@ export default function CheckoutBillingInfo({ billing, onBackStep }) {
 
         <Box sx={{ color: 'text.secondary', typography: 'body2' }}>{fullAddress}</Box>
 
-        <Box sx={{ color: 'text.secondary', typography: 'body2' }}>{billing?.phone}</Box>
+        <Box sx={{ color: 'text.secondary', typography: 'body2' }}>{phone}</Box>
       </Stack>
     </Card>
   );

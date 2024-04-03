@@ -13,6 +13,8 @@ import { useTranslate } from 'src/locales';
 import { useAuthContext } from 'src/auth/hooks';
 // api
 import { getAddresses } from 'src/api/user';
+// utils
+import { formatBilling } from 'src/utils/format-billing';
 //
 import { _addressBooks } from 'src/_mock';
 // components
@@ -53,7 +55,11 @@ export default function CheckoutBillingAddress() {
         }
       })
     }
-  }, [user])
+  }, [user]);
+
+  const onNewAddressCreate = (data) => {
+    checkout.onCreateBilling(formatBilling(data));
+  }
 
   return (
     <>
@@ -104,7 +110,7 @@ export default function CheckoutBillingAddress() {
                           <Button
                             variant="outlined"
                             size="small"
-                            onClick={() => checkout.onCreateBilling(address)}
+                            onClick={() => checkout.onCreateBilling(formatBilling(address))}
                           >
                             Deliver to this Address
                           </Button>
@@ -154,7 +160,7 @@ export default function CheckoutBillingAddress() {
           <AddressNewModal
             open={addressForm.value}
             onClose={addressForm.onFalse}
-            onCreate={checkout.onCreateBilling}
+            onCreate={onNewAddressCreate}
           />
         </>
       )}
