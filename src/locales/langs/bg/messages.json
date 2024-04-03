@@ -17,5 +17,7 @@
     "create-success": "Добавянето е успешно",
     "edit-success": "Редактирането е успешно",
 
-    "reset-password-success": "Паролата е сменена успешно"
+    "reset-password-success": "Паролата е сменена успешно",
+
+    "error-occurred": "Възникна грешка!"
 }
