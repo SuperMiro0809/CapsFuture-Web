@@ -158,11 +158,11 @@ export default function CampaignParticipateForm({ slug }) {
                   md: 'repeat(2, 1fr)',
                 }}
               >
-                <RHFCheckbox name='caps_handover' label={t('caps_handover')} />
-                <RHFCheckbox name='bottles_handover' label={t('bottles_handover')} />
-                <RHFCheckbox name='cans_handover' label={t('cans_handover')} />
-                <RHFCheckbox name='buying_consumables' label={t('buying_consumables')} />
-                <RHFCheckbox name='campaign_labour' label={t('campaign_labour')} />
+                <RHFCheckbox name='caps_handover' label={t('caps_handover', { ns: 'forms' })} />
+                <RHFCheckbox name='bottles_handover' label={t('bottles_handover', { ns: 'forms' })} />
+                <RHFCheckbox name='cans_handover' label={t('cans_handover', { ns: 'forms' })} />
+                <RHFCheckbox name='buying_consumables' label={t('buying_consumables', { ns: 'forms' })} />
+                <RHFCheckbox name='campaign_labour' label={t('campaign_labour', { ns: 'forms' })} />
               </Box>
             </Stack>
             {errors[''] && <FormHelperText error>{errors[''].message}</FormHelperText>}
