@@ -105,6 +105,13 @@ export function useNavData() {
             icon: ICONS.product
           },
 
+          // ORDER
+          {
+            title: t('orders', { ns: 'headers' }),
+            path: paths.dashboard.order.root,
+            icon: ICONS.order
+          },
+
           // STATION
           {
             title: t('stations', { ns: 'location' }),

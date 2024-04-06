@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useCallback } from 'react';
-
+// @mui
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
 import Card from '@mui/material/Card';
@@ -13,16 +13,18 @@ import Container from '@mui/material/Container';
 import TableBody from '@mui/material/TableBody';
 import IconButton from '@mui/material/IconButton';
 import TableContainer from '@mui/material/TableContainer';
-
+// routes
 import { paths } from 'src/routes/paths';
 import { useRouter } from 'src/routes/hooks';
-
+// locales
+import { useTranslate } from 'src/locales';
+// hooks
 import { useBoolean } from 'src/hooks/use-boolean';
-
+// utils
 import { fTimestamp } from 'src/utils/format-time';
-
+//
 import { _orders, ORDER_STATUS_OPTIONS } from 'src/_mock';
-
+// components
 import Label from 'src/components/label';
 import Iconify from 'src/components/iconify';
 import Scrollbar from 'src/components/scrollbar';
@@ -39,7 +41,7 @@ import {
   TableSelectedAction,
   TablePaginationCustom,
 } from 'src/components/table';
-
+//
 import OrderTableRow from '../order-table-row';
 import OrderTableToolbar from '../order-table-toolbar';
 import OrderTableFiltersResult from '../order-table-filters-result';
@@ -47,16 +49,6 @@ import OrderTableFiltersResult from '../order-table-filters-result';
 // ----------------------------------------------------------------------
 
 const STATUS_OPTIONS = [{ value: 'all', label: 'All' }, ...ORDER_STATUS_OPTIONS];
-
-const TABLE_HEAD = [
-  { id: 'orderNumber', label: 'Order', width: 116 },
-  { id: 'name', label: 'Customer' },
-  { id: 'createdAt', label: 'Date', width: 140 },
-  { id: 'totalQuantity', label: 'Items', width: 120, align: 'center' },
-  { id: 'totalAmount', label: 'Price', width: 140 },
-  { id: 'status', label: 'Status', width: 110 },
-  { id: '', width: 88 },
-];
 
 const defaultFilters = {
   name: '',
@@ -68,6 +60,18 @@ const defaultFilters = {
 // ----------------------------------------------------------------------
 
 export default function OrderListView() {
+  const { t } = useTranslate();
+
+  const TABLE_HEAD = [
+    { id: 'orderNumber', label: 'Order', width: 116 },
+    { id: 'name', label: 'Customer' },
+    { id: 'createdAt', label: t('date', { ns: 'forms' }), width: 140 },
+    { id: 'totalQuantity', label: t('items', { ns: 'common' }), width: 120, align: 'center' },
+    { id: 'totalAmount', label: t('price', { ns: 'forms' }), width: 140 },
+    { id: 'status', label: t('status', { ns: 'forms' }), width: 110 },
+    { id: '', width: 88 },
+  ];  
+
   const table = useTable({ defaultOrderBy: 'orderNumber' });
 
   const settings = useSettingsContext();
@@ -158,17 +162,13 @@ export default function OrderListView() {
     <>
       <Container maxWidth={settings.themeStretch ? false : 'lg'}>
         <CustomBreadcrumbs
-          heading="List"
+          heading={t('orders', { ns: 'headers' })}
           links={[
             {
-              name: 'Dashboard',
+              name: t('dashboard', { ns: 'headers' }),
               href: paths.dashboard.root,
             },
-            {
-              name: 'Order',
-              href: paths.dashboard.order.root,
-            },
-            { name: 'List' },
+            { name: t('orders', { ns: 'headers' }) }
           ]}
           sx={{
             mb: { xs: 3, md: 5 },
