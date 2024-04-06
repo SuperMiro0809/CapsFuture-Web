@@ -22,8 +22,6 @@ import { useTranslate } from 'src/locales';
 import { useBoolean } from 'src/hooks/use-boolean';
 // utils
 import { fTimestamp } from 'src/utils/format-time';
-//
-import { _orders, ORDER_STATUS_OPTIONS } from 'src/_mock';
 // components
 import Label from 'src/components/label';
 import Iconify from 'src/components/iconify';
@@ -48,8 +46,6 @@ import OrderTableFiltersResult from '../order-table-filters-result';
 
 // ----------------------------------------------------------------------
 
-const STATUS_OPTIONS = [{ value: 'all', label: 'All' }, ...ORDER_STATUS_OPTIONS];
-
 const defaultFilters = {
   name: '',
   status: 'all',
@@ -59,18 +55,27 @@ const defaultFilters = {
 
 // ----------------------------------------------------------------------
 
-export default function OrderListView() {
+export default function OrderListView({ orders }) {
   const { t } = useTranslate();
 
+  console.log(orders)
+
   const TABLE_HEAD = [
-    { id: 'orderNumber', label: 'Order', width: 116 },
-    { id: 'name', label: 'Customer' },
-    { id: 'createdAt', label: t('date', { ns: 'forms' }), width: 140 },
-    { id: 'totalQuantity', label: t('items', { ns: 'common' }), width: 120, align: 'center' },
+    { id: 'orderNumber', label: '№', width: 146 },
+    { id: 'name', label: t('user', { ns: 'forms' }), width: 350 },
+    { id: 'createdAt', label: t('date', { ns: 'forms' }), width: 100 },
+    { id: 'totalQuantity', label: t('quantity', { ns: 'forms' }), width: 200, align: 'center' },
     { id: 'totalAmount', label: t('price', { ns: 'forms' }), width: 140 },
     { id: 'status', label: t('status', { ns: 'forms' }), width: 110 },
     { id: '', width: 88 },
-  ];  
+  ];
+
+  const STATUS_OPTIONS = [
+    { value: 'all', label: t('all', { ns: 'common' }) },
+    { value: 'pending', label: t('pending', { ns: 'common' }) },
+    { value: 'paid', label: t('paid', { ns: 'common' }) },
+    { value: 'failed', label: t('failed', { ns: 'common' }) },
+  ];
 
   const table = useTable({ defaultOrderBy: 'orderNumber' });
 
@@ -80,7 +85,7 @@ export default function OrderListView() {
 
   const confirm = useBoolean();
 
-  const [tableData, setTableData] = useState(_orders);
+  const [tableData, setTableData] = useState(orders);
 
   const [filters, setFilters] = useState(defaultFilters);
 
@@ -196,22 +201,22 @@ export default function OrderListView() {
                       ((tab.value === 'all' || tab.value === filters.status) && 'filled') || 'soft'
                     }
                     color={
-                      (tab.value === 'completed' && 'success') ||
+                      (tab.value === 'paid' && 'success') ||
                       (tab.value === 'pending' && 'warning') ||
-                      (tab.value === 'cancelled' && 'error') ||
+                      (tab.value === 'failed' && 'error') ||
                       'default'
                     }
                   >
-                    {tab.value === 'all' && _orders.length}
-                    {tab.value === 'completed' &&
-                      _orders.filter((order) => order.status === 'completed').length}
+                    {tab.value === 'all' && orders.length}
+                    {tab.value === 'paid' &&
+                      orders.filter((order) => order.status === 'paid').length}
 
                     {tab.value === 'pending' &&
-                      _orders.filter((order) => order.status === 'pending').length}
-                    {tab.value === 'cancelled' &&
-                      _orders.filter((order) => order.status === 'cancelled').length}
-                    {tab.value === 'refunded' &&
-                      _orders.filter((order) => order.status === 'refunded').length}
+                      orders.filter((order) => order.status === 'pending').length}
+                    {tab.value === 'failed' &&
+                      orders.filter((order) => order.status === 'failed').length}
+                    {/* {tab.value === 'refunded' &&
+                      _orders.filter((order) => order.status === 'refunded').length} */}
                   </Label>
                 }
               />
@@ -360,9 +365,11 @@ function applyFilter({ inputData, comparator, filters, dateError }) {
   if (name) {
     inputData = inputData.filter(
       (order) =>
-        order.orderNumber.toLowerCase().indexOf(name.toLowerCase()) !== -1 ||
-        order.customer.name.toLowerCase().indexOf(name.toLowerCase()) !== -1 ||
-        order.customer.email.toLowerCase().indexOf(name.toLowerCase()) !== -1
+        order.number.toLowerCase().indexOf(name.toLowerCase()) !== -1 ||
+        order.user && (
+          order.user?.profile.display_name.toLowerCase().indexOf(name.toLowerCase()) !== -1 ||
+          order.user?.email.toLowerCase().indexOf(name.toLowerCase()) !== -1
+        )
     );
   }
 
@@ -374,8 +381,8 @@ function applyFilter({ inputData, comparator, filters, dateError }) {
     if (startDate && endDate) {
       inputData = inputData.filter(
         (order) =>
-          fTimestamp(order.createdAt) >= fTimestamp(startDate) &&
-          fTimestamp(order.createdAt) <= fTimestamp(endDate)
+          fTimestamp(order.created_at) >= fTimestamp(startDate) &&
+          fTimestamp(order.created_at) <= fTimestamp(endDate)
       );
     }
   }

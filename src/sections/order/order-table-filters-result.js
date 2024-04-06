@@ -1,11 +1,13 @@
 import PropTypes from 'prop-types';
-
+// @mui
 import Box from '@mui/material/Box';
 import Chip from '@mui/material/Chip';
 import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
-
+// locales
+import { useTranslate } from 'src/locales';
+// components
 import Iconify from 'src/components/iconify';
 import { shortDateLabel } from 'src/components/custom-date-range-picker';
 
@@ -20,6 +22,8 @@ export default function OrderTableFiltersResult({
   results,
   ...other
 }) {
+  const { t } = useTranslate();
+
   const shortLabel = shortDateLabel(filters.startDate, filters.endDate);
 
   const handleRemoveStatus = () => {
@@ -36,19 +40,19 @@ export default function OrderTableFiltersResult({
       <Box sx={{ typography: 'body2' }}>
         <strong>{results}</strong>
         <Box component="span" sx={{ color: 'text.secondary', ml: 0.25 }}>
-          results found
+          {t('results-found', { ns: 'common' })}
         </Box>
       </Box>
 
       <Stack flexGrow={1} spacing={1} direction="row" flexWrap="wrap" alignItems="center">
         {filters.status !== 'all' && (
-          <Block label="Status:">
-            <Chip size="small" label={filters.status} onDelete={handleRemoveStatus} />
+          <Block label={`${t('status', { ns: 'forms' })}:`}>
+            <Chip size="small" label={t(filters.status, { ns: 'common' })} onDelete={handleRemoveStatus} />
           </Block>
         )}
 
         {filters.startDate && filters.endDate && (
-          <Block label="Date:">
+          <Block label={`${t('date', { ns: 'forms' })}:`}>
             <Chip size="small" label={shortLabel} onDelete={handleRemoveDate} />
           </Block>
         )}
@@ -58,7 +62,7 @@ export default function OrderTableFiltersResult({
           onClick={onResetFilters}
           startIcon={<Iconify icon="solar:trash-bin-trash-bold" />}
         >
-          Clear
+          {t('clear', { ns: 'common' })}
         </Button>
       </Stack>
     </Stack>

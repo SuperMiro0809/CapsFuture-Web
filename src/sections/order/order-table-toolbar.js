@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { useCallback } from 'react';
-
+// @mui
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
@@ -8,7 +8,9 @@ import TextField from '@mui/material/TextField';
 import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-
+// locales
+import { useTranslate } from 'src/locales';
+// components
 import Iconify from 'src/components/iconify';
 import CustomPopover, { usePopover } from 'src/components/custom-popover';
 
@@ -21,6 +23,8 @@ export default function OrderTableToolbar({
   canReset,
   onResetFilters,
 }) {
+  const { t } = useTranslate();
+
   const popover = usePopover();
 
   const handleFilterName = useCallback(
@@ -59,7 +63,7 @@ export default function OrderTableToolbar({
         }}
       >
         <DatePicker
-          label="Start date"
+          label={t('start-date', { ns: 'forms' })}
           value={filters.startDate}
           onChange={handleFilterStartDate}
           slotProps={{
@@ -73,7 +77,7 @@ export default function OrderTableToolbar({
         />
 
         <DatePicker
-          label="End date"
+          label={t('end-date', { ns: 'forms' })}
           value={filters.endDate}
           onChange={handleFilterEndDate}
           slotProps={{ textField: { fullWidth: true } }}
@@ -87,7 +91,7 @@ export default function OrderTableToolbar({
             fullWidth
             value={filters.name}
             onChange={handleFilterName}
-            placeholder="Search customer or order number..."
+            placeholder={`${t('search-by-order-or-user', { ns: 'common' })}...`}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">

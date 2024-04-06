@@ -1,6 +1,7 @@
 import { format } from 'date-fns';
+import { bg, enUS } from 'date-fns/locale';
 import PropTypes from 'prop-types';
-
+//  @mui
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
@@ -13,11 +14,13 @@ import Checkbox from '@mui/material/Checkbox';
 import TableCell from '@mui/material/TableCell';
 import IconButton from '@mui/material/IconButton';
 import ListItemText from '@mui/material/ListItemText';
-
+// locales
+import { useTranslate, useLocales } from 'src/locales';
+// hooks
 import { useBoolean } from 'src/hooks/use-boolean';
-
+// utils
 import { fCurrency } from 'src/utils/format-number';
-
+// components
 import Label from 'src/components/label';
 import Iconify from 'src/components/iconify';
 import { ConfirmDialog } from 'src/components/custom-dialog';
@@ -26,13 +29,23 @@ import CustomPopover, { usePopover } from 'src/components/custom-popover';
 // ----------------------------------------------------------------------
 
 export default function OrderTableRow({ row, selected, onViewRow, onSelectRow, onDeleteRow }) {
-  const { items, status, orderNumber, createdAt, customer, totalQuantity, subTotal } = row;
+  const { t } = useTranslate();
+
+  const { currentLang } = useLocales();
+
+  const { number: orderNumber, products, payment_status, created_at, user, amount } = row;
 
   const confirm = useBoolean();
 
   const collapse = useBoolean();
 
   const popover = usePopover();
+
+  let totalQuantity = 0;
+
+  products.forEach((product) => {
+    totalQuantity += product.pivot.quantity;
+  })
 
   const renderPrimary = (
     <TableRow hover selected={selected}>
@@ -48,6 +61,7 @@ export default function OrderTableRow({ row, selected, onViewRow, onSelectRow, o
             '&:hover': {
               textDecoration: 'underline',
             },
+            color: 'primary.main'
           }}
         >
           {orderNumber}
@@ -55,11 +69,11 @@ export default function OrderTableRow({ row, selected, onViewRow, onSelectRow, o
       </TableCell>
 
       <TableCell sx={{ display: 'flex', alignItems: 'center' }}>
-        <Avatar alt={customer.name} src={customer.avatarUrl} sx={{ mr: 2 }} />
+        <Avatar alt={user?.name} src={user?.avatarUrl} sx={{ mr: 2 }} />
 
         <ListItemText
-          primary={customer.name}
-          secondary={customer.email}
+          primary={user?.name || t('guest', { ns: 'auth' })}
+          secondary={user?.email}
           primaryTypographyProps={{ typography: 'body2' }}
           secondaryTypographyProps={{
             component: 'span',
@@ -70,8 +84,8 @@ export default function OrderTableRow({ row, selected, onViewRow, onSelectRow, o
 
       <TableCell>
         <ListItemText
-          primary={format(new Date(createdAt), 'dd MMM yyyy')}
-          secondary={format(new Date(createdAt), 'p')}
+          primary={format(new Date(created_at), 'dd MMM yyyy', { locale: (currentLang.value === 'bg' && bg) || (currentLang.value === 'en' && enUS) } )}
+          secondary={format(new Date(created_at), 'p', { locale: (currentLang.value === 'bg' && bg) || (currentLang.value === 'en' && enUS) } )}
           primaryTypographyProps={{ typography: 'body2', noWrap: true }}
           secondaryTypographyProps={{
             mt: 0.5,
@@ -83,19 +97,19 @@ export default function OrderTableRow({ row, selected, onViewRow, onSelectRow, o
 
       <TableCell align="center"> {totalQuantity} </TableCell>
 
-      <TableCell> {fCurrency(subTotal)} </TableCell>
+      <TableCell> {fCurrency(amount)} {t('lv', { ns: 'common' })}.</TableCell>
 
       <TableCell>
         <Label
           variant="soft"
           color={
-            (status === 'completed' && 'success') ||
-            (status === 'pending' && 'warning') ||
-            (status === 'cancelled' && 'error') ||
+            (payment_status === 'paid' && 'success') ||
+            (payment_status === 'pending' && 'warning') ||
+            (payment_status === 'failed' && 'error') ||
             'default'
           }
         >
-          {status}
+          {t(payment_status, { ns: 'common' })}
         </Label>
       </TableCell>
 
@@ -129,7 +143,7 @@ export default function OrderTableRow({ row, selected, onViewRow, onSelectRow, o
           sx={{ bgcolor: 'background.neutral' }}
         >
           <Stack component={Paper} sx={{ m: 1.5 }}>
-            {items.map((item) => (
+            {products.map((item) => (
               <Stack
                 key={item.id}
                 direction="row"
@@ -148,7 +162,7 @@ export default function OrderTableRow({ row, selected, onViewRow, onSelectRow, o
                 />
 
                 <ListItemText
-                  primary={item.name}
+                  primary={item.title}
                   secondary={item.sku}
                   primaryTypographyProps={{
                     typography: 'body2',
@@ -160,9 +174,9 @@ export default function OrderTableRow({ row, selected, onViewRow, onSelectRow, o
                   }}
                 />
 
-                <Box>x{item.quantity}</Box>
+                <Box>x{item.pivot.quantity}</Box>
 
-                <Box sx={{ width: 110, textAlign: 'right' }}>{fCurrency(item.price)}</Box>
+                <Box sx={{ width: 110, textAlign: 'right' }}>{fCurrency(item.price)} {t('lv', { ns: 'common' })}.</Box>
               </Stack>
             ))}
           </Stack>
@@ -183,7 +197,7 @@ export default function OrderTableRow({ row, selected, onViewRow, onSelectRow, o
         arrow="right-top"
         sx={{ width: 140 }}
       >
-        <MenuItem
+        {/* <MenuItem
           onClick={() => {
             confirm.onTrue();
             popover.onClose();
@@ -192,13 +206,13 @@ export default function OrderTableRow({ row, selected, onViewRow, onSelectRow, o
         >
           <Iconify icon="solar:trash-bin-trash-bold" />
           Delete
-        </MenuItem>
+        </MenuItem> */}
 
         <MenuItem
-          onClick={() => {
-            onViewRow();
-            popover.onClose();
-          }}
+          // onClick={() => {
+          //   onViewRow();
+          //   popover.onClose();
+          // }}
         >
           <Iconify icon="solar:eye-bold" />
           View

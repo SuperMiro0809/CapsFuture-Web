@@ -1,7 +1,20 @@
 'use server'
 
 import axios from 'src/utils/axios';
-import { REST_API } from "src/config-global"
+import { REST_API } from "src/config-global";
+
+export async function getOrders(lang) {
+    const URL = `${REST_API}/orders?lang=${lang}`;
+
+    try {
+        const res = await axios.get(URL);
+
+        return { status: res.status, data: res.data };
+    } catch (error) {
+        const message = typeof error === 'string' ? error : error.message;
+        return { error: message };
+    }
+}
 
 export async function createOrder(data) {
     const URL = `${REST_API}/orders`;
