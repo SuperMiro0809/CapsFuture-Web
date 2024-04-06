@@ -116,9 +116,8 @@ export default function CheckoutPayment() {
       if (error) throw error;
 
       if (data.payment === 'cash') {
-        console.log('cash');
-        // checkout.onNextStep();
-        // checkout.onReset();
+        checkout.onNextStep();
+        checkout.onReset();
       } else {
         let dskData = {
           'amount': checkout.total * 100,
