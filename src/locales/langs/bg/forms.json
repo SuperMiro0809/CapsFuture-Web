@@ -45,5 +45,6 @@
     "buying_consumables": "Купуване на консумативи",
     "campaign_labour": "Събиране, опаковане и пренасяне",
     "total-price": "Обща сума",
-    "quantity": "Количество"
+    "quantity": "Количество",
+    "status": "Статус"
 }
