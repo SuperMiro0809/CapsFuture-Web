@@ -1,0 +1,33 @@
+{
+    "will-take-place-on": "Will take place on",
+
+    "login-prompt": "Log into your account to benefit from the following advantages regarding campaigns",
+    "benefits": {
+        "easier-campaign-signup": "easier campaign signup",
+        "campaign-save": "save the campaigns in your profile",
+        "feedback-opportunity": "opportunity to provide feedback after a campaign is conducted",
+        "unsubscribe-anytime": "you can unsubscribe at any moment"
+    },
+
+    "participate-modal": {
+        "title": "Participation in a campaign",
+        "text": "Do you want to sign up for participation in this campaign?"
+    },
+    "participate-apply-title": "Fill in the following information to sign up",
+
+    "how-can-you-help": "How can you help",
+    "participate-provide-information-text": "Please provide the following information beforehand",
+
+    "unsubscribe-modal": {
+        "title": "Unsubscribe from a campaign",
+        "text": "Are you sure you want to unsubscribe from participating in this campaign?"
+    },
+
+    "participate": "Participate",
+    "participations": "Participations",
+    "unsubscribe": "Unsubscribe",
+
+    "new": "New campaign",
+    "create-new": "Create new campaign",
+    "upcoming": "Upcoming campaigns"
+}

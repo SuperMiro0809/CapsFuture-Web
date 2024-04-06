@@ -1,0 +1,16 @@
+{
+    "security": "Security",
+  
+    "new-address": "New Address",
+    "no-addresses": "No addresses added to your profile",
+    "no-addresses-message": "It appears you have no addresses added to your profile. Please proceed by adding a new address",
+  
+    "default": "Default",
+    "set-as-primary": "Set as Primary",
+    "use-as-default-address": "Use this address as the default",
+  
+    "no-campaigns-activity": "Currently, there is no campaign activity registered in your profile",
+  
+    "new-user": "New User",
+    "create-new-user": "Create New User"
+}

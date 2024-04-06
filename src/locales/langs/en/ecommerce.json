@@ -1,0 +1,47 @@
+{
+    "add-to-cart": "Add to Cart",
+    "buy-now": "Buy Now",
+  
+    "cart-empty": "Your Cart is Empty",
+    "cart-empty-message": "It seems that you don't have any products in your cart",
+    "cart-product": "product",
+    "cart-products": "products",
+    "order-summary": "Order Summary",
+    "sub-total": "Subtotal",
+    "check-out": "Proceed to Checkout",
+    "complete-order": "Complete the Order",
+  
+    "purchase-thanks": {
+      "title": "Thank You for Your Purchase!",
+      "placing-order": "Thank you for placing an order",
+      "send-notification": "We will send you a notification within 5 days when it is shipped",
+      "contact-us": "If you have any questions or inquiries, please don't hesitate to contact us.",
+      "farewell": "All the best,"
+    },
+    "thank-you-for-your-purchase": "Thank You for Your Purchase!",
+  
+    "shipping": "Shipping",
+    "free": "Free",
+  
+    "steps": {
+      "cart": "Cart",
+      "address": "Address",
+      "payment": "Payment"
+    },
+  
+    "payment-method": "Payment Method",
+    "methods": {
+      "cash": {
+        "title": "Cash",
+        "description": "Pay in cash upon delivery"
+      },
+      "credit": {
+        "title": "Credit / Debit Card",
+        "description": "You will be redirected to a banking terminal and pay instantly"
+      }
+    },
+  
+    "our-products": "Our Products",
+    "new-product": "New Product",
+    "create-new-product": "Create New Product"
+}

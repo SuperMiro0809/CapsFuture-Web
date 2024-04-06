@@ -1,0 +1,19 @@
+{
+    "subtext": "Choose a location from the map",
+  
+    "new": "New Location",
+    "create-new": "Add New Location",
+  
+    "stations": "Stations",
+    "station": "Station",
+    "hearts": "Hearts",
+    "heart": "Heart",
+  
+    "address": "Address",
+    "addresses": "Addresses",
+    "enter-address": "Enter Address",
+    "enter-address-or-choose-on-map": "Enter address or choose from map",
+  
+    "manager": "Manager",
+    "manager-subtext": "Select a registered user or enter manually"
+}

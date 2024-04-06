@@ -22,6 +22,21 @@ import locationBg from './langs/bg/location.json';
 import homeBg from './langs/bg/home.json';
 import dashboardBg from './langs/bg/dashboard.json';
 
+import commonEn from './langs/en/common.json';
+import formsEn from './langs/en/forms.json';
+import validationEn from './langs/en/validation.json';
+import messagesEn from './langs/en/messages.json';
+import headersEn from './langs/en/headers.json';
+import authEn from './langs/en/auth.json';
+import ecommerceEn from './langs/en/ecommerce.json';
+import campaignEn from './langs/en/campaign.json';
+import helpEn from './langs/en/help.json';
+import profileEn from './langs/en/profile.json';
+import postEn from './langs/en/post.json';
+import locationEn from './langs/en/location.json';
+import homeEn from './langs/en/home.json';
+import dashboardEn from './langs/en/dashboard.json';
+
 // ----------------------------------------------------------------------
 
 export default async function initTranslations(locale, i18nInstance) {
@@ -33,7 +48,23 @@ export default async function initTranslations(locale, i18nInstance) {
   await i18nInstance.init({
     lng: locale,
     resources: {
-      en: { translations: translationEn },
+      en: {
+        translations: translationEn,
+        validation: validationEn,
+        forms: formsEn,
+        messages: messagesEn,
+        common: commonEn,
+        headers: headersEn,
+        auth: authEn,
+        ecommerce: ecommerceEn,
+        campaign: campaignEn,
+        help: helpEn,
+        profile: profileEn,
+        post: postEn,
+        location: locationEn,
+        home: homeEn,
+        dashboard: dashboardEn
+      },
       bg: {
         translations: translationBg,
         validation: validationBg,

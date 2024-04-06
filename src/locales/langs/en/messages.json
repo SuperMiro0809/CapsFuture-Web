@@ -1,0 +1,25 @@
+{
+    "permission-denied": "Access Denied",
+    "permission-denied-message": "You do not have permission to access this page",
+  
+    "comment-success": "Comment posted successfully",
+    "reply-success": "Reply posted successfully",
+    "comments-not-logged-in-message": "To post a comment, you must first log into your account",
+  
+    "unsubscribe-success-message": "Successfully unsubscribed from the campaign",
+  
+    "participate-warning-message": "By choosing this method, you will not be able to unsubscribe or save the campaign afterwards",
+    "participate-success-message": "Successfully signed up for the campaign",
+    "participate-not-allowed": "Signing up for this campaign is not allowed",
+  
+    "email-sent-success": "Email sent successfully",
+  
+    "create-success": "Successfully added",
+    "edit-success": "Successfully edited",
+  
+    "reset-password-success": "Password changed successfully",
+  
+    "error-occurred": "An error occurred!",
+  
+    "order-create-success": "Order created successfully"
+}  

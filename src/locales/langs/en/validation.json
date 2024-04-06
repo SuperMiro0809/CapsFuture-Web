@@ -1,0 +1,77 @@
+{
+    "title": {
+      "required": "Title is required"
+    },
+    "short_description": {
+      "required": "Short description is required"
+    },
+    "description": {
+      "required": "Description is required"
+    },
+    "date": {
+      "required": "Date is required"
+    },
+    "cities": {
+      "required": "Cities are required"
+    },
+    "city": {
+      "required": "City is required"
+    },
+    "country": {
+      "required": "Country is required"
+    },
+    "street": {
+      "required": "Street is required"
+    },
+    "post-code": {
+      "required": "Postal code is required"
+    },
+    "type": {
+      "required": "Type is required"
+    },
+    "name": {
+      "required": "Name is required"
+    },
+    "working-time": {
+      "required": "Working hours are required"
+    },
+    "collects": {
+      "required": "Collects is required"
+    },
+    "phone": {
+      "required": "Phone number is required",
+      "valid": "Phone number is not valid"
+    },
+    "location": {
+      "required": "Location is required"
+    },
+    "email": {
+      "required": "Email is required",
+      "valid": "Email is not valid",
+      "registered": "Email is already registered",
+      "not-registered": "There is no user registered with this email"
+    },
+    "password": {
+      "required": "Password is required",
+      "min": "Password must be at least 8 characters",
+      "no-match": "Passwords must match",
+      "different": "Password must be different from the old one"
+    },
+    "old-password": {
+      "required": "Old password is required",
+      "not-valid": "Old password is not correct"
+    },
+    "first-name": {
+      "required": "First name is required"
+    },
+    "last-name": {
+      "required": "Last name is required"
+    },
+    "subject": {
+      "required": "Subject is required"
+    },
+    "message": {
+      "required": "Message is required"
+    },
+    "at-least-one-true": "You must specify at least one"
+}
