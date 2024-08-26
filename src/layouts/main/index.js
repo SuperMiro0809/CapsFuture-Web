@@ -12,7 +12,7 @@ import Header from './header';
 export default function MainLayout({ children }) {
   const pathname = usePathname();
 
-  const homePage = pathname === '/';
+  const homePage = pathname === '/' || pathname === '/en/';
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', height: 1 }}>
