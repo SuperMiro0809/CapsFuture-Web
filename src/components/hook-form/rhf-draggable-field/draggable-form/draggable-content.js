@@ -83,7 +83,7 @@ export default function DraggableContent({
             variants={varHover(1.1, 0.95)}
             variant='soft'
             size='small'
-            color="info"
+            color='secondary'
             disabled={actions?.disableMove || parentIndex === 0}
           >
             <Iconify icon="solar:arrow-up-linear" />
@@ -101,7 +101,7 @@ export default function DraggableContent({
             variants={varHover(1.1, 0.95)}
             variant='soft'
             size='small'
-            color="info"
+            color='secondary'
             disabled={actions?.disableMove || isLast}
           >
             <Iconify icon="solar:arrow-down-linear" />
