@@ -5,8 +5,13 @@ import Stack from '@mui/material/Stack';
 // components
 import RHFTextField from './rhf-text-field';
 import RHFEditor from './rhf-editor';
+import RHFLanguageField from './rhf-language-field';
 
 export default function FieldsRender({ field }) {
+  const generateId = (name) => {
+    const parts = name.split('.');
+    return parts.join('-');
+  };
 
   return (
     <>
@@ -28,8 +33,17 @@ export default function FieldsRender({ field }) {
           <RHFEditor
             simple
             name={field.name}
+            documentId={generateId(field.name)}
           />
         </Stack>
+      )}
+
+      {field.type === 'language-field' && (
+        <RHFLanguageField
+          name={field.name}
+          langs={field.langs}
+          fields={field.fields}
+        />
       )}
     </>
   );
