@@ -20,3 +20,5 @@ export { default as RHFAutocompleteVirtualize } from './rhf-autocomplete-virtual
 export const RHFLocationSelectorField = dynamic(() => import('./rhf-location-selector-field'), {
     ssr: false,
 });
+
+export { default as RHFDraggableField } from './rhf-draggable-field';
