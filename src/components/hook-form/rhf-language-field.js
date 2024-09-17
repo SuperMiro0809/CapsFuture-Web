@@ -5,6 +5,7 @@ import Box from '@mui/material/Box';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Stack from '@mui/material/Stack';
+import Badge from '@mui/material/Badge';
 // react-hook-form
 import { Controller, useFormContext } from 'react-hook-form';
 //
@@ -38,7 +39,15 @@ export default function RHFLanguageField({ name, langs, fields }) {
             })}
           >
             {langs.map((lang, index) => (
-              <Tab label={lang.label} key={index} />
+              <Tab
+                key={index}
+                sx={{ px: '4px' }}
+                label={(
+                  <Badge color='error' variant='dot' invisible={!(error && error[lang.slug])}>
+                    {lang.label}
+                  </Badge>
+                )}
+              />
             ))}
           </Tabs>
           {langs.map((lang, index) => (
