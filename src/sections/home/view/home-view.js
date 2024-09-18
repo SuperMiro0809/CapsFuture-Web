@@ -55,7 +55,7 @@ function useParallaxCap(value, distance) {
   return useTransform(value, [0, 1], [0, distance]);
 }
 
-export default function HomeView({ campaigns, products, locations }) {
+export default function HomeView({ campaigns, products, locations, faqs }) {
   const { scrollYProgress } = useScroll();
 
   const contentRef = useRef(null);
@@ -128,7 +128,7 @@ export default function HomeView({ campaigns, products, locations }) {
 
         <HomeAchievements />
 
-        <HomeFAQ />
+        <HomeFAQ faqsData={faqs} />
 
         <HomeContacts />
       </Box>
@@ -140,5 +140,6 @@ export default function HomeView({ campaigns, products, locations }) {
 HomeView.propTypes = {
   campaigns: PropTypes.array,
   products: PropTypes.array,
-  locations: PropTypes.array
+  locations: PropTypes.array,
+  faqs: PropTypes.array
 }
