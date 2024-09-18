@@ -151,6 +151,9 @@ export const paths = {
         details: `${ROOTS.DASHBOARD}/post/${paramCase(MOCK_TITLE)}`,
         edit: `${ROOTS.DASHBOARD}/post/${paramCase(MOCK_TITLE)}/edit`,
       },
+    },
+    faq: {
+      root: `${ROOTS.DASHBOARD}/faq`,
     }
   },
 };

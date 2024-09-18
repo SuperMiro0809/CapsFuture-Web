@@ -5,6 +5,7 @@ import { paths } from 'src/routes/paths';
 import { useTranslate } from 'src/locales';
 // components
 import SvgColor from 'src/components/svg-color';
+import Iconify from 'src/components/iconify';
 
 // ----------------------------------------------------------------------
 
@@ -39,6 +40,7 @@ const ICONS = {
   dashboard: icon('ic_dashboard'),
   campaign: icon('ic_campaign'),
   station: icon('ic_station'),
+  faq: <Iconify icon='ph:seal-question-duotone' width={1} height={1} />
 };
 
 // ----------------------------------------------------------------------
@@ -89,7 +91,7 @@ export function useNavData() {
       // MANAGEMENT
       // ----------------------------------------------------------------------
       {
-        subheader: t('management', { ns: 'common' }),
+        subheader: t('management', { ns: 'headers' }),
         items: [
           // CAMPAIGN
           {
@@ -138,6 +140,19 @@ export function useNavData() {
           }
         ],
       },
+
+      // CONTENT
+      // ----------------------------------------------------------------------
+      {
+        subheader: t('content', { ns: 'headers' }),
+        items: [
+          {
+            title: t('faq', { ns: 'help' }),
+            path: paths.dashboard.faq.root,
+            icon: ICONS.faq
+          }
+        ]
+      }
     ],
     [t]
   );

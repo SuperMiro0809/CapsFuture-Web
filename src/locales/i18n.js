@@ -21,6 +21,7 @@ import postBg from './langs/bg/post.json';
 import locationBg from './langs/bg/location.json';
 import homeBg from './langs/bg/home.json';
 import dashboardBg from './langs/bg/dashboard.json';
+import faqBg from './langs/bg/faq.json';
 
 import commonEn from './langs/en/common.json';
 import formsEn from './langs/en/forms.json';
@@ -36,6 +37,7 @@ import postEn from './langs/en/post.json';
 import locationEn from './langs/en/location.json';
 import homeEn from './langs/en/home.json';
 import dashboardEn from './langs/en/dashboard.json';
+import faqEn from './langs/en/faq.json';
 
 // ----------------------------------------------------------------------
 
@@ -63,7 +65,8 @@ export default async function initTranslations(locale, i18nInstance) {
         post: postEn,
         location: locationEn,
         home: homeEn,
-        dashboard: dashboardEn
+        dashboard: dashboardEn,
+        faq: faqEn
       },
       bg: {
         translations: translationBg,
@@ -80,7 +83,8 @@ export default async function initTranslations(locale, i18nInstance) {
         post: postBg,
         location: locationBg,
         home: homeBg,
-        dashboard: dashboardBg
+        dashboard: dashboardBg,
+        faq: faqBg
       }
     },
     fallbackLng: locale,

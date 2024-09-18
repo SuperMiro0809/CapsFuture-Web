@@ -1,0 +1,13 @@
+{
+    "new": "Add a Frequently Asked Question",
+
+    "dashboard-card": {
+        "header": "Enter and Arrange Frequently Asked Questions",
+        "subheader": "Enter or edit frequently asked questions to be displayed on the homepage, arranging them in your desired order"
+    },
+
+    "no-entered": {
+        "title": "Frequently Asked Questions Not Yet Available",
+        "description": "All frequently asked questions will be available here once they are added. Please check back soon."
+    }
+}

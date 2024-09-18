@@ -15,6 +15,8 @@ import { textGradient } from 'src/theme/css';
 import { varFade, varBounce, MotionViewport } from 'src/components/animate';
 
 import { useTranslate } from 'src/locales';
+import EmptyContent from 'src/components/empty-content';
+import Markdown from 'src/components/markdown';
 
 // ----------------------------------------------------------------------
 
@@ -39,7 +41,7 @@ const StyledTextGradient = styled(m.h2)(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-export default function HomeFAQ() {
+export default function HomeFAQ({ faqsData = [] }) {
   const [opened, setOpened] = useState();
 
   const { t } = useTranslate();
@@ -53,17 +55,6 @@ export default function HomeFAQ() {
     closed: { rotate: 0 },
     opened: { rotate: 90 }
   };
-
-  const questions = [
-    { title: 'Какви капачки събираме?', content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec cursus libero, in hendrerit dolor. Morbi tristique justo at justo condimentum, euismod fringilla purus venenatis. Ut lacinia ac eros a laoreet. Phasellus semper turpis ac metus semper rhoncus. Nullam volutpat finibus leo et mattis.' },
-    { title: 'Какви капачки събираме?', content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec cursus libero, in hendrerit dolor. Morbi tristique justo at justo condimentum, euismod fringilla purus venenatis. Ut lacinia ac eros a laoreet. Phasellus semper turpis ac metus semper rhoncus. Nullam volutpat finibus leo et mattis.' },
-    { title: 'Какви капачки събираме?', content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec cursus libero, in hendrerit dolor. Morbi tristique justo at justo condimentum, euismod fringilla purus venenatis. Ut lacinia ac eros a laoreet. Phasellus semper turpis ac metus semper rhoncus. Nullam volutpat finibus leo et mattis.' },
-    { title: 'Какви капачки събираме?', content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec cursus libero, in hendrerit dolor. Morbi tristique justo at justo condimentum, euismod fringilla purus venenatis. Ut lacinia ac eros a laoreet. Phasellus semper turpis ac metus semper rhoncus. Nullam volutpat finibus leo et mattis.' },
-    { title: 'Какви капачки събираме?', content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec cursus libero, in hendrerit dolor. Morbi tristique justo at justo condimentum, euismod fringilla purus venenatis. Ut lacinia ac eros a laoreet. Phasellus semper turpis ac metus semper rhoncus. Nullam volutpat finibus leo et mattis.' },
-    { title: 'Какви капачки събираме?', content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec cursus libero, in hendrerit dolor. Morbi tristique justo at justo condimentum, euismod fringilla purus venenatis. Ut lacinia ac eros a laoreet. Phasellus semper turpis ac metus semper rhoncus. Nullam volutpat finibus leo et mattis.' },
-    { title: 'Какви капачки събираме?', content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec cursus libero, in hendrerit dolor. Morbi tristique justo at justo condimentum, euismod fringilla purus venenatis. Ut lacinia ac eros a laoreet. Phasellus semper turpis ac metus semper rhoncus. Nullam volutpat finibus leo et mattis.' },
-    { title: 'Какви капачки събираме?', content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec cursus libero, in hendrerit dolor. Morbi tristique justo at justo condimentum, euismod fringilla purus venenatis. Ut lacinia ac eros a laoreet. Phasellus semper turpis ac metus semper rhoncus. Nullam volutpat finibus leo et mattis.' }
-  ];
 
   // iloveyou<3
 
@@ -100,7 +91,16 @@ export default function HomeFAQ() {
       <Grid container spacing={2} justifyContent='space-between' alignItems='center'>
         <Grid xs={12} md={7}>
           <Stack>
-            {questions.map((question, index) => (
+            {faqsData.length === 0 && (
+              <m.div variants={varFade().inUp}>
+                <EmptyContent
+                  title={t('no-entered.title', { ns: 'faq' })}
+                  description={t('no-entered.description', { ns: 'faq' })}
+                />
+              </m.div>
+            )}
+
+            {faqsData.map((question, index) => (
               <m.div variants={varFade().inUp} key={index}>
                 <Box
                   sx={(theme) => ({
@@ -140,7 +140,7 @@ export default function HomeFAQ() {
                     initial="hidden"
                     transition={{ opacity: { duration: 0.2 }, height: { duration: 0.2, delay: 0 } }}
                   >
-                    {question.content}
+                    <Markdown children={question.description} />
                   </m.div>
                 </Box>
               </m.div>

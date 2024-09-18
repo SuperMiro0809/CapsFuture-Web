@@ -73,5 +73,8 @@
     "message": {
       "required": "Message is required"
     },
+    "faqs": {
+      "min": "There must be at least {{value}} frequently asked question"
+    },
     "at-least-one-true": "You must specify at least one"
 }
