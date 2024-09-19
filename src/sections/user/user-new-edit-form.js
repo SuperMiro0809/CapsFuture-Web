@@ -120,6 +120,7 @@ export default function UserNewEditForm({ roles, currentUser }) {
 
       enqueueSnackbar(currentUser ? t('edit-success', { ns: 'messages' }) : t('create-success', { ns: 'messages' }));
       router.push(paths.dashboard.user.root);
+      router.refresh();
     } catch (error) {
       console.error(error);
       enqueueSnackbar(error.message, { variant: 'error' });
