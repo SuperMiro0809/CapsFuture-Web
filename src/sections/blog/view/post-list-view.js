@@ -1,7 +1,7 @@
 'use client';
 
 import PropTypes from 'prop-types';
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 // @mui
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
@@ -13,11 +13,10 @@ import InputAdornment from '@mui/material/InputAdornment';
 // routes
 import { paths } from 'src/routes/paths';
 import { RouterLink } from 'src/routes/components';
-import { useRouter, usePathname, useSearchParams } from 'src/routes/hooks';
 // locales
 import { useTranslate } from 'src/locales';
 // utils
-import { makeQuery } from 'src/utils/url-query';
+import { orderBy } from 'src/utils/helper';
 // components
 import Label from 'src/components/label';
 import Iconify from 'src/components/iconify';
@@ -31,41 +30,30 @@ import PostListHorizontal from '../post-list-horizontal';
 
 const defaultFilters = {
   active: 'all',
+  search: ''
 };
+
+const defaultSortBy = 'latest';
 
 // ----------------------------------------------------------------------
 
-export default function PostListView({ posts, postsCount }) {
+export default function PostListView({ posts }) {
   const { t } = useTranslate();
-
-  const router = useRouter();
-
-  const pathname = usePathname();
-
-  const searchParams = useSearchParams();
 
   const settings = useSettingsContext();
 
-  let defaultPageValue = 1;
-  if(Number(searchParams.get('page'))) {
-    defaultPageValue = Number(searchParams.get('page')) <= 0 ? 1 : Number(searchParams.get('page'));
-  }
-
-  const [page, setPage] = useState(defaultPageValue);
+  const [page, setPage] = useState(1);
 
   const perPage = 8;
 
-  const sortByDefaultValue = searchParams.get('direction') === 'desc' ? 'oldest' : 'latest';
-  const [sortBy, setSortBy] = useState(sortByDefaultValue);
+  const [sortBy, setSortBy] = useState(defaultSortBy);
 
   const [filters, setFilters] = useState(defaultFilters);
-
-  const searchValueFilterValue = searchParams.get('title');
-  const [searchValue, setSearchValue] = useState(searchValueFilterValue);
 
   const dataFiltered = applyFilter({
     inputData: posts,
     filters,
+    sortBy
   });
 
   const handlePageChange = useCallback((event, newPage) => {
@@ -83,9 +71,12 @@ export default function PostListView({ posts, postsCount }) {
     }));
   }, []);
 
-  const handleSearch = useCallback((inputValue) => {
-    setSearchValue(inputValue);
-  }, []);
+  const handleSearch = useCallback(
+    (inputValue) => {
+      handleFilters('search', inputValue);
+    },
+    [handleFilters]
+  );
 
   const handleFilterPublish = useCallback(
     (event, newValue) => {
@@ -93,24 +84,6 @@ export default function PostListView({ posts, postsCount }) {
     },
     [handleFilters]
   );
-
-  useEffect(() => {
-    const pagination = {
-      page: page,
-      limit: perPage
-    };
-
-    const order = {
-      orderBy: 'created_at',
-      direction: sortBy === 'latest' ? 'asc' : 'desc'
-    };
-
-    const filters = [{ id: 'title', value: searchValue }];
-
-    const query = makeQuery(searchParams, pagination, order, filters);
-
-    router.push(`${pathname}${query}`);
-  }, [page, sortBy, searchValue]);
 
   return (
     <Container maxWidth={settings.themeStretch ? false : 'lg'}>
@@ -152,7 +125,7 @@ export default function PostListView({ posts, postsCount }) {
       >
 
         <TextField
-          value={searchValue}
+          value={filters.search}
           onChange={(event) => handleSearch(event.target.value)}
           placeholder={t('search', { ns: 'common' })}
           InputProps={{
@@ -182,7 +155,7 @@ export default function PostListView({ posts, postsCount }) {
             key={tab}
             iconPosition="end"
             value={tab}
-            label={t(tab)}
+            label={t(tab, { ns: 'common' })}
             icon={
               <Label
                 variant={((tab === 'all' || tab === filters.publish) && 'filled') || 'soft'}
@@ -201,8 +174,13 @@ export default function PostListView({ posts, postsCount }) {
       </Tabs>
 
       <PostListHorizontal
-        posts={dataFiltered}
-        postsCount={postsCount}
+        posts={
+          dataFiltered.slice(
+            (page - 1) * perPage,
+            (page - 1) * perPage + perPage
+          )
+        }
+        postsCount={posts.length}
         page={page}
         handlePageChange={handlePageChange}
         perPage={perPage}
@@ -213,17 +191,32 @@ export default function PostListView({ posts, postsCount }) {
 }
 
 PostListView.propTypes = {
-  posts: PropTypes.array,
-  postsCount: PropTypes.number
+  posts: PropTypes.array
 }
 
 // ----------------------------------------------------------------------
 
-const applyFilter = ({ inputData, filters }) => {
-  const { active } = filters;
+const applyFilter = ({ inputData, filters, sortBy }) => {
+  const { active, search } = filters;
+
+  if (sortBy === 'latest') {
+    inputData = orderBy(inputData, ['created_at'], ['desc']);
+  }
+
+  if (sortBy === 'oldest') {
+    inputData = orderBy(inputData, ['created_at'], ['asc']);
+  }
 
   if (active !== 'all') {
     inputData = inputData.filter((post) => post.active === (active === 'published' ? 1 : 0));
+  }
+
+  if (search) {
+    inputData = inputData.filter(
+      (post) =>
+        post.title.toLowerCase().indexOf(search.toLowerCase()) !== -1 ||
+        post.short_description.toLowerCase().indexOf(search.toLowerCase()) !== -1
+    );
   }
 
   return inputData;

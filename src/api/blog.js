@@ -28,6 +28,31 @@ export async function getPosts(pagination, order, filters, lang) {
   }
 }
 
+export async function getAllPosts(lang, order = {}, filters = []) {
+  let URL = `${REST_API}/posts/all?lang=${lang}`;
+
+  if (filters.length > 0) {
+    filters.forEach((filter) => {
+      if (filter.value) {
+        URL += `&${filter.id}=${filter.value}`
+      }
+    })
+  }
+
+  if (order?.orderBy && order?.direction) {
+    URL += `&field=${order.orderBy}&direction=${order.direction}`;
+  }
+
+  try {
+    const res = await axios.get(URL);
+
+    return { status: res.status, data: res.data };
+  } catch (error) {
+    const message = typeof error === 'string' ? error : error.message;
+    return { error: message };
+  }
+}
+
 export async function getPostBySlug(slug, lang) {
   try {
     const URL = `${REST_API}/posts/${slug}?lang=${lang}`;
