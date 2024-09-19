@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
-
-import Button from '@mui/material/Button';
+import { ASSETS } from 'src/config-global';
+// @mui
 import Avatar from '@mui/material/Avatar';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
@@ -9,20 +9,26 @@ import Checkbox from '@mui/material/Checkbox';
 import TableCell from '@mui/material/TableCell';
 import IconButton from '@mui/material/IconButton';
 import ListItemText from '@mui/material/ListItemText';
-
+import LoadingButton from '@mui/lab/LoadingButton';
+// hooks
 import { useBoolean } from 'src/hooks/use-boolean';
-
+// locales
+import { useTranslate } from 'src/locales';
+// components
 import Label from 'src/components/label';
 import Iconify from 'src/components/iconify';
 import { ConfirmDialog } from 'src/components/custom-dialog';
 import CustomPopover, { usePopover } from 'src/components/custom-popover';
-
+//
 import UserQuickEditForm from './user-quick-edit-form';
+
 
 // ----------------------------------------------------------------------
 
-export default function UserTableRow({ row, selected, onEditRow, onSelectRow, onDeleteRow }) {
-  const { name, avatarUrl, company, role, status, email, phoneNumber } = row;
+export default function UserTableRow({ row, selected, onEditRow, onSelectRow, onDeleteRow, deleteLoading }) {
+  const { t } = useTranslate();
+
+  const { full_name, avatar_photo_path, role_name, email, phoneNumber } = row;
 
   const confirm = useBoolean();
 
@@ -38,10 +44,10 @@ export default function UserTableRow({ row, selected, onEditRow, onSelectRow, on
         </TableCell>
 
         <TableCell sx={{ display: 'flex', alignItems: 'center' }}>
-          <Avatar alt={name} src={avatarUrl} sx={{ mr: 2 }} />
+          <Avatar alt={full_name} src={`${ASSETS}/${avatar_photo_path}`} sx={{ mr: 2 }} />
 
           <ListItemText
-            primary={name}
+            primary={full_name}
             secondary={email}
             primaryTypographyProps={{ typography: 'body2' }}
             secondaryTypographyProps={{
@@ -51,32 +57,29 @@ export default function UserTableRow({ row, selected, onEditRow, onSelectRow, on
           />
         </TableCell>
 
+        <TableCell sx={{ whiteSpace: 'nowrap' }}>{email}</TableCell>
+
         <TableCell sx={{ whiteSpace: 'nowrap' }}>{phoneNumber}</TableCell>
-
-        <TableCell sx={{ whiteSpace: 'nowrap' }}>{company}</TableCell>
-
-        <TableCell sx={{ whiteSpace: 'nowrap' }}>{role}</TableCell>
 
         <TableCell>
           <Label
             variant="soft"
             color={
-              (status === 'active' && 'success') ||
-              (status === 'pending' && 'warning') ||
-              (status === 'banned' && 'error') ||
+              (role_name === 'Admin' && 'primary') ||
+              (role_name === 'User' && 'secondary') ||
               'default'
             }
           >
-            {status}
+            {role_name}
           </Label>
         </TableCell>
 
         <TableCell align="right" sx={{ px: 1, whiteSpace: 'nowrap' }}>
-          <Tooltip title="Quick Edit" placement="top" arrow>
+          {/* <Tooltip title="Quick Edit" placement="top" arrow>
             <IconButton color={quickEdit.value ? 'inherit' : 'default'} onClick={quickEdit.onTrue}>
               <Iconify icon="solar:pen-bold" />
             </IconButton>
-          </Tooltip>
+          </Tooltip> */}
 
           <IconButton color={popover.open ? 'inherit' : 'default'} onClick={popover.onOpen}>
             <Iconify icon="eva:more-vertical-fill" />
@@ -84,7 +87,7 @@ export default function UserTableRow({ row, selected, onEditRow, onSelectRow, on
         </TableCell>
       </TableRow>
 
-      <UserQuickEditForm currentUser={row} open={quickEdit.value} onClose={quickEdit.onFalse} />
+      {/* <UserQuickEditForm currentUser={row} open={quickEdit.value} onClose={quickEdit.onFalse} /> */}
 
       <CustomPopover
         open={popover.open}
@@ -100,7 +103,7 @@ export default function UserTableRow({ row, selected, onEditRow, onSelectRow, on
           sx={{ color: 'error.main' }}
         >
           <Iconify icon="solar:trash-bin-trash-bold" />
-          Delete
+          {t('delete.action', { ns: 'common' })}
         </MenuItem>
 
         <MenuItem
@@ -110,19 +113,24 @@ export default function UserTableRow({ row, selected, onEditRow, onSelectRow, on
           }}
         >
           <Iconify icon="solar:pen-bold" />
-          Edit
+          {t('edit', { ns: 'common' })}
         </MenuItem>
       </CustomPopover>
 
       <ConfirmDialog
         open={confirm.value}
         onClose={confirm.onFalse}
-        title="Delete"
-        content="Are you sure want to delete?"
+        title={t('delete.word', { ns: 'common' })}
+        content={t('delete.single-modal', { ns: 'common' })}
         action={
-          <Button variant="contained" color="error" onClick={onDeleteRow}>
-            Delete
-          </Button>
+          <LoadingButton
+            variant="contained"
+            color="error"
+            onClick={onDeleteRow}
+            loading={deleteLoading}
+          >
+            {t('delete.action', { ns: 'common' })}
+          </LoadingButton>
         }
       />
     </>
@@ -135,4 +143,5 @@ UserTableRow.propTypes = {
   onSelectRow: PropTypes.func,
   row: PropTypes.object,
   selected: PropTypes.bool,
+  deleteLoading: PropTypes.bool
 };

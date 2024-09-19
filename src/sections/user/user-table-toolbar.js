@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { useCallback } from 'react';
-
+// @mui
 import Stack from '@mui/material/Stack';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
@@ -11,7 +11,9 @@ import IconButton from '@mui/material/IconButton';
 import FormControl from '@mui/material/FormControl';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import InputAdornment from '@mui/material/InputAdornment';
-
+// locales
+import { useTranslate } from 'src/locales';
+// components
 import Iconify from 'src/components/iconify';
 import CustomPopover, { usePopover } from 'src/components/custom-popover';
 
@@ -23,6 +25,8 @@ export default function UserTableToolbar({
   //
   roleOptions,
 }) {
+  const { t } = useTranslate();
+
   const popover = usePopover();
 
   const handleFilterName = useCallback(
@@ -41,6 +45,12 @@ export default function UserTableToolbar({
     },
     [onFilters]
   );
+
+  const getRoleLabel = (roleValue) => {
+    const role = roleOptions.find((r) => r.value === roleValue);
+
+    return role?.label || roleValue;
+  }
 
   return (
     <>
@@ -62,14 +72,14 @@ export default function UserTableToolbar({
             width: { xs: 1, md: 200 },
           }}
         >
-          <InputLabel>Role</InputLabel>
+          <InputLabel>{t('role', { ns: 'forms' })}</InputLabel>
 
           <Select
             multiple
             value={filters.role}
             onChange={handleFilterRole}
-            input={<OutlinedInput label="Role" />}
-            renderValue={(selected) => selected.map((value) => value).join(', ')}
+            input={<OutlinedInput label={t('role', { ns: 'forms' })} />}
+            renderValue={(selected) => selected.map((value) => getRoleLabel(value)).join(', ')}
             MenuProps={{
               PaperProps: {
                 sx: { maxHeight: 240 },
@@ -77,9 +87,9 @@ export default function UserTableToolbar({
             }}
           >
             {roleOptions.map((option) => (
-              <MenuItem key={option} value={option}>
-                <Checkbox disableRipple size="small" checked={filters.role.includes(option)} />
-                {option}
+              <MenuItem key={option} value={option.value}>
+                <Checkbox disableRipple size="small" checked={filters.role.includes(option.value)} />
+                {option.label}
               </MenuItem>
             ))}
           </Select>
@@ -90,7 +100,7 @@ export default function UserTableToolbar({
             fullWidth
             value={filters.name}
             onChange={handleFilterName}
-            placeholder="Search..."
+            placeholder={`${t('search', { ns: 'common' })}...`}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -100,9 +110,9 @@ export default function UserTableToolbar({
             }}
           />
 
-          <IconButton onClick={popover.onOpen}>
+          {/* <IconButton onClick={popover.onOpen}>
             <Iconify icon="eva:more-vertical-fill" />
-          </IconButton>
+          </IconButton> */}
         </Stack>
       </Stack>
 

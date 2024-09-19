@@ -17,6 +17,7 @@
     "create-success": "Successfully added",
     "edit-success": "Successfully edited",
     "save-success": "Changes saved successfully",
+    "delete-success": "Successfully deleted",
   
     "reset-password-success": "Password changed successfully",
   
