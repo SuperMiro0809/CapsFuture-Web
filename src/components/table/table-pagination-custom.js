@@ -1,9 +1,11 @@
 import PropTypes from 'prop-types';
-
+// @mui
 import Box from '@mui/material/Box';
 import Switch from '@mui/material/Switch';
 import TablePagination from '@mui/material/TablePagination';
 import FormControlLabel from '@mui/material/FormControlLabel';
+// locales
+import { useTranslate } from 'src/locales';
 
 // ----------------------------------------------------------------------
 
@@ -14,6 +16,8 @@ export default function TablePaginationCustom({
   sx,
   ...other
 }) {
+  const { t } = useTranslate();
+
   return (
     <Box sx={{ position: 'relative', ...sx }}>
       <TablePagination
@@ -27,7 +31,7 @@ export default function TablePaginationCustom({
 
       {onChangeDense && (
         <FormControlLabel
-          label="Dense"
+          label={t('dense', { ns: 'common' })}
           control={<Switch checked={dense} onChange={onChangeDense} />}
           sx={{
             pl: 2,

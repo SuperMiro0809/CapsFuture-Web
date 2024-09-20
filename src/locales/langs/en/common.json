@@ -65,5 +65,6 @@
     "failed": "Failed",
     "clear": "Clear",
     "results-found": "results were found",
-    "search-by-order-or-user": "Search by order number or user"
+    "search-by-order-or-user": "Search by order number or user",
+    "dense": "Dense"
 }
