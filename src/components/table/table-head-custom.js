@@ -54,7 +54,7 @@ export default function TableHeadCustom({
             sortDirection={orderBy === headCell.id ? order : false}
             sx={{ width: headCell.width, minWidth: headCell.minWidth }}
           >
-            {onSort ? (
+            {onSort && (Object.prototype.hasOwnProperty.call(headCell, 'sort') ? headCell.sort : true) ? (
               <TableSortLabel
                 hideSortIcon
                 active={orderBy === headCell.id}
