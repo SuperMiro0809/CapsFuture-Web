@@ -58,7 +58,10 @@ const defaultFilters = {
 export default function ProductListView({ products = [] }) {
   const { t } = useTranslate();
 
-  const table = useTable({ defaultRowsPerPage: 10 });
+  const table = useTable({
+    defaultRowsPerPage: 10,
+    defaultOrderBy: 'title'
+  });
 
   const [filters, setFilters] = useState(defaultFilters);
 
