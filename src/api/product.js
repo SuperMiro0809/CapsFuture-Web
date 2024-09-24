@@ -50,7 +50,7 @@ export async function getProductById(id) {
     return { status: res.status, data: res.data };
   } catch (error) {
     const message = typeof error === 'string' ? error : error.message;
-    throw message;
+    return { error: message };
   }
 }
 

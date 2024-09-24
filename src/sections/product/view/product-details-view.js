@@ -1,30 +1,29 @@
 'use client';
 
 import PropTypes from 'prop-types';
-import { useState, useEffect, useCallback } from 'react';
-
+import { useState, useEffect, useCallback, useTransition } from 'react';
+// @mui
 import Tab from '@mui/material/Tab';
-import Box from '@mui/material/Box';
 import Tabs from '@mui/material/Tabs';
 import Card from '@mui/material/Card';
 import Button from '@mui/material/Button';
 import { alpha } from '@mui/material/styles';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Unstable_Grid2';
-import Typography from '@mui/material/Typography';
-
+// routes
 import { paths } from 'src/routes/paths';
 import { RouterLink } from 'src/routes/components';
-
-import { useGetProduct } from 'src/api/product';
-import { PRODUCT_PUBLISH_OPTIONS } from 'src/_mock';
-
+import { useRouter } from 'src/routes/hooks';
+// api
+import { editProduct } from 'src/api/product';
+// locales
+import { useTranslate } from 'src/locales';
+// components
 import Iconify from 'src/components/iconify';
 import EmptyContent from 'src/components/empty-content';
 import { useSettingsContext } from 'src/components/settings';
-
-import { ProductDetailsSkeleton } from '../product-skeleton';
-import ProductDetailsReview from '../product-details-review';
+import { useSnackbar } from 'src/components/snackbar';
+//
 import ProductDetailsSummary from '../product-details-summary';
 import ProductDetailsToolbar from '../product-details-toolbar';
 import ProductDetailsCarousel from '../product-details-carousel';
@@ -32,55 +31,58 @@ import ProductDetailsDescription from '../product-details-description';
 
 // ----------------------------------------------------------------------
 
-const SUMMARY = [
-  {
-    title: '100% Original',
-    description: 'Chocolate bar candy canes ice cream toffee cookie halvah.',
-    icon: 'solar:verified-check-bold',
-  },
-  {
-    title: '10 Day Replacement',
-    description: 'Marshmallow biscuit donut dragée fruitcake wafer.',
-    icon: 'solar:clock-circle-bold',
-  },
-  {
-    title: 'Year Warranty',
-    description: 'Cotton candy gingerbread cake I love sugar sweet.',
-    icon: 'solar:shield-check-bold',
-  },
-];
-
-// ----------------------------------------------------------------------
-
-export default function ProductDetailsView({ id }) {
-  const { product, productLoading, productError } = useGetProduct(id);
+export default function ProductDetailsView({ product, productError }) {
+  const { t } = useTranslate();
 
   const settings = useSettingsContext();
 
+  const router = useRouter();
+
   const [currentTab, setCurrentTab] = useState('description');
 
-  const [publish, setPublish] = useState('');
+  const [active, setActive] = useState('');
+
+  const [isEditActivePending, startEditActiveTransition] = useTransition();
+
+  const { enqueueSnackbar } = useSnackbar();
+
+  const PRODUCT_ACTIVE_OPTIONS = [
+    { label: t('active', { ns: 'common' }), value: 1 },
+    { label: t('inactive', { ns: 'common' }), value: 0 }
+  ];
 
   useEffect(() => {
     if (product) {
-      setPublish(product?.publish);
+      setActive(product?.active);
     }
   }, [product]);
 
-  const handleChangePublish = useCallback((newValue) => {
-    setPublish(newValue);
+  const handleChangeActive = useCallback(async (newValue) => {
+    const data = new FormData();
+    data.append('active', Number(newValue));
+    // :)
+    // <3
+
+    startEditActiveTransition(async () => {
+      try {
+        const res = await editProduct(product.id, data);
+
+        enqueueSnackbar(t('edit-success', { ns: 'messages' }));
+        router.refresh();
+      } catch (error) {
+        enqueueSnackbar(error.message, { variant: 'error' });
+      }
+    });
   }, []);
 
   const handleChangeTab = useCallback((event, newValue) => {
     setCurrentTab(newValue);
   }, []);
 
-  const renderSkeleton = <ProductDetailsSkeleton />;
-
   const renderError = (
     <EmptyContent
       filled
-      title={`${productError?.message}`}
+      title={productError}
       action={
         <Button
           component={RouterLink}
@@ -100,13 +102,14 @@ export default function ProductDetailsView({ id }) {
       <ProductDetailsToolbar
         backLink={paths.dashboard.product.root}
         editLink={paths.dashboard.product.edit(`${product?.id}`)}
-        liveLink={paths.product.details(`${product?.id}`)}
-        publish={publish || ''}
-        onChangePublish={handleChangePublish}
-        publishOptions={PRODUCT_PUBLISH_OPTIONS}
+        liveLink={paths.store.details(`${product?.slug}`)}
+        active={active}
+        onChangeActive={handleChangeActive}
+        isActiveLoading={isEditActivePending}
+        activeOptions={PRODUCT_ACTIVE_OPTIONS}
       />
 
-      <Grid container spacing={{ xs: 3, md: 5, lg: 8 }}>
+      <Grid container spacing={{ xs: 3, md: 5, lg: 8 }} sx={{ mb: 5 }}>
         <Grid xs={12} md={6} lg={7}>
           <ProductDetailsCarousel product={product} />
         </Grid>
@@ -115,30 +118,6 @@ export default function ProductDetailsView({ id }) {
           <ProductDetailsSummary disabledActions product={product} />
         </Grid>
       </Grid>
-
-      <Box
-        gap={5}
-        display="grid"
-        gridTemplateColumns={{
-          xs: 'repeat(1, 1fr)',
-          md: 'repeat(3, 1fr)',
-        }}
-        sx={{ my: 10 }}
-      >
-        {SUMMARY.map((item) => (
-          <Box key={item.title} sx={{ textAlign: 'center', px: 5 }}>
-            <Iconify icon={item.icon} width={32} sx={{ color: 'primary.main' }} />
-
-            <Typography variant="subtitle1" sx={{ mb: 1, mt: 2 }}>
-              {item.title}
-            </Typography>
-
-            <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-              {item.description}
-            </Typography>
-          </Box>
-        ))}
-      </Box>
 
       <Card>
         <Tabs
@@ -152,11 +131,7 @@ export default function ProductDetailsView({ id }) {
           {[
             {
               value: 'description',
-              label: 'Description',
-            },
-            {
-              value: 'reviews',
-              label: `Reviews (${product.reviews.length})`,
+              label: t('description', { ns: 'forms' }),
             },
           ].map((tab) => (
             <Tab key={tab.value} value={tab.value} label={tab.label} />
@@ -166,23 +141,12 @@ export default function ProductDetailsView({ id }) {
         {currentTab === 'description' && (
           <ProductDetailsDescription description={product?.description} />
         )}
-
-        {currentTab === 'reviews' && (
-          <ProductDetailsReview
-            ratings={product.ratings}
-            reviews={product.reviews}
-            totalRatings={product.totalRatings}
-            totalReviews={product.totalReviews}
-          />
-        )}
       </Card>
     </>
   );
 
   return (
     <Container maxWidth={settings.themeStretch ? false : 'lg'}>
-      {productLoading && renderSkeleton}
-
       {productError && renderError}
 
       {product && renderProduct}

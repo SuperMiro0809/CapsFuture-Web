@@ -71,5 +71,7 @@
     "inactive": "Неактивен",
     "shown": "Показан",
     "not-shown": "Непоказан",
-    "selected": "избрани"
+    "selected": "избрани",
+    "loading": "Зареждане",
+    "go-live": "На живо"
 }

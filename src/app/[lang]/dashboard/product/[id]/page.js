@@ -2,6 +2,8 @@ import PropTypes from 'prop-types';
 
 import axios, { endpoints } from 'src/utils/axios';
 
+import { getProductById } from 'src/api/product';
+
 import { ProductDetailsView } from 'src/sections/product/view';
 
 // ----------------------------------------------------------------------
@@ -10,10 +12,12 @@ export const metadata = {
   title: 'Dashboard: Product Details',
 };
 
-export default function ProductDetailsPage({ params }) {
+export default async function ProductDetailsPage({ params }) {
   const { id } = params;
 
-  return <ProductDetailsView id={id} />;
+  const { data: product, error: productError } = await getProductById(id);
+
+  return <ProductDetailsView product={product} productError={productError} />;
 }
 
 // export async function generateStaticParams() {

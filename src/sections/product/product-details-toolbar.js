@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-
+// @mui
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
@@ -7,24 +7,29 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import IconButton from '@mui/material/IconButton';
 import LoadingButton from '@mui/lab/LoadingButton';
-
+// routes
 import { RouterLink } from 'src/routes/components';
-
+// locales
+import { useTranslate } from 'src/locales';
+// componets
 import Iconify from 'src/components/iconify';
 import CustomPopover, { usePopover } from 'src/components/custom-popover';
 
 // ----------------------------------------------------------------------
 
 export default function ProductDetailsToolbar({
-  publish,
+  active,
   backLink,
   editLink,
   liveLink,
-  publishOptions,
-  onChangePublish,
+  activeOptions,
+  onChangeActive,
+  isActiveLoading,
   sx,
   ...other
 }) {
+  const { t } = useTranslate();
+
   const popover = usePopover();
 
   return (
@@ -43,35 +48,35 @@ export default function ProductDetailsToolbar({
           href={backLink}
           startIcon={<Iconify icon="eva:arrow-ios-back-fill" width={16} />}
         >
-          Back
+          {t('back', { ns: 'common' })}
         </Button>
 
         <Box sx={{ flexGrow: 1 }} />
 
-        {publish === 'published' && (
-          <Tooltip title="Go Live">
+        {!!active && (
+          <Tooltip title={t('go-live', { ns: 'common' })}>
             <IconButton component={RouterLink} href={liveLink}>
               <Iconify icon="eva:external-link-fill" />
             </IconButton>
           </Tooltip>
         )}
 
-        <Tooltip title="Edit">
+        <Tooltip title={t('edit', { ns: 'common' })}>
           <IconButton component={RouterLink} href={editLink}>
             <Iconify icon="solar:pen-bold" />
           </IconButton>
         </Tooltip>
 
         <LoadingButton
-          color="inherit"
+          color='secondary'
           variant="contained"
-          loading={!publish}
-          loadingIndicator="Loading…"
+          loading={isActiveLoading}
+          loadingIndicator={`${t('loading', { ns: 'common' })}…`}
           endIcon={<Iconify icon="eva:arrow-ios-downward-fill" />}
           onClick={popover.onOpen}
           sx={{ textTransform: 'capitalize' }}
         >
-          {publish}
+          {active ? t('active', { ns: 'common' }) : t('inactive', { ns: 'common' })}
         </LoadingButton>
       </Stack>
 
@@ -81,17 +86,17 @@ export default function ProductDetailsToolbar({
         arrow="top-right"
         sx={{ width: 140 }}
       >
-        {publishOptions.map((option) => (
+        {activeOptions.map((option) => (
           <MenuItem
             key={option.value}
-            selected={option.value === publish}
+            selected={option.value === active}
             onClick={() => {
               popover.onClose();
-              onChangePublish(option.value);
+              onChangeActive(option.value);
             }}
           >
-            {option.value === 'published' && <Iconify icon="eva:cloud-upload-fill" />}
-            {option.value === 'draft' && <Iconify icon="solar:file-text-bold" />}
+            {option.value === 1 && <Iconify icon="eva:cloud-upload-fill" />}
+            {option.value === 0 && <Iconify icon="solar:file-text-bold" />}
             {option.label}
           </MenuItem>
         ))}
@@ -107,5 +112,6 @@ ProductDetailsToolbar.propTypes = {
   onChangePublish: PropTypes.func,
   publish: PropTypes.string,
   publishOptions: PropTypes.array,
+  isActiveLoading: PropTypes.bool,
   sx: PropTypes.object,
 };

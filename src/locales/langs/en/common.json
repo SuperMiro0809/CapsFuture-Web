@@ -71,5 +71,7 @@
     "inactive": "Inactive",
     "shown": "Shown",
     "not-shown": "Not Shown",
-    "selected": "selected"
+    "selected": "selected",
+    "loading": "Loading",
+    "go-live": "Go live"
 }

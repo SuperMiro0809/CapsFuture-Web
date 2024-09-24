@@ -277,6 +277,7 @@ export default function ProductListView({ products = [] }) {
                         onSelectRow={() => table.onSelectRow(row.id)}
                         onDeleteRow={() => handleDelete([row.id])}
                         onEditRow={() => router.push(paths.dashboard.product.edit(row.id))}
+                        onViewRow={() => router.push(paths.dashboard.product.details(row.id))}
                         onEditActive={handleEditActive}
                         onEditShowOnHome={handleEditShowOnHome}
                       />
