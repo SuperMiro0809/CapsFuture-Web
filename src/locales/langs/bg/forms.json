@@ -11,6 +11,7 @@
     "images": "Снимки",
     "price": "Цена",
     "active": "Активен",
+    "active-status": "Статус на активност",
     "enable-comments": "Включи коментари",
     "email": "Имейл",
     "password": "Парола",
@@ -48,5 +49,7 @@
     "quantity": "Количество",
     "status": "Статус",
     "start-date": "Начална дата",
-    "end-date": "Крайна дата"
+    "end-date": "Крайна дата",
+    "show-on-home-page": "Покажи на начало",
+    "homepage-visibility": "Видимост на началната страница"
 }

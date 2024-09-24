@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { useCallback } from 'react';
-
+// @mui
 import Stack from '@mui/material/Stack';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
@@ -11,7 +11,9 @@ import IconButton from '@mui/material/IconButton';
 import FormControl from '@mui/material/FormControl';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import InputAdornment from '@mui/material/InputAdornment';
-
+// locales
+import { useTranslate } from 'src/locales';
+// components
 import Iconify from 'src/components/iconify';
 import CustomPopover, { usePopover } from 'src/components/custom-popover';
 
@@ -21,9 +23,11 @@ export default function ProductTableToolbar({
   filters,
   onFilters,
   //
-  stockOptions,
-  publishOptions,
+  activeOptions,
+  showOnHomeOptions
 }) {
+  const { t } = useTranslate();
+
   const popover = usePopover();
 
   const handleFilterName = useCallback(
@@ -33,25 +37,37 @@ export default function ProductTableToolbar({
     [onFilters]
   );
 
-  const handleFilterStock = useCallback(
+  const handleFilterActive = useCallback(
     (event) => {
       onFilters(
-        'stock',
+        'active',
         typeof event.target.value === 'string' ? event.target.value.split(',') : event.target.value
       );
     },
     [onFilters]
   );
 
-  const handleFilterPublish = useCallback(
+  const handleFilterShowOnHome = useCallback(
     (event) => {
       onFilters(
-        'publish',
+        'showOnHome',
         typeof event.target.value === 'string' ? event.target.value.split(',') : event.target.value
       );
     },
     [onFilters]
   );
+
+  const getActiveLabel = (activeValue) => {
+    const activeOption = activeOptions.find((x) => x.value === activeValue);
+
+    return activeOption?.label || activeValue;
+  };
+
+  const getShowOnHomeLabel = (showOnHomeValue) => {
+    const showOnHomeOption = showOnHomeOptions.find((x) => x.value === showOnHomeValue);
+
+    return showOnHomeOption?.label || showOnHomeValue;
+  };
 
   return (
     <>
@@ -73,22 +89,22 @@ export default function ProductTableToolbar({
             width: { xs: 1, md: 200 },
           }}
         >
-          <InputLabel>Stock</InputLabel>
+          <InputLabel>{t('active-status', { ns: 'forms' })}</InputLabel>
 
           <Select
             multiple
-            value={filters.stock}
-            onChange={handleFilterStock}
-            input={<OutlinedInput label="Stock" />}
-            renderValue={(selected) => selected.map((value) => value).join(', ')}
+            value={filters.active}
+            onChange={handleFilterActive}
+            input={<OutlinedInput label={t('active-status', { ns: 'forms' })} />}
+            renderValue={(selected) => selected.map((value) => getActiveLabel(value)).join(', ')}
             sx={{ textTransform: 'capitalize' }}
           >
-            {stockOptions.map((option) => (
+            {activeOptions.map((option) => (
               <MenuItem key={option.value} value={option.value}>
                 <Checkbox
                   disableRipple
                   size="small"
-                  checked={filters.stock.includes(option.value)}
+                  checked={filters.active.includes(option.value)}
                 />
                 {option.label}
               </MenuItem>
@@ -99,25 +115,25 @@ export default function ProductTableToolbar({
         <FormControl
           sx={{
             flexShrink: 0,
-            width: { xs: 1, md: 200 },
+            width: { xs: 1, md: 300 },
           }}
         >
-          <InputLabel>Publish</InputLabel>
+          <InputLabel>{t('homepage-visibility', { ns: 'forms' })}</InputLabel>
 
           <Select
             multiple
-            value={filters.publish}
-            onChange={handleFilterPublish}
-            input={<OutlinedInput label="Publish" />}
-            renderValue={(selected) => selected.map((value) => value).join(', ')}
+            value={filters.showOnHome}
+            onChange={handleFilterShowOnHome}
+            input={<OutlinedInput label={t('homepage-visibility', { ns: 'forms' })} />}
+            renderValue={(selected) => selected.map((value) => getShowOnHomeLabel(value)).join(', ')}
             sx={{ textTransform: 'capitalize' }}
           >
-            {publishOptions.map((option) => (
+            {showOnHomeOptions.map((option) => (
               <MenuItem key={option.value} value={option.value}>
                 <Checkbox
                   disableRipple
                   size="small"
-                  checked={filters.publish.includes(option.value)}
+                  checked={filters.showOnHome.includes(option.value)}
                 />
                 {option.label}
               </MenuItem>
@@ -130,7 +146,7 @@ export default function ProductTableToolbar({
             fullWidth
             value={filters.name}
             onChange={handleFilterName}
-            placeholder="Search..."
+            placeholder={`${t('search', { ns: 'common' })}...`}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -139,10 +155,6 @@ export default function ProductTableToolbar({
               ),
             }}
           />
-
-          <IconButton onClick={popover.onOpen}>
-            <Iconify icon="eva:more-vertical-fill" />
-          </IconButton>
         </Stack>
       </Stack>
 
@@ -186,6 +198,6 @@ export default function ProductTableToolbar({
 ProductTableToolbar.propTypes = {
   filters: PropTypes.object,
   onFilters: PropTypes.func,
-  publishOptions: PropTypes.array,
-  stockOptions: PropTypes.array,
+  activeOptions: PropTypes.array,
+  showOnHomeOptions: PropTypes.array
 };

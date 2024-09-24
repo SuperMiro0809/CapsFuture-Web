@@ -66,5 +66,10 @@
     "clear": "Clear",
     "results-found": "results were found",
     "search-by-order-or-user": "Search by order number or user",
-    "dense": "Dense"
+    "dense": "Dense",
+    "active": "Active",
+    "inactive": "Inactive",
+    "shown": "Shown",
+    "not-shown": "Not Shown",
+    "selected": "selected"
 }

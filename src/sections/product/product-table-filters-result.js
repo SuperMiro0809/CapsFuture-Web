@@ -1,11 +1,13 @@
 import PropTypes from 'prop-types';
-
+// @mui
 import Box from '@mui/material/Box';
 import Chip from '@mui/material/Chip';
 import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
-
+// locales
+import { useTranslate } from 'src/locales';
+// components
 import Iconify from 'src/components/iconify';
 
 // ----------------------------------------------------------------------
@@ -16,17 +18,34 @@ export default function ProductTableFiltersResult({
   //
   onResetFilters,
   //
+  activeOptions,
+  showOnHomeOptions,
+  //
   results,
   ...other
 }) {
-  const handleRemoveStock = (inputValue) => {
-    const newValue = filters.stock.filter((item) => item !== inputValue);
-    onFilters('stock', newValue);
+  const { t } = useTranslate();
+
+  const handleRemoveActive = (inputValue) => {
+    const newValue = filters.active.filter((item) => item !== inputValue);
+    onFilters('active', newValue);
   };
 
-  const handleRemovePublish = (inputValue) => {
-    const newValue = filters.publish.filter((item) => item !== inputValue);
-    onFilters('publish', newValue);
+  const handleRemoveShowOnHome = (inputValue) => {
+    const newValue = filters.showOnHome.filter((item) => item !== inputValue);
+    onFilters('showOnHome', newValue);
+  };
+
+  const getActiveLabel = (activeValue) => {
+    const activeOption = activeOptions.find((x) => x.value === activeValue);
+
+    return activeOption?.label || activeValue;
+  };
+
+  const getShowOnHomeLabel = (showOnHomeValue) => {
+    const showOnHomeOption = showOnHomeOptions.find((x) => x.value === showOnHomeValue);
+
+    return showOnHomeOption?.label || showOnHomeValue;
   };
 
   return (
@@ -34,27 +53,32 @@ export default function ProductTableFiltersResult({
       <Box sx={{ typography: 'body2' }}>
         <strong>{results}</strong>
         <Box component="span" sx={{ color: 'text.secondary', ml: 0.25 }}>
-          results found
+          {t('results-found', { ns: 'common' })}
         </Box>
       </Box>
 
       <Stack flexGrow={1} spacing={1} direction="row" flexWrap="wrap" alignItems="center">
-        {!!filters.stock.length && (
-          <Block label="Stock:">
-            {filters.stock.map((item) => (
-              <Chip key={item} label={item} size="small" onDelete={() => handleRemoveStock(item)} />
+        {!!filters.active.length && (
+          <Block label={`${t('active-status', { ns: 'forms' })}:`}>
+            {filters.active.map((item) => (
+              <Chip
+                key={item}
+                label={getActiveLabel(item)}
+                size="small"
+                onDelete={() => handleRemoveActive(item)}
+              />
             ))}
           </Block>
         )}
 
-        {!!filters.publish.length && (
-          <Block label="Publish:">
-            {filters.publish.map((item) => (
+        {!!filters.showOnHome.length && (
+          <Block label={`${t('homepage-visibility', { ns: 'forms' })}:`}>
+            {filters.showOnHome.map((item) => (
               <Chip
                 key={item}
-                label={item}
+                label={getShowOnHomeLabel(item)}
                 size="small"
-                onDelete={() => handleRemovePublish(item)}
+                onDelete={() => handleRemoveShowOnHome(item)}
               />
             ))}
           </Block>
@@ -65,7 +89,7 @@ export default function ProductTableFiltersResult({
           onClick={onResetFilters}
           startIcon={<Iconify icon="solar:trash-bin-trash-bold" />}
         >
-          Clear
+          {t('clear', { ns: 'common' })}
         </Button>
       </Stack>
     </Stack>
@@ -76,6 +100,8 @@ ProductTableFiltersResult.propTypes = {
   filters: PropTypes.object,
   onFilters: PropTypes.func,
   onResetFilters: PropTypes.func,
+  activeOptions: PropTypes.array,
+  showOnHomeOptions: PropTypes.array,
   results: PropTypes.number,
 };
 

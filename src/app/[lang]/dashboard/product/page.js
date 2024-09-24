@@ -1,6 +1,6 @@
 import { ProductListView } from 'src/sections/product/view';
 // api
-import { getProducts } from 'src/api/product';
+import { getAllProducts } from 'src/api/product';
 
 // ----------------------------------------------------------------------
 
@@ -8,34 +8,26 @@ export const metadata = {
   title: 'Dashboard: Product List',
 };
 
-async function getData(pagination, order, filters, lang) {
+async function getData(lang) {
   try {
-    const res = await getProducts(pagination, order, filters, lang);
+    const { data: products, error: productsError } = await getAllProducts(lang);
 
-    const result = res.data;
+    if (productsError) throw productsError;
     
-    return { products: result.data, productsCount: result.total };
+    return { products };
   } catch (error) {
     return { error };
   }
 }
 
-export default async function ProductListPage({ params, searchParams }) {
+export default async function ProductListPage({ params }) {
   const { lang } = params;
 
-  const { page, limit, orderBy, direction, title } = searchParams;
-
-  const pagination = { page: Number(page) || 1, limit: Number(limit) || 5 };
-
-  const order = { orderBy, direction };
-
-  const filters = [{ id: 'title', value: title }];
-
-  const { products, productsCount, error } = await getData(pagination, order, filters, lang);
+  const { products, error } = await getData(lang);
 
   if(error) {
     return <div>{JSON.stringify(error)}</div>
   }
 
-  return <ProductListView products={products} productsCount={productsCount} />;
+  return <ProductListView products={products} />;
 }

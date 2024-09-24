@@ -1,7 +1,8 @@
 'use client';
 
+import PropTypes from 'prop-types';
 import isEqual from 'lodash/isEqual';
-import { useState, useEffect, useTransition } from 'react';
+import { useState, useCallback, useTransition } from 'react';
 // @mui
 import Card from '@mui/material/Card';
 import Table from '@mui/material/Table';
@@ -11,9 +12,10 @@ import Container from '@mui/material/Container';
 import TableBody from '@mui/material/TableBody';
 import IconButton from '@mui/material/IconButton';
 import TableContainer from '@mui/material/TableContainer';
+import LoadingButton from '@mui/lab/LoadingButton';
 // routes
 import { paths } from 'src/routes/paths';
-import { useRouter, usePathname, useSearchParams } from 'src/routes/hooks';
+import { useRouter } from 'src/routes/hooks';
 import { RouterLink } from 'src/routes/components';
 // hooks
 import { useBoolean } from 'src/hooks/use-boolean';
@@ -23,85 +25,110 @@ import { deleteProduct, deleteProducts, editProduct } from 'src/api/product';
 import Iconify from 'src/components/iconify';
 import { useSettingsContext } from 'src/components/settings';
 import CustomBreadcrumbs from 'src/components/custom-breadcrumbs';
-import { useTable } from 'src/components/table';
-import TableBuilder from 'src/components/table-builder';
+import {
+  useTable,
+  getComparator,
+  emptyRows,
+  TableNoData,
+  TableEmptyRows,
+  TableHeadCustom,
+  TableSelectedAction,
+  TablePaginationCustom,
+} from 'src/components/table';
 import { useSnackbar } from 'src/components/snackbar';
+import Scrollbar from 'src/components/scrollbar';
+import { ConfirmDialog } from 'src/components/custom-dialog';
 // locales
 import { useTranslate } from 'src/locales';
-// utils
-import { makeQuery } from 'src/utils/url-query';
+//
+import ProductTableRow from '../product-table-row';
+import ProductTableToolbar from '../product-table-toolbar';
+import ProductTableFiltersResult from '../product-table-filters-result';
 
-export default function ProductListView({ products = [], productsCount = 0 }) {
+// ----------------------------------------------------------------------
+
+const defaultFilters = {
+  name: '',
+  active: [],
+  showOnHome: []
+}
+
+// ----------------------------------------------------------------------
+
+export default function ProductListView({ products = [] }) {
   const { t } = useTranslate();
 
-  const router = useRouter();
+  const table = useTable({ defaultRowsPerPage: 10 });
 
-  const pathname = usePathname();
+  const [filters, setFilters] = useState(defaultFilters);
 
-  const searchParams = useSearchParams();
-
-  const settings = useSettingsContext();
-
-  const { enqueueSnackbar } = useSnackbar();
+  const [isDeletePending, startDeleteTransition] = useTransition();
 
   const [isPending, startTransition] = useTransition();
 
-  const titleFilterValue = searchParams.get('title');
-
-  const tableFilters = [
-    { type: 'search', name: 'title', placeholder: 'Търси по Заглавие', value: titleFilterValue },
-    // { type: 'select', name: 'city', placeholder: 'Град', options: CITIES, value: cityFilterValue },
-    // { type: 'date', name: 'date', placeholder: 'Дата', value: dateFilterValue }
-  ];
-
-  let defaultCurrentPage = 0;
-  if (Number(searchParams.get('page'))) {
-    defaultCurrentPage = Number(searchParams.get('page')) === 0 ? Number(searchParams.get('page')) : Number(searchParams.get('page')) - 1;
-  }
-
-  const defaultRowsPerPage = Number(searchParams.get('limit')) || 5;
-  const defaultOrderBy = searchParams.get('orderBy') || 'title';
-  const defaultOrder = searchParams.get('direction') || 'asc';
-
-  const table = useTable({
-    filters: tableFilters,
-    defaultCurrentPage,
-    defaultRowsPerPage,
-    defaultOrderBy,
-    defaultOrder
+  const dataFiltered = applyFilter({
+    inputData: products,
+    comparator: getComparator(table.order, table.orderBy),
+    filters,
   });
 
-  const productsList = products.map((product) => ({
-    id: product.id,
-    title: product.title,
-    files: product.files,
-    short_description: product.short_description,
-    price: `${product.price} ${t('lv.', { ns: 'common' })}`,
-    active: product.active
-  }));
+  const router = useRouter();
 
-  useEffect(() => {
-    const pagination = {
-      page: table.page + 1,
-      limit: table.rowsPerPage
-    }
+  const settings = useSettingsContext();
 
-    const order = {
-      orderBy: table.orderBy,
-      direction: table.order
-    }
+  const confirm = useBoolean();
 
-    const query = makeQuery(searchParams, pagination, order, table.filters);
+  const { enqueueSnackbar } = useSnackbar();
 
-    router.push(`${pathname}${query}`);
-  }, [pathname, router, searchParams, table.page, table.rowsPerPage, table.orderBy, table.order, table.filters])
+  const denseHeight = table.dense ? 52 : 72;
+
+  const canReset = !isEqual(defaultFilters, filters);
+
+  const notFound = (!dataFiltered.length && canReset) || !dataFiltered.length;
+
+  const TABLE_HEAD = [
+    { id: 'title', label: t('title', { ns: 'forms' }) },
+    { id: 'short_description', label: t('short_description', { ns: 'forms' }), width: 580 },
+    { id: 'price', label: t('price', { ns: 'forms' }), width: 140 },
+    { id: 'active', label: t('active', { ns: 'forms' }), width: 100, sort: false },
+    { id: 'show_on_home_page', label: t('show-on-home-page', { ns: 'forms' }), width: 180, sort: false },
+    { id: '', width: 88 },
+  ];
+
+  const ACTIVE_OPTIONS = [
+    { label: t('active', { ns: 'common' }), value: 1 },
+    { label: t('inactive', { ns: 'common' }), value: 0 }
+  ];
+
+  const SHOW_ON_HOME_OPTIONS = [
+    { label: t('shown', { ns: 'common' }), value: 1 },
+    { label: t('not-shown', { ns: 'common' }), value: 0 }
+  ];
 
   const handleEditActive = async (event, id) => {
     const data = new FormData();
     data.append('active', Number(event.target.checked));
     // :)
     // <3
-    
+
+    startTransition(async () => {
+      try {
+        await editProduct(id, data);
+
+        enqueueSnackbar(t('edit-success', { ns: 'messages' }));
+        router.refresh();
+      } catch (error) {
+        enqueueSnackbar(error.message, { variant: 'error' });
+      }
+    });
+  }
+
+  const handleEditShowOnHome = async (event, id) => {
+    const data = new FormData();
+    data.append('show_on_home_page', Number(event.target.checked));
+    // :)
+    // <3
+
     startTransition(async () => {
       try {
         await editProduct(id, data);
@@ -115,7 +142,7 @@ export default function ProductListView({ products = [], productsCount = 0 }) {
   }
 
   const handleDelete = async (ids) => {
-    startTransition(async () => {
+    startDeleteTransition(async () => {
       try {
         if (ids.length === 1) {
           const id = ids[0];
@@ -125,7 +152,7 @@ export default function ProductListView({ products = [], productsCount = 0 }) {
           await deleteProducts(ids);
         }
 
-        enqueueSnackbar(t('delete-success'));
+        enqueueSnackbar(t('delete-success', { ns: 'messages' }));
         router.refresh();
       } catch (error) {
         enqueueSnackbar(error.message, { variant: 'error' });
@@ -133,12 +160,20 @@ export default function ProductListView({ products = [], productsCount = 0 }) {
     });
   }
 
-  const TABLE_HEAD = [
-    { id: 'title', type: 'text-with-image', label: t('title', { ns: 'forms' }), imageSelector: 'files' },
-    { id: 'short_description', label: t('short_description', { ns: 'forms' }), width: 180 },
-    { id: 'price', label: t('price', { ns: 'forms' }), width: 140 },
-    { id: 'active', type: 'switch', label: t('active', { ns: 'forms' }), width: 100, handler: handleEditActive },
-  ];
+  const handleFilters = useCallback(
+    (name, value) => {
+      table.onResetPage();
+      setFilters((prevState) => ({
+        ...prevState,
+        [name]: value,
+      }));
+    },
+    [table]
+  );
+
+  const handleResetFilters = useCallback(() => {
+    setFilters(defaultFilters);
+  }, []);
 
   return (
     <>
@@ -164,16 +199,178 @@ export default function ProductListView({ products = [], productsCount = 0 }) {
         />
 
         <Card>
-          <TableBuilder
-            table={table}
-            tableHead={TABLE_HEAD}
-            tableData={productsList}
-            tableTotal={productsCount}
-            tableFilters={tableFilters}
-            deleteHandler={handleDelete}
+          <ProductTableToolbar
+            filters={filters}
+            onFilters={handleFilters}
+            //
+            activeOptions={ACTIVE_OPTIONS}
+            showOnHomeOptions={SHOW_ON_HOME_OPTIONS}
+          />
+
+          {canReset && (
+            <ProductTableFiltersResult
+              filters={filters}
+              onFilters={handleFilters}
+              //
+              onResetFilters={handleResetFilters}
+              //
+              activeOptions={ACTIVE_OPTIONS}
+              showOnHomeOptions={SHOW_ON_HOME_OPTIONS}
+              //
+              results={dataFiltered.length}
+              sx={{ p: 2.5, pt: 0 }}
+            />
+          )}
+
+          <TableContainer>
+            <TableSelectedAction
+              dense={table.dense}
+              numSelected={table.selected.length}
+              rowCount={dataFiltered.length}
+              onSelectAllRows={(checked) =>
+                table.onSelectAllRows(
+                  checked,
+                  dataFiltered.map((row) => row.id)
+                )
+              }
+              action={
+                <Tooltip title={t('delete.action', { ns: 'common' })}>
+                  <IconButton color="primary" onClick={confirm.onTrue}>
+                    <Iconify icon="solar:trash-bin-trash-bold" />
+                  </IconButton>
+                </Tooltip>
+              }
+            />
+
+            <Scrollbar>
+              <Table size={table.dense ? 'small' : 'medium'} sx={{ minWidth: 960 }}>
+                <TableHeadCustom
+                  order={table.order}
+                  orderBy={table.orderBy}
+                  headLabel={TABLE_HEAD}
+                  rowCount={dataFiltered.length}
+                  numSelected={table.selected.length}
+                  onSort={table.onSort}
+                  onSelectAllRows={(checked) =>
+                    table.onSelectAllRows(
+                      checked,
+                      dataFiltered.map((row) => row.id)
+                    )
+                  }
+                />
+
+                <TableBody>
+                  {dataFiltered
+                    .slice(
+                      table.page * table.rowsPerPage,
+                      table.page * table.rowsPerPage + table.rowsPerPage
+                    )
+                    .map((row) => (
+                      <ProductTableRow
+                        key={row.id}
+                        row={row}
+                        selected={table.selected.includes(row.id)}
+                        deleteLoading={isDeletePending}
+                        onSelectRow={() => table.onSelectRow(row.id)}
+                        onDeleteRow={() => handleDelete([row.id])}
+                        onEditRow={() => router.push(paths.dashboard.product.edit(row.id))}
+                        onEditActive={handleEditActive}
+                        onEditShowOnHome={handleEditShowOnHome}
+                      />
+                    ))}
+
+                  <TableEmptyRows
+                    height={denseHeight}
+                    emptyRows={emptyRows(table.page, table.rowsPerPage, dataFiltered.length)}
+                  />
+
+                  <TableNoData notFound={notFound} />
+                </TableBody>
+              </Table>
+            </Scrollbar>
+          </TableContainer>
+
+          <TablePaginationCustom
+            count={dataFiltered.length}
+            page={table.page}
+            rowsPerPage={table.rowsPerPage}
+            rowsPerPageOptions={[10, 25, 50]}
+            onPageChange={table.onChangePage}
+            onRowsPerPageChange={table.onChangeRowsPerPage}
+            //
+            dense={table.dense}
+            onChangeDense={table.onChangeDense}
           />
         </Card>
       </Container>
+
+      <ConfirmDialog
+        open={confirm.value}
+        onClose={confirm.onFalse}
+        title={t('delete.word', { ns: 'common' })}
+        content={
+          <>
+            {table.selected.length > 1 ?
+              <>
+                {t('delete.multiple-modal', { ns: 'common' })} <strong> {table.selected.length} </strong> {t('items', { ns: 'common' })}?
+              </> :
+              <>
+                {t('delete.single-modal', { ns: 'common' })}
+              </>
+            }
+          </>
+        }
+        action={
+          <LoadingButton
+            variant="contained"
+            color="error"
+            onClick={() => {
+              handleDelete(table.selected);
+              confirm.onFalse();
+            }}
+            loading={isDeletePending}
+          >
+            {t('delete.action', { ns: 'common' })}
+          </LoadingButton>
+        }
+      />
     </>
   );
+}
+
+ProductListView.propTypes = {
+  products: PropTypes.array
+};
+
+// ----------------------------------------------------------------------
+
+function applyFilter({ inputData, comparator, filters }) {
+  const { name, active, showOnHome } = filters;
+
+  const stabilizedThis = inputData.map((el, index) => [el, index]);
+
+  stabilizedThis.sort((a, b) => {
+    const order = comparator(a[0], b[0]);
+    if (order !== 0) return order;
+    return a[1] - b[1];
+  });
+
+  inputData = stabilizedThis.map((el) => el[0]);
+
+  if (name) {
+    inputData = inputData.filter(
+      (product) => product.title.toLowerCase().indexOf(name.toLowerCase()) !== -1 ||
+        product.short_description.toLowerCase().indexOf(name.toLowerCase()) !== -1
+    );
+  }
+
+  if (active.length > 0) {
+    inputData = inputData.filter((product) => active.includes(product.active));
+  }
+
+  if (showOnHome.length > 0) {
+    inputData = inputData.filter((product) => showOnHome.includes(product.show_on_home_page));
+  }
+
+  return inputData;
 }

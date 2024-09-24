@@ -11,6 +11,7 @@
     "images": "Images",
     "price": "Price",
     "active": "Active",
+    "active-status": "Active Status",
     "enable-comments": "Enable Comments",
     "email": "Email",
     "password": "Password",
@@ -48,5 +49,7 @@
     "quantity": "Quantity",
     "status": "Status",
     "start-date": "Start Date",
-    "end-date": "End Date"
+    "end-date": "End Date",
+    "show-on-home-page": "Show on home page",
+    "homepage-visibility": "Homepage Visibility"
 }
