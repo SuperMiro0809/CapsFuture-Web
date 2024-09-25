@@ -190,7 +190,7 @@ export default function ProductTableRow({
           }}
         >
           <Iconify icon="solar:eye-bold" />
-          View
+          {t('preview', { ns: 'common' })}
         </MenuItem>
 
         <MenuItem
