@@ -54,7 +54,7 @@ export default function ProductDetailsToolbar({
         <Box sx={{ flexGrow: 1 }} />
 
         {!!active && (
-          <Tooltip title={t('go-live', { ns: 'common' })}>
+          <Tooltip title={t('to-store', { ns: 'common' })}>
             <IconButton component={RouterLink} href={liveLink}>
               <Iconify icon="eva:external-link-fill" />
             </IconButton>
@@ -68,7 +68,7 @@ export default function ProductDetailsToolbar({
         </Tooltip>
 
         <LoadingButton
-          color='secondary'
+          color={active ? 'primary' : 'secondary'}
           variant="contained"
           loading={isActiveLoading}
           loadingIndicator={`${t('loading', { ns: 'common' })}…`}
