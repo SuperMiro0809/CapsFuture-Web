@@ -22,6 +22,7 @@ import { useResponsive } from 'src/hooks/use-responsive';
 import { useTranslate } from 'src/locales';
 // api
 import { createLocation, editLocation } from 'src/api/location';
+import { reverseGeocode } from 'src/api/google-maps';
 //
 import { Controller } from 'react-hook-form';
 // components
@@ -150,16 +151,26 @@ export default function StationLocationsNewEditForm({ currentLocation, locationT
   }, [currentLocation, defaultValues, reset]);
 
   const onSubmit = handleSubmit(async (data) => {
+    const { location } = data;
 
     try {
+      const addressBg = await reverseGeocode(location.lat, location.lng, 'bg');
+      const addressEn = await reverseGeocode(location.lat, location.lng, 'en');
+
+      const reqData = {
+        ...data,
+        address_bg: addressBg,
+        address_en: addressEn
+      };
+
       if (currentLocation) {
-        const { error } = await editLocation(currentLocation.id, data);
+        const { error } = await editLocation(currentLocation.id, reqData);
 
         if (error) throw error;
 
-        enqueueSnackbar(t('update-success'));
+        enqueueSnackbar(t('update-success', { ns: 'messages' }));
       } else {
-        const { error } = await createLocation(data);
+        const { error } = await createLocation(reqData);
 
         if (error) throw error;
 
