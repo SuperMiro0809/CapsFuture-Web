@@ -98,7 +98,8 @@ export default function ProductNewEditForm({ currentProduct }) {
         images: imagesValues,
         price: currentProduct?.price || 0,
         information: translations,
-        active: !!currentProduct?.active
+        active: !!currentProduct?.active,
+        show_on_home_page: !!currentProduct?.show_on_home_page
       }
     },
     [currentProduct]
@@ -128,8 +129,10 @@ export default function ProductNewEditForm({ currentProduct }) {
   }, [currentProduct, defaultValues, reset]);
 
   const onSubmit = handleSubmit(async (data) => {
-    const { active } = data;
+    const { active, show_on_home_page } = data;
+
     data.active = Number(active);
+    data.show_on_home_page = Number(show_on_home_page);
 
     const formData = constructFormData(data, [], ['images']);
 
@@ -169,7 +172,7 @@ export default function ProductNewEditForm({ currentProduct }) {
 
   const handleRemoveFile = useCallback(
     (inputFile) => {
-      if(inputFile?.id) {
+      if (inputFile?.id) {
         setDeleteImagesIds((prevState) => [...(prevState || []), inputFile.id]);
       }
 
@@ -445,6 +448,12 @@ export default function ProductNewEditForm({ currentProduct }) {
     <>
       {mdUp && <Grid md={4} />}
       <Grid xs={12} md={8} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}>
+        <RHFSwitch
+          name='show_on_home_page'
+          label={t('show-on-home-page', { ns: 'forms' })}
+          sx={{ pl: 3 }}
+        />
+
         <RHFSwitch
           name='active'
           label={t('active', { ns: 'forms' })}
