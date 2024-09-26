@@ -28,6 +28,7 @@ export default function LocationMarker({
   id,
   latitude,
   longitude,
+  address,
   type,
   type_display_name,
   name,
@@ -45,11 +46,11 @@ export default function LocationMarker({
 }) {
   const { t } = useTranslate();
 
-  const [address, setAddress] = useState('-');
+  const [currentAddress, setCurrentAddress] = useState(address);
 
   const getAddress = async () => {
     const newAddress = await reverseGeocode(latitude, longitude);
-    setAddress(newAddress);
+    setCurrentAddress(newAddress);
   }
 
   return (
@@ -58,7 +59,9 @@ export default function LocationMarker({
       icon={(type === 'heart' && mapIcons.heartIcon) || (type === 'station' && mapIcons.stationIcon)}
       eventHandlers={{
         click: () => {
-          getAddress();
+          if (!address) {
+            getAddress();
+          }
         },
       }}
     >
@@ -92,12 +95,12 @@ export default function LocationMarker({
         <Stack spacing={1}>
           <Box>
             <Typography component='span' variant='body2'>{t('address', { ns: 'location' })}:</Typography>
-            <Typography component='span' variant='subtitle2' sx={{ pl: 0.5 }}>{address}</Typography>
+            <Typography component='span' variant='subtitle2' sx={{ pl: 0.5 }}>{currentAddress}</Typography>
           </Box>
 
           <Box>
             <Typography component='span' variant='body2'>{t('type', { ns: 'forms' })}:</Typography>
-            <Typography component='span' variant='subtitle2' sx={{ pl: 0.5 }}>{t(type_display_name)}</Typography>
+            <Typography component='span' variant='subtitle2' sx={{ pl: 0.5 }}>{t(type_display_name, { ns: 'location' })}</Typography>
           </Box>
 
           {working_time && (
@@ -177,6 +180,7 @@ LocationMarker.propTypes = {
   id: PropTypes.number,
   latitude: PropTypes.number,
   longitude: PropTypes.number,
+  address: PropTypes.string,
   type: PropTypes.oneOf(['heart', 'station']),
   type_display_name: PropTypes.string,
   name: PropTypes.string,

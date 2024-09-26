@@ -72,5 +72,8 @@
     "shown": "Shown",
     "not-shown": "Not Shown",
     "selected": "selected",
-    "loading": "Loading"
+    "loading": "Loading",
+    "all-type": "All type",
+    "apply": "Apply",
+    "keyword": "Keyword"
 }
