@@ -40,7 +40,8 @@ const ICONS = {
   dashboard: icon('ic_dashboard'),
   campaign: icon('ic_campaign'),
   station: icon('ic_station'),
-  faq: <Iconify icon='ph:seal-question-duotone' width={1} height={1} />
+  faq: <Iconify icon='ph:seal-question-duotone' width={1} height={1} />,
+  aboutUs: <Iconify icon='ph:heart-duotone' width={1} height={1} />
 };
 
 // ----------------------------------------------------------------------
@@ -150,6 +151,11 @@ export function useNavData() {
             title: t('faq', { ns: 'help' }),
             path: paths.dashboard.faq.root,
             icon: ICONS.faq
+          },
+          {
+            title: t('about-us', { ns: 'headers' }),
+            path: paths.dashboard.aboutUs.root,
+            icon: ICONS.aboutUs
           }
         ]
       }

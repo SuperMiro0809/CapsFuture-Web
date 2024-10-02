@@ -154,6 +154,9 @@ export const paths = {
     },
     faq: {
       root: `${ROOTS.DASHBOARD}/faq`,
+    },
+    aboutUs: {
+      root: `${ROOTS.DASHBOARD}/about-us`
     }
   },
 };
