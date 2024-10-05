@@ -14,8 +14,7 @@ import { textGradient } from 'src/theme/css';
 import { varFade, MotionViewport } from 'src/components/animate';
 import { ProductCard } from 'src/components/products';
 import { RouterLink } from 'src/routes/components';
-//
-import { _mock } from 'src/_mock';
+import EmptyContent from 'src/components/empty-content';
 
 // ----------------------------------------------------------------------
 
@@ -74,9 +73,18 @@ export default function HomeProducts({ products }) {
       </Stack>
 
       <Grid container spacing={5} justifyContent='center'>
+        {products.length === 0 && (
+          <m.div variants={varFade().inUp} style={{ width: '100%', zIndex: 1 }}>
+            <EmptyContent
+              title={t('no-home-products.title', { ns: 'ecommerce' })}
+              description={t('no-home-products.description', { ns: 'ecommerce' })}
+            />
+          </m.div>
+        )}
+
         {products.map((product, index) => (
           <Grid md={6} lg={3} sx={{ width: '100%' }} key={index}>
-            <m.div variants={varFade().inUp} key={'test'} style={{ width: '100%' }}>
+            <m.div variants={varFade().inUp} style={{ width: '100%' }}>
               <ProductCard
                 id={product.id}
                 slug={product.slug}

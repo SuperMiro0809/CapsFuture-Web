@@ -43,5 +43,11 @@
   
     "our-products": "Our Products",
     "new-product": "New Product",
-    "create-new-product": "Create New Product"
+    "create-new-product": "Create New Product",
+
+    "no-home-products": {
+      "title": "Current Products Are Not Yet Available",
+      "description": "All current products will be available here once they are added. Please check back soon. In the meantime, you may browse all our other products."
+    }  
+
 }

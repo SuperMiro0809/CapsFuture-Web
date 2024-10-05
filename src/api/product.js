@@ -28,8 +28,16 @@ export async function getProducts(pagination, order, filters, lang) {
   }
 }
 
-export async function getAllProducts(lang) {
+export async function getAllProducts(lang, filters = []) {
   let URL = `${REST_API}/products/all?lang=${lang}`;
+
+  if (filters.length > 0) {
+    filters.forEach((filter) => {
+      if (filter.value) {
+        URL += `&${filter.id}=${filter.value}`;
+      }
+    })
+  }
 
   try {
     const res = await axios.get(URL);

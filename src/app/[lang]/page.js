@@ -1,7 +1,7 @@
 import { HomeView } from 'src/sections/home/view';
 // api
 import { getUpcomingCampaigns } from 'src/api/campaign';
-import { getLatestProducts } from 'src/api/product';
+import { getAllProducts } from 'src/api/product';
 import { getLocations } from 'src/api/location';
 import { getAllFaqs } from 'src/api/faq';
 
@@ -17,7 +17,7 @@ async function getData(lang) {
 
     if (campaignsError) throw campaignsError;
 
-    const { data: products, error: productsError } = await getLatestProducts(lang);
+    const { data: products, error: productsError } = await getAllProducts(lang, [{ id: 'show_on_home_page', value: true }]);
 
     if (productsError) throw productsError;
 
