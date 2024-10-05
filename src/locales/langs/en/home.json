@@ -3,6 +3,12 @@
     "help-too": "You can help too",
   
     "campaigns-active-overview": "Here you can view a list of currently active campaigns",
+
+    "no-upcoming-campaigns": {
+        "title": "Currently, there are no upcoming campaigns",
+        "description": "At the moment, we have not yet announced the dates for our upcoming campaigns. They will be posted here as soon as they become active. Please check back soon for exciting news!",
+        "additional-info": "While waiting for our next campaigns, we invite you to take an active part in our recycling initiatives. Drop off caps, bottles, or cans at our designated locations. Stay informed about our news and support us by ordering some of our unique products. Thank you for your engagement and support!"
+    },
   
     "where-to-transmit-caps": "Looking for where to hand over your caps",
   

@@ -23,7 +23,9 @@ import { HEADER } from 'src/layouts/config-layout';
 import { bgBlur, bgGradient, textGradient } from 'src/theme/css';
 
 import Iconify from 'src/components/iconify';
+import SvgColor from 'src/components/svg-color';
 import { varFade, MotionContainer } from 'src/components/animate';
+import Image from 'src/components/image';
 
 import HomeCampaignsSwiper from './home-campaigns-swiper';
 
@@ -84,6 +86,28 @@ const StyledTextGradient = styled(m.h1)(({ theme }) => ({
   },
   [theme.breakpoints.up('lg')]: {
     fontSize: `${80 / 16}rem`,
+  },
+}));
+
+const StyledSubheaderText = styled(m.h3)(({ theme }) => ({
+  ...textGradient(
+    `300deg, ${theme.palette.primary.light} 0%, ${theme.palette.primary.dark} 25%, ${theme.palette.secondary.dark} 50%, ${theme.palette.secondary.light} 75%, ${theme.palette.primary.main} 100%`
+  ),
+  padding: 0,
+  marginTop: 8,
+  lineHeight: 1.15,
+  fontWeight: 900,
+  marginBottom: 24,
+  letterSpacing: 6,
+  textAlign: 'left',
+  backgroundSize: '400%',
+  fontSize: `${24 / 16}rem`,
+  fontFamily: theme.typography.fontSecondaryFamily,
+  [theme.breakpoints.up('md')]: {
+    fontSize: `${30 / 16}rem`,
+  },
+  [theme.breakpoints.up('lg')]: {
+    fontSize: `${40 / 16}rem`,
   },
 }));
 
@@ -235,6 +259,99 @@ export default function HomeHero({ campaigns }) {
     </Stack>
   );
 
+  const renderNoUpcomingCampaigns = (
+    <Grid
+      container
+      sx={{
+        height: 1,
+        opacity: {
+          md: opacity > 0 ? opacity : 0
+        },
+        mt: {
+          xs: 5,
+          md: 15,
+          lg: matchesHeight ? `${HEADER.H_DESKTOP + 50 + percent}px` : 30,
+        },
+      }}
+    >
+      <Grid xs={12} md={6}>
+        <StyledSubheaderText
+        //  animate={{ backgroundPosition: '200% center' }}
+        //  transition={{
+        //    repeatType: 'reverse',
+        //    ease: 'linear',
+        //    duration: 20,
+        //    repeat: Infinity,
+        //  }}
+        >
+          {t('no-upcoming-campaigns.title', { ns: 'home' })}
+        </StyledSubheaderText>
+
+        <Typography
+          variant='body1'
+          sx={(theme) => ({
+            color: theme.palette.grey[600]
+          })}
+        >
+          {t('no-upcoming-campaigns.description', { ns: 'home' })} &#128522;
+        </Typography>
+
+        <Typography
+          variant='body1'
+          sx={(theme) => ({
+            my: 4,
+            color: theme.palette.grey[600]
+          })}
+        >
+          {t('no-upcoming-campaigns.additional-info', { ns: 'home' })}
+        </Typography>
+
+        <Stack direction='row' spacing={1.5} sx={{ flexWrap: 'wrap' }}>
+          <Button
+            component={RouterLink}
+            variant='contained'
+            color='primary'
+            href={paths.map}
+            startIcon={<SvgColor src='/assets/icons/navbar/ic_station.svg' />}
+          >
+            {t('to-map', { ns: 'common' })}
+          </Button>
+          <Button
+            component={RouterLink}
+            variant='outlined'
+            color='secondary'
+            href={paths.post.root}
+            startIcon={<SvgColor src='/assets/icons/navbar/ic_blog.svg' />}
+          >
+            {t('to-posts', { ns: 'common' })}
+          </Button>
+          <Button
+            component={RouterLink}
+            variant='outlined'
+            color='primary'
+            href={paths.store.root}
+            startIcon={<SvgColor src='/assets/icons/navbar/ic_ecommerce.svg' />}
+          >
+            {t('to-store', { ns: 'common' })}
+          </Button>
+        </Stack>
+      </Grid>
+
+      <Grid xs={0} sm={12} md={6}>
+        <Box
+          sx={{
+            textAlign: {
+              sm: 'center',
+              md: 'right'
+            }
+          }}
+        >
+          <Image src='/assets/images/home/campaigns/illustration-campaigns.svg' />
+        </Box>
+      </Grid>
+    </Grid>
+  );
+
   const renderSlides = (
     <Stack
       direction="row"
@@ -346,7 +463,12 @@ export default function HomeHero({ campaigns }) {
 
           {renderDescription}
 
-          {renderSwiper}
+          {campaigns.length > 0 ?
+            renderSwiper :
+            <Container component={MotionContainer} sx={{ height: 1, maxWidth: '1400px !important' }}>
+              {renderNoUpcomingCampaigns}
+            </Container>
+          }
 
           {/* <Container component={MotionContainer} sx={{ height: 1 }}>
             {renderDescription}
