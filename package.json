@@ -50,6 +50,7 @@
     "i18next": "^23.5.1",
     "i18next-browser-languagedetector": "^7.1.0",
     "leaflet": "^1.9.4",
+    "leaflet-gesture-handling": "^1.2.2",
     "lodash": "^4.17.21",
     "mapbox-gl": "^2.15.0",
     "mui-one-time-password-input": "^2.0.0",
