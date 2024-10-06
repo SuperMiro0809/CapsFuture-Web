@@ -36,7 +36,7 @@ const StyledTextGradient = styled(m.h2)(({ theme }) => ({
   letterSpacing: 8,
   textAlign: 'center',
   backgroundSize: '400%',
-  fontSize: `${64 / 16}rem`,
+  fontSize: `${40 / 16}rem`,
   fontFamily: theme.typography.fontSecondaryFamily,
   [theme.breakpoints.up('md')]: {
     fontSize: `${64 / 16}rem`,
