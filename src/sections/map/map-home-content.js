@@ -34,7 +34,6 @@ import StationLocationsFiltersResult from '../station/locations/station-location
 // ----------------------------------------------------------------------
 
 const defaultFilters = {
-  search: '',
   address: '',
   name: '',
   type: [],
@@ -147,12 +146,12 @@ export default function MapHomeContent({ locations }) {
     });
   }, [filters.address]);
 
-  useEffect(() => {
-    const filtersData = Object.keys(filters).map((key) => ({ id: key, value: filters[key] }));
-    const query = makeQuery(searchParams, {}, {}, filtersData);
+  // useEffect(() => {
+  //   const filtersData = Object.keys(filters).map((key) => ({ id: key, value: filters[key] }));
+  //   const query = makeQuery(searchParams, {}, {}, filtersData);
 
-    router.push(`${pathname}${query}`, { scroll: false });
-  }, [pathname, router, searchParams, filters])
+  //   router.push(`${pathname}${query}`, { scroll: false });
+  // }, [pathname, router, searchParams, filters])
 
 
   const renderFilters = (
@@ -168,20 +167,6 @@ export default function MapHomeContent({ locations }) {
         typeOptions={LOCATION_TYPES_OPTIONS}
         collectsOptions={LOCATION_COLLECTS_OPTIONS}
       />
-
-      {/* <TextField
-        fullWidth
-        value={filters.search}
-        onChange={(event) => handleFilters('search', event.target.value)}
-        placeholder={`${t('search', { ns: 'common' })}...`}
-        InputProps={{
-          startAdornment: (
-            <InputAdornment position="start">
-              <Iconify icon="eva:search-fill" sx={{ color: 'text.disabled' }} />
-            </InputAdornment>
-          ),
-        }}
-      /> */}
 
       {/* <Autocomplete
         freeSolo
