@@ -1,3 +1,5 @@
+/* eslint-disable react/no-children-prop */
+
 import { m } from 'framer-motion';
 
 import { useState } from 'react';
