@@ -57,7 +57,7 @@ export default function HomeProducts({ products }) {
           mb: { xs: 5, md: 15 },
         }}
       >
-        <m.div variants={varFade().inUp}>
+        <m.div variants={varFade().inUp} style={{ zIndex: 1 }}>
           <StyledTextGradient
             animate={{ backgroundPosition: '200% center' }}
             transition={{
