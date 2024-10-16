@@ -4,7 +4,7 @@ import { fDate } from 'src/utils/format-time';
 
 // ----------------------------------------------------------------------
 
-export function shortDateLabel(startDate, endDate) {
+export function shortDateLabel(startDate, endDate, options = {}) {
   const getCurrentYear = new Date().getFullYear();
 
   const startDateYear = startDate ? getYear(startDate) : null;
@@ -21,12 +21,12 @@ export function shortDateLabel(startDate, endDate) {
   if (currentYear) {
     if (sameMonth) {
       if (sameDay) {
-        return fDate(endDate, 'dd MMM yy');
+        return fDate(endDate, 'dd MMM yy', options);
       }
-      return `${fDate(startDate, 'dd')} - ${fDate(endDate, 'dd MMM yy')}`;
+      return `${fDate(startDate, 'dd', options)} - ${fDate(endDate, 'dd MMM yy', options)}`;
     }
-    return `${fDate(startDate, 'dd MMM')} - ${fDate(endDate, 'dd MMM yy')}`;
+    return `${fDate(startDate, 'dd MMM', options)} - ${fDate(endDate, 'dd MMM yy', options)}`;
   }
 
-  return `${fDate(startDate, 'dd MMM yy')} - ${fDate(endDate, 'dd MMM yy')}`;
+  return `${fDate(startDate, 'dd MMM yy', options)} - ${fDate(endDate, 'dd MMM yy', options)}`;
 }

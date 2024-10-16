@@ -11,6 +11,9 @@
     "date": {
       "required": "Date is required"
     },
+    "end-date": {
+      "min": "The end date must not be before the start date"
+    },
     "cities": {
       "required": "Cities are required"
     },
