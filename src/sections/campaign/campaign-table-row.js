@@ -109,7 +109,7 @@ export default function CampaignTableRow({ row, selected, onEditRow, onSelectRow
         open={popover.open}
         onClose={popover.onClose}
         arrow="right-top"
-        sx={{ width: 140 }}
+        sx={{ width: 160 }}
       >
         <MenuItem
           onClick={() => {
