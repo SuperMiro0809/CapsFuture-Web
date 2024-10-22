@@ -7,17 +7,26 @@ import { ASSETS } from 'src/config-global';
 // @mui
 import LoadingButton from '@mui/lab/LoadingButton';
 import Card from '@mui/material/Card';
+import CardHeader from '@mui/material/CardHeader';
 import Stack from '@mui/material/Stack';
 import Grid from '@mui/material/Unstable_Grid2';
 import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
 // hooks
 import { useResponsive } from 'src/hooks/use-responsive';
+import { useBoolean } from 'src/hooks/use-boolean';
 // routes
 import { useRouter } from 'src/routes/hooks';
 import { paths } from 'src/routes/paths';
 // api
 import { createCampaign, editCampaign } from 'src/api/campaign';
 import { reverseGeocode } from 'src/api/google-maps';
+// locales
+import { useTranslate } from 'src/locales';
+// date-fns
+import { format, parseISO } from 'date-fns';
+// utils
+import constructFormData from 'src/utils/form-data';
 // components
 import { useSnackbar } from 'src/components/snackbar';
 import FormProvider, {
@@ -27,21 +36,21 @@ import FormProvider, {
   RHFLocationSelectorField,
   RHFTextField
 } from 'src/components/hook-form';
-// i18
-import { useTranslation } from 'react-i18next';
-// date-fns
-import { format, parseISO } from 'date-fns';
-// utils
-import constructFormData from 'src/utils/form-data';
+//
+import CampaignDetailsPreview from './campaign-details-preview';
+
+// ----------------------------------------------------------------------
 
 export default function CampaignNewEditForm({ currentCampaign }) {
+  const { t, i18n } = useTranslate();
+
   const router = useRouter();
 
   const mdUp = useResponsive('up', 'md');
 
   const { enqueueSnackbar } = useSnackbar();
 
-  const { t } = useTranslation();
+  const preview = useBoolean();
 
   const NewCampaignSchema = Yup.object().shape({
     title_image: Yup.mixed().required(t('title_image.required', { ns: 'validation' })),
@@ -102,7 +111,7 @@ export default function CampaignNewEditForm({ currentCampaign }) {
         date: currentCampaign?.date ? parseISO(currentCampaign.date) : null,
         information: translations,
         location: locationValue,
-        location_note: currentCampaign.location?.note || ''
+        location_note: currentCampaign?.location?.note || ''
       }
     },
     [currentCampaign]
@@ -119,8 +128,10 @@ export default function CampaignNewEditForm({ currentCampaign }) {
     watch,
     setValue,
     handleSubmit,
-    formState: { isSubmitting },
+    formState: { isSubmitting, isValid },
   } = methods;
+
+  const values = watch();
 
   useEffect(() => {
     if (currentCampaign) {
@@ -199,7 +210,7 @@ export default function CampaignNewEditForm({ currentCampaign }) {
 
       <Grid xs={12} md={8}>
         <Card>
-          {!mdUp && <CardHeader title="Details" />}
+          {!mdUp && <CardHeader title={t('details', { ns: 'common' })} />}
 
           <Stack spacing={3} sx={{ p: 3 }}>
             <Stack spacing={1.5}>
@@ -281,6 +292,10 @@ export default function CampaignNewEditForm({ currentCampaign }) {
     <>
       {mdUp && <Grid md={4} />}
       <Grid xs={12} md={8} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'end' }}>
+        <Button color="inherit" variant="outlined" size="large" onClick={preview.onTrue}>
+          {t('preview', { ns: 'common' })}
+        </Button>
+
         <LoadingButton
           type="submit"
           variant="contained"
@@ -303,6 +318,24 @@ export default function CampaignNewEditForm({ currentCampaign }) {
 
         {renderActions}
       </Grid>
+
+      <CampaignDetailsPreview
+        title={values.information[i18n.language].title}
+        content={values.information[i18n.language].description}
+        description={values.information[i18n.language].short_description}
+        date={values.date ? format(values.date, 'dd.MM.yyyy') : null}
+        location={values.location}
+        locationNote={values.location_note}
+        coverUrl={
+          typeof values.title_image === 'string' ? values.title_image : `${values.title_image?.preview}`
+        }
+        //
+        open={preview.value}
+        isValid={isValid}
+        isSubmitting={isSubmitting}
+        onClose={preview.onFalse}
+        onSubmit={onSubmit}
+      />
     </FormProvider>
   );
 }
