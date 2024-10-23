@@ -99,7 +99,7 @@ export default function HomeMap({ locations }) {
         </m.div>
       </Stack>
 
-      <Grid container spacing={1} justifyContent='space-between' alignItems='center'>
+      <Grid container spacing={1} justifyContent='space-between' alignItems='center' sx={{ position: 'relative', zIndex: 1 }}>
         <Grid xs={0} md={4}>
           <m.div variants={varBounce().in}>
             <Image src='/assets/images/home/map/illustration-map.svg' />
