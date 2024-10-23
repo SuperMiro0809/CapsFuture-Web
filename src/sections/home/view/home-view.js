@@ -11,6 +11,7 @@ import { styled } from '@mui/material/styles';
 import MainLayout from 'src/layouts/main';
 
 import ScrollProgress from 'src/components/scroll-progress';
+import Image from 'src/components/image';
 
 import HomeHero from '../home-hero';
 import HomePartners from '../home-partners';
@@ -91,15 +92,21 @@ export default function HomeView({ campaigns, products, locations, faqs }) {
         {mdUp && (
           <>
             <m.div style={{ y: yBlue, position: 'absolute', left: '20%', top: '15%' }}>
-              <m.img style={{ rotate }} src='/assets/images/home/bottle_cap_blue.svg' />
+              <m.div style={{ rotate }}>
+                <Image src='/assets/images/home/bottle_cap_blue.svg' />
+              </m.div>
             </m.div>
 
             <m.div style={{ y: yPeach, position: 'absolute', left: '35%', top: '20%' }}>
-              <m.img style={{ rotate }} src='/assets/images/home/bottle_cap_peach.svg' />
+              <m.div style={{ rotate }}>
+                <Image src='/assets/images/home/bottle_cap_peach.svg' />
+              </m.div>
             </m.div>
 
             <m.div style={{ y: yGreen, position: 'absolute', right: '20%', top: '20%' }}>
-              <m.img style={{ rotate }} src='/assets/images/home/bottle_cap_green.svg' />
+              <m.div style={{ rotate }}>
+                <Image src='/assets/images/home/bottle_cap_green.svg' />
+              </m.div>
             </m.div>
           </>
         )}
@@ -111,15 +118,21 @@ export default function HomeView({ campaigns, products, locations, faqs }) {
         {mdUp && (
           <>
             <m.div style={{ y: yBlue, position: 'absolute', left: '18%', top: '33%' }}>
-              <m.img style={{ rotate }} src='/assets/images/home/bottle_cap_blue.svg' />
+              <m.div style={{ rotate }}>
+                <Image src='/assets/images/home/bottle_cap_blue.svg' />
+              </m.div>
             </m.div>
 
             <m.div style={{ y: yGreen, position: 'absolute', right: '18%', top: '35%' }}>
-              <m.img style={{ rotate }} src='/assets/images/home/bottle_cap_yellow.svg' />
+              <m.div style={{ rotate }}>
+                <Image src='/assets/images/home/bottle_cap_yellow.svg' />
+              </m.div>
             </m.div>
 
             <m.div style={{ y: yGreen, position: 'absolute', right: '20%', top: '38%' }}>
-              <m.img style={{ rotate }} src='/assets/images/home/bottle_cap_pink.svg' />
+              <m.div style={{ rotate }}>
+                <Image src='/assets/images/home/bottle_cap_pink.svg' />
+              </m.div>
             </m.div>
           </>
         )}
