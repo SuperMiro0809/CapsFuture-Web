@@ -21,6 +21,7 @@ import { useResponsive } from 'src/hooks/use-responsive';
 import { _mock } from 'src/_mock';
 // components
 import { varFade, varBounce, MotionViewport } from 'src/components/animate';
+import Image from 'src/components/image';
 
 // ----------------------------------------------------------------------
 
@@ -69,7 +70,7 @@ export default function HomeAboutUs() {
     >
       {mdUp && (
         <m.div variants={varFade().inUp} style={{ zIndex: 1, position: 'relative', width: '100%' }}>
-          <img src='/assets/images/home/about-us/big_heart.svg' />
+          <Image src='/assets/images/home/about-us/big_heart.svg' />
         </m.div>
       )}
 
@@ -155,7 +156,7 @@ export default function HomeAboutUs() {
         }}
       >
         <m.div variants={varBounce().in}>
-          <img src='/assets/images/home/about-us/foot.png' />
+          <Image src='/assets/images/home/about-us/foot.png' />
         </m.div>
       </Box>
     </m.div>

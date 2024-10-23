@@ -16,6 +16,7 @@ import { textGradient } from 'src/theme/css';
 
 import { varFade, varBounce, MotionViewport } from 'src/components/animate';
 import { RouterLink } from 'src/routes/components';
+import Image from 'src/components/image';
 
 import { useTranslate } from 'src/locales';
 
@@ -101,7 +102,7 @@ export default function HomeMap({ locations }) {
       <Grid container spacing={1} justifyContent='space-between' alignItems='center'>
         <Grid xs={0} md={4}>
           <m.div variants={varBounce().in}>
-            <img src='/assets/images/home/map/illustration-map.svg' />
+            <Image src='/assets/images/home/map/illustration-map.svg' />
           </m.div>
         </Grid>
         <Grid xs={12} md={7}>

@@ -12,6 +12,7 @@ import { bgGradient, textGradient } from 'src/theme/css';
 import { varFade, MotionViewport } from 'src/components/animate';
 
 import Carousel, { useCarousel } from 'src/components/carousel';
+import Image from 'src/components/image';
 
 export default function HomePartners() {
 
@@ -88,7 +89,7 @@ export default function HomePartners() {
                       gap: 1
                     }}
                   >
-                    <img width='100' src={partner.logo} />
+                    <Image sx={{ width: '100px' }} src={partner.logo} /> 
                     <Typography component='div' variant='h5'>{partner.name}</Typography>
                   </Box>
                 </Paper>

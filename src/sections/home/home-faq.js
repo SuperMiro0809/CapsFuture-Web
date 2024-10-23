@@ -17,8 +17,10 @@ import { textGradient } from 'src/theme/css';
 import { varFade, varBounce, MotionViewport } from 'src/components/animate';
 
 import { useTranslate } from 'src/locales';
+
 import EmptyContent from 'src/components/empty-content';
 import Markdown from 'src/components/markdown';
+import Image from 'src/components/image';
 
 // ----------------------------------------------------------------------
 
@@ -151,7 +153,7 @@ export default function HomeFAQ({ faqsData = [] }) {
         </Grid>
         <Grid xs={12} md={4}>
           <m.div variants={varBounce().in}>
-            <img src='/assets/images/home/faq/illustration-faq.svg' />
+            <Image src='/assets/images/home/faq/illustration-faq.svg' />
           </m.div>
         </Grid>
       </Grid>
