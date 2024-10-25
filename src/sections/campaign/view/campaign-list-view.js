@@ -240,6 +240,7 @@ export default function CampaignListView({ campaigns = [] }) {
                         onDeleteRow={() => handleDelete([row.id])}
                         onEditRow={() => router.push(paths.dashboard.campaign.edit(row.id))}
                         onOpenParticipations={() => router.push(paths.dashboard.campaign.participations(row.id))}
+                        onViewRow={() => router.push(paths.dashboard.campaign.details(row.id))}
                         deleteLoading={isDeletePending}
                       />
                     ))

@@ -25,7 +25,16 @@ import CustomPopover, { usePopover } from 'src/components/custom-popover';
 
 // ----------------------------------------------------------------------
 
-export default function CampaignTableRow({ row, selected, onEditRow, onSelectRow, onDeleteRow, onOpenParticipations, deleteLoading }) {
+export default function CampaignTableRow({
+  row,
+  selected,
+  onEditRow,
+  onSelectRow,
+  onDeleteRow,
+  onOpenParticipations,
+  onViewRow,
+  deleteLoading
+}) {
   const { t } = useTranslate();
 
   const { title, short_description, title_image_path, address, date } = row;
@@ -55,7 +64,7 @@ export default function CampaignTableRow({ row, selected, onEditRow, onSelectRow
                 noWrap
                 color="inherit"
                 variant="subtitle2"
-                // onClick={onViewRow}
+                onClick={onViewRow}
                 sx={{ cursor: 'pointer' }}
               >
                 {title}
@@ -113,13 +122,12 @@ export default function CampaignTableRow({ row, selected, onEditRow, onSelectRow
       >
         <MenuItem
           onClick={() => {
-            confirm.onTrue();
+            onViewRow();
             popover.onClose();
           }}
-          sx={{ color: 'error.main' }}
         >
-          <Iconify icon="solar:trash-bin-trash-bold" />
-          {t('delete.action', { ns: 'common' })}
+          <Iconify icon="solar:eye-bold" />
+          {t('preview', { ns: 'common' })}
         </MenuItem>
 
         <MenuItem
@@ -130,6 +138,17 @@ export default function CampaignTableRow({ row, selected, onEditRow, onSelectRow
         >
           <Iconify icon="solar:pen-bold" />
           {t('edit', { ns: 'common' })}
+        </MenuItem>
+
+        <MenuItem
+          onClick={() => {
+            confirm.onTrue();
+            popover.onClose();
+          }}
+          sx={{ color: 'error.main' }}
+        >
+          <Iconify icon="solar:trash-bin-trash-bold" />
+          {t('delete.action', { ns: 'common' })}
         </MenuItem>
       </CustomPopover>
 
@@ -158,6 +177,7 @@ CampaignTableRow.propTypes = {
   onEditRow: PropTypes.func,
   onSelectRow: PropTypes.func,
   onOpenParticipations: PropTypes.func,
+  onViewRow: PropTypes.func,
   row: PropTypes.object,
   selected: PropTypes.bool,
   deleteLoading: PropTypes.bool

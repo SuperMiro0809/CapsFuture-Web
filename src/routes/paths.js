@@ -105,6 +105,7 @@ export const paths = {
     campaign: {
       root: `${ROOTS.DASHBOARD}/campaign`,
       new: `${ROOTS.DASHBOARD}/campaign/new`,
+      details: (id) => `${ROOTS.DASHBOARD}/campaign/${id}`,
       edit: (id) => `${ROOTS.DASHBOARD}/campaign/${id}/edit`,
       participations: (id) => `${ROOTS.DASHBOARD}/campaign/${id}/participations`
     },
