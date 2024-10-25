@@ -2,6 +2,7 @@
 
 import PropTypes from 'prop-types';
 import { useRef } from 'react';
+import dynamic from 'next/dynamic';
 
 import { useScroll, useTransform, m } from 'framer-motion';
 
@@ -45,6 +46,10 @@ const StyledPolygon = styled('div')(({ anchor = 'top', theme }) => ({
     backgroundColor: theme.palette.grey[900],
   }),
 }));
+
+const DynamicHeader = dynamic(() => import('../home-about-us'), {
+  loading: () => <p>Loading...</p>,
+})
 
 // ----------------------------------------------------------------------
 
@@ -111,7 +116,7 @@ export default function HomeView({ campaigns, products, locations, faqs }) {
           </>
         )}
 
-        <HomeAboutUs />
+        <DynamicHeader />
 
         <HomeMap locations={locations} />
 
